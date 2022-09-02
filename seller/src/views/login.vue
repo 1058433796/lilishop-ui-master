@@ -6,18 +6,21 @@
       <Row style="flex-direction: column;">
         <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
 
-          <FormItem prop="username" label="供应商账号">
+          <FormItem prop="username" label="供应商账号 :">
             <Input v-model="form.username" prefix="ios-contact" size="large" clearable placeholder="请输入用户名"
               autocomplete="off" />
           </FormItem>
-          <FormItem prop="password" label="供应商密码">
+          <FormItem prop="password" label="供应商密码 :">
             <Input type="password" v-model="form.password" prefix="ios-lock" size="large" password placeholder="请输入密码"
               autocomplete="off" />
           </FormItem>
         </Form>
 
-        <Row>
+        <Row >
+          <a  class="item" style="margin-left: 270px;font-size: 15px;margin-top: 20px" :href="$router.push('/403')">  >>>立即注册 </a>
+
           <div class="login-btn" type="primary" size="large" :loading="loading" @click="submitLogin" long>
+
             <span v-if="!loading">登录</span>
             <span v-else>登录中</span>
           </div>
@@ -178,6 +181,12 @@ export default {
   .login-btn:hover {
     opacity: .9;
     border-radius: 10px;
+  }
+  .item {
+    color: rgba(0, 0, 0, 0.45);
+  }
+  :hover {
+    color: rgba(0, 0, 0, 0.65);
   }
 }
 
