@@ -26,12 +26,15 @@ export const router = new VueRouter(RouterConfig);
 router.beforeEach((to, from, next) => {
   ViewUI.LoadingBar.start();
   Util.title(to.meta.title);
-
+  
   next();
 
   const name = to.name;
-
-  if (!Cookies.get('userInfoSeller') && name !== 'login') {
+  // 前往注册页面
+  if(name === 'signUp'){
+    next();
+  }
+  else if (!Cookies.get('userInfoSeller') && name !== 'login') {
     // 判断是否已经登录且前往的页面不是登录页
     next({
       name: 'login'

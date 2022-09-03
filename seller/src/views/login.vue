@@ -3,9 +3,9 @@
     <Row type="flex" @keydown.enter.native="submitLogin">
       <Col style="width: 368px">
       <Header />
+      <Col offset="20" style="color:red;"><div @click="$router.push('signUp')">立即注册</div></Col>
       <Row style="flex-direction: column;">
         <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
-
           <FormItem prop="username" label="供应商账号">
             <Input v-model="form.username" prefix="ios-contact" size="large" clearable placeholder="请输入用户名"
               autocomplete="off" />
@@ -15,7 +15,6 @@
               autocomplete="off" />
           </FormItem>
         </Form>
-
         <Row>
           <div class="login-btn" type="primary" size="large" :loading="loading" @click="submitLogin" long>
             <span v-if="!loading">登录</span>
