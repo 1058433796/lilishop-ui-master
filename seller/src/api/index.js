@@ -14,6 +14,16 @@ export const getAllCity = (params) => {
   return getRequest(commonUrl+'/common/common/region/allCity', params)
 }
 
+// 注册
+export const regist = (params) => {
+  return request({
+    url: '/seller/passport/member/userSignUp',
+    method: Method.POST,
+    needToken: false,
+    data: params
+  });
+}
+
 // 登陆
 export const getHomeNotice = params => {
   return getRequest("/other/article/getByPage?type=STORE_ARTICLE&pageSize=15");
