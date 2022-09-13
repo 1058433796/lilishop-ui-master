@@ -25,7 +25,7 @@ export const uploadDeliverExcel = params => {
 
 // 获取普通订单列表
 export const getOrderList = params => {
-  return getRequest(`/order/order`, params);
+  return getRequest(`/itemOrder/itemOrder/list`, params);
 };
 
 // 获取普通订单详细信息
