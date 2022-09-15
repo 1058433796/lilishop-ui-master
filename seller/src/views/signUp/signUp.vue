@@ -13,11 +13,10 @@
         <Form ref="appForm" :model="appForm" :rules="ruleInline" class="form" :label-width="150">
 
           <div v-if="current === 0" class="blocks">
-            <div class="block">
-              <div class="block-title">营业执照信息</div>
-              <div class="block-content">
-
-                <Form-item prop="companyType" label="所属行业">
+            <Block>
+                <template #title>营业执照信息</template>
+                <template #content>
+                  <Form-item prop="companyType" label="所属行业">
                   <Select v-model="appForm.companyType" class="selector">
                     <Option v-for="item in companyTypeList" :value="item.value" :key="item.value">{{ item.label }}
                     </Option>
@@ -52,15 +51,12 @@
                     </Checkbox>
                   </div>
                 </Form-item>
+                </template>
+              </Block>
 
-              </div>
-
-            </div>
-
-
-            <div class="block">
-              <div class="block-title">法人代表信息</div>
-              <div class="block-content">
+            <Block>
+              <template #title>法人代表信息</template>
+              <template #content>
                 <Form-item label="法人代表证件类型">
                   <Select v-model="appForm.legalRepresentLicenseType" class="selector">
                     <Option v-for="item in LicenseTypeList" :value="item.value" :key="item.value">{{ item.label }}
@@ -100,12 +96,12 @@
                   <Input type="number" v-model="appForm.companyEmergencyPhoneNumber" placeholder="Password">
                   </Input>
                 </Form-item>
-              </div>
-            </div>
+              </template>
+            </Block>
 
-            <div class="block">
-              <div class="block-title">组织机构代码</div>
-              <div class="block-content">
+            <Block>
+              <template #title>组织机构代码</template>
+              <template #content>
                 <Form-item label="组织机构代码">
                   <Select v-model="appForm.orgCode" class="selector">
                     <Option v-for="item in orgCodeList" :value="item.value" :key="item.value">{{ item.label }}
@@ -135,15 +131,17 @@
                 <Form-item>
                   <span style="font-size:500; color:red;">切换成个人账户注册 >>></span>
                 </Form-item>
-              </div>
-            </div>
+              </template>
+            </Block>
+
           </div>
 
           <div v-if="current === 1" class="blocks">
-            <!-- 第二部分的内容 -->
-            <div class="block">
-              <div class="block-content" style="width:80%;">
-                <Form-item label="营业执照/三证合一电子版">
+
+            <Block :showTitle="false"
+             :contentStyle="{width: '80%'}">
+                <template #content>
+                  <Form-item label="营业执照/三证合一电子版">
                   <div>
                     请上传清晰营业执照图片，系统识别公司信息自动进行填写，营业执照复印件需加盖公司红章扫描上传，
                     若营业执照上未体现注册资本、经营范围，请在营业执照后另行上传企业信息公示网上的截图。
@@ -165,7 +163,6 @@
                   </div>
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
                 </Form-item>
-
                 <Form-item label="法人证件电子版">
                   <div>
                     请按顺序分别上传正面（带有照片一面）和反面电子版照片，复印件请加盖开店公司红章
@@ -231,53 +228,66 @@
                   </div>
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
                 </Form-item>
-              </div>
-              <div class="block">
-                <div style="display:flex; justify-content: space-between; width:50%;">
-                  <Button @click="previous" size="large" style="width:120px;">上一步</Button>
-                  <Button type='error' @click="next" size="large" style="width:200px;">下一步</Button>
-                </div>
+                </template>
+            </Block>
 
-              </div>
-            </div>
+            <Block :showTitle="false" 
+            :contentStyle="{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '50%'}">
+              <template #content>
+                <Button @click="previous" size="large" style="width:120px;">上一步</Button>
+                  <Button type='error' @click="next" size="large" style="width:200px;">下一步</Button>
+              </template>
+              </Block>
           </div>
 
           <div v-if="current === 2" class="blocks">
-            <div class="block">
-              <div class="block-content">
+
+            <Block :showTitle="false">
+              <template #content>
                 您的资料已提交成功，我们将会在2-5个工作日与您电话联系，请您保持电话畅通，谢谢。
                 <a style="align-self:flex-end; color:cadetblue;">点击此处查看审核进度 >></a>
-              </div>
-            </div>
+              </template>
+            </Block>
+
             <br/><br/><br/>
-            <div class="block">
-                <div style="display:flex; justify-content: space-between; width:50%;">
-                  <Button @click="previous" size="large" style="width:120px;">上一步</Button>
-                  <Button type='error' @click="next" size="large" style="width:200px;">下一步</Button>
-                </div>
-                </div>
+
+            <Block 
+            :showTitle="false"
+            :contentStyle="{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '50%'}">
+                  <template #content>
+                    <Button @click="previous" size="large" style="width:120px;">上一步</Button>
+                    <Button type='error' @click="next" size="large" style="width:200px;">下一步</Button>
+                  </template>
+            </Block>
+
           </div>
 
           <div v-if="current === 3" class="blocks">
-          <div class="block">
-            <div class="block-content">
+
+          <Block :showTitle="false">
+            <template #content>
               <div style="display:flex; justify-content:center;">
                 <span style="margin-right:40px;">亲爱的用户，您已注册并审核通过！</span>
               <a style="color:cadetblue;">前往客户端 >></a>
               </div>
-            </div>
-          </div>
+            </template>
+          </Block>
 
           <br/><br/>
-          <div class="block">
-            <Card>
+
+          <Block :showTitle="false">
+            <template #content>
+              <Card>
               <div>您的账号：15088888888 密码：88888888</div>
               <div>客户端地址：www.baidu.com</div>
               <br/>
               <div>请惠存您的账号密码，如您在使用过程中有任何问题，请拨打：0512-88888888，我们会5*8h在线为您解答。</div>
             </Card>
-          </div>
+            </template>
+          </Block>
+
           <Button @click="previous" size="large">上一步</Button>
+
           </div>
         </Form>
         </Col>
@@ -290,14 +300,14 @@
 </template>
 
 <script>
-import {test, register} from "@/api/index";
+import {test, register, upLoadFile} from "@/api/index";
 import {v4 as uuidv4} from 'uuid';
-import {upLoadFile} from '@/api/index'
-
+import Block from '@/views/signUp/Block'
 
 export default {
   name: "signUp",
   components: {
+    Block
 },
 
   data() {
@@ -401,7 +411,6 @@ export default {
       modalVisible: false,
       // modal窗口预览图片URL
       modalUrl:'',
-      accessToken: ''
     }
   },
   methods: {
@@ -562,9 +571,6 @@ export default {
   flex-direction: column;
   // align-items:flex-start;
   width: 60%;
-}
-.selector {
-  // width: 380px;
 }
 
 .inline-selector {
