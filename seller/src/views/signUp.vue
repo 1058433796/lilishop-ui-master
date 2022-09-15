@@ -9,6 +9,7 @@
           <Step title="企业信息审核"></Step>
           <Step title="注册成功"></Step>
         </Steps>
+        <Button @click="clickFunc">注册测试</Button>
         <Form ref="appForm" :model="appForm" :rules="ruleInline" class="form" :label-width="150">
 
           <div v-if="current === 0" class="blocks">
@@ -44,8 +45,8 @@
 
                 <Form-item label="营业期限">
                   <div style="display:flex; justify-content: space-between;">
-                    <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="onDateChange"
-                      v-model="appForm.licenseValidRange"></Date-picker>
+                    <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="e => onDateChange(e, 'licenseValidRange')"
+                    format="yyyy-MM-dd" ></Date-picker>
                     <Checkbox v-model="appForm.licenseValidLongPeriod" size="large"
                       style="margin-left: 20px; margin-right:0;">长期
                     </Checkbox>
@@ -76,8 +77,8 @@
                 </Form-item>
                 <Form-item label="有效期">
                   <div style="display:flex; justify-content: space-between;">
-                    <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="onDateChange"
-                      v-model="appForm.legalRepresentLicenseValidRange"></Date-picker>
+                    <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="e => onDateChange(e, 'legalRepresentLicenseValidRange')"
+                    format="yyyy-MM-dd" ></Date-picker>
                     <Checkbox v-model="appForm.legalRepresentLicenseLongPeriod" size="large"
                       style="margin-left: 20px; margin-right:0;">
                       长期
@@ -113,8 +114,8 @@
                 </Form-item>
                 <Form-item label="组织机构代码有效期">
                   <div style="display:flex; justify-content: space-between;">
-                    <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="onDateChange"
-                      v-model="appForm.orgCodeValidRange"></Date-picker>
+                    <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="e => onDateChange(e, 'orgCodeValidRange')"
+                    format="yyyy-MM-dd" ></Date-picker>
                     <Checkbox v-model="appForm.orgCodeValidLongPeriod" size="large"
                       style="margin-left: 20px; margin-right:0;">长期
                     </Checkbox>
@@ -157,8 +158,8 @@
                           @click="handleImgRemove('businessLicensePhotos', item.name)">删除</Button>
                       </div>
                     </div>
-                    <Upload action="//jsonplaceholder.typicode.com/posts/" accept="image/png, image/jpeg, image/gif"
-                      :before-upload="file => beforeUpload('businessLicensePhotos', file)" :max-size="1024">
+                    <Upload action="" accept="image/png, image/jpeg, image/gif"
+                      :before-upload="file => beforeUpload('businessLicensePhotos', file, '营业执照')" :max-size="1024">
                       <Avatar icon="ios-add" shape="square" size="100"></Avatar>
                     </Upload>
                   </div>
@@ -179,8 +180,8 @@
                           @click="handleImgRemove('legalLicensePhotos', item.name)">删除</Button>
                       </div>
                     </div>
-                    <Upload action="//jsonplaceholder.typicode.com/posts/" accept="image/png, image/jpeg, image/gif"
-                      :before-upload="file => beforeUpload('legalLicensePhotos', file)" :max-size="1024">
+                    <Upload action="" accept="image/png, image/jpeg, image/gif"
+                      :before-upload="file => beforeUpload('legalLicensePhotos', file, '法人证件')" :max-size="1024">
                       <Avatar icon="ios-add" shape="square" size="100"></Avatar>
                     </Upload>
                   </div>
@@ -201,8 +202,8 @@
                           @click="handleImgRemove('bankLicensePhotos', item.name)">删除</Button>
                       </div>
                     </div>
-                    <Upload action="//jsonplaceholder.typicode.com/posts/" accept="image/png, image/jpeg, image/gif"
-                      :before-upload="file => beforeUpload('bankLicensePhotos', file)" :max-size="1024">
+                    <Upload action="" accept="image/png, image/jpeg, image/gif"
+                      :before-upload="file => beforeUpload('bankLicensePhotos', file, '银行开户许可证')" :max-size="1024">
                       <Avatar icon="ios-add" shape="square" size="100"></Avatar>
                     </Upload>
                   </div>
@@ -223,8 +224,8 @@
                           @click="handleImgRemove('orgCodeLicensePhotos', item.name)">删除</Button>
                       </div>
                     </div>
-                    <Upload action="//jsonplaceholder.typicode.com/posts/" accept="image/png, image/jpeg, image/gif"
-                      :before-upload="file => beforeUpload('orgCodeLicensePhotos', file)" :max-size="1024">
+                    <Upload action=""  accept="image/png, image/jpeg, image/gif"
+                      :before-upload="file => beforeUpload('orgCodeLicensePhotos', file, '组织机构代码证')" :max-size="1024">
                       <Avatar icon="ios-add" shape="square" size="100"></Avatar>
                     </Upload>
                   </div>
@@ -233,16 +234,50 @@
               </div>
               <div class="block">
                 <div style="display:flex; justify-content: space-between; width:50%;">
-                  <Button @click="current--" size="large" style="width:120px;">上一步</Button>
-                  <Button type='error' @click="current++" size="large" style="width:200px;">下一步</Button>
+                  <Button @click="previous" size="large" style="width:120px;">上一步</Button>
+                  <Button type='error' @click="next" size="large" style="width:200px;">下一步</Button>
                 </div>
 
               </div>
             </div>
+          </div>
 
+          <div v-if="current === 2" class="blocks">
+            <div class="block">
+              <div class="block-content">
+                您的资料已提交成功，我们将会在2-5个工作日与您电话联系，请您保持电话畅通，谢谢。
+                <a style="align-self:flex-end; color:cadetblue;">点击此处查看审核进度 >></a>
+              </div>
+            </div>
+            <br/><br/><br/>
+            <div class="block">
+                <div style="display:flex; justify-content: space-between; width:50%;">
+                  <Button @click="previous" size="large" style="width:120px;">上一步</Button>
+                  <Button type='error' @click="next" size="large" style="width:200px;">下一步</Button>
+                </div>
+                </div>
+          </div>
 
+          <div v-if="current === 3" class="blocks">
+          <div class="block">
+            <div class="block-content">
+              <div style="display:flex; justify-content:center;">
+                <span style="margin-right:40px;">亲爱的用户，您已注册并审核通过！</span>
+              <a style="color:cadetblue;">前往客户端 >></a>
+              </div>
+            </div>
+          </div>
 
-
+          <br/><br/>
+          <div class="block">
+            <Card>
+              <div>您的账号：15088888888 密码：88888888</div>
+              <div>客户端地址：www.baidu.com</div>
+              <br/>
+              <div>请惠存您的账号密码，如您在使用过程中有任何问题，请拨打：0512-88888888，我们会5*8h在线为您解答。</div>
+            </Card>
+          </div>
+          <Button @click="previous" size="large">上一步</Button>
           </div>
         </Form>
         </Col>
@@ -250,56 +285,73 @@
           <img :src="modalUrl" v-if="modalVisible" style="width: 100%">
         </Modal>
       </Row>
-      <Button @click="current--">previous</Button>
-      <Button @click="current++">next</Button>
-      <Button @click="handleSignUp('appForm')">注册</Button>
     </Card>
   </div>
 </template>
 
 <script>
-// import memberLayout from "@/views/member/list/index";
-// import ossManage from "@/views/sys/oss-manage/ossManage";
-// import { getCategoryTree } from "@/api/goods";
-// import { shopDetail, shopAdd, shopEdit, getShopByMemberId, shopAudit } from "@/api/shops";
-// import uploadPicInput from "@/views/my-components/lili/upload-pic-input";
-// import region from "@/views/lili-components/region";
-// import liliMap from "@/views/my-components/map/index";
+import {test, register} from "@/api/index";
+import {v4 as uuidv4} from 'uuid';
+import {upLoadFile} from '@/api/index'
+
 
 export default {
   name: "signUp",
   components: {
-  },
+},
 
   data() {
     return {
       // 表单
       appForm: {
+        //所属行业
         companyType: '',
+        // 企业名称
         companyName: '',
+        // 营业执照注册号
         licenseRegisterNumber: '',
+        // 营业执照所在地
         licenseAddress: [],
+        // 营业执照详细地址
         licenseDetailAddress: '',
+        // 营业期限
         licenseValidRange: ['', ''],
+        // 营业期限 长期
         licenseValidLongPeriod: false,
+        // 法人代表证件类型
         legalRepresentLicenseType: '',
+        // 法人代表证件号
         legalRepresentLicenseNumber: '',
+        // 法人代表名称
         legalRepresentName: '',
+        // 法人代表信息有效期
         legalRepresentLicenseValidRange: ['', ''],
+        // 法人代表信息有效期 长期
         legalRepresentLicenseLongPeriod: false,
+        // 公司所在地
         companyAddress: [],
+        // 公司详细地址
         companyDetailAddress: '',
+        // 公司紧急联系人
         companyEmergencyName: '',
+        // 公司紧急联系人电话
         companyEmergencyPhoneNumber: '',
+        // 组织机构代码
         orgCode: '',
+        // 组织机构代码有效期
         orgCodeValidRange: [],
+        // 组织机构代码有效期 长期
         orgCodeValidLongPeriod: false,
+        // 阅读并接受《中科在线云筑注册条款》
         termAccepted: false,
+        // 营业执照/三证合一电子版
         businessLicensePhotos: [],
+        // 法人证件电子版
         legalLicensePhotos: [],
+        // 银行开户许可证电子版
         bankLicensePhotos: [],
+        // 组织机构代码证电子版
         orgCodeLicensePhotos: []
-        // businessLicenseUrls: ['', ''],
       },
       // 行业所属列表
       companyTypeList: [
@@ -335,27 +387,79 @@ export default {
         { value: '护照', label: '护照' },
         { value: '证明文件', label: '证明文件' },
       ],
+      // 组织机构代码列表
       orgCodeList: [
         { value: '12345', label: '12345' },
         { value: '4444', label: '4444' },
       ],
+      // 表格校验规则
       ruleInline: {
       },
+      // 注册步骤
       current: 0,
+      // modal窗口可见
       modalVisible: false,
-      modalUrl:''
+      // modal窗口预览图片URL
+      modalUrl:'',
+      accessToken: ''
     }
   },
   methods: {
-    onClick() {
-      this.current++;
+    // 对form进行处理
+    getProcessedForm(form){
+      let subForm = JSON.parse(JSON.stringify(form));
+
+      let addrJoiner = addrs => addrs.join('-');
+
+      subForm.licenseAddress = addrJoiner(form.licenseAddress);
+      subForm.licenseValidBeg = form.licenseValidRange[0];
+      subForm.licenseValidEnd = form.licenseValidRange[1];
+      subForm.legalRepresentLicenseValidBeg = form.legalRepresentLicenseValidRange[0];
+      subForm.legalRepresentLicenseValidEnd = form.legalRepresentLicenseValidRange[1];
+      subForm.companyAddress = addrJoiner(form.companyAddress);
+      subForm.orgCodeValidBeg = form.orgCodeValidRange[0];
+      subForm.orgCodeValidEnd = form.orgCodeValidRange[1];
+      // 删除无用属性
+      delete subForm.licenseValidRange;
+      delete subForm.legalRepresentLicenseValidRange;
+      delete subForm.orgCodeValidRange;
+      
+      delete subForm.bankLicensePhotos;
+      delete subForm.businessLicensePhotos;
+      delete subForm.legalLicensePhotos;
+      delete subForm.orgCodeLicensePhotos;
+      
+      return subForm;
     },
+    clickFunc(){
+    let form = this.getProcessedForm(this.appForm);
+    console.log(form);
+    register(form).then(e => {
+      if(!e.success)return;
+
+      // 登录成功后获取token
+      let accessToken = e.result.accessToken;
+      let refreshToken = e.result.refreshToken;
+      this.setStore("accessToken", accessToken);
+      this.setStore("refreshToken", refreshToken);
+      // 依次上传图片
+      let fileList = ['businessLicensePhotos', 'legalLicensePhotos', 'bankLicensePhotos', 'orgCodeLicensePhotos'];
+      this.handleUpload(fileList);
+    })
+  },
+    // 上一步
+    previous(){
+      if(this.current > 0)this.current--;
+    },
+    // 下一步
     next() {
+      if(this.current < 3)
       this.current++;
     },
-    onDateChange(e) {
-      console.log(e);
+    onDateChange(e, name) {
+      this.appForm[name] = e
     },
+    // 提交表格注册
     handleSignUp(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -366,35 +470,58 @@ export default {
         }
       })
     },
-    testFunction(e){
-      console.log('testFunction', e);
-    },
-    beforeUpload(fileListName, file) {
+    /**upload上传文件前操作
+     * 
+     * @param fileListName 文件列表名称
+     * @param file 上传文件
+     * @param fileType 文件类型（身份证，营业执照，...）
+     */
+    beforeUpload(fileListName, file, fileType) {
       let appForm = this.appForm;
       // 最多上传两张图片
       if(appForm[fileListName].length >= 2){
         return false;
       }
+      // 修改上传文件名称为 type + uid + 后缀名
+      let postfix = file.name.split('.').pop();
+      let fileName = fileType + uuidv4() + '.' + postfix;
+      let copyFile = new File([file], fileName, {type: file.type});
       const reader = new FileReader();
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(copyFile)
       reader.onload = () => {
-        let photoObj = {file:file, name: file.name, url: reader.result}
+        let photoObj = {file:copyFile, name: file.name, url: reader.result}
         appForm[fileListName].push(photoObj);
       }
       return false;
     },
+    // 将所有fileList中的图片进行上传
+    handleUpload(fileListNames){
+      console.log('handleUpload');
+      for(let i = 0; i < fileListNames.length; i++){
+        this.appForm[fileListNames[i]].forEach(item => {
+          // 将图片依次上传
+          let formData = new FormData();
+          formData.append("file", item.file)
+          upLoadFile(formData).then(e => {
+            console.log(e);
+          });
+        })
+      }
+    },
+    // 处理图片预览
     handleImgView(fileUrl){
       this.modalUrl = fileUrl;
       this.modalVisible = true;
     },
+    // 处理图片删除
     handleImgRemove(photoList, fileName){
       let photoIdx = this.appForm[photoList].findIndex(item => item.name === fileName)
       if(photoIdx === -1)return;
       this.appForm[photoList].splice(photoIdx, 1)
     }
   },
+
   created() {
-    // this.init();
   },
 };
 </script>
