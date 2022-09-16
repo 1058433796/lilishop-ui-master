@@ -10,9 +10,10 @@
           <Step title="注册成功"></Step>
         </Steps>
         <Button @click="clickFunc">注册测试</Button>
+        <Button @click="validForm('appForm')">检验测试</Button>
         <Form ref="appForm" :model="appForm" :rules="ruleInline" class="form" :label-width="150">
 
-          <div v-if="current === 0" class="blocks">
+          <div v-show="current === 0" class="blocks">
             <Block>
                 <template #title>营业执照信息</template>
                 <template #content>
@@ -29,7 +30,7 @@
                 </Form-item>
 
                 <Form-item prop="licenseRegisterNumber" label="营业执照注册号">
-                  <Input type="number" v-model="appForm.licenseRegisterNumber" placeholder="Password">
+                  <Input type="text" v-model="appForm.licenseRegisterNumber" placeholder="请输入营业执照注册号">
                   </Input>
                 </Form-item>
 
@@ -38,14 +39,14 @@
                 </Form-item>
 
                 <Form-item prop="licenseDetailAddress" label="营业执照详细地址">
-                  <Input type="text" v-model="appForm.licenseDetailAddress" placeholder="Password">
+                  <Input type="text" v-model="appForm.licenseDetailAddress" placeholder="请输入营业执照详细地址">
                   </Input>
                 </Form-item>
 
-                <Form-item label="营业期限">
+                <Form-item label="营业期限" prop="licenseValidRange">
                   <div style="display:flex; justify-content: space-between;">
                     <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="e => onDateChange(e, 'licenseValidRange')"
-                    format="yyyy-MM-dd" ></Date-picker>
+                    format="yyyy-MM-dd" :disabled="appForm.licenseValidLongPeriod"></Date-picker>
                     <Checkbox v-model="appForm.licenseValidLongPeriod" size="large"
                       style="margin-left: 20px; margin-right:0;">长期
                     </Checkbox>
@@ -57,24 +58,25 @@
             <Block>
               <template #title>法人代表信息</template>
               <template #content>
-                <Form-item label="法人代表证件类型">
+                <Form-item label="法人代表证件类型" prop="legalRepresentLicenseType">
                   <Select v-model="appForm.legalRepresentLicenseType" class="selector">
                     <Option v-for="item in LicenseTypeList" :value="item.value" :key="item.value">{{ item.label }}
                     </Option>
                   </Select>
                 </Form-item>
-                <Form-item label="法人代表证件号">
-                  <Input type="text" v-model="appForm.legalRepresentLicenseNumber" placeholder="Password">
+                <Form-item label="法人代表证件号" prop="legalRepresentLicenseNumber">
+                  <Input type="text" v-model="appForm.legalRepresentLicenseNumber" placeholder="请输入法人代表证件号">
                   </Input>
                 </Form-item>
-                <Form-item label="法人代表名称">
-                  <Input type="text" v-model="appForm.legalRepresentName" placeholder="Password">
+                <Form-item label="法人代表名称" prop="legalRepresentName">
+                  <Input type="text" v-model="appForm.legalRepresentName" placeholder="请输入法人代表名称">
                   </Input>
                 </Form-item>
-                <Form-item label="有效期">
+                <Form-item label="有效期" prop="legalRepresentLicenseValidRange">
                   <div style="display:flex; justify-content: space-between;">
-                    <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="e => onDateChange(e, 'legalRepresentLicenseValidRange')"
-                    format="yyyy-MM-dd" ></Date-picker>
+                    <Date-picker type="daterange" placeholder="选择日期" 
+                    class="inline-selector" @on-change="e => onDateChange(e, 'legalRepresentLicenseValidRange')"
+                    format="yyyy-MM-dd" :disabled="appForm.legalRepresentLicenseLongPeriod"></Date-picker>
                     <Checkbox v-model="appForm.legalRepresentLicenseLongPeriod" size="large"
                       style="margin-left: 20px; margin-right:0;">
                       长期
@@ -85,15 +87,15 @@
                   <Cascader :data="addressList" v-model="appForm.companyAddress" class="selector"></Cascader>
                 </Form-item>
                 <Form-item prop="companyDetailAddress" label="公司详细地址">
-                  <Input type="text" v-model="appForm.companyDetailAddress" placeholder="Password">
+                  <Input type="text" v-model="appForm.companyDetailAddress" placeholder="请输入公司详细地址">
                   </Input>
                 </Form-item>
                 <Form-item prop="companyEmergencyName" label="公司紧急联系人">
-                  <Input type="text" v-model="appForm.companyEmergencyName" placeholder="Password">
+                  <Input type="text" v-model="appForm.companyEmergencyName" placeholder="请输入公司紧急联系人">
                   </Input>
                 </Form-item>
                 <Form-item prop="companyEmergencyPhoneNumber" label="公司紧急联系人电话">
-                  <Input type="number" v-model="appForm.companyEmergencyPhoneNumber" placeholder="Password">
+                  <Input type="number" v-model="appForm.companyEmergencyPhoneNumber" placeholder="请输入公司紧急联系人号码">
                   </Input>
                 </Form-item>
               </template>
@@ -102,16 +104,17 @@
             <Block>
               <template #title>组织机构代码</template>
               <template #content>
-                <Form-item label="组织机构代码">
+                <Form-item label="组织机构代码" prop="orgCode">
                   <Select v-model="appForm.orgCode" class="selector">
                     <Option v-for="item in orgCodeList" :value="item.value" :key="item.value">{{ item.label }}
                     </Option>
                   </Select>
                 </Form-item>
-                <Form-item label="组织机构代码有效期">
+                <Form-item label="组织机构代码有效期" prop="orgCodeValidRange">
                   <div style="display:flex; justify-content: space-between;">
-                    <Date-picker type="daterange" placeholder="选择日期" class="inline-selector" @on-change="e => onDateChange(e, 'orgCodeValidRange')"
-                    format="yyyy-MM-dd" ></Date-picker>
+                    <Date-picker type="daterange" placeholder="选择日期"
+                     class="inline-selector" @on-change="e => onDateChange(e, 'orgCodeValidRange')"
+                    format="yyyy-MM-dd" :disabled="appForm.orgCodeValidLongPeriod"></Date-picker>
                     <Checkbox v-model="appForm.orgCodeValidLongPeriod" size="large"
                       style="margin-left: 20px; margin-right:0;">长期
                     </Checkbox>
@@ -119,7 +122,7 @@
                 </Form-item>
                 <br /><br />
                 <Form-item>
-                  <Button type="error" size="large" @click="next" style="width:100%;">下一步</Button>
+                  <Button type="error" size="large" @click="next" style="width:100%;" :disabled="!appForm.termAccepted">下一步</Button>
                 </Form-item>
                 <Form-item prop="termAccepted">
                   <Checkbox v-model="appForm.termAccepted" style="margin-right: 0px;">
@@ -136,12 +139,12 @@
 
           </div>
 
-          <div v-if="current === 1" class="blocks">
+          <div v-show="current === 1" class="blocks">
 
             <Block :showTitle="false"
              :contentStyle="{width: '80%'}">
                 <template #content>
-                  <Form-item label="营业执照/三证合一电子版">
+                  <Form-item label="营业执照/三证合一电子版" prop="businessLicensePhotos">
                   <div>
                     请上传清晰营业执照图片，系统识别公司信息自动进行填写，营业执照复印件需加盖公司红章扫描上传，
                     若营业执照上未体现注册资本、经营范围，请在营业执照后另行上传企业信息公示网上的截图。
@@ -163,7 +166,7 @@
                   </div>
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
                 </Form-item>
-                <Form-item label="法人证件电子版">
+                <Form-item label="法人证件电子版" prop="legalLicensePhotos">
                   <div>
                     请按顺序分别上传正面（带有照片一面）和反面电子版照片，复印件请加盖开店公司红章
                   </div>
@@ -185,7 +188,7 @@
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
                 </Form-item>
 
-                <Form-item label="银行开户许可证电子版">
+                <Form-item label="银行开户许可证电子版" prop="bankLicensePhotos">
                   <div>
                     许可证上名称、法人需与营业执照一致，若发生变更须出具变更证明，复印件需加盖公司红章扫描上传
                   </div>
@@ -207,7 +210,7 @@
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
                 </Form-item>
 
-                <Form-item label="组织机构代码证电子版">
+                <Form-item label="组织机构代码证电子版" prop="orgCodeLicensePhotos">
                   <div>
                     复印件需加盖公司红章扫描上传，三证合一的此处请上传营业执照电子版
                   </div>
@@ -303,6 +306,7 @@
 import {test, register, upLoadFile} from "@/api/index";
 import {v4 as uuidv4} from 'uuid';
 import Block from '@/views/signUp/Block'
+import * as config from "@/views/signUp/config.js"
 
 export default {
   name: "signUp",
@@ -313,98 +317,17 @@ export default {
   data() {
     return {
       // 表单
-      appForm: {
-        //所属行业
-        companyType: '',
-        // 企业名称
-        companyName: '',
-        // 营业执照注册号
-        licenseRegisterNumber: '',
-        // 营业执照所在地
-        licenseAddress: [],
-        // 营业执照详细地址
-        licenseDetailAddress: '',
-        // 营业期限
-        licenseValidRange: ['', ''],
-        // 营业期限 长期
-        licenseValidLongPeriod: false,
-        // 法人代表证件类型
-        legalRepresentLicenseType: '',
-        // 法人代表证件号
-        legalRepresentLicenseNumber: '',
-        // 法人代表名称
-        legalRepresentName: '',
-        // 法人代表信息有效期
-        legalRepresentLicenseValidRange: ['', ''],
-        // 法人代表信息有效期 长期
-        legalRepresentLicenseLongPeriod: false,
-        // 公司所在地
-        companyAddress: [],
-        // 公司详细地址
-        companyDetailAddress: '',
-        // 公司紧急联系人
-        companyEmergencyName: '',
-        // 公司紧急联系人电话
-        companyEmergencyPhoneNumber: '',
-        // 组织机构代码
-        orgCode: '',
-        // 组织机构代码有效期
-        orgCodeValidRange: [],
-        // 组织机构代码有效期 长期
-        orgCodeValidLongPeriod: false,
-        // 阅读并接受《中科在线云筑注册条款》
-        termAccepted: false,
-        // 营业执照/三证合一电子版
-        businessLicensePhotos: [],
-        // 法人证件电子版
-        legalLicensePhotos: [],
-        // 银行开户许可证电子版
-        bankLicensePhotos: [],
-        // 组织机构代码证电子版
-        orgCodeLicensePhotos: []
-      },
-      // 行业所属列表
-      companyTypeList: [
-        { value: 0, label: 'A' },
-        { value: 1, label: 'B' },
-        { value: 2, label: 'C' },
-        { value: 3, label: 'D' },
-        { value: 4, label: 'E' },
-      ],
+      appForm: config.appForm,
+      // 校验规则
+      ruleInline: config.ruleInline,
+      // 企业所属行业列表
+      companyTypeList: config.companyTypeList,
       // 地址列表
-      addressList: [{
-        value: 'beijing',
-        label: '北京',
-        children: [
-          {
-            value: 'gugong',
-            label: '故宫'
-          },
-          {
-            value: 'tiantan',
-            label: '天坛'
-          },
-          {
-            value: 'wangfujing',
-            label: '王府井'
-          }
-        ]
-      }
-      ],
-      // 法人代表证件类型
-      LicenseTypeList: [
-        { value: '身份证', label: '身份证' },
-        { value: '护照', label: '护照' },
-        { value: '证明文件', label: '证明文件' },
-      ],
+      addressList: config.addressList,
+      // 证件类型列表
+      LicenseTypeList: config.LicenseTypeList,
       // 组织机构代码列表
-      orgCodeList: [
-        { value: '12345', label: '12345' },
-        { value: '4444', label: '4444' },
-      ],
-      // 表格校验规则
-      ruleInline: {
-      },
+      orgCodeList: config.orgCodeList,
       // 注册步骤
       current: 0,
       // modal窗口可见
@@ -414,6 +337,11 @@ export default {
     }
   },
   methods: {
+    validForm(formName){
+      this.$refs[formName].validate(valid => {
+        console.log(valid);
+      })
+    },
     // 对form进行处理
     getProcessedForm(form){
       let subForm = JSON.parse(JSON.stringify(form));
@@ -421,13 +349,21 @@ export default {
       let addrJoiner = addrs => addrs.join('-');
 
       subForm.licenseAddress = addrJoiner(form.licenseAddress);
-      subForm.licenseValidBeg = form.licenseValidRange[0];
-      subForm.licenseValidEnd = form.licenseValidRange[1];
-      subForm.legalRepresentLicenseValidBeg = form.legalRepresentLicenseValidRange[0];
+      if(form.licenseValidRange.length === 2){
+        subForm.licenseValidBeg = form.licenseValidRange[0];
+        subForm.licenseValidEnd = form.licenseValidRange[1];
+      }
+      if(form.legalRepresentLicenseValidRange.length === 2){
+        subForm.legalRepresentLicenseValidBeg = form.legalRepresentLicenseValidRange[0];
       subForm.legalRepresentLicenseValidEnd = form.legalRepresentLicenseValidRange[1];
+      }
+
       subForm.companyAddress = addrJoiner(form.companyAddress);
-      subForm.orgCodeValidBeg = form.orgCodeValidRange[0];
-      subForm.orgCodeValidEnd = form.orgCodeValidRange[1];
+      if(form.orgCodeValidRange.length === 2){
+        subForm.orgCodeValidBeg = form.orgCodeValidRange[0];
+        subForm.orgCodeValidEnd = form.orgCodeValidRange[1];
+      }
+
       // 删除无用属性
       delete subForm.licenseValidRange;
       delete subForm.legalRepresentLicenseValidRange;
@@ -475,7 +411,7 @@ export default {
           let data = JSON.parse(JSON.stringify(this.appForm))
           console.log(data)
         } else {
-          console.log('表单无效')
+          console.log('表单无效');
         }
       })
     },
@@ -503,6 +439,7 @@ export default {
       }
       return false;
     },
+
     // 将所有fileList中的图片进行上传
     handleUpload(fileListNames){
       console.log('handleUpload');
@@ -517,11 +454,13 @@ export default {
         })
       }
     },
+
     // 处理图片预览
     handleImgView(fileUrl){
       this.modalUrl = fileUrl;
       this.modalVisible = true;
     },
+    
     // 处理图片删除
     handleImgRemove(photoList, fileName){
       let photoIdx = this.appForm[photoList].findIndex(item => item.name === fileName)
