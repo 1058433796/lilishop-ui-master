@@ -50,7 +50,7 @@
         :columns="columns"
         :data="data"
         ref="table"
-        @on-selection-change="changeSelect"
+
       >
         <!-- 商品栏目格式化 -->
         <template slot="goodsSlot" slot-scope="{ row }">
@@ -61,6 +61,7 @@
                 style="height: 80px; margin-top: 3px; width: 70px"
               />
             </div>
+
 
             <div style="margin-left: 13px">
               <div class="div-zoom">
@@ -86,8 +87,8 @@
                 />
               </Poptip>
             </div>
-          </div>
-        </template>
+          </div>       
+         </template>
       </Table>
       <Row type="flex" justify="end" class="mt_10">
         <Page
@@ -266,81 +267,6 @@ export default {
           width: 180,
           tooltip: true,
         },
-        // {
-        //   title: "销售模式",
-        //   key: "salesModel",
-        //   width: 100,
-        //   render: (h, params) => {
-        //     if (params.row.item_status === 1) {
-        //       return h("Tag", { props: { color: "orange" } }, "开工");
-        //     } else if (params.row.salesModel === "WHOLESALE") {
-        //       return h("Tag", { props: { color: "magenta" } }, "批发");
-        //     } else {
-        //       return h("Tag", { props: { color: "volcano" } }, "其他类型");
-        //     }
-        //   },
-        // },
-        // {
-        //   title: "商品类型",
-        //   key: "goodsType",
-        //   width: 130,
-        //   render: (h, params) => {
-        //     if (params.row.goodsType === "PHYSICAL_GOODS") {
-        //       return h("Tag", { props: { color: "geekblue" } }, "实物商品");
-        //     } else if (params.row.goodsType === "VIRTUAL_GOODS") {
-        //       return h("Tag", { props: { color: "purple" } }, "虚拟商品");
-        //     } else {
-        //       return h("Tag", { props: { color: "cyan" } }, "电子卡券");
-        //     }
-        //   },
-        // },
-        // {
-        //   title: "商品价格",
-        //   key: "price",
-        //   width: 130,
-        //   render: (h, params) => {
-        //     return h("div", this.$options.filters.unitPrice(params.row.price, "￥"));
-        //   },
-        // },
-        // {
-        //   title: "库存",
-        //   key: "quantity",
-        //   width: 120,
-        //   render: (h, params) => {
-        //     if (params.row.quantity) {
-        //       return h("div", params.row.quantity);
-        //     } else {
-        //       return h("div", 0);
-        //     }
-        //   },
-        // },
-        // {
-        //   title: "审核状态",
-        //   key: "authFlag",
-        //   width: 120,
-        //   render: (h, params) => {
-        //     if (params.row.authFlag == "PASS") {
-        //       return h("Tag", { props: { color: "green" } }, "通过");
-        //     } else if (params.row.authFlag == "TOBEAUDITED") {
-        //       return h("Tag", { props: { color: "volcano" } }, "待审核");
-        //     } else if (params.row.authFlag == "REFUSE") {
-        //       return h("Tag", { props: { color: "red" } }, "审核拒绝");
-        //     }
-        //   },
-        // },
-        // {
-        //   title: "上架状态",
-        //   key: "marketEnable",
-        //   width: 130,
-        //   sortable: false,
-        //   render: (h, params) => {
-        //     if (params.row.marketEnable == "DOWN") {
-        //       return h("Tag", { props: { color: "red" } }, "下架");
-        //     } else if (params.row.marketEnable == "UPPER") {
-        //       return h("Tag", { props: { color: "green" } }, "上架");
-        //     }
-        //   },
-        // },
         {
           title: "操作",
           key: "action",
@@ -348,65 +274,6 @@ export default {
           fixed: "right",
           width: 200,
           render: (h, params) => {
-            let enableOrDisable = "";
-            let showEditStock = "";
-            if (params.row.marketEnable == "DOWN") {
-              enableOrDisable = h(
-                "Button",
-                {
-                  props: {
-                    size: "small",
-                    type: "success",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.upper(params.row);
-                    },
-                  },
-                },
-                "上架"
-              );
-            } else {
-              showEditStock = h(
-                "Button",
-                {
-                  props: {
-                    type: "default",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.getStockDetail(params.row.id);
-                    },
-                  },
-                },
-                "项目方案"
-              );
-              enableOrDisable = h(
-                "Button",
-                {
-                  props: {
-                    // type: "warning",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.lower(params.row);
-                    },
-                  },
-                },
-                "采购"
-              );
-            }
             return h("div", [
               h(
                 "Button",
@@ -426,8 +293,42 @@ export default {
                 },
                 "详情"
               ),
-              showEditStock,
-              enableOrDisable,
+              h(
+                "Button",
+                {
+                  props: {
+                    // type: "info",
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                      this.itemScheme(params.row);
+                    },
+                  },
+                },
+                "项目方案"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
+                    // type: "info",
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                      this.editGoods(params.row);
+                    },
+                  },
+                },
+                "采购"
+              ),
             ]);
           },
         },
@@ -447,7 +348,12 @@ export default {
     },
     // 编辑商品
     editGoods(v) {
-      this.$router.push({ name: "goods-operation-edit", query: { id: v.id } });
+      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId } });
+    },
+    itemScheme(v) {
+      console.log('????')
+      console.log(v)
+      this.$router.push({ name: "item-scheme", query: { id: v.itemId } });
     },
 
     //批量操作

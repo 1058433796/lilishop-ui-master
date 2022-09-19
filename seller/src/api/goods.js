@@ -355,13 +355,13 @@ export const refundPriceStatistics = params => {
 
 //  获取商品分页列表
 export const getGoodsListDataSeller = params => {
-  return getRequest("/item/itemList/list", params);
+  return getRequest("/item/item/list", params);
 };
-
+//获取项目分页信息
 export const saveItem = (params) => {
-  return postRequest('/promotion/pintuan', params,{'Content-type': 'application/json'})
+  return postRequest('/item/item', params,{'Content-type': 'application/json'})
 }
-
+//获取项目详情
 export const getItemDetail = (id) => {
-  return getRequest(`/promotion/pintuan/${id}`)
+  return getRequest(`/item/item/${id}`)
 }

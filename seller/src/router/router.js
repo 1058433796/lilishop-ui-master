@@ -58,6 +58,18 @@ export const otherRouter = {
       component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
     },
     {
+      path: "item-scheme",
+      title: "编辑商品",
+      name: "item-scheme",
+      component: () => import("@/views/goods/goods-seller/itemScheme.vue")
+    },
+    {
+      path: "scheme-detail",
+      title: "方案详细信息",
+      name: "scheme-detail",
+      component: () => import("@/views/goods/goods-seller/components/schemedetail.vue")
+    },
+    {
       path: "goods-template-operation-edit",
       title: "编辑模版",
       name: "goods-template-operation-edit",

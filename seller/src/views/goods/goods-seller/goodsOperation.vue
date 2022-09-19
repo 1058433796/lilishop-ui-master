@@ -1,7 +1,7 @@
 <template>
 <div class="new-item">
     <Card>
-      <Form ref="form" :model="form" :label-width="130" :rules="formValidate">
+      <Form ref="form" :model="form" :label-width="130" >
         <FormItem label="工程项目名称" prop="itemName" :label-width="130">
           <Input v-model="form.itemName" clearable style="width: 260px" maxlength="25" />
         </FormItem>
@@ -10,10 +10,11 @@
           <Input v-model="form.createLocation" style="width: 260px" maxlength="25">
           </Input>
         </FormItem>
+
         <FormItem label="项目坐标" prop="createLocationDetail" :label-width="130">
-          <Input v-model="form.itemLongitude" style="width: 130px" maxlength="25">
+          <Input v-model="form.itemLongitude" style="width: 130px" maxlength="25" placeholder="经度">
           </Input>
-          <Input v-model="form.itemLatitude" style="width: 130px" maxlength="25">
+          <Input v-model="form.itemLatitude" style="width: 130px" maxlength="25" placeholder="纬度">
           </Input>
         </FormItem>
         <FormItem label="项目规模描述" prop="itemScale" :label-width="130">
@@ -30,10 +31,6 @@
         </FormItem>
         <FormItem label="项目概述" prop="itemOverview" :label-width="130">
           <Input v-model="form.itemOverview" type="textarea" :rows="1" style="width: 260px">
-          </Input>
-        </FormItem>
-        <FormItem label="项目标识" prop="itemLogo" :label-width="130">
-          <Input v-model="form.itemLogo" type="textarea" :rows="1" style="width: 260px">
           </Input>
         </FormItem>
         <FormItem label="项目状态" prop="itemStatus">
@@ -74,7 +71,7 @@
   </div>
 </template>
 <script>
-import { saveItem} from "@/api/goods";
+import { saveItem,getItemDetail} from "@/api/goods";
 export default {
   // name: "addGoods",
   // components: {
@@ -129,9 +126,9 @@ export default {
         if (valid) {
           this.submitLoading = true;
           let params = JSON.parse(JSON.stringify(this.form));
-          params.itemStatus
-            ? (params.itemStatus = "已开工")
-            : (params.itemStatus = "未开工");
+          // params.itemStatus
+          //   ? (params.itemStatus = "已开工")
+          //   : (params.itemStatus = "未开工");
           params.startTime = this.$options.filters.unixToDate(
             this.form.rangeTime[0] / 1000
           );
@@ -149,7 +146,8 @@ export default {
             this.submitLoading = false;
             return;
           }
-
+          console.log('form')
+          console.log(this.form)
           delete params.rangeTime;
           if (!this.id) {
             // 添加 避免编辑后传入id等数据 记得删除

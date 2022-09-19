@@ -17,7 +17,7 @@
             style="width: 160px"
           />
         </Form-item>
-        <Form-item label="会员名称" prop="buyerName">
+        <!-- <Form-item label="会员名称" prop="buyerName">
           <Input
             type="text"
             v-model="searchForm.buyerName"
@@ -25,7 +25,7 @@
             placeholder="请输入会员名称"
             style="width: 160px"
           />
-        </Form-item>
+        </Form-item> -->
         <Form-item label="订单状态" prop="orderStatus">
           <Select
             v-model="searchForm.orderStatus"
@@ -41,7 +41,7 @@
             <Option value="CANCELLED">已取消</Option>
           </Select>
         </Form-item>
-        <Form-item label="订单类型" prop="orderType">
+        <!-- <Form-item label="订单类型" prop="orderType">
           <Select
             v-model="searchForm.orderPromotionType"
             placeholder="请选择"
@@ -54,7 +54,7 @@
             <Option value="POINTS">积分订单</Option>
             <Option value="KANJIA">砍价订单</Option>
           </Select>
-        </Form-item>
+        </Form-item> -->
         <Form-item label="下单时间">
           <DatePicker
             v-model="selectDate"
@@ -126,19 +126,17 @@ export default {
         // 搜索框初始化对象
         pageNumber: 1, // 当前页数
         pageSize: 10, // 页面大小
-        sort: "", // 默认排序字段
-        order: "", // 默认排序方式
-        startDate: "", // 起始时间
-        endDate: "", // 终止时间
-        orderSn: "",
-        buyerName: "",
-        orderStatus: "",
-        orderType: "NORMAL",
+        sort: "create_time", // 默认排序字段
+        order: "desc", // 默认排序方式
+        store_id:''//当前店铺id
+        // startDate: "", // 起始时间
+        // endDate: "", // 终止时间
+        // buyerId: "",
       },
       selectDate: null,
       columns: [
         {
-          title: "订单号",
+          title: "订单编号",
           key: "sn",
           minWidth: 200,
           tooltip: true,
@@ -161,49 +159,49 @@ export default {
             }
           },
         },
+        // {
+        //   title: "订单类型",
+        //   key: "orderPromotionType",
+        //   width: 120,
+        //   render: (h, params) => {
+        //     if (params.row.orderPromotionType == "NORMAL") {
+        //       return h("div", [
+        //         h("tag", { props: { color: "blue" } }, "普通订单"),
+        //       ]);
+        //     } else if (params.row.orderPromotionType == "PINTUAN") {
+        //       return h("div", [
+        //         h("tag", { props: { color: "volcano" } }, "拼团订单"),
+        //       ]);
+        //     } else if (params.row.orderPromotionType == "GIFT") {
+        //       return h("div", [
+        //         h("tag", { props: { color: "green" } }, "赠品订单"),
+        //       ]);
+        //     } else if (params.row.orderPromotionType == "POINTS") {
+        //       return h("div", [
+        //         h("tag", { props: { color: "geekblue" } }, "积分订单"),
+        //       ]);
+        //     } else if (params.row.orderPromotionType == "KANJIA") {
+        //       return h("div", [
+        //         h("tag", { props: { color: "pink" } }, "砍价订单"),
+        //       ]);
+        //     }
+        //   },
+        // },
         {
-          title: "订单类型",
-          key: "orderPromotionType",
-          width: 120,
-          render: (h, params) => {
-            if (params.row.orderPromotionType == "NORMAL") {
-              return h("div", [
-                h("tag", { props: { color: "blue" } }, "普通订单"),
-              ]);
-            } else if (params.row.orderPromotionType == "PINTUAN") {
-              return h("div", [
-                h("tag", { props: { color: "volcano" } }, "拼团订单"),
-              ]);
-            } else if (params.row.orderPromotionType == "GIFT") {
-              return h("div", [
-                h("tag", { props: { color: "green" } }, "赠品订单"),
-              ]);
-            } else if (params.row.orderPromotionType == "POINTS") {
-              return h("div", [
-                h("tag", { props: { color: "geekblue" } }, "积分订单"),
-              ]);
-            } else if (params.row.orderPromotionType == "KANJIA") {
-              return h("div", [
-                h("tag", { props: { color: "pink" } }, "砍价订单"),
-              ]);
-            }
-          },
-        },
-        {
-          title: "买家名称",
-          key: "memberName",
+          title: "供应商",
+          key: "storeId",
           minWidth: 130,
           tooltip: true,
         },
         {
           title: "订单金额",
-          key: "flowPrice",
+          key: "orderAmount",
           minWidth: 100,
           tooltip: true,
           render: (h, params) => {
             return h(
               "div",
-              this.$options.filters.unitPrice(params.row.flowPrice, "￥")
+              this.$options.filters.unitPrice(params.row.orderAmount, "￥")
             );
           },
         },
@@ -247,6 +245,21 @@ export default {
         {
           title: "下单时间",
           key: "createTime",
+          width: 170,
+        },
+        {
+          title: "供应商响应状态",
+          key: "storeReply",
+          width: 200,
+        },
+        {
+          title: "发货状态",
+          key: "distributionStatus",
+          width: 170,
+        },
+        {
+          title: "响应状态",
+          key: "replyStatus",
           width: 170,
         },
         {
@@ -346,8 +359,13 @@ export default {
     // 获取表格数据
     getDataList() {
       this.loading = true;
+      let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
+      console.log('userinfo',userInfo)
+      this.searchForm.buyerId=userInfo.id
       API_Order.getOrderList(this.searchForm).then((res) => {
         this.loading = false;
+        console.log('form',this.searchForm)
+        console.log('res',res)
         if (res.success) {
           this.data = res.result.records;
           this.total = res.result.total;
