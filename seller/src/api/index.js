@@ -16,10 +16,14 @@ import {
 export const getAllCity = (params) => {
   return getRequest(commonUrl+'/common/common/region/allCity', params)
 }
+// 个人注册
+export const userRegister = (params) => {
+  return postRequestWithNoTokenData("/passport/login/userRegister", params);
+}
 
-// 注册
+// 公司注册
 export const register = (params) => {
-  return postRequestWithNoToken("/passport/register", params);
+  return postRequestWithNoToken("/passport/login/storeRegister", params);
 }
 
 // 测试
@@ -247,7 +251,7 @@ export const aliDownloadFile = (fKey, params) => {
   return getRequest(`/file/ali/download/${fKey}`, params);
 };
 // 使用全部地址 避开base url
-export const uploadFileUrl = commonUrlWithNoPrefix + '/common/common/upload/file';
+export const uploadFileUrl = commonUrlWithNoPrefix + '/common/common/upload/fileUpload';
 
 // base64上传
 export const base64Upload = params => {
@@ -256,7 +260,6 @@ export const base64Upload = params => {
 
 // 上传文件
 export const upLoadFile = (params) =>{
-  // return uploadFileRequest(uploadFileUrl,bold);
   return uploadFileRequest(uploadFileUrl, params);
 }
 

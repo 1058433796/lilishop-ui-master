@@ -1,9 +1,9 @@
 <template>
-  <div class="login" @click="$refs.verify.show = false">
+  <div class="login">
     <Row type="flex" @keydown.enter.native="submitLogin">
       <Col style="width: 368px">
       <Header />
-      <Col offset="20" style="color:red;"><div @click="$router.push('signUp')">立即注册</div></Col>
+      <Col offset="20" style="color:red;"><div @click="$router.push('register')">立即注册</div></Col>
       <Row style="flex-direction: column;">
         <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
           <FormItem prop="username" label="供应商账号">
@@ -24,8 +24,7 @@
 
       </Row>
       <Footer />
-      <!-- 拼图验证码 -->
-      <verify ref="verify" class="verify-con" verifyType="LOGIN" @change="verifyChange"></verify>
+
       </Col>
     </Row>
 
@@ -39,12 +38,12 @@ import Cookies from "js-cookie";
 import Header from "@/views/main-components/header";
 import Footer from "@/views/main-components/footer";
 import util from "@/libs/util.js";
-import verify from "@/views/my-components/verify";
+import * as Code from "@/api/statusCode";
 export default {
   components: {
     Header,
     Footer,
-    verify,
+    
   },
   data() {
     return {
@@ -109,30 +108,52 @@ export default {
       // 登录提交
       this.$refs.usernameLoginForm.validate((valid) => {
         if (valid) {
-          this.$refs.verify.init();
-        }
-      });
-    },
-    verifyChange(con) {
-      // 拼图验证码回显
-      if (!con.status) return;
-
-      this.loading = true;
-
+          this.loading = true;
       let fd = new FormData();
-      fd.append('username',this.form.username)
-      fd.append('password',this.md5(this.form.password))
+      fd.append('username',this.form.username);
+      fd.append('password',this.md5(this.form.password));
       login(fd)
         .then((res) => {
           this.loading = false;
-          if (res && res.success) {
+          console.log(res);
+          if(!res)return;
+          if (res.success) {
             this.afterLogin(res);
+          }else if(res.code === Code.USER_NOT_EXIST){
+            this.$router.push('register');
+          }else if(res.code === Code.STORE_NOT_OPEN){
+            // 跳转到店铺开通页面 signup
+            this.setStore("username", this.form.username);
+            this.setStore("password", this.form.password);
+            this.$router.push("signUp");
+
+          } else if(res.code === Code.STORE_CLOSE_ERROR){
+            // 店铺被关闭
+          }else if(res.code === Code.STORE_ON_APPLYING){
+            // 店铺正在审核
+            this.setStore("username", this.form.username);
+            this.setStore("password", this.form.password);
+            // 跳转到signUp第三页
+            this.$router.push({
+              path: 'signUp',
+              query:{
+                current: 2
+              }
+            });
+          }else if(res.code === STORE_REFUSED){
+            // 店铺审核不通过
+            this.setStore("username", this.form.username);
+            this.setStore("password", this.form.password);
+            // 跳转到店铺开通页面 signup
+            this.$router.push("signUp");
           }
+
         })
         .catch(() => {
           this.loading = false;
         });
-      this.$refs.verify.show = false;
+        }
+      });
     },
   },
 };

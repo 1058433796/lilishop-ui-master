@@ -357,7 +357,10 @@ export const postRequestWithNoToken = (url, params) => {
   return service({
     method: "post",
     url: `${url}`,
-    params: params
+    params: params,
+    // headers: {
+    //   'Content-Type': 'application/json'
+    // }
   });
 };
 
@@ -367,7 +370,7 @@ export const postRequestWithNoToken = (url, params) => {
  * @param {*} params
  */
  export const postRequestWithNoTokenData = (url, params) => {
-  return serviceWithNoPrefix({
+  return service({
     method: "post",
     url: `${url}`,
     headers: {
