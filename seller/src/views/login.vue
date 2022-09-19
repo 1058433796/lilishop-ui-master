@@ -3,7 +3,9 @@
     <Row type="flex" @keydown.enter.native="submitLogin">
       <Col style="width: 368px">
       <Header />
-      <Col offset="20" style="color:red;"><div @click="$router.push('register')">立即注册</div></Col>
+      <Col offset="20" style="color:red;">
+      <div @click="$router.push('register')">立即注册</div>
+      </Col>
       <Row style="flex-direction: column;">
         <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
           <FormItem prop="username" label="供应商账号">
@@ -43,7 +45,7 @@ export default {
   components: {
     Header,
     Footer,
-    
+
   },
   data() {
     return {
@@ -104,54 +106,114 @@ export default {
         }
       });
     },
+    handleErrCode(code) {
+      switch (code) {
+        case Code.USER_NOT_EXIST:
+          this.$router.push('register');
+          break;
+        case Code.STORE_NOT_OPEN:
+          // 跳转到店铺开通页面 signup
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          this.$router.push("signUp");
+          break;
+        case Code.STORE_CLOSE_ERROR:
+          break;
+        case Code.STORE_FIRST_STEP:
+          // 店铺正在审核
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          // 跳转到signUp第一页
+          this.$router.push({
+            path: 'signUp',
+            query: {
+              current: 0
+            }
+          });
+          break;
+        case Code.STORE_SECOND_STEP:
+          // 店铺正在审核
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          // 跳转到signUp第二页
+          this.$router.push({
+            path: 'signUp',
+            query: {
+              current: 1
+            }
+          });
+          break;
+        case Code.STORE_ON_APPLYING:
+          // 店铺正在审核
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          // 跳转到signUp第三页
+          this.$router.push({
+            path: 'signUp',
+            query: {
+              current: 2
+            }
+          });
+          break;
+        case Code.STORE_REFUSED:
+          // 店铺审核不通过
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          // 跳转到店铺开通页面 signup
+          this.$router.push("signUp");
+          break;
+      }
+    },
     submitLogin() {
       // 登录提交
       this.$refs.usernameLoginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-      let fd = new FormData();
-      fd.append('username',this.form.username);
-      fd.append('password',this.md5(this.form.password));
-      login(fd)
-        .then((res) => {
-          this.loading = false;
-          console.log(res);
-          if(!res)return;
-          if (res.success) {
-            this.afterLogin(res);
-          }else if(res.code === Code.USER_NOT_EXIST){
-            this.$router.push('register');
-          }else if(res.code === Code.STORE_NOT_OPEN){
-            // 跳转到店铺开通页面 signup
-            this.setStore("username", this.form.username);
-            this.setStore("password", this.form.password);
-            this.$router.push("signUp");
-
-          } else if(res.code === Code.STORE_CLOSE_ERROR){
-            // 店铺被关闭
-          }else if(res.code === Code.STORE_ON_APPLYING){
-            // 店铺正在审核
-            this.setStore("username", this.form.username);
-            this.setStore("password", this.form.password);
-            // 跳转到signUp第三页
-            this.$router.push({
-              path: 'signUp',
-              query:{
-                current: 2
+          let fd = new FormData();
+          fd.append('username', this.form.username);
+          fd.append('password', this.md5(this.form.password));
+          login(fd)
+            .then((res) => {
+              this.loading = false;
+              console.log(res);
+              if (!res) return;
+              if (res.success) {
+                this.afterLogin(res);
               }
-            });
-          }else if(res.code === STORE_REFUSED){
-            // 店铺审核不通过
-            this.setStore("username", this.form.username);
-            this.setStore("password", this.form.password);
-            // 跳转到店铺开通页面 signup
-            this.$router.push("signUp");
-          }
+              else this.handleErrCode(res.code);
+              //  else if (res.code === Code.USER_NOT_EXIST) {
+              //   this.$router.push('register');
+              // } else if (res.code === Code.STORE_NOT_OPEN) {
+              //   // 跳转到店铺开通页面 signup
+              //   this.setStore("username", this.form.username);
+              //   this.setStore("password", this.form.password);
+              //   this.$router.push("signUp");
 
-        })
-        .catch(() => {
-          this.loading = false;
-        });
+              // } else if (res.code === Code.STORE_CLOSE_ERROR) {
+              //   // 店铺被关闭
+              // } else if (res.code === Code.STORE_ON_APPLYING) {
+              //   // 店铺正在审核
+              //   this.setStore("username", this.form.username);
+              //   this.setStore("password", this.form.password);
+              //   // 跳转到signUp第三页
+              //   this.$router.push({
+              //     path: 'signUp',
+              //     query: {
+              //       current: 2
+              //     }
+              //   });
+              // } else if (res.code === STORE_REFUSED) {
+              //   // 店铺审核不通过
+              //   this.setStore("username", this.form.username);
+              //   this.setStore("password", this.form.password);
+              //   // 跳转到店铺开通页面 signup
+              //   this.$router.push("signUp");
+              // }
+
+            })
+            .catch(() => {
+              this.loading = false;
+            });
         }
       });
     },
@@ -159,7 +221,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 .login {
   height: 100%;
   background: url("../assets/background.png") no-repeat;
@@ -177,6 +238,7 @@ export default {
     z-index: 10;
     left: 20px;
   }
+
   .form {
     padding-top: 1vh;
   }
@@ -195,10 +257,10 @@ export default {
     text-align: center;
     transition: 0.35s;
   }
+
   .login-btn:hover {
     opacity: .9;
     border-radius: 10px;
   }
 }
-
 </style>

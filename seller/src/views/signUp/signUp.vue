@@ -10,7 +10,8 @@
           <Step title="注册成功"></Step>
         </Steps>
         <!-- <Button @click="clickFunc">注册测试</Button> -->
-        <Button @click="validForm('appForm')">检验测试</Button>
+        <Button @click="validForm('appForm')">appForm检验测试</Button>
+        <Button @click="validForm('picForm')">picForm检验测试</Button>
         <Button @click="autoFill">自动填写</Button>
         <Button @click="testFileUpload">图片上传</Button>
         <Form ref="appForm" :model="appForm" :rules="appRules" class="form" :label-width="150">

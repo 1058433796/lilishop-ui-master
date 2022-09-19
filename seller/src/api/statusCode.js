@@ -42,14 +42,9 @@ export const STORE_ON_APPLYING = 50007;
 
 export const STORE_REFUSED = 50008;
 
+export const STORE_STEP_APPLY_REPEAT = 50009;
 
+export const STORE_FIRST_STEP = 50011;
 
-// USER_EDIT_SUCCESS(20001, "用户修改成功"),
-// USER_NOT_EXIST(20002, "用户不存在"),
-// USER_NOT_LOGIN(20003, "用户未登录"),
-// USER_AUTH_EXPIRED(20004, "用户已退出，请重新登录"),
-// USER_AUTHORITY_ERROR(20005, "权限不足"),
-// USER_CONNECT_LOGIN_ERROR(20006, "未找到登录信息"),
-// USER_EXIST(20008, "该用户名或手机号已被注册"),
-// USER_PHONE_NOT_EXIST(20009, "手机号不存在"),
-// USER_PASSWORD_ERROR(20010, "密码不正确"),
+export const STORE_SECOND_STEP = 50012;
+
