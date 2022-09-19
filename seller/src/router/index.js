@@ -28,7 +28,6 @@ router.beforeEach((to, from, next) => {
   Util.title(to.meta.title);
   
   next();
-
   const name = to.name;
   // 前往注册页面
   if(name === 'signUp'){

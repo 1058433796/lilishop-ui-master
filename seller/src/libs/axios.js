@@ -6,11 +6,18 @@ import Cookies from "js-cookie";
 import { handleRefreshToken } from "@/api/index";
 import {v4 as uuidv4} from 'uuid';
 
+
 // 统一请求路径前缀
 export const baseUrl =
   (process.env.NODE_ENV === "development"
     ?  BASE.API_DEV.seller
     : BASE.API_PROD.seller) + BASE.PREFIX;
+// 
+export const commonUrlWithNoPrefix = 
+process.env.NODE_ENV === "development"
+    ?  BASE.API_DEV.common
+    : BASE.API_PROD.common
+
 export const commonUrl =
   process.env.NODE_ENV === "development"
     ? BASE.API_DEV.common
@@ -360,7 +367,7 @@ export const postRequestWithNoToken = (url, params) => {
  * @param {*} params
  */
  export const postRequestWithNoTokenData = (url, params) => {
-  return service({
+  return serviceWithNoPrefix({
     method: "post",
     url: `${url}`,
     headers: {

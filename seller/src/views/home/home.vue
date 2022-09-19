@@ -204,6 +204,7 @@ import { getSellerHomeData, getHomeNotice } from "@/api/index";
 import { getIMDetail } from "@/api/common"
 import { seeArticle } from "@/api/pages";
 import Cookies from "js-cookie";
+import {test} from "@/api/index";
 
 export default {
   name: "home",

@@ -17,6 +17,7 @@ let commonUrl = (process.env.NODE_ENV === 'development' ? BASE.API_DEV.common : 
 
 // 文件上传接口
 export const uploadFile = commonUrl+ "/common/common/upload/file";
+
 // Websocket
 export const ws = managerUrl + "/ws";
 
