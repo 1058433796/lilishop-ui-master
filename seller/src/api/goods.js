@@ -142,9 +142,9 @@ export const getGoodsSkuData = params => {
   return getRequest("/goods/goods/sku/list", params);
 };
 
-//  获取商品分页列表
+//  获取商品分页列表 /item/itemList/list
 export const getGoodsListData = params => {
-  return getRequest("/goods/goods/list", params);
+  return getRequest("/item/itemList/list", params);
 };
 //  获取待审核商品分页列表
 export const getAuthGoodsListData = params => {
@@ -230,10 +230,7 @@ export const updateGoodsSkuStocks = params => {
     "Content-Type": "application/json"
   });
 };
-//  获取商品分页列表
-export const getGoodsListDataSeller = params => {
-  return getRequest("/goods/goods/list", params);
-};
+
 //  获取商品告警分页列表
 export const getGoodsListDataByStockSeller = params => {
   return getRequest("/goods/goods/list/stock", params);
@@ -355,3 +352,16 @@ export const refundStatistics = params => {
 export const refundPriceStatistics = params => {
   return getRequest(`/statistics/refund/order/getPrice`, params);
 };
+
+//  获取商品分页列表
+export const getGoodsListDataSeller = params => {
+  return getRequest("/item/item/list", params);
+};
+//获取项目分页信息
+export const saveItem = (params) => {
+  return postRequest('/item/item', params,{'Content-type': 'application/json'})
+}
+//获取项目详情
+export const getItemDetail = (id) => {
+  return getRequest(`/item/item/${id}`)
+}
