@@ -1,204 +1,60 @@
 <template>
-<div class="new-item">
-    <Card>
-      <Form ref="form" :model="form" :label-width="130" >
-        <FormItem label="工程项目名称" prop="itemName" :label-width="130">
-          <Input v-model="form.itemName" clearable style="width: 260px" maxlength="25" />
-        </FormItem>
-        
-        <FormItem label="归属区域" prop="createLocation" :label-width="130">
-          <Input v-model="form.createLocation" style="width: 260px" maxlength="25">
-          </Input>
-        </FormItem>
-
-        <FormItem label="项目坐标" prop="createLocationDetail" :label-width="130">
-          <Input v-model="form.itemLongitude" style="width: 130px" maxlength="25" placeholder="经度">
-          </Input>
-          <Input v-model="form.itemLatitude" style="width: 130px" maxlength="25" placeholder="纬度">
-          </Input>
-        </FormItem>
-        <FormItem label="项目规模描述" prop="itemScale" :label-width="130">
-          <Input v-model="form.itemScale" type="textarea" :rows="1" style="width: 260px">
-          </Input>
-        </FormItem>
-        <FormItem label="项目详细地址" prop="itemAddress" :label-width="130">
-          <Input v-model="form.itemAddress" type="textarea" :rows="1" style="width: 260px">
-          </Input>
-        </FormItem>
-        <FormItem label="项目开始和结束时间" prop="rangeTime">
-          <DatePicker type="datetimerange" v-model="form.rangeTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" :options="options" style="width: 260px">
-          </DatePicker>
-        </FormItem>
-        <FormItem label="项目概述" prop="itemOverview" :label-width="130">
-          <Input v-model="form.itemOverview" type="textarea" :rows="1" style="width: 260px">
-          </Input>
-        </FormItem>
-        <FormItem label="项目状态" prop="itemStatus">
-          <RadioGroup type="button" button-style="solid" v-model="form.itemStatus">
-            <Radio title="开工" :label="1">
-              <span>开工</span>
-            </Radio>
-            <Radio title="未开工" :label="0">
-              <span>未开工</span>
-            </Radio>
-          </RadioGroup>
-          <br />
-        </FormItem>
-        <FormItem label="项目标识" prop="itemLogo" :label-width="130">
-          <Input v-model="form.itemLogo" type="textarea" :rows="1" style="width: 260px">
-          </Input>
-        </FormItem>
-        <FormItem label="项目概算" prop="itemBudget" :label-width="130">
-          <Input v-model="form.itemBudget" style="width: 260px" >
-          <span slot="append">元</span>
-          </Input>
-        </FormItem>
-        <FormItem label="批复概算" prop="replyBudget" :label-width="130">
-          <Input v-model="form.replyBudget" style="width: 260px" >
-          <span slot="append">元</span>
-          </Input>
-        </FormItem>
-        <FormItem label="批复时间" prop="replyTime" :label-width="130">
-          <date-picker 
-            v-model="form.replyTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" :options="options" style="width: 260px"/>
-        </FormItem>
-      </Form>
-      <div>
-        <Button type="text" @click="closeCurrentPage">返回</Button>
-        <Button type="primary" :loading="submitLoading" @click="handleSubmit">提交</Button>
-      </div>
-    </Card>
+  <div class="goods-operation">
+    <div class="step-list">
+      <steps :current="activestep" style="height:60px;margin-top: 10px">
+        <step title="选择商品品类"/>
+        <step title="填写商品详情"/>
+        <step title="商品发布成功"/>
+      </steps>
+    </div>
+    <!-- 第一步 选择分类 -->
+    <first-step ref='first' v-show="activestep === 0" @change="getFirstData"></first-step>
+    <!-- 第二步 商品详细信息 -->
+    <second-step ref='second' :firstData="firstData" v-if="activestep === 1"></second-step>
+    <!-- 第三步 发布完成 -->
+    <third-step ref='third' v-if="activestep === 2"></third-step>
+    
+    
   </div>
 </template>
 <script>
-import { saveItem,getItemDetail} from "@/api/goods";
+import firstStep from  './goodsOperationFirst'
+import secondStep from  './goodsOperationSec'
+import thirdStep from  './goodsOperationThird'
 export default {
-  // name: "addGoods",
-  // components: {
-  //   firstStep,
-  //   secondStep,
-  //   thirdStep
-  // },
+  name: "addGoods",
+  components: {
+    firstStep,
+    secondStep,
+    thirdStep
+  },
 
   data() {
     return {
-      // /** 当前激活步骤*/
-      // activestep: 0,
-      // firstData: {}, // 第一步传递的数据
-
-      id: this.$route.query.id, // 项目id 这里要改
-      form: {
-        // 添加或编辑表单对象初始化数据
-        createLocation: "",
-        itemName: "",
-        itemStatus: 0,
-        itemLongitude: "",
-        itemLatitude: "",
-        itemScale: "",
-        itemOverview:"",
-        itemAddress:"",
-        itemLogo:"",
-        itemBudget:"",
-        replyBudget:"",
-        replyTime:"",
-        startTime: "",
-        endTime: "",
-      },
-      submitLoading: false, // 添加或编辑提交状态
-      options: {
-        // 不可选取时间
-        disabledDate(date) {
-          return date && date.valueOf() < Date.now() - 86400000;
-        },
-      },
+      /** 当前激活步骤*/
+      activestep: 0,
+      firstData: {}, // 第一步传递的数据
     };
   },
   methods: {
-    closeCurrentPage() {
-      this.$store.commit("removeTag", "goods-operation");
-      localStorage.storeOpenedList = JSON.stringify(
-        this.$store.state.app.storeOpenedList
-      );
-      this.$router.go(-1);
-    },
-    handleSubmit() {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          this.submitLoading = true;
-          let params = JSON.parse(JSON.stringify(this.form));
-          // params.itemStatus
-          //   ? (params.itemStatus = "已开工")
-          //   : (params.itemStatus = "未开工");
-          params.startTime = this.$options.filters.unixToDate(
-            this.form.rangeTime[0] / 1000
-          );
-
-          params.endTime = this.$options.filters.unixToDate(
-            this.form.rangeTime[1] / 1000
-          );
-          if (params.startTime === "" || params.endTime === "") {
-            this.$Message.error("时间不能为空");
-            this.submitLoading = false;
-            return;
-          }
-          if (params.startTime < new Date()) {
-            this.$Message.error("开始时间不能小于当前时间");
-            this.submitLoading = false;
-            return;
-          }
-          console.log('form')
-          console.log(this.form)
-          delete params.rangeTime;
-          if (!this.id) {
-            // 添加 避免编辑后传入id等数据 记得删除
-            delete params.id;
-            saveItem(params).then((res) => {
-              this.submitLoading = false;
-              if (res.success) {
-                this.$Message.success("项目发布成功");
-                this.closeCurrentPage();
-              }
-            });}
-          // } else {
-          //   // 编辑
-          //   if (params.promotionGoodsList == "")
-          //     delete params.promotionGoodsList;
-          //   editPintuan(params).then((res) => {
-          //     this.submitLoading = false;
-          //     if (res.success) {
-          //       this.$Message.success("操作成功");
-          //       this.closeCurrentPage();
-          //     }
-          //   });
-          // }
-        }
-      });
-    },
-    getDetail() {
-      getItemDetail(this.id).then((res) => {
-        if (res.success) {
-          const data = res.result;
-          data.rangeTime = [];
-          data.rangeTime.push(new Date(data.startTime), new Date(data.endTime));
-          this.form = data;
-          // 此处将值转换为 1 true ，0 false 不然ivew radio组件会报错
-          this.form.itemStatus ? this.$set(this.form, "itemStatus", 1)  : this.$set(this.form, "itemStatus", 0);
-    
-       }
-      });
-    },
+    // 选择商品分类回调
+    getFirstData (item) {
+      this.firstData = item;
+      this.activestep = 1;
+    }
   },
   mounted() {
     // 编辑商品、模板
-    if (this.id) {
-      this.getDetail();
+    if (this.$route.query.id || this.$route.query.draftId) {
+      this.activestep = 1;
+    } else {
+      this.activestep = 0
+      this.$refs.first.selectGoodsType = true;
     }
     
   }
 };
 </script>
 <style lang="scss" scoped>
-/deep/ .ivu-form-item {
-  padding: 18px 10px !important;
-}
+@import "./addGoods.scss";
 </style>

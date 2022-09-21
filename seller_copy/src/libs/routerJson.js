@@ -17,14 +17,15 @@ export const result = [{
       path: "",
       component: "Main",
       children: [
-      //     name: "goods-operation",
-      //     level: 2,
-      //     type: 0,
-      //     title: "项目管理",
-      //     path: "goods-operation",
-      //     component: "goods-operation",
-      //     children: null,
-      //   },
+        {
+          name: "goods-operation",
+          level: 2,
+          type: 0,
+          title: "项目管理",
+          path: "goods-operation",
+          component: "goods/goods-seller/goods-operation",
+          children: null,
+        },
         {
           name: "goods",
           level: 2,

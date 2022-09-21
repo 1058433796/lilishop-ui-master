@@ -1,42 +1,5 @@
 <template>
   <div>
-    <!-- 选择商品类型 -->
-    <Modal v-model="selectGoodsType" width="550" :closable="false">
-      <div class="goods-type-list" v-if="!showGoodsTemplates">
-        <div
-          class="goods-type-item"
-          :class="{ 'active-goods-type': item.check }"
-          @click="handleClickGoodsType(item)"
-          v-for="(item, index) in goodsTypeWay"
-          :key="index"
-        >
-          <img :src="item.img" />
-          <div>
-            <h2>{{ item.title }}</h2>
-            <p>{{ item.desc }}</p>
-          </div>
-        </div>
-      </div>
-      <div v-else class="goods-type-list">
-        <h2 @click="showGoodsTemplates = !showGoodsTemplates">返回</h2>
-        <div class="goods-list-box">
-          <Scroll :on-reach-bottom="handleReachBottom">
-            <div
-              class="goods-type-item template-item"
-              @click="handleClickGoodsTemplate(item)"
-              v-for="(item, tempIndex) in goodsTemplates"
-              :key="tempIndex"
-            >
-              <img :src="item.thumbnail" />
-              <div>
-                <h2>{{ item.goodsName }}</h2>
-                <p>{{ item.sellingPoint || "" }}</p>
-              </div>
-            </div>
-          </Scroll>
-        </div>
-      </div>
-    </Modal>
     <!-- 商品分类 -->
     <div class="content-goods-publish">
       <div class="goods-category">
@@ -98,9 +61,7 @@ export default {
   data() {
     return {
       selectedTemplate: {}, // 已选模板
-      selectGoodsType: false, // 展示选择商品分类modal
       goodsTemplates: [], // 商品模板列表
-      showGoodsTemplates: false, //是否显示选择商品模板
       goodsTypeWay: [
         {
           title: "实物商品",
@@ -162,6 +123,7 @@ export default {
     },
     // 点击商品类型
     handleClickGoodsType(val) {
+      console.log(val);
       this.goodsTypeWay.map((item) => {
         return (item.check = false);
       });
@@ -217,6 +179,7 @@ export default {
       API_GOODS.getGoodsCategoryAll().then((res) => {
         if (res.success && res.result) {
           this.categoryListLevel1 = res.result;
+          console.log(this.categoryListLevel1);
         }
       });
     },
@@ -246,6 +209,8 @@ export default {
     },
   },
   mounted() {
+    // 设置为实物商品
+    this.goodsType = this.goodsTypeWay[0].type;
     this.GET_NextLevelCategory();
   },
 };
