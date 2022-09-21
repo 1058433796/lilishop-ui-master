@@ -2,32 +2,32 @@
   <div class="search">
     <Card style="height: 60px">
       <div>
-        <Button
-          v-if="allowOperation.editPrice"
-          @click="modifyPrice"
-          type="primary"
-          >调整价格</Button
-        >
-        <Button
-          v-if="allowOperation.editConsignee"
-          @click="editAddress"
-          type="primary"
-          >修改收货地址</Button
-        >
-        <Button
-          v-if="allowOperation.showLogistics"
-          @click="logistics"
-          type="primary"
-          >查看物流</Button
-        >
+<!--       . <Button-->
+<!--          v-if="allowOperation.editPrice"-->
+<!--          @click="modifyPrice"-->
+<!--          type="primary"-->
+<!--          >调整价格</Button-->
+<!--        >-->
+<!--        <Button-->
+<!--          v-if="allowOperation.editConsignee"-->
+<!--          @click="editAddress"-->
+<!--          type="primary"-->
+<!--          >修改收货地址</Button-->
+<!--        >-->
+<!--        <Button-->
+<!--          v-if="allowOperation.showLogistics"-->
+<!--          @click="logistics"-->
+<!--          type="primary"-->
+<!--          >查看物流</Button-->
+<!--        >-->
         <Button @click="orderLogModal = true" type="primary">订单日志</Button>
         <Button @click="printOrder" type="primary" ghost style="float:right;">打印发货单</Button>
-        <Button v-if="allowOperation.take" @click="orderTake" type="primary"
-          >订单核销</Button
-        >
-        <Button v-if="allowOperation.ship" @click="orderDeliver" type="primary"
-          >发货</Button
-        >
+<!--        <Button v-if="allowOperation.take" @click="orderTake" type="primary"-->
+<!--          >订单核销</Button-->
+<!--        >-->
+<!--        <Button v-if="allowOperation.ship" @click="orderDeliver" type="primary"-->
+<!--          >发货</Button-->
+<!--        >-->
       </div>
     </Card>
 
@@ -36,117 +36,127 @@
         <Col span="12">
           <div class="div-item">
             <div class="div-item-left">订单号：</div>
-            <div class="div-item-right">{{ orderInfo.order.sn }}</div>
+            <div class="div-item-right">{{ orderInfo.itemOrder.orderId}}</div>
           </div>
           <div class="div-item">
-            <div class="div-item-left">订单来源：</div>
-            <div class="div-item-right">
-              {{ orderInfo.order.clientType | clientTypeWay }}
-            </div>
-          </div>
-          <div class="div-item">
-            <div class="div-item-left">订单状态：</div>
-            <div class="div-item-right">
-              {{ orderInfo.orderStatusValue }}
-            </div>
-          </div>
-
-          <div class="div-item">
-            <div class="div-item-left">下单时间：</div>
-            <div class="div-item-right">
-              {{ orderInfo.order.createTime }}
-            </div>
-          </div>
-          <div class="div-item" v-if="orderInfo.order.needReceipt == false">
-            <div class="div-item-left">发票信息：</div>
-            <div class="div-item-right">暂无发票信息</div>
-          </div>
-          <template v-if="orderInfo.order.needReceipt == true && orderInfo.receipt">
-            <div class="div-item">
-              <div class="div-item-left">发票抬头：</div>
-              <div class="div-item-right">
-                {{
-                  orderInfo.receipt.receiptTitle
-                    ? orderInfo.receipt.receiptTitle
-                    : "暂无"
-                }}
-              </div>
-            </div>
-
-            <div class="div-item" v-if="orderInfo.receipt.taxpayerId">
-              <div class="div-item-left">发票税号：</div>
-              <div class="div-item-right">
-                {{
-                  orderInfo.receipt.taxpayerId
-                    ? orderInfo.receipt.taxpayerId
-                    : "暂无"
-                }}
-              </div>
-            </div>
-
-            <div class="div-item">
-              <div class="div-item-left">发票内容：</div>
-              <div class="div-item-right">
-                {{
-                  orderInfo.receipt.receiptContent
-                    ? orderInfo.receipt.receiptContent
-                    : "暂无"
-                }}
-              </div>
-            </div>
-
-            <div class="div-item">
-              <div class="div-item-left">发票金额：</div>
-              <div class="div-item-right">
-                <span v-if="orderInfo.receipt.receiptPrice">￥</span
-                >{{
-                  orderInfo.receipt.receiptPrice
-                    ? orderInfo.receipt.receiptPrice
-                    : "暂无" | unitPrice
-                }}
-              </div>
-            </div>
-
-            <div class="div-item">
-              <div class="div-item-left">是否开票：</div>
-              <div class="div-item-right">
-                {{ orderInfo.receipt.receiptStatus == 0 ? "未开" : "已开" }}
-              </div>
-            </div>
-          </template>
-        </Col>
-        <Col span="12">
-          <div class="div-item">
-            <div class="div-item-left">收货信息：</div>
-            <div class="div-item-right">
-              {{ orderInfo.order.consigneeName }}
-              {{ orderInfo.order.consigneeMobile }}
-              {{ orderInfo.order.consigneeAddressPath }}
-              {{ orderInfo.order.consigneeDetail }}
+            <div class="div-item-left">发货状态：</div>
+            <div class="div-item-right">{{orderInfo.itemOrder.distributionStatus}}
             </div>
           </div>
           <div class="div-item">
             <div class="div-item-left">支付方式：</div>
-            <div class="div-item-right">
-              {{ orderInfo.paymentMethodValue }}
+            <div class="div-item-right">{{orderInfo.itemOrder.payMode}}
             </div>
           </div>
+          <div class="div-item"  >
+<!--               v-if="orderInfo.order.orderType != 'VIRTUAL'"-->
 
-          <div class="div-item">
-            <div class="div-item-left">买家留言：</div>
-            <div class="div-item-right">{{ orderInfo.order.remark }}</div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.orderType != 'VIRTUAL'">
             <div class="div-item-left">配送方式：</div>
             <div class="div-item-right">
               {{
-                orderInfo.deliveryMethodValue
-                  ? orderInfo.deliveryMethodValue
+                orderInfo.itemOrder.distributionMode
+                  ? orderInfo.itemOrder.distributionMode
                   : "暂无配送方式"
               }}
             </div>
           </div>
+          <div class="div-item">
+            <div class="div-item-left">电话：</div>
+            <div class="div-item-right">
+              {{ orderInfo.itemOrder.buyerPhone }}
+            </div>
+          </div>
+          <!--          <div class="div-item" v-if="orderInfo.order.needReceipt == false">-->
+<!--            <div class="div-item-left">发票信息：</div>-->
+<!--            <div class="div-item-right">暂无发票信息</div>-->
+<!--          </div>-->
+<!--          <template v-if="orderInfo.order.needReceipt == true && orderInfo.receipt">-->
+<!--            <div class="div-item">-->
+<!--              <div class="div-item-left">发票抬头：</div>-->
+<!--              <div class="div-item-right">-->
+<!--                {{-->
+<!--                  orderInfo.receipt.receiptTitle-->
+<!--                    ? orderInfo.receipt.receiptTitle-->
+<!--                    : "暂无"-->
+<!--                }}-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="div-item" v-if="orderInfo.receipt.taxpayerId">-->
+<!--              <div class="div-item-left">发票税号：</div>-->
+<!--              <div class="div-item-right">-->
+<!--                {{-->
+<!--                  orderInfo.receipt.taxpayerId-->
+<!--                    ? orderInfo.receipt.taxpayerId-->
+<!--                    : "暂无"-->
+<!--                }}-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="div-item">-->
+<!--              <div class="div-item-left">发票内容：</div>-->
+<!--              <div class="div-item-right">-->
+<!--                {{-->
+<!--                  orderInfo.receipt.receiptContent-->
+<!--                    ? orderInfo.receipt.receiptContent-->
+<!--                    : "暂无"-->
+<!--                }}-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="div-item">-->
+<!--              <div class="div-item-left">发票金额：</div>-->
+<!--              <div class="div-item-right">-->
+<!--                <span v-if="orderInfo.receipt.receiptPrice">￥</span-->
+<!--                >{{-->
+<!--                  orderInfo.receipt.receiptPrice-->
+<!--                    ? orderInfo.receipt.receiptPrice-->
+<!--                    : "暂无" | unitPrice-->
+<!--                }}-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="div-item">-->
+<!--              <div class="div-item-left">是否开票：</div>-->
+<!--              <div class="div-item-right">-->
+<!--                {{ orderInfo.receipt.receiptStatus == 0 ? "未开" : "已开" }}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </template>-->
+        </Col>
+        <Col span="12">
+          <div class="div-item">
+            <div class="div-item-left">创建日期：</div>
+            <div class="div-item-right">
+              {{ orderInfo.itemOrder.createTime }}
+            </div>
+          </div>
+          <div class="div-item">
+            <div class="div-item-left">订单金额：</div>
+            <div class="div-item-right">
+              {{ orderInfo.itemOrder.orderAmount }}
+            </div>
+          </div>
+          <div class="div-item">
+            <div class="div-item-left">付款状态：</div>
+            <div class="div-item-right">
+              {{ orderInfo.itemOrder.payStatus }}
+            </div>
+          </div>
+
+          <div class="div-item">
+            <div class="div-item-left">收货人：</div>
+            <div class="div-item-right">
+              {{ orderInfo.itemOrder.buyerName}}
+            </div>
+          </div>
+
+          <div class="div-item">
+            <div class="div-item-left">收货地址：</div>
+            <div class="div-item-right">{{ orderInfo.itemOrder.buyerAddress }}</div>
+          </div>
+
+
         </Col>
       </Row>
     </Card>
@@ -163,19 +173,19 @@
         <template slot="goodsSlot" slot-scope="{ row }">
           <div style="margin-top: 5px; height: 80px; display: flex">
             <div style="">
-              <img
-                :src="row.image"
-                style="height: 60px; margin-top: 1px; width: 60px"
-              />
+<!--              <img-->
+<!--                :src="row.image"-->
+<!--                style="height: 60px; margin-top: 1px; width: 60px"-->
+<!--              />-->
             </div>
 
             <div style="margin-left: 13px">
-              <div class="div-zoom">
-                <a @click="linkTo(row.goodsId, row.skuId)">{{
-                  row.goodsName
-                }}</a>
-              </div>
-              <span v-for="(item, key) in JSON.parse(row.specs)" :key="key">
+<!--              <div class="div-zoom">-->
+<!--                <a @click="linkTo(row.goodsId, row.skuId)">{{-->
+<!--                  row.goodsName-->
+<!--                }}</a>-->
+<!--              </div>-->
+              <span v-for="(item, key) in JSON.parse(row)" :key="key">
                 <span
                   v-show="key != 'images'"
                   style="font-size: 12px; color: #999999"
@@ -183,75 +193,75 @@
                   {{ key }} : {{ item }}
                 </span>
               </span>
-              <Poptip
-                trigger="hover"
-                style="display: block"
-                title="扫码在手机中查看"
-                transfer
-              >
-                <div slot="content">
-                  <vue-qr
-                    :text="wapLinkTo(row.goodsId, row.skuId)"
-                    :margin="0"
-                    colorDark="#000"
-                    colorLight="#fff"
-                    :size="150"
-                  ></vue-qr>
-                </div>
-                <img
-                  src="../../../assets/qrcode.svg"
-                  class="hover-pointer"
-                  width="20"
-                  height="20"
-                  alt=""
-                />
-              </Poptip>
+<!--              <Poptip-->
+<!--                trigger="hover"-->
+<!--                style="display: block"-->
+<!--                title="扫码在手机中查看"-->
+<!--                transfer-->
+<!--              >-->
+<!--                <div slot="content">-->
+<!--                  <vue-qr-->
+<!--                    :text="wapLinkTo(row.goodsId, row.skuId)"-->
+<!--                    :margin="0"-->
+<!--                    colorDark="#000"-->
+<!--                    colorLight="#fff"-->
+<!--                    :size="150"-->
+<!--                  ></vue-qr>-->
+<!--                </div>-->
+<!--                <img-->
+<!--                  src="../../../assets/qrcode.svg"-->
+<!--                  class="hover-pointer"-->
+<!--                  width="20"-->
+<!--                  height="20"-->
+<!--                  alt=""-->
+<!--                />-->
+<!--              </Poptip>-->
             </div>
           </div>
         </template>
       </Table>
-      <div class="goods-total">
-        <ul>
-          <li>
-            <span class="label">商品总额：</span>
-            <span class="txt">{{
-              orderInfo.order.priceDetailDTO.goodsPrice | unitPrice("￥")
-            }}</span>
-          </li>
-          <li v-if="orderInfo.order.priceDetailDTO.discountPrice && orderInfo.order.priceDetailDTO.discountPrice > 0">
-            <span class="label">优惠金额：</span>
-            <span class="txt"> {{ orderInfo.order.priceDetailDTO.discountPrice | unitPrice('￥') }} </span>
-          </li>
+<!--      <div class="goods-total">-->
+<!--        <ul>-->
+<!--          <li>-->
+<!--            <span class="label">商品总额：</span>-->
+<!--            <span class="txt">{{-->
+<!--              orderInfo.order.priceDetailDTO.goodsPrice | unitPrice("￥")-->
+<!--            }}</span>-->
+<!--          </li>-->
+<!--          <li v-if="orderInfo.order.priceDetailDTO.discountPrice && orderInfo.order.priceDetailDTO.discountPrice > 0">-->
+<!--            <span class="label">优惠金额：</span>-->
+<!--            <span class="txt"> {{ orderInfo.order.priceDetailDTO.discountPrice | unitPrice('￥') }} </span>-->
+<!--          </li>-->
 
-          <li v-if="orderInfo.order.priceDetailDTO.couponPrice && orderInfo.order.priceDetailDTO.couponPrice > 0">
-            <span class="label">优惠券金额：</span>
-            <span class="txt"> {{ orderInfo.order.priceDetailDTO.couponPrice | unitPrice('￥') }} </span>
-          </li>
-          <li>
-            <span class="label">运费：</span>
-            <span class="txt">{{
-              orderInfo.order.freightPrice | unitPrice("￥")
-            }}</span>
-          </li>
-          <li v-if="orderInfo.order.priceDetailDTO.updatePrice">
-              <span class="label">修改金额：</span>
-              <span class="txt theme_color">¥{{ orderInfo.order.priceDetailDTO.updatePrice | unitPrice }}</span>
-            </li>
-          <li v-if="orderInfo.order.priceDetailDTO.payPoint != 0">
-            <span class="label">使用积分：</span>
-            <span class="txt">{{
-              orderInfo.order.priceDetailDTO.payPoint
-            }}</span>
-          </li>
+<!--          <li v-if="orderInfo.order.priceDetailDTO.couponPrice && orderInfo.order.priceDetailDTO.couponPrice > 0">-->
+<!--            <span class="label">优惠券金额：</span>-->
+<!--            <span class="txt"> {{ orderInfo.order.priceDetailDTO.couponPrice | unitPrice('￥') }} </span>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <span class="label">运费：</span>-->
+<!--            <span class="txt">{{-->
+<!--              orderInfo.order.freightPrice | unitPrice("￥")-->
+<!--            }}</span>-->
+<!--          </li>-->
+<!--          <li v-if="orderInfo.order.priceDetailDTO.updatePrice">-->
+<!--              <span class="label">修改金额：</span>-->
+<!--              <span class="txt theme_color">¥{{ orderInfo.order.priceDetailDTO.updatePrice | unitPrice }}</span>-->
+<!--            </li>-->
+<!--          <li v-if="orderInfo.order.priceDetailDTO.payPoint != 0">-->
+<!--            <span class="label">使用积分：</span>-->
+<!--            <span class="txt">{{-->
+<!--              orderInfo.order.priceDetailDTO.payPoint-->
+<!--            }}</span>-->
+<!--          </li>-->
 
-          <li>
-            <span class="label">应付金额：</span>
-            <span class="txt flowPrice"
-              >¥{{ orderInfo.order.flowPrice | unitPrice }}</span
-            >
-          </li>
-        </ul>
-      </div>
+<!--          <li>-->
+<!--            <span class="label">应付金额：</span>-->
+<!--            <span class="txt flowPrice"-->
+<!--              >¥{{ orderInfo.order.flowPrice | unitPrice }}</span-->
+<!--            >-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
     </Card>
     <Modal v-model="modal" width="530">
       <p slot="header">
@@ -395,45 +405,45 @@
       </div>
     </Modal>
     <!-- 查询物流 -->
-    <Modal v-model="logisticsModal" width="40">
-      <p slot="header">
-        <span>查询物流</span>
-      </p>
-      <div class="layui-layer-wrap">
-        <dl>
-          <dt>订单号：</dt>
-          <dd>
-            <div class="text-box">{{ sn }}</div>
-          </dd>
-        </dl>
-        <dl>
-          <dt>物流公司：</dt>
-          <dd>
-            <div class="text-box">{{ logisticsInfo.shipper || orderInfo.order.logisticsName }}</div>
-          </dd>
-        </dl>
-        <dl>
-          <dt>快递单号：</dt>
-          <dd>
-            <div nctype="ordersSn" class="text-box">
-              {{ logisticsInfo.logisticCode || orderInfo.order.logisticsNo }}
-            </div>
-          </dd>
-        </dl>
-        <div class="div-express-log">
-          <ul class="express-log">
-            <li v-for="(item, index) in logisticsInfo.traces" :key="index">
-              <span class="time">{{ item.AcceptTime }}</span>
-              <span class="detail">{{ item.AcceptStation }}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+<!--    <Modal v-model="logisticsModal" width="40">-->
+<!--      <p slot="header">-->
+<!--        <span>查询物流</span>-->
+<!--      </p>-->
+<!--      <div class="layui-layer-wrap">-->
+<!--        <dl>-->
+<!--          <dt>订单号：</dt>-->
+<!--          <dd>-->
+<!--            <div class="text-box">{{ orderId }}</div>-->
+<!--          </dd>-->
+<!--        </dl>-->
+<!--        <dl>-->
+<!--          <dt>物流公司：</dt>-->
+<!--          <dd>-->
+<!--            <div class="text-box">{{ logisticsInfo.shipper || orderInfo.order.logisticsName }}</div>-->
+<!--          </dd>-->
+<!--        </dl>-->
+<!--        <dl>-->
+<!--          <dt>快递单号：</dt>-->
+<!--          <dd>-->
+<!--            <div nctype="ordersSn" class="text-box">-->
+<!--              {{ logisticsInfo.logisticCode || orderInfo.order.logisticsNo }}-->
+<!--            </div>-->
+<!--          </dd>-->
+<!--        </dl>-->
+<!--        <div class="div-express-log">-->
+<!--          <ul class="express-log">-->
+<!--            <li v-for="(item, index) in logisticsInfo.traces" :key="index">-->
+<!--              <span class="time">{{ item.AcceptTime }}</span>-->
+<!--              <span class="detail">{{ item.AcceptStation }}</span>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div slot="footer" style="text-align: right">
-        <Button @click="logisticsModal = false">取消</Button>
-      </div>
-    </Modal>
+<!--      <div slot="footer" style="text-align: right">-->
+<!--        <Button @click="logisticsModal = false">取消</Button>-->
+<!--      </div>-->
+<!--    </Modal>-->
     <!-- 订单发货 -->
     <Modal v-model="orderDeliverModal" width="500px">
       <p slot="header">
@@ -524,7 +534,7 @@
           </Row>
         </div>
       </div>
-      
+
       <div slot="footer" style="text-align: right">
         <Button @click="printModal = false">关闭</Button>
         <Button type="primary" v-print="printInfoObj">打印发货单</Button>
@@ -566,11 +576,15 @@ export default {
       logisticsInfo: {
         shipper: "",
       }, //物流信息
-      sn: "", //订单编号
+      orderId: "", //订单编号
       orderInfo: {
         // 订单信息
+        itemOrder: {
+
+        },
+        orderGoods:[],
         order: {
-          priceDetailDTO: {},
+          logisticsName: {},
         },
       },
       modal: false, //弹出调整价格框
@@ -638,74 +652,104 @@ export default {
 
       columns: [
         {
-          title: "商品",
-          key: "goodsName",
+          title: "序号",
+          key: "orderId",
           minWidth: 400,
-          slot: "goodsSlot",
         },
         {
-          title: "优惠",
-          key: "num",
+          title: "商品名",
+          key: "goodName",
+          minWidth: 400,
+          //slot: "goodsSlot",
+        },
+        // {
+        //   title: "优惠",
+        //   key: "num",
+        //   minWidth: 100,
+        //   render: (h, params) => {
+        //     let resultText = "";
+        //     if (params.row.promotionType) {
+        //       let type = params.row.promotionType.split(",");
+        //       if (type.indexOf("PINTUAN") != -1) {
+        //         resultText += "拼团 ";
+        //       }
+        //       if (type.indexOf("SECKILL") != -1) {
+        //         resultText += "秒杀 ";
+        //       }
+        //       if (type.indexOf("COUPON") != -1) {
+        //         resultText += "优惠券 ";
+        //       }
+        //       if (type.indexOf("FULL_DISCOUNT") != -1) {
+        //         resultText += "满减 ";
+        //       }
+        //       if (type.indexOf("POINTS_GOODS") != -1) {
+        //         resultText += "积分商品 ";
+        //       }
+        //     }
+        //     if (resultText === "") {
+        //       resultText = "暂无未参与任何促销";
+        //     }
+        //     return h("div", resultText);
+        //   },
+        // },
+        {
+          title: "参数",
+          key: "goodRequire",
           minWidth: 100,
-          render: (h, params) => {
-            let resultText = "";
-            if (params.row.promotionType) {
-              let type = params.row.promotionType.split(",");
-              if (type.indexOf("PINTUAN") != -1) {
-                resultText += "拼团 ";
-              }
-              if (type.indexOf("SECKILL") != -1) {
-                resultText += "秒杀 ";
-              }
-              if (type.indexOf("COUPON") != -1) {
-                resultText += "优惠券 ";
-              }
-              if (type.indexOf("FULL_DISCOUNT") != -1) {
-                resultText += "满减 ";
-              }
-              if (type.indexOf("POINTS_GOODS") != -1) {
-                resultText += "积分商品 ";
-              }
-            }
-            if (resultText === "") {
-              resultText = "暂无未参与任何促销";
-            }
-            return h("div", resultText);
-          },
         },
         {
-          title: "单价",
-          key: "unitPrice",
+          title: "饰面颜色",
+          key: "goodColor",
           minWidth: 100,
-          render: (h, params) => {
-            if (!params.row.unitPrice) {
-              return h("div", this.$options.filters.unitPrice(0, "￥"));
-            }
-            return h(
-              "div",
-              this.$options.filters.unitPrice(
-                params.row.unitPrice,
-                "￥"
-              )
-            );
-          },
-        },
 
+        },
+        {
+          title: "品牌",
+          key: "goodBrand",
+          minWidth: 100,
+        },
+        {
+          title: "型号",
+          key: "goodType",
+          minWidth: 100,
+        },
         {
           title: "数量",
-          key: "num",
+          key: "goodNumber",
           minWidth: 80,
         },
         {
-          title: "小计",
-          key: "subTotal",
+          title: "单位",
+          key: "goodUnit",
           minWidth: 100,
-          render: (h, params) => {
-            return h(
-              "div",
-              this.$options.filters.unitPrice(params.row.flowPrice, "￥")
-            );
-          },
+        },
+        {
+          title: "单价",
+          key: "goodUnitprice",
+          minWidth: 100,
+          // render: (h, params) => {
+          //   if (!params.row.goodUnitprice) {
+          //     return h("div", this.$options.filters.goodUnitprice(0, "￥"));
+          //   }
+          //   return h(
+          //     "div",
+          //     this.$options.filters.goodUnitprice(
+          //       params.row.goodUnitprice,
+          //       "￥"
+          //     )
+          //   );
+          // },
+        },
+        {
+          title: "小计",
+          key: "goodTotalprice",
+          minWidth: 100,
+          // render: (h, params) => {
+          //   return h(
+          //     "div",
+          //     this.$options.filters.good_totalprice(params.row.flowPrice, "￥")
+          //   );
+          // },
         },
       ],
       data: [], // 商品表单数据
@@ -776,12 +820,16 @@ export default {
     //获取订单详细信息
     getDataDetail() {
       this.loading = true;
-      API_Order.getOrderDetail(this.sn).then((res) => {
+      API_Order.getOrderDetail(this.orderId).then((res) => {
         this.loading = false;
         if (res.success) {
-          this.orderInfo = res.result;
+          //this.orderInfo = res.result;
+          this.orderInfo.itemOrder=res.result.itemOrder
+          this.orderInfo.orderGoods=res.result.orderGoods
+          this.data = res.result.orderGoods;
+          console.log(JSON.parse(this.data[0]))
           this.allowOperation = res.result.allowOperationVO;
-          this.data = res.result.orderItems;
+
           this.orderLogData = res.result.orderLogs;
         }
       });
@@ -885,7 +933,7 @@ export default {
     },
   },
   mounted() {
-    this.sn = this.$route.query.sn;
+    this.orderId = this.$route.query.orderId;
     this.getDataDetail();
   },
   // 如果是从详情页返回列表页，修改列表页keepAlive为true，确保不刷新页面

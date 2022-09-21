@@ -11,61 +11,79 @@
         <Form-item label="订单编号" prop="orderSn">
           <Input
             type="text"
-            v-model="searchForm.orderSn"
+            v-model="searchForm.orderId"
             clearable
             placeholder="请输入订单编号"
             style="width: 160px"
           />
         </Form-item>
-        <Form-item label="会员名称" prop="buyerName">
+        <Form-item label="供应商" prop="buyerName">
           <Input
             type="text"
-            v-model="searchForm.buyerName"
+            v-model="searchForm.storeId"
             clearable
-            placeholder="请输入会员名称"
+            placeholder="请输入供应商id"
             style="width: 160px"
           />
         </Form-item>
-        <Form-item label="订单状态" prop="orderStatus">
+        <Form-item label="供应商响应状态" prop="storeReply">
           <Select
-            v-model="searchForm.orderStatus"
+            v-model="searchForm.storeReply"
             placeholder="请选择"
             clearable
             style="width: 160px"
           >
-            <Option value="UNPAID">未付款</Option>
-            <Option value="PAID">已付款</Option>
-            <Option value="UNDELIVERED">待发货</Option>
-            <Option value="DELIVERED">已发货</Option>
-            <Option value="COMPLETED">已完成</Option>
-            <Option value="CANCELLED">已取消</Option>
+            <Option value="已响应">已响应</Option>
+            <Option value="未响应">未响应</Option>
           </Select>
         </Form-item>
-        <Form-item label="订单类型" prop="orderType">
+        <Form-item label="发货状态" prop="distributionStatus">
           <Select
-            v-model="searchForm.orderPromotionType"
+            v-model="searchForm.distributionStatus"
             placeholder="请选择"
             clearable
-            style="width: 160px"
+            style="width: 140px"
           >
-            <Option value="NORMAL">普通订单</Option>
-            <Option value="PINTUAN">拼团订单</Option>
-            <Option value="GIFT">赠品订单</Option>
-            <Option value="POINTS">积分订单</Option>
-            <Option value="KANJIA">砍价订单</Option>
+            <Option value="已发货">待发货</Option>
+            <Option value="未发货">已发货</Option>
+            <Option value="已完成">已完成</Option>
+            <Option value="已完成">已取消</Option>
           </Select>
         </Form-item>
         <Form-item label="下单时间">
-          <DatePicker
-            v-model="selectDate"
-            type="datetimerange"
-            format="yyyy-MM-dd"
+        <DatePicker
+          v-model="selectDate"
+          type="datetimerange"
+          format="yyyy-MM-dd"
+          clearable
+          @on-change="selectDateRange"
+          placeholder="选择起始时间"
+          style="width: 160px"
+        ></DatePicker>
+      </Form-item>
+        <Form-item label="付款状态" prop="payStatus">
+          <Select
+            v-model="searchForm.payStatus"
+            placeholder="请选择"
             clearable
-            @on-change="selectDateRange"
-            placeholder="选择起始时间"
             style="width: 160px"
-          ></DatePicker>
+          >
+            <Option value="已付款">已付款</Option>
+            <Option value="未付款">未付款</Option>
+          </Select>
         </Form-item>
+        <Form-item label="响应状态" prop="replyStatus">
+          <Select
+            v-model="searchForm.replyStatus"
+            placeholder="请选择"
+            clearable
+            style="width: 160px"
+          >
+            <Option value="已响应">已响应</Option>
+            <Option value="未响应">未响应</Option>
+          </Select>
+        </Form-item>
+
         <Button @click="handleSearch" type="primary" class="search-btn"
           >搜索</Button
         >
@@ -128,108 +146,120 @@ export default {
         pageSize: 10, // 页面大小
         sort: "", // 默认排序字段
         order: "", // 默认排序方式
+        orderId:"",
+        storeId:"",//供应商
+        storeReply:"",//供应商响应状态
+        distributionStatus:"",//发货状态
+        //createTime:"",//创建时间
+        payStatus:"",//付款状态
+        replyStatus:"",//响应状态
         startDate: "", // 起始时间
         endDate: "", // 终止时间
-        orderSn: "",
-        buyerName: "",
-        orderStatus: "",
-        orderType: "NORMAL",
+        //orderSn: "",
+        //buyerName: "",
+        //orderStatus: "",
+        //
+        //orderType: "NORMAL",
       },
       selectDate: null,
       columns: [
         {
           title: "订单号",
-          key: "sn",
+          key: "orderId",
           minWidth: 200,
           tooltip: true,
         },
         {
-          title: "订单来源",
-          key: "clientType",
+          title: "供应商",
+          key: "storeId",
           width: 120,
-          render: (h, params) => {
-            if (params.row.clientType == "H5") {
-              return h("div", {}, "移动端");
-            } else if (params.row.clientType == "PC") {
-              return h("div", {}, "PC端");
-            } else if (params.row.clientType == "WECHAT_MP") {
-              return h("div", {}, "小程序端");
-            } else if (params.row.clientType == "APP") {
-              return h("div", {}, "APP端");
-            } else {
-              return h("div", {}, params.row.clientType);
-            }
-          },
-        },
-        {
-          title: "订单类型",
-          key: "orderPromotionType",
-          width: 120,
-          render: (h, params) => {
-            if (params.row.orderPromotionType == "NORMAL") {
-              return h("div", [
-                h("tag", { props: { color: "blue" } }, "普通订单"),
-              ]);
-            } else if (params.row.orderPromotionType == "PINTUAN") {
-              return h("div", [
-                h("tag", { props: { color: "volcano" } }, "拼团订单"),
-              ]);
-            } else if (params.row.orderPromotionType == "GIFT") {
-              return h("div", [
-                h("tag", { props: { color: "green" } }, "赠品订单"),
-              ]);
-            } else if (params.row.orderPromotionType == "POINTS") {
-              return h("div", [
-                h("tag", { props: { color: "geekblue" } }, "积分订单"),
-              ]);
-            } else if (params.row.orderPromotionType == "KANJIA") {
-              return h("div", [
-                h("tag", { props: { color: "pink" } }, "砍价订单"),
-              ]);
-            }
-          },
-        },
-        {
-          title: "买家名称",
-          key: "memberName",
-          minWidth: 130,
           tooltip: true,
         },
+        // {
+        //   title: "订单金额",
+        //   key: "orderAmount",
+        //   minWidth: 130,
+        //   tooltip: true,
+        // },
         {
           title: "订单金额",
-          key: "flowPrice",
+          key: "orderAmount",
           minWidth: 100,
           tooltip: true,
           render: (h, params) => {
             return h(
               "div",
-              this.$options.filters.unitPrice(params.row.flowPrice, "￥")
+              this.$options.filters.unitPrice(params.row.orderAmount, "￥")
             );
           },
         },
-
         {
-          title: "订单状态",
-          key: "orderStatus",
+          title: "下单时间",
+          key: "createTime",
+          width: 170,
+        },
+        {
+          title: "供应商响应状态",
+          key: "storeReply",
           minWidth: 100,
           render: (h, params) => {
-            if (params.row.orderStatus == "UNPAID") {
+            if (params.row.storeReply == "已响应") {
               return h("div", [
-                h("tag", { props: { color: "magenta" } }, "未付款"),
+                h("tag", { props: { color: "magenta" } }, "已响应"),
               ]);
-            } else if (params.row.orderStatus == "PAID") {
+            } else if (params.row.storeReply == "未响应") {
               return h("div", [
-                h("tag", { props: { color: "blue" } }, "已付款"),
+                h("tag", { props: { color: "blue" } }, "未响应"),
               ]);
-            } else if (params.row.orderStatus == "UNDELIVERED") {
+            }
+          },
+        },
+        {
+          title: "合同签署状态",
+          key: "contractStatus",
+          minWidth: 100,
+          render: (h, params) => {
+            if (params.row.contractStatus == "已签") {
               return h("div", [
-                h("tag", { props: { color: "geekblue" } }, "待发货"),
+                h("tag", { props: { color: "magenta" } },  "已签"),
               ]);
-            } else if (params.row.orderStatus == "DELIVERED") {
+            } else if (params.row.contractStatus == "未签") {
+              return h("div", [
+                h("tag", { props: { color: "blue" } },"未签"),
+              ]);
+            }
+          },
+        },
+        {
+          title: "付款状态",
+          key: "payStatus",
+          minWidth: 100,
+          render: (h, params) => {
+            if (params.row.payStatus == "已付款") {
+              return h("div", [
+                h("tag", { props: { color: "magenta" } }, "已付款"),
+              ]);
+            } else if (params.row.payStatus == "未付款") {
+              return h("div", [
+                h("tag", { props: { color: "blue" } }, "未付款"),
+              ]);
+            }
+          },
+        },
+        {
+          title: "发货状态",
+          key: "distributionStatus",
+          minWidth: 100,
+          render: (h, params) => {
+            if (params.row.distributionStatus == "已发货") {
               return h("div", [
                 h("tag", { props: { color: "cyan" } }, "已发货"),
               ]);
-            } else if (params.row.orderStatus == "COMPLETED") {
+            } else if (params.row.distributionStatus == "待发货") {
+              return h("div", [
+                h("tag", { props: { color: "geekblue" } }, "待发货"),
+              ]);
+            }  else if (params.row.orderStatus == "已完成") {
               return h("div", [
                 h("tag", { props: { color: "green" } }, "已完成"),
               ]);
@@ -245,9 +275,20 @@ export default {
           },
         },
         {
-          title: "下单时间",
-          key: "createTime",
-          width: 170,
+          title: "响应状态",
+          key: "replyStatus",
+          minWidth: 100,
+          render: (h, params) => {
+            if (params.row.replyStatus == "已响应") {
+              return h("div", [
+                h("tag", { props: { color: "magenta" } }, "已响应"),
+              ]);
+            } else if (params.row.replyStatus == "未响应") {
+              return h("div", [
+                h("tag", { props: { color: "blue" } }, "已响应"),
+              ]);
+            }
+          },
         },
         {
           title: "操作",
@@ -341,6 +382,8 @@ export default {
       if (v) {
         this.searchForm.startDate = v[0];
         this.searchForm.endDate = v[1];
+
+
       }
     },
     // 获取表格数据
@@ -398,10 +441,10 @@ export default {
     },
     // 查看订单详情
     detail(v) {
-      let sn = v.sn;
+      let orderId = v.orderId;
       this.$router.push({
         name: "order-detail",
-        query: { sn: sn },
+        query: { orderId: orderId },
       });
     },
   },
