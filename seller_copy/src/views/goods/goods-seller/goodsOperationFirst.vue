@@ -196,15 +196,12 @@ export default {
       } else if (!this.category[2].name) {
         this.$Message.error("必须选择到三级分类");
         return;
-      } else if (this.category[2].name) {
-        if (this.selectedTemplate.id) {
-          this.$emit("change", { tempId: this.selectedTemplate.id });
-        } else {
+      } else {
           this.$emit("change", {
             category: this.category,
             goodsType: this.goodsType,
           });
-        }
+
       }
     },
   },
