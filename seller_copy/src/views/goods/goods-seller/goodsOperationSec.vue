@@ -141,8 +141,8 @@
             </div>
             <h4>规格参数</h4>
             <div class="form-item-view-row">
-              <formItem label="ANSI认证" prop="ANSICert">
-                <Select v-model="baseInfoForm.ANSICert" style="width:100px">
+              <formItem label="ANSI认证" prop="ANSIcert">
+                <Select v-model="baseInfoForm.ANSIcert" style="width:100px">
                   <Option v-for="item in ANSIList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </formItem>
@@ -166,7 +166,7 @@
               </formItem>
 
               <formItem label="辅助认证" prop="AuxCert">
-                <Select v-model="baseInfoForm.fireProofCert" style="width:100px">
+                <Select v-model="baseInfoForm.AuxCert" style="width:100px">
                   <Option v-for="item in auxList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </formItem>
@@ -349,17 +349,6 @@ export default {
       this.previewPicture = url;
       this.visible = true;
     },
-    // 移除已选图片
-    handleRemove(item, index) {
-      this.selectedSku.images = this.selectedSku.images.filter(
-        (i) => i.url !== item.url
-      );
-      if (this.selectedSku.images.length > 0 && index === 0) {
-        this.previewPicture = this.selectedSku.images[0].url;
-      } else if (this.selectedSku.images.length < 0) {
-        this.previewPicture = "";
-      }
-    },
     // 查看商品大图
     handleViewGoodsPicture(url) {
       this.previewGoodsPicture = url;
@@ -401,16 +390,14 @@ export default {
         return false;
       }
     },
-    change(category, goodsType){
-      console.log(category, goodsType);
-    },
 
     /**  添加商品 **/
     save() {
       this.submitLoading = true;
       this.$refs["baseInfoForm"].validate((valid) => {
         if (valid) {
-          
+          console.log(this.baseInfoForm);
+
         } else {
           this.submitLoading = false;
           this.$Message.error("还有必填项未做处理，请检查表单");
