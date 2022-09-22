@@ -28,7 +28,6 @@ export const getOrderList = params => {
   return getRequest(`/itemorder/itemorder`, params);
 };
 
-
 // 获取普通订单详细信息
 export const getOrderDetail = sn => {
   return getRequest(`/itemorder/itemorder/${sn}`);
