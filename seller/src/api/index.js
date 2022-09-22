@@ -5,13 +5,30 @@ import {
   putRequest,
   deleteRequest,
   getRequestWithNoToken,
+  postRequestWithNoToken,
   postRequestWithNoTokenData,
   commonUrl,
+  commonUrlWithNoPrefix,
+  uploadFileRequest,
 } from "@/libs/axios";
 
 //获取所有city
 export const getAllCity = (params) => {
   return getRequest(commonUrl+'/common/common/region/allCity', params)
+}
+// 个人注册
+export const userRegister = (params) => {
+  return postRequestWithNoTokenData("/passport/login/userRegister", params);
+}
+
+// 公司注册
+export const register = (params) => {
+  return postRequestWithNoToken("/passport/login/storeRegister", params);
+}
+
+// 测试
+export const test = (url, params) => {
+  return postRequestWithNoToken(url, params);
 }
 
 // 登陆
@@ -233,13 +250,18 @@ export const deleteFile = (ids, params) => {
 export const aliDownloadFile = (fKey, params) => {
   return getRequest(`/file/ali/download/${fKey}`, params);
 };
-
+// 使用全部地址 避开base url
+export const uploadFileUrl = commonUrlWithNoPrefix + '/common/common/upload/fileUpload';
 
 // base64上传
 export const base64Upload = params => {
-  return postRequest("/common/common/upload/file", params);
+  return postRequest(uploadFileUrl, params);
 };
 
+// 上传文件
+export const upLoadFile = (params) =>{
+  return uploadFileRequest(uploadFileUrl, params);
+}
 
 
 

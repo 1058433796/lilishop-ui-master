@@ -6,10 +6,10 @@
       <Row style="flex-direction: column;">
 
         <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
-          <FormItem prop="username">
+          <FormItem prop="username" label="管理员账号">
             <Input v-model="form.username" prefix="ios-contact" size="large" clearable placeholder="请输入用户名" autocomplete="off" />
           </FormItem>
-          <FormItem prop="password">
+          <FormItem prop="password" label="管理员密码">
             <Input type="password" v-model="form.password" prefix="ios-lock" size="large" password placeholder="请输入密码" autocomplete="off" />
           </FormItem>
         </Form>
