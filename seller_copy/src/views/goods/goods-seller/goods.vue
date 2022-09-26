@@ -9,32 +9,49 @@
           :label-width="70"
           class="search-form"
         >
-          <Form-item label="项目名称" prop="itemName">
+        <Form-item label="产品编号" prop="goodsNum">
             <Input
               type="text"
-              v-model="searchForm.itemName"
-              placeholder="请输入项目名称"
+              v-model="searchForm.goodsNum"
+              placeholder="请输入"
               clearable
               style="width: 200px"
             />
           </Form-item>
 
-          <Form-item label="地点" prop="createLocation">
+          <Form-item label="产品名称" prop="goodsName">
             <Input
               type="text"
-              v-model="searchForm.createLocation"
-              placeholder="请输入地点"
+              v-model="searchForm.goodsName"
+              placeholder="请输入"
               clearable
               style="width: 200px"
             />
           </Form-item>
 
-          <Form-item label="创建时间" prop="createTime">
-            <date-picker 
-            v-model="searchForm.createTime"
-            placeholder="选择时间"
-             />
+
+
+          <Form-item label="供应商名称" prop="sellerName">
+            <Input
+              type="text"
+              v-model="searchForm.sellerName"
+              placeholder="请输入"
+              clearable
+              style="width: 200px"
+            />
           </Form-item>
+          <Form-item label="产品状态" prop="marketEnable">
+            <Select v-model="searchForm.marketEnable" style="width:200px">
+              <Option v-for="(item,idx) in marketEnableList" :value="item.value" :key="idx">{{ item.label }}</Option>
+          </Select>
+          </Form-item>
+
+          <Form-item label="审核状态" prop="authFlag">
+            <Select v-model="searchForm.authFlag" style="width:200px">
+              <Option v-for="(item, idx) in authFlagList" :value="item.value" :key="idx">{{ item.label }}</Option>
+          </Select>
+          </Form-item>
+
           <Button @click="handleSearch" type="primary" class="search-btn">搜索</Button>
           <Button @click="handleReset" class="search-btn">重置</Button>
         </Form>
@@ -55,6 +72,9 @@
         <!-- 商品栏目格式化 -->
         <template slot="goodsSlot" slot-scope="{ row }">
           <div style="margin-top: 5px; height: 90px; display: flex">
+            <div style="">
+            </div>
+
             <div style="">
               <img
                 :src="row.original"
@@ -90,6 +110,7 @@
           </div>       
          </template>
       </Table>
+
       <Row type="flex" justify="end" class="mt_10">
         <Page
           :current="searchForm.pageNumber"
@@ -105,54 +126,6 @@
         ></Page>
       </Row>
     </Card>
-
-    <Modal
-      title="更新库存"
-      v-model="updateStockModalVisible"
-      :mask-closable="false"
-      :width="500"
-    >
-      <Tabs value="updateStock">
-        <TabPane label="手动规格更新" name="updateStock">
-          <Table
-            class="mt_10"
-            :columns="updateStockColumns"
-            :data="stockList"
-            border
-          ></Table>
-        </TabPane>
-        <TabPane label="批量规格更新" name="stockAll">
-          <Input type="number" v-model="stockAllUpdate" placeholder="统一规格修改" />
-        </TabPane>
-      </Tabs>
-
-      <div slot="footer">
-        <Button type="text" @click="updateStockModalVisible = false">取消</Button>
-        <Button type="primary" @click="updateStock">更新</Button>
-      </div>
-    </Modal>
-
-    <!-- 批量设置物流模板 -->
-    <Modal
-      title="批量设置物流模板"
-      v-model="shipTemplateModal"
-      :mask-closable="false"
-      :width="500"
-    >
-      <Form ref="shipTemplateForm" :model="shipTemplateForm" :label-width="120">
-        <FormItem class="form-item-view-el" label="物流模板" prop="templateId">
-          <Select v-model="shipTemplateForm.templateId" style="width: 200px">
-            <Option v-for="item in logisticsTemplate" :value="item.id" :key="item.id"
-              >{{ item.name }}
-            </Option>
-          </Select>
-        </FormItem>
-      </Form>
-      <div slot="footer">
-        <Button type="text" @click="shipTemplateModal = false">取消</Button>
-        <Button type="primary" @click="saveShipTemplate">更新</Button>
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -196,79 +169,42 @@ export default {
         price: "",
         sellerName: "",
       },
-      updateStockColumns: [
-        {
-          title: "sku规格",
-          key: "sn",
-          minWidth: 120,
-          render: (h, params) => {
-            return h("div", {}, params.row.simpleSpecs);
-          },
-        },
-        {
-          title: "审核状态",
-          key: "authFlag",
-          width: 130,
-          render: (h, params) => {
-            if (params.row.authFlag == "TOBEAUDITED") {
-              return h("Tag", { props: { color: "blue" } }, "待审核");
-            } else if (params.row.authFlag == "PASS") {
-              return h("Tag", { props: { color: "green" } }, "通过");
-            } else if (params.row.authFlag == "REFUSE") {
-              return h("Tag", { props: { color: "red" } }, "审核拒绝");
-            }
-          },
-        },
-        {
-          title: "操作",
-          key: "action",
-          align: "center",
-          width: 200,
-          render: (h, params) => {
-            let vm = this;
-            return h("InputNumber", {
-              props: {
-                value: params.row.quantity,
-              },
-              on: {
-                "on-change": (event) => {
-                  vm.stockList[params.index].quantity = event;
-                },
-              },
-            });
-          },
-        },
-      ],
       // 表单验证规则
       formValidate: {},
       submitLoading: false, // 添加或编辑提交状态
       selectList: [], // 多选数据
       selectCount: 0, // 多选计数
       columns: [
-        // {
-        //   type: "selection",
-        //   width: 60,
-        //   align: "center",
-        // },
         {
-          title: "项目名称",
+          type: "selection",
+          width: 60,
+          align: "center",
+        },
+        {
+          title: "编号",
+          key: "goodsName",
+          width: 300,
+          tooltip: true,
+        },
+        {
+          title: "名称",
           key: "itemName",
           width: 300,
           tooltip: true,
         },
         {
-          title: "创建时间",
-          key: "createTime",
+          title: "图片",
+          key: "",
           minWidth: 200,
         },
         {
-          title: "地点",
-          key: "createLocation",
+          title: "二维码",
+          key: "",
           width: 180,
           tooltip: true,
         },
         {
-          title: "操作",
+          title: "价格",
           key: "action",
           align: "center",
           fixed: "right",
@@ -332,9 +268,29 @@ export default {
             ]);
           },
         },
+        {
+          title: "产品状态",
+          key: "marketEnable",
+          width: 180,
+          tooltip: true,
+        },
+        {
+          title: "审核状态",
+          key: "authFlag",
+          width: 180,
+          tooltip: true,
+        },
+        {
+          title: '操作',
+          fixed:right,
+          width:180,
+        }
       ],
       data: [], // 表单数据
       total: 0, // 表单数据总数
+
+      marketEnableList:[{value: 'UPPER', label:'上架'}, {value:'DOWN', label:'下架'}],
+      authFlagList: [{value: 'PASS', label: '完成'}, {value: 'REFUSE', label:'拒绝'}, {value:'TOBEAUDITED', label:'待审'}]
     };
   },
   methods: {
@@ -385,23 +341,7 @@ export default {
         }
       });
     },
-    // 更新库存
-    updateStock() {
-      let updateStockList = this.stockList.map((i) => {
-        let j = { skuId: i.id, quantity: i.quantity };
-        if (this.stockAllUpdate) {
-          j.quantity = this.stockAllUpdate;
-        }
-        return j;
-      });
-      updateGoodsSkuStocks(updateStockList).then((res) => {
-        if (res.success) {
-          this.updateStockModalVisible = false;
-          this.$Message.success("更新库存成功");
-          this.getDataList();
-        }
-      });
-    },
+
     // 改变页码
     changePage(v) {
       this.searchForm.pageNumber = v;
@@ -436,44 +376,7 @@ export default {
       this.selectList = e;
       this.selectCount = e.length;
     },
-    //保存物流模板信息
-    saveShipTemplate() {
-      this.$Modal.confirm({
-        title: "确认设置物流模板",
-        content: "您确认要设置所选的 " + this.selectCount + " 个商品的物流模板?",
-        loading: true,
-        onOk: () => {
-          let ids = [];
-          this.selectList.forEach(function (e) {
-            ids.push(e.id);
-          });
-          // 批量设置物流模板
-          batchShipTemplate(this.shipTemplateForm).then((res) => {
-            this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("物流模板设置成功");
-              this.clearSelectAll();
-              this.getDataList();
-            }
-            this.shipTemplateModal = false;
-          });
-        },
-      });
-    },
-    //批量设置物流模板
-    batchShipTemplate() {
-      if (this.selectCount <= 0) {
-        this.$Message.warning("您还未选择要设置物流模板的商品");
-        return;
-      }
-      this.getShipTempList();
-      let data = [];
-      this.selectList.forEach(function (e) {
-        data.push(e.id);
-      });
-      this.shipTemplateForm.goodsId = data;
-      this.shipTemplateModal = true;
-    },
+
     // 获取商品列表数据
     getDataList() {
       this.loading = true;
@@ -491,14 +394,7 @@ export default {
         }
       });
     },
-    // 获取物流模板
-    getShipTempList() {
-      API_Shop.getShipTemplate().then((res) => {
-        if (res.success) {
-          this.logisticsTemplate = res.result;
-        }
-      });
-    },
+
     //下架商品
     lower(v) {
       this.$Modal.confirm({
