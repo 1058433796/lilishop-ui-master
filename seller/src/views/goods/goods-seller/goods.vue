@@ -351,9 +351,9 @@ export default {
       this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId } });
     },
     itemScheme(v) {
-      console.log('????')
-      console.log(v)
-      this.$router.push({ name: "item-scheme", query: { id: v.itemId } });
+      console.log('v')
+      console.log(v.itemName)
+      this.$router.push({ name: "item-scheme", query: { itemid: v.itemId, buyerId:v.buyerId,itemName:v.itemName} });
     },
 
     //批量操作

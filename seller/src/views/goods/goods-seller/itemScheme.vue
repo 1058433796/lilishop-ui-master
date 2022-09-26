@@ -26,27 +26,48 @@
               ref="table"
             ></Table>
           </div>
-
       <div slot="footer" style="text-align: right">
         <Button @click="showDetail = false">取消</Button>
       </div>
     </Modal>
+
+    <Modal v-model="confirmScheme" width="60">
+          <p slot="header">
+            <span>方案确认</span>
+          </p>
+          <span>方案已全部确认</span>
+      <div slot="footer" style="text-align: right">
+        <Button @click="setGuaranty">执行交易</Button>
+      </div>
+    </Modal>
+
+
     </div>
 </template>
 <script>
-import { getItemSchemeList, getSchemeDetail} from '@/api/schemes'
+import { getItemSchemeList, getSchemeDetail,checkItemScheme,saveGuaranty,setItemScheme} from '@/api/schemes'
+import { runInThisContext } from 'vm';
 
 export default {
    name:"item-scheme",
    data(){
     return{
-    id: this.$route.query.id, // 项目id
+    id: this.$route.query.itemid, // 项目id
     loading: true, // 表单加载状态
-    showDetail:false,
+    showDetail:false,//展示方案详情
+    confirmScheme:false,//方案确认
     showLoading:false,
     searchForm:{
       pageNumber: 1, // 当前页数
       pageSize: 10, // 页面大小
+    },
+    guarantyForm:{
+      primaryId:'',
+      schemeSum:0,
+      payFlag:0,
+      orderName:this.$route.query.itemName+'项目',
+      orderContent:this.$route.query.itemName+'内容',
+      buyerId:this.$route.query.buyerId
     },
     componentColumns:[
         {
@@ -152,7 +173,6 @@ export default {
         this.loading = false;
         if (res.result.records.length==0) {
           setItemScheme(this.id).then((Res)=>{
-            console.log(Res)
             this.searchForm.itemId='' 
             this.getDataList()
           })
@@ -168,8 +188,6 @@ export default {
       this.showLoading=true
       getSchemeDetail(this.searchForm).then((res)=>{
         this.showLoading=false
-        console.log('scheme')
-        console.log(this.searchForm)
         if(res.success){
           this.componentData = res.result.records
           this.showDetail=true
@@ -181,17 +199,28 @@ export default {
     //确认方案
     checkScheme(v){
       this.searchForm.schemeId=v.schemeId
-      let sum=0
       getSchemeDetail(this.searchForm).then((res)=>{
         if(res.success){
           res.result.records.forEach(item=>{
-            sum=Number(item.componentUnitPrice)*Number(item.componentNumber)+sum
+            this.guarantyForm.schemeSum=Number(item.componentUnitPrice)*Number(item.componentNumber)+this.guarantyForm.schemeSum
           })
           }
         })
+      //再更新item_scheme表,设置履约保证单
+      checkItemScheme(v.primaryId).then((res)=>{
+        if(res.success){
+          this.guarantyForm.primaryId=v.primaryId
+          console.log("确认成功")
+          this.confirmScheme=true
+        }
+      })
+    },
+    setGuaranty(){
+      let params = JSON.parse(JSON.stringify(this.guarantyForm));
+      saveGuaranty(params).then((res)=>{
+        this.$router.push({ name: "zhifu", query: { Form: this.guarantyForm } });
+      })
 
-      //再更新item_scheme表
-      
     }
   },
    mounted() {
