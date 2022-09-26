@@ -158,6 +158,12 @@ export const otherRouter = {
       title: "发货",
       name: "export-order-deliver",
       component: () => import("@/views/order/order/exportOrderDeliver.vue")
+    } ,
+    {
+      path: "zhifu",
+      title: "支付",
+      name: "zhifu",
+      component: () => import("@/views/goods/goods-seller/zhifu.vue")
     }
     // {
     //   path: "/*",
