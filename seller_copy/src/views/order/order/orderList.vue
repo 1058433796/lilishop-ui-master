@@ -17,18 +17,18 @@
             style="width: 160px"
           />
         </Form-item>
-        <Form-item label="供应商" prop="buyerName">
+        <Form-item label="采购方" prop="buyerName">
           <Input
             type="text"
-            v-model="searchForm.storeId"
+            v-model="searchForm.buyerName"
             clearable
-            placeholder="请输入供应商id"
+            placeholder="请输入采购方名称"
             style="width: 160px"
           />
         </Form-item>
-        <Form-item label="供应商响应状态" prop="storeReply">
+        <Form-item label="采购方响应状态" prop="buyerReply">
           <Select
-            v-model="searchForm.storeReply"
+            v-model="searchForm.buyerReply"
             placeholder="请选择"
             clearable
             style="width: 160px"
@@ -44,10 +44,10 @@
             clearable
             style="width: 140px"
           >
-            <Option value="已发货">待发货</Option>
-            <Option value="未发货">已发货</Option>
+            <Option value="已发货">已发货</Option>
+            <Option value="待发货">待发货</Option>
             <Option value="已完成">已完成</Option>
-            <Option value="已完成">已取消</Option>
+            <Option value="已取消">已取消</Option>
           </Select>
         </Form-item>
         <Form-item label="下单时间">
@@ -98,9 +98,9 @@
           :data="data"
           :fields="excelColumns"
           :fetch="exportOrder"
-          name="待发货订单.xls"
+          name="订单.xls"
         >
-          <Button>导出待发货订单</Button>
+          <Button>导出订单</Button>
         </download-excel>
       </div>
       <Table
@@ -169,18 +169,13 @@ export default {
           minWidth: 200,
           tooltip: true,
         },
+
         {
-          title: "供应商",
-          key: "storeId",
+          title: "采购方",
+          key: "buyerName",
           width: 120,
           tooltip: true,
         },
-        // {
-        //   title: "订单金额",
-        //   key: "orderAmount",
-        //   minWidth: 130,
-        //   tooltip: true,
-        // },
         {
           title: "订单金额",
           key: "orderAmount",
@@ -199,33 +194,17 @@ export default {
           width: 170,
         },
         {
-          title: "供应商响应状态",
-          key: "storeReply",
+          title: "采购方响应状态",
+          key: "buyerReply",
           minWidth: 100,
           render: (h, params) => {
-            if (params.row.storeReply == "已响应") {
+            if (params.row.buyerReply== "已响应") {
               return h("div", [
                 h("tag", { props: { color: "magenta" } }, "已响应"),
               ]);
-            } else if (params.row.storeReply == "未响应") {
+            } else if (params.row.buyerReply == "未响应") {
               return h("div", [
                 h("tag", { props: { color: "blue" } }, "未响应"),
-              ]);
-            }
-          },
-        },
-        {
-          title: "合同签署状态",
-          key: "contractStatus",
-          minWidth: 100,
-          render: (h, params) => {
-            if (params.row.contractStatus == "已签") {
-              return h("div", [
-                h("tag", { props: { color: "magenta" } },  "已签"),
-              ]);
-            } else if (params.row.contractStatus == "未签") {
-              return h("div", [
-                h("tag", { props: { color: "blue" } },"未签"),
               ]);
             }
           },
@@ -324,15 +303,17 @@ export default {
       excelColumns: {
         // 导出excel的参数
         编号: "index",
-        订单号: "sn",
+        订单号: "orderId",
+        采购方ID :"buyerId",
+        采购方名称: "buyerName",
         收货人: "consigneeName",
-        收货人联系电话: "consigneeMobile",
-        收货地址: "consigneeAddress",
-        商品名称: "goodsName",
-        商品价格: "goodsPrice",
-        订单金额: "flowPrice",
-        商品数量: "num",
-        店铺名称: "storeName",
+        收货人联系电话: "buyerPhone",
+        收货地址: "buyerAddress",
+        订单金额: "orderAmount",
+        采购方响应状态: "buyerReply",
+        付款状态: "payStatus",
+        发货状态: "distributionStatus",
+        响应状态: "replyStatus",
         创建时间: "createTime",
       },
     };
@@ -408,7 +389,7 @@ export default {
         order: "desc", // 默认排序方式
         startDate: "", // 起始时间
         endDate: "", // 终止时间
-        orderSn: "",
+        orderId: "",
         buyerName: "",
         tag: "WAIT_SHIP",
         orderType: "NORMAL",
@@ -417,20 +398,16 @@ export default {
       const res = await API_Order.queryExportOrder(params);
       if (res.success) {
         if (res.result.length === 0) {
-          this.$Message.warning("暂无待发货订单");
+          this.$Message.warning("暂无订单");
           return [];
         }
         for (let i = 0; i < res.result.length; i++) {
           res.result[i].index = i + 1;
-          res.result[i].consigneeAddress =
-            res.result[i].consigneeAddressPath.replace(/,/g, "") +
-            res.result[i].consigneeDetail;
-          res.result[i].goodsPrice = this.$options.filters.unitPrice(
-            res.result[i].goodsPrice,
-            "￥"
-          );
-          res.result[i].flowPrice = this.$options.filters.unitPrice(
-            res.result[i].flowPrice,
+          // res.result[i].consigneeAddress =
+          //   res.result[i].consigneeAddressPath.replace(/,/g, "") +
+          //   res.result[i].consigneeDetail;
+          res.result[i].orderAmount = this.$options.filters.unitPrice(
+            res.result[i].orderAmount,
             "￥"
           );
         }
@@ -441,6 +418,7 @@ export default {
     },
     // 查看订单详情
     detail(v) {
+
       let orderId = v.orderId;
       this.$router.push({
         name: "order-detail",
