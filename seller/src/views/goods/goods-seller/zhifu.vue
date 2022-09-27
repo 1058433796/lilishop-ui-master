@@ -20,11 +20,28 @@
                         <div class="ep-pay-step ep-step-channel bd-main-container" style="display: block;">
                             <div class="ep-order-detail">
                                 <div>
-                                    <div class="ep-order-tit" v-if="$route.query.ordersn">
+                                    <div class="ep-order-tit" v-if="$route.query.Form">
                                         <dl>
-                                            <dt>商品订单：</dt>
+                                            <dt>订单名称：</dt>
                                             <dd>
-                                                {{$route.query.ordersn}}
+                                                {{$route.query.Form.orderName}}
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>订单内容：</dt>
+                                            <dd>
+                                                {{$route.query.Form.orderContent}}
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>订单包总价：</dt>
+                                            <dd>
+                                                {{$route.query.Form.schemeSum}}
+                                            </dd>
+                                        </dl> <dl>
+                                            <dt>履约保证金：</dt>
+                                            <dd>
+                                                {{$route.query.Form.orderName}}
                                             </dd>
                                         </dl>
                                     </div>
@@ -39,22 +56,10 @@
                                     <dd class="pay-channel" id="pay-channel">
                                         <div class="ep-pay-method-list-tit">
                                             <ul>
-                                                <li v-if="!isShaxiang" :class="{selected:form.payType == 'wechat'}" @click="selectPayType('wechat')" title="微信支付">
-                                                    <span class="ep-icon ep-icon-wxpay"></span> <span class="ep-pay-method-name">微信支付</span>
-                                                    <i class="ep-icon ep-icon-selected" v-if="form.payType == 'wechat'"></i>
-                                                </li>
-                                                <li :class="{selected:form.payType == 'alipay'}" title="支付宝支付" @click="selectPayType('alipay')">
+                                                <li :class="{selected:form.payType == 'alipay'}" title="支付宝支付" >
                                                     <span class="ep-icon ep-icon-alipay"></span> <span class="ep-pay-method-name">支付宝支付</span>
-                                                    <i class="ep-icon ep-icon-selected" v-if="form.payType == 'alipay'"></i>
                                                 </li>
-                                                <li v-if="!isShaxiang" :class="{selected:form.payType == 'qqwallet'}" title="QQ钱包支付" @click="selectPayType('qqwallet')">
-                                                    <span class="ep-icon ep-icon-qqpay"></span> <span class="ep-pay-method-name">QQ钱包支付</span>
-                                                    <i class="ep-icon ep-icon-selected" v-if="form.payType == 'qqwallet'"></i>
-                                                </li>
-                                                <li v-if="$route.query.bank && !isShaxiang" :class="{selected:form.payType == 'bank'}" title="余额支付" @click="selectPayType('bank')">
-                                                    <span class="ep-icon ep-icon-unionpay"></span> <span class="ep-pay-method-name">余额支付</span>
-                                                    <i class="ep-icon ep-icon-selected" v-if="form.payType == 'bank'"></i>
-                                                </li>
+                                               
                                             </ul>
                                         </div>
 
