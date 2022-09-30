@@ -26,9 +26,10 @@ export const commonUrl =
 export const uploadFile = commonUrl + "/common/common/upload/file";
 var isRefreshToken = 0;
 const refreshToken = getTokenDebounce();
+
 const service = axios.create({
   timeout: 10000,
-  baseURL: baseUrl
+  baseURL: null
 });
 service.interceptors.request.use(
   config => {
@@ -38,6 +39,12 @@ service.interceptors.request.use(
         ...config.params
       };
     }
+
+    
+    if(!config.url.startsWith("/common")){
+      config.url = '/store' + config.url
+    }
+    
     let uuid = getStore("uuid");
     if (!uuid) {
       uuid = uuidv4();
@@ -79,6 +86,7 @@ service.interceptors.response.use(
           } else {
             Message.error("未知错误，请重新登录");
           }
+          console.log('401错误，router.push /login');
           router.push("/login");
         }
         break;
@@ -113,11 +121,13 @@ service.interceptors.response.use(
               );
               return service(error.response.config);
             } else {
+              console.log('async err function router.go 0');
               router.go(0);
             }
           } else {
             Cookies.set("userInfoSeller", "");
             router.push("/login");
+            console.log('if (getTokenRes === "success")不成立 router.push /login');
           }
           isRefreshToken = 0;
         }
