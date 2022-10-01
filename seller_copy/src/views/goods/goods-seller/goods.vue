@@ -2,36 +2,18 @@
   <div class="search">
     <Card>
       <Row @keydown.enter.native="handleSearch">
-        <Form
-          ref="searchForm"
-          :model="searchForm"
-          inline
-          :label-width="70"
-          class="search-form"
-        >
-        <Form-item label="产品编号" prop="goodsNum">
-            <Input
-              type="text"
-              v-model="searchForm.goodsNum"
-              placeholder="请输入"
-              clearable
-              style="width: 200px"
-            />
+        <Form ref="searchForm" :model="searchForm" inline :label-width="70" class="search-form">
+          <Form-item label="产品编号" prop="goodsId">
+            <Input type="text" v-model="searchForm.goodsId" placeholder="请输入" clearable style="width: 200px" />
           </Form-item>
 
           <Form-item label="产品名称" prop="goodsName">
-            <Input
-              type="text"
-              v-model="searchForm.goodsName"
-              placeholder="请输入"
-              clearable
-              style="width: 200px"
-            />
+            <Input type="text" v-model="searchForm.goodsName" placeholder="请输入" clearable style="width: 200px" />
           </Form-item>
 
 
 
-          <Form-item label="供应商名称" prop="sellerName">
+          <!-- <Form-item label="供应商名称" prop="sellerName">
             <Input
               type="text"
               v-model="searchForm.sellerName"
@@ -39,17 +21,18 @@
               clearable
               style="width: 200px"
             />
-          </Form-item>
+          </Form-item> -->
+
           <Form-item label="产品状态" prop="marketEnable">
             <Select v-model="searchForm.marketEnable" style="width:200px">
               <Option v-for="(item,idx) in marketEnableList" :value="item.value" :key="idx">{{ item.label }}</Option>
-          </Select>
+            </Select>
           </Form-item>
 
           <Form-item label="审核状态" prop="authFlag">
             <Select v-model="searchForm.authFlag" style="width:200px">
               <Option v-for="(item, idx) in authFlagList" :value="item.value" :key="idx">{{ item.label }}</Option>
-          </Select>
+            </Select>
           </Form-item>
 
           <Button @click="handleSearch" type="primary" class="search-btn">搜索</Button>
@@ -60,70 +43,21 @@
         <Button @click="addGoods" type="primary">添加项目</Button>
       </Row>
 
-      <Table
-        class="mt_10"
-        :loading="loading"
-        border
-        :columns="columns"
-        :data="data"
-        ref="table"
-
-      >
+      <Table class="mt_10" :loading="loading" border :columns="columns" :data="data" ref="table">
         <!-- 商品栏目格式化 -->
         <template slot="goodsSlot" slot-scope="{ row }">
           <div style="margin-top: 5px; height: 90px; display: flex">
             <div style="">
+              <img :src="row.original" style="height: 80px; margin-top: 3px; width: 70px" />
             </div>
-
-            <div style="">
-              <img
-                :src="row.original"
-                style="height: 80px; margin-top: 3px; width: 70px"
-              />
-            </div>
-
-
-            <div style="margin-left: 13px">
-              <div class="div-zoom">
-                <a @click="linkTo(row.id, row.skuId)">{{ row.goodsName }}</a>
-              </div>
-              <Poptip trigger="hover" title="扫码在手机中查看" transfer>
-                <div slot="content">
-                  <!-- <vueQr>123</vueQr> -->
-                  <vue-qr
-                    :text="wapLinkTo(row.id, row.skuId)"
-                    :margin="0"
-                    colorDark="#000"
-                    colorLight="#fff"
-                    :size="150"
-                  ></vue-qr>
-                </div>
-                <img
-                  src="../../../assets/qrcode.svg"
-                  class="hover-pointer"
-                  width="20"
-                  height="20"
-                  alt=""
-                />
-              </Poptip>
-            </div>
-          </div>       
-         </template>
+          </div>
+        </template>
       </Table>
 
       <Row type="flex" justify="end" class="mt_10">
-        <Page
-          :current="searchForm.pageNumber"
-          :total="total"
-          :page-size="searchForm.pageSize"
-          @on-change="changePage"
-          @on-page-size-change="changePageSize"
-          :page-size-opts="[10, 20, 50]"
-          size="small"
-          show-total
-          show-elevator
-          show-sizer
-        ></Page>
+        <Page :current="searchForm.pageNumber" :total="total" :page-size="searchForm.pageSize" @on-change="changePage"
+          @on-page-size-change="changePageSize" :page-size-opts="[10, 20, 50]" size="small" show-total show-elevator
+          show-sizer></Page>
       </Row>
     </Card>
   </div>
@@ -158,7 +92,6 @@ export default {
         pageSize: 10, // 页面大小
         sort: "create_time", // 默认排序字段
         order: "desc", // 默认排序方式
-        store_id:''//当前店铺id
       },
       stockList: [], // 库存列表
       form: {
@@ -175,39 +108,38 @@ export default {
       selectList: [], // 多选数据
       selectCount: 0, // 多选计数
       columns: [
+        // {
+        //   type: "selection",
+        //   width: 60,
+        //   align: "center",
+        // },
         {
-          type: "selection",
-          width: 60,
-          align: "center",
+          title: "产品编号",
+          key: "goodsId",
+          width: 300,
+          tooltip: true,
         },
         {
-          title: "编号",
+          title: "产品名称",
           key: "goodsName",
           width: 300,
           tooltip: true,
         },
         {
-          title: "名称",
-          key: "itemName",
-          width: 300,
-          tooltip: true,
-        },
-        {
           title: "图片",
-          key: "",
+          key: "thumbnail",
           minWidth: 200,
+          slot: "goodsSlot"
         },
         {
           title: "二维码",
-          key: "",
           width: 180,
           tooltip: true,
         },
         {
-          title: "价格",
-          key: "action",
+          title: "展示价格",
+          key: "goodsDisplayPrice",
           align: "center",
-          fixed: "right",
           width: 200,
           render: (h, params) => {
             return h("div", [
@@ -273,24 +205,53 @@ export default {
           key: "marketEnable",
           width: 180,
           tooltip: true,
+          render:(h, params) => {
+            return h("Tag",{
+              props:{
+                color: "yellow"     
+              }
+            }, "产品状态")
+          }
         },
         {
           title: "审核状态",
           key: "authFlag",
           width: 180,
           tooltip: true,
+          render: (h, params) => {
+            return h("Tag", {
+              props: {
+                color: "green"
+              }
+            }, "审核状态")
+          }
         },
         {
-          title: '操作',
-          fixed:right,
-          width:180,
-        }
+          title: "操作",
+          align: "center",
+          width: 200,
+          render: (h, params) => {
+            return h('Button', {
+              props: {
+                type: 'info',
+                size: 'small'
+              },
+              on: {
+                click: () => {
+                  console.log(params.row);
+                }
+              }
+            },
+              "查看"
+            )
+          },
+        },
       ],
       data: [], // 表单数据
       total: 0, // 表单数据总数
 
-      marketEnableList:[{value: 'UPPER', label:'上架'}, {value:'DOWN', label:'下架'}],
-      authFlagList: [{value: 'PASS', label: '完成'}, {value: 'REFUSE', label:'拒绝'}, {value:'TOBEAUDITED', label:'待审'}]
+      marketEnableList: [{ value: 'UPPER', label: '上架' }, { value: 'DOWN', label: '下架' }],
+      authFlagList: [{ value: 'PASS', label: '完成' }, { value: 'REFUSE', label: '拒绝' }, { value: 'TOBEAUDITED', label: '待审' }]
     };
   },
   methods: {
@@ -361,7 +322,13 @@ export default {
     },
     // 重置搜索条件
     handleReset() {
-      this.searchForm = {};
+      this.searchForm = {
+        // 搜索框初始化对象
+        pageNumber: 1, // 当前页数
+        pageSize: 10, // 页面大小
+        sort: "create_time", // 默认排序字段
+        order: "desc", // 默认排序方式
+      };
       this.searchForm.pageNumber = 1;
       this.searchForm.pageSize = 10;
       // 重新加载数据
@@ -380,14 +347,15 @@ export default {
     // 获取商品列表数据
     getDataList() {
       this.loading = true;
-      let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
-      console.log('userinfo',userInfo)
-      this.searchForm.buyerId=userInfo.id
+      // let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
+      // console.log('userinfo',userInfo)
+      // this.searchForm.buyerId=userInfo.id
+
       // 带多条件搜索参数获取表单数据
       getGoodsListDataSeller(this.searchForm).then((res) => {
         this.loading = false;
-        console.log('form',this.searchForm)
-        console.log('res',res)
+        console.log('form', this.searchForm)
+        console.log('res', res)
         if (res.success) {
           this.data = res.result.records;
           this.total = res.result.total;
