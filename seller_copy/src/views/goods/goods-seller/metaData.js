@@ -7,18 +7,21 @@ import { regular } from "@/utils";
 export const baseInfoForm = {
     // 商品编号
     goodsId: "",
+    // 商品名称
+    goodsName:'',
     // 商品产地
     goodsOrigin: '',
     // 商品品牌
     goodsBrand: '',
     // 商品重量
     goodsWeight: '',
+        // 商品重量单位
+        goodsUnit: '',
     // 展示价格
     goodsDisplayPrice: '',
     // 市场价格
     goodsMarketPrice: '',
-    // 商品重量单位
-    goodsUnit: '',
+
     /** 商品图片列表 */
     goodsGalleryFiles: [],
     // 商品模型列表

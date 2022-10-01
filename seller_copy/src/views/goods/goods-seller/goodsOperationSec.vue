@@ -449,11 +449,6 @@ export default {
     this.accessToken = {
       accessToken: this.getStore("accessToken"),
     };
-    API_GOODS.getGoodsCategoryCommon().then(e=>{
-      console.log('===================')
-      console.log(e);
-      console.log('===================')
-    })
     console.log(this.firstData)
     this.categoryName = this.firstData.category.map(item => item.name);
     this.baseInfoForm.categoryPath = this.firstData.category.map(item => item.id).join(',');
