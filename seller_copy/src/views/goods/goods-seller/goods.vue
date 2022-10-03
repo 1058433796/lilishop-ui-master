@@ -11,18 +11,6 @@
             <Input type="text" v-model="searchForm.goodsName" placeholder="请输入" clearable style="width: 200px" />
           </Form-item>
 
-
-
-          <!-- <Form-item label="供应商名称" prop="sellerName">
-            <Input
-              type="text"
-              v-model="searchForm.sellerName"
-              placeholder="请输入"
-              clearable
-              style="width: 200px"
-            />
-          </Form-item> -->
-
           <Form-item label="产品状态" prop="marketEnable">
             <Select v-model="searchForm.marketEnable" style="width:200px">
               <Option v-for="(item,idx) in marketEnableList" :value="item.value" :key="idx">{{ item.label }}</Option>
@@ -46,10 +34,8 @@
       <Table class="mt_10" :loading="loading" border :columns="columns" :data="data" ref="table">
         <!-- 商品栏目格式化 -->
         <template slot="goodsSlot" slot-scope="{ row }">
-          <div style="margin-top: 5px; height: 90px; display: flex">
-            <div style="">
-              <img :src="row.original" style="height: 80px; margin-top: 3px; width: 70px" />
-            </div>
+          <div style="margin-top: 5px; height: 90px; display: flex; justify-content: center;">
+              <img :src="row.original" style="height: 80px; margin-top: 3px; width: 80px;" />
           </div>
         </template>
       </Table>
@@ -116,141 +102,129 @@ export default {
         {
           title: "产品编号",
           key: "goodsId",
-          width: 300,
+          width: 150,
+          align:"center",
           tooltip: true,
         },
         {
           title: "产品名称",
           key: "goodsName",
-          width: 300,
+          width: 150,
+          align:"center",
           tooltip: true,
         },
         {
           title: "图片",
           key: "thumbnail",
-          minWidth: 200,
+          minwidth: 200,
           slot: "goodsSlot"
         },
         {
           title: "二维码",
-          width: 180,
+          width: 200,
+          align:"center",
           tooltip: true,
         },
         {
           title: "展示价格",
           key: "goodsDisplayPrice",
           align: "center",
-          width: 200,
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    // type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.editGoods(params.row);
-                    },
-                  },
-                },
-                "详情"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    // type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.itemScheme(params.row);
-                    },
-                  },
-                },
-                "项目方案"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    // type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.editGoods(params.row);
-                    },
-                  },
-                },
-                "采购"
-              ),
-            ]);
-          },
+          align:"center",
+          width: 100,
         },
         {
           title: "产品状态",
           key: "marketEnable",
-          width: 180,
+          width: 150,
+          align:"center",
           tooltip: true,
-          render:(h, params) => {
+          render:(h, {row}) => {
+            let color = "red";
+            let title = "未知状态";
+            if(row.marketEnable === 'UPPER'){
+              color = "blue";
+              title = "在售";
+            }else if(row.marketEnable === 'DOWN'){
+              color = "red";
+              title = "下架";
+            }
             return h("Tag",{
               props:{
-                color: "yellow"     
+                color     
               }
-            }, "产品状态")
+            }, title)
           }
         },
         {
           title: "审核状态",
           key: "authFlag",
-          width: 180,
+          width: 150,
+          align:"center",
           tooltip: true,
-          render: (h, params) => {
+          render: (h, {row}) => {
+            let color = "red";
+            let title = "未知状态";
+            if(row.authFlag === 'TOBEAUDITED'){
+              color = "red";
+              title = "待审";
+            }else if(row.authFlag === 'PASS'){
+              color = 'green';
+              title = '完成';
+            }else if(row.authFlag === 'REFUSE'){
+              color = 'red';
+              title = '拒绝';
+            }
             return h("Tag", {
               props: {
-                color: "green"
+                color
               }
-            }, "审核状态")
+            }, title)
           }
         },
         {
           title: "操作",
           align: "center",
           width: 200,
-          render: (h, params) => {
-            return h('Button', {
+          align:"center",
+          render: (h, {row}) => {
+            let viewBtn = h('Button', {
               props: {
                 type: 'info',
                 size: 'small'
               },
               on: {
                 click: () => {
-                  console.log(params.row);
+                  this.$router.push({
+                    name: 'goods-detail',
+                    params:row
+                  })
                 }
               }
-            },
-              "查看"
-            )
+            },"查看");
+            let editBtn = h('Button', {
+              props: {
+                type: 'error',
+                size: 'small'
+              },
+              on: {
+                click: () => {
+                  this.$router.push({
+                    name: 'goods-operation',
+                    query: {
+                      goodsId: row.id
+                    }
+                  })
+                }
+              }
+            },"编辑");
+            return h("div", [viewBtn, editBtn]);
           },
         },
       ],
       data: [], // 表单数据
       total: 0, // 表单数据总数
 
-      marketEnableList: [{ value: 'UPPER', label: '上架' }, { value: 'DOWN', label: '下架' }],
+      marketEnableList: [{ value: 'UPPER', label: '在售' }, { value: 'DOWN', label: '下架' }],
       authFlagList: [{ value: 'PASS', label: '完成' }, { value: 'REFUSE', label: '拒绝' }, { value: 'TOBEAUDITED', label: '待审' }]
     };
   },
@@ -492,9 +466,6 @@ export default {
         },
       });
     },
-  },
-  mounted() {
-    this.init();
   },
   mounted() {
     this.init();

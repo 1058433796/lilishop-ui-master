@@ -53,7 +53,7 @@
                   <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsGalleryFiles"
                     :key="__index">
                     <template>
-                      <img src="../../../assets/download.png" />
+                      <img :src="item.url" />
                       <div class="demo-upload-list-cover">
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
@@ -141,6 +141,8 @@
               </Modal>
             </FormItem>
 
+
+
             </div>
             <h4>规格参数</h4>
             <div class="form-item-view-row">
@@ -226,20 +228,17 @@
     <!-- 底部按钮 -->
     <div class="footer">
       <ButtonGroup>
-        <Button type="primary" @click="pre" v-if="!$route.query.id && !$route.query.draftId">上一步
+        <Button type="primary" @click="pre" v-if="!$route.query.goodsId && !$route.query.draftId">上一步
         </Button>
         <Button type="primary" @click="save" :loading="submitLoading">
-          {{ this.$route.query.id ? "保存" : "保存商品" }}
+          {{ this.$route.query.goodsId ? "保存修改" : "添加商品" }}
         </Button>
-        <!-- <Button type="primary" @click="saveToDraft">保存为模版</Button> -->
       </ButtonGroup>
     </div>
   </div>
 </template>
 <script>
 import * as API_GOODS from "@/api/goods";
-import * as API_Shop from "@/api/shops";
-import cloneObj from "@/utils/index";
 import draggable from "vuedraggable";
 import Editor from "@tinymce/tinymce-vue";
 import { initEditor } from "@/views/lili-components/editor/config";
@@ -305,8 +304,8 @@ export default {
           goodsId: this.goodsId,
         },
       ],
-      /** 发布商品基本参数 */
-      baseInfoForm: MetaData.baseInfoForm,
+      /** 发布商品基本参数 序列化再转对象 防止修改metaData*/
+      baseInfoForm: JSON.parse(JSON.stringify(MetaData.baseInfoForm)),
 
       baseInfoFormRule: MetaData.baseInfoFormRule,
       params: {
@@ -397,12 +396,11 @@ export default {
       }
     },
 
-    /**  添加商品 **/
+    /**  添加商品或者修改商品 **/
     save() {
       this.submitLoading = true;
       this.$refs["baseInfoForm"].validate((valid) => {
         if (valid) {
-          console.log(this.baseInfoForm);
           let submit = JSON.parse(JSON.stringify(this.baseInfoForm));
 
           // 商品图片设置
@@ -427,13 +425,22 @@ export default {
               item => item.url
             )
           }
-
-          API_GOODS.createGoods(submit).then(e=>{
+          if(this.$route.query && this.$route.query.goodsId){
+            API_GOODS.editGoods(this.$route.query.goodsId, submit).then(e=>{
             if(e && e.success){
               this.submitLoading = false;
                 this.$parent.activestep = 2;
             }
           });
+          }else{
+            API_GOODS.createGoods(submit).then(e=>{
+            if(e && e.success){
+              this.submitLoading = false;
+                this.$parent.activestep = 2;
+            }
+          });
+          }
+
           setTimeout(() =>{
             this.$Message.error("服务器无响应，请稍后再试");
             this.submitLoading = false;
@@ -444,14 +451,67 @@ export default {
         }
       });
     },
+    async get_GoodData(id){
+    let response = (await API_GOODS.getGoods(id)).result;
+    console.log('response.reuslt', response);
+    this.categoryName = response.categoryName;
+    this.baseInfoForm = Object.assign(this.baseInfoForm, response);
+    // 图片处理
+    if (
+        response.goodsGalleryList &&
+        response.goodsGalleryList.length > 0
+      ) {
+        this.baseInfoForm.goodsGalleryFiles =
+          response.goodsGalleryList.map((i) => {
+            return { url: i };
+          });
+      }
+      // 模型处理
+      if (
+        response.modelList &&
+        response.modelList.length > 0
+      ) {
+        this.baseInfoForm.goodsModelFiles =
+          response.modelList.map((i) => {
+            return { url: i };
+          });
+      }
+      // 材料处理
+      if (
+        response.materialList &&
+        response.materialList.length > 0
+      ) {
+        this.baseInfoForm.goodsMaterialFiles =
+          response.materialList.map((i) => {
+            return { url: i };
+          });
+      }
+      // 报告处理&说明书处理
+
   },
+
+  },
+
   mounted() {
     this.accessToken = {
       accessToken: this.getStore("accessToken"),
     };
-    console.log(this.firstData)
-    this.categoryName = this.firstData.category.map(item => item.name);
-    this.baseInfoForm.categoryPath = this.firstData.category.map(item => item.id).join(',');
+    console.log('firstData',this.firstData)
+    console.log('$route.query',this.$route.query)
+    // 使用JSON深拷贝
+    this.baseInfoForm = JSON.parse(JSON.stringify(MetaData.baseInfoForm));
+    if(this.$route.query && this.$route.query.goodsId){
+      // 进行商品编辑行为
+      console.log('正在进行商品编辑');
+      const goodsId = this.$route.query.goodsId;
+      this.get_GoodData(goodsId);
+    }else{
+      // 进行商品创建行为
+      console.log('正在进行商品添加');
+      this.categoryName = this.firstData.category.map(item => item.name);
+      this.baseInfoForm.categoryPath = this.firstData.category.map(item => item.id).join(',');
+    }
+
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="content-goods-publish">
     <div class="success" style="text-align: left">
-      <h1>恭喜您，商品发布成功!</h1>
+      <h1>恭喜您，操作成功!</h1>
       <div class="goToGoodsList" @click="gotoGoodsList">
         <a>去店铺查看商品列表>></a>
       </div>

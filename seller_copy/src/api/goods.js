@@ -361,7 +361,7 @@ export const refundPriceStatistics = params => {
 
 //  获取商品分页列表
 export const getGoodsListDataSeller = params => {
-  return getRequest("/item/item/list", params);
+  return getRequest("/goods/goods/list", params);
 };
 //获取项目分页信息
 export const saveItem = (params) => {
