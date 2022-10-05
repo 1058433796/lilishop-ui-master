@@ -84,16 +84,6 @@ export const result = [{
             component: "order/order/orderList",
             children: null,
           },
-          // {
-          //   name: "virtualOrderList",
-          //   level: 2,
-          //   type: 0,
-          //   keepAlive: true,
-          //   title: "虚拟订单",
-          //   path: "virtualOrderList",
-          //   component: "order/order/virtualOrderList",
-          //   children: null
-          // }
         ]
       },
       // {
@@ -210,57 +200,87 @@ export const result = [{
     ]
   },
   {
-    name: "seller",
+    name: "customer",
     level: 0,
     type: -1,
-    title: "供应商",
+    title: "客户",
     path: "",
     component: "",
+    description: "",
     children: [{
-        name: "seller",
-        level: 1,
+      name: "customer",
+      level: 1,
+      type: 0,
+      title: "客户管理",
+      path: "/customer",
+      component: "Main",
+      children: [{
+        name: "customerList",
+        level: 2,
         type: 0,
-        title: "供应商管理",
-        path: "/seller",
-        component: "Main",
-        children: [{
-            name: "accountStatementBill",
-            level: 2,
-            type: 0,
-            keepAlive: true,
-            title: "供应商详情",
-            path: "accountStatementBill",
-            component: "shop/bill/accountStatementBill",
-            children: null
-          },
-          // {
-          //   name: "storeBill",
-          //   level: 2,
-          //   type: 0,
-          //   keepAlive: true,
-          //   title: "店铺结算",
-          //   path: "storeBill",
-          //   component: "shop/bill/storeBill",
-          //   children: null
-          // }
-        ]
+        keepAlive: true,
+        title: "客户详情",
+        path: "customerList",
+        component: "customer/customerList",
+        children: null,
       },
+      ]
+    },
       // {
-      //   name: "receiptManager",
+      //   name: "memberComment",
       //   level: 1,
       //   type: 0,
-      //   title: "发票管理",
-      //   path: "/bill",
+      //   title: "评价管理",
+      //   path: "/order",
       //   component: "Main",
       //   children: [{
-      //     name: "receipt",
+      //     name: "memberComment",
       //     level: 2,
       //     type: 0,
-      //     title: "发票管理",
-      //     path: "receipt",
-      //     component: "order/receiptManager/receipt",
-      //     children: null
+      //     title: "评价管理",
+      //     path: "memberComment",
+      //     component: "member/memberComment",
+      //     children: null,
       //   }]
+      // },
+      // {
+      //   name: "order",
+      //   level: 1,
+      //   type: 0,
+      //   title: "售后管理",
+      //   path: "/order",
+      //   component: "Main",
+      //   children: [{
+      //       name: "returnGoodsOrder",
+      //       level: 2,
+      //       type: 0,
+      //       keepAlive: true,
+      //       title: "退货管理",
+      //       path: "returnGoodsOrder",
+      //       component: "order/after-order/returnGoodsOrder",
+      //       children: null
+      //     },
+      //     {
+      //       name: "returnMoneyOrder",
+      //       level: 2,
+      //       type: 0,
+      //       keepAlive: true,
+      //       title: "退款管理",
+      //       path: "returnMoneyOrder",
+      //       component: "order/after-order/returnMoneyOrder",
+      //       children: null
+      //     },
+      //     {
+      //       name: "orderComplaint",
+      //       level: 2,
+      //       type: 0,
+      //       keepAlive: true,
+      //       title: "投诉管理",
+      //       path: "orderComplaint",
+      //       component: "order/after-order/orderComplaint",
+      //       children: null
+      //     }
+      //   ]
       // }
     ]
   },
@@ -398,12 +418,12 @@ export const result = [{
       path: "/statistics",
       component: "Main",
       children: [{
-          name: "goodsStatistics",
+          name: "orderStatistics",
           level: 2,
           type: 0,
           title: "统计数据",
-          path: "goodsStatistics",
-          component: "statistics/goods",
+          path: "orderStatistics",
+          component: "statistics/order",
           children: null
         },
         // {

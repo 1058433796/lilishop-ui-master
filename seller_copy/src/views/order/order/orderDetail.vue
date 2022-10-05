@@ -2,37 +2,6 @@
   <Tabs type="card">
     <TabPane label="订单信息">
       <div class="search">
-        <Card style="height: 60px">
-          <div>
-            <!--       . <Button-->
-            <!--          v-if="allowOperation.editPrice"-->
-            <!--          @click="modifyPrice"-->
-            <!--          type="primary"-->
-            <!--          >调整价格</Button-->
-            <!--        >-->
-            <!--        <Button-->
-            <!--          v-if="allowOperation.editConsignee"-->
-            <!--          @click="editAddress"-->
-            <!--          type="primary"-->
-            <!--          >修改收货地址</Button-->
-            <!--        >-->
-            <!--        <Button-->
-            <!--          v-if="allowOperation.showLogistics"-->
-            <!--          @click="logistics"-->
-            <!--          type="primary"-->
-            <!--          >查看物流</Button-->
-            <!--        >-->
-            <Button @click="orderLogModal = true" type="primary">订单日志</Button>
-            <Button @click="printOrder" type="primary" ghost style="float:right;">打印发货单</Button>
-            <!--        <Button v-if="allowOperation.take" @click="orderTake" type="primary"-->
-            <!--          >订单核销</Button-->
-            <!--        >-->
-            <!--        <Button v-if="allowOperation.ship" @click="orderDeliver" type="primary"-->
-            <!--          >发货</Button-->
-            <!--        >-->
-          </div>
-        </Card>
-
         <Card class="mt_10">
           <Row>
             <Col span="12">
