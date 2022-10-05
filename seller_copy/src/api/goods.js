@@ -86,6 +86,7 @@ export const getAllList = id => {
   return getRequest(`/goods/label/get/${id}`);
 };
 
+
 //  添加商品分类
 export const insertCategory = params => {
   return postRequest("/goods/category/insertCategory", params);
@@ -170,6 +171,11 @@ export const getGoodsCategoryLevelList = (ids, params) => {
 export const getGoodsCategoryAll = () => {
   return getRequest(`/goods/category/all`);
 };
+
+// 获取公共经营类目
+export const getGoodsCategoryCommon = () =>{
+  return getRequest('/goods/category/common')
+}
 
 // 获取当前店铺分类
 export const getShopGoodsLabelListSeller = () => {
@@ -355,7 +361,7 @@ export const refundPriceStatistics = params => {
 
 //  获取商品分页列表
 export const getGoodsListDataSeller = params => {
-  return getRequest("/item/item/list", params);
+  return getRequest("/goods/goods/list", params);
 };
 //获取项目分页信息
 export const saveItem = (params) => {

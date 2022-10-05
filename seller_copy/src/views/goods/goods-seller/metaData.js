@@ -5,38 +5,40 @@ import { regular } from "@/utils";
  */
 
 export const baseInfoForm = {
-    // 类别名称
-    categoryName: [],
     // 商品编号
     goodsId: "",
+    // 商品名称
+    goodsName:'',
     // 商品产地
     goodsOrigin: '',
     // 商品品牌
     goodsBrand: '',
     // 商品重量
     goodsWeight: '',
+        // 商品重量单位
+        goodsUnit: '',
     // 展示价格
     goodsDisplayPrice: '',
     // 市场价格
     goodsMarketPrice: '',
-    // 商品重量单位
-    goodsWeightUnit: '',
+
     /** 商品图片列表 */
     goodsGalleryFiles: [],
     // 商品模型列表
     goodsModelFiles: [],
     // 商品资料列表
     goodsMaterialFiles: [],
+
     // ANSI认证
     ANSIcert: '',
     // EN认证
-    ENcert: '',
+    ENCert: '',
     // GB认证
     GBcert: '',
     // 防火认证
     fireProofCert: '',
     // 辅助认证
-    AuxCert: '',
+    auxCert: '',
     // 材质
     material: '',
     // 饰面
@@ -49,7 +51,15 @@ export const baseInfoForm = {
     forceLevel: '',
     // 可调节参数
     adjustParam: '',
+    // 类别id使用逗号连接的类别路径
+    categoryPath:'',
+    // 商品描述
+    intro:'',
+    // 商品类型 
+    goodsType:'PHYSICAL_GOODS'
 }
+
+
 
 export const baseInfoFormRule = {
     // goodsName: [regular.REQUIRED, regular.WHITE_SPACE, regular.VARCHAR60],

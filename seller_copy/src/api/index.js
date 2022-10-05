@@ -250,8 +250,12 @@ export const deleteFile = (ids, params) => {
 export const aliDownloadFile = (fKey, params) => {
   return getRequest(`/file/ali/download/${fKey}`, params);
 };
-// 使用全部地址 避开base url
+
+// 使用全部地址 避开base url 使用账号密码验证的文件上传url
 export const uploadFileUrl = commonUrlWithNoPrefix + '/common/common/upload/fileUpload';
+
+// 使用token验证的文件上传url
+export const uploadUrl = commonUrlWithNoPrefix + '/common/common/upload/file';
 
 // base64上传
 export const base64Upload = params => {

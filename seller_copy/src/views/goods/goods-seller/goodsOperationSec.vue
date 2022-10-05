@@ -7,10 +7,10 @@
           <div class="form-item-view">
             <FormItem label="商品分类">
               <span class="goods-category-name">{{
-              this.baseInfoForm.categoryName[0]
+              this.categoryName[0]
               }}</span>
-              <span> &gt; {{ this.baseInfoForm.categoryName[1] }}</span>
-              <span> &gt; {{ this.baseInfoForm.categoryName[2] }}</span>
+              <span> &gt; {{ this.categoryName[1] }}</span>
+              <span> &gt; {{ this.categoryName[2] }}</span>
             </FormItem>
             <div class="form-item-view-row">
               <FormItem label="产品编号" prop="goodsId">
@@ -29,8 +29,8 @@
                 <Input type="number" v-model="baseInfoForm.goodsWeight" placeholder="产品重量(kg)" clearable
                   style="width: 260px" />
               </FormItem>
-              <FormItem label="重量单位" prop="goodsWeightUnit">
-                <Select v-model="baseInfoForm.goodsWeightUnit" clearable style="width:200px">
+              <FormItem label="重量单位" prop="goodsUnit">
+                <Select v-model="baseInfoForm.goodsUnit" clearable style="width:200px">
                   <Option v-for="item in weightUnitList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </FormItem>
@@ -45,10 +45,11 @@
             </div>
           </div>
           <h4>商品资料及图片</h4>
-          <div class="form-item-view-row">
+          <div class="form-item-view-row" style="flex-direction:column;">
+
             <FormItem class="form-item-view-el required" label="上传图片" prop="goodsGalleryFiles">
               <div style="display: flex; flex-wrap: flex-start">
-                <vuedraggable :list="baseInfoForm.goodsGalleryFiles" :animation="200">
+                <draggable :list="baseInfoForm.goodsGalleryFiles" :animation="200">
                   <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsGalleryFiles"
                     :key="__index">
                     <template>
@@ -56,16 +57,16 @@
                       <div class="demo-upload-list-cover">
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
-                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture(item)"></Icon>
+                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsGalleryFiles',item)"></Icon>
                         </div>
                       </div>
                     </template>
                   </div>
-                </vuedraggable>
+                </draggable>
 
-                <Upload ref="upload" :show-upload-list="false" :on-success="handleSuccessGoodsPicture"
+                <Upload :show-upload-list="false" :on-success="(res, file) => handleSuccessGoodsPicture('goodsGalleryFiles', res, file)"
                   :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="handleBeforeUploadGoodsPicture"
+                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="e => handleBeforeUploadGoodsPicture('goodsGalleryFiles', e)"
                   multiple type="drag" :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
                   <div style="width: 148px; height: 148px; line-height: 148px">
                     <Icon type="md-add" size="20"></Icon>
@@ -77,25 +78,27 @@
               </Modal>
             </FormItem>
 
+
             <FormItem class="form-item-view-el required" label="上传模型" prop="goodsModelFiles">
               <div style="display: flex; flex-wrap: flex-start">
-                <vuedraggable :list="baseInfoForm.goodsModelFiles" :animation="200">
-                  <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsModelFiles" :key="__index">
+                <draggable :list="baseInfoForm.goodsModelFiles" :animation="200">
+                  <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsModelFiles"
+                    :key="__index">
                     <template>
-                      <img :src="item.url" />
+                      <img src="../../../assets/file.png" />
                       <div class="demo-upload-list-cover">
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
-                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture(item)"></Icon>
+                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsModelFiles',item)"></Icon>
                         </div>
                       </div>
                     </template>
                   </div>
-                </vuedraggable>
+                </draggable>
 
-                <Upload ref="upload" :show-upload-list="false" :on-success="handleSuccessGoodsPicture"
+                <Upload :show-upload-list="false" :on-success="(res, file) => handleSuccessGoodsPicture('goodsModelFiles', res, file)"
                   :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="handleBeforeUploadGoodsPicture"
+                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="e => handleBeforeUploadGoodsPicture('goodsModelFiles', e)"
                   multiple type="drag" :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
                   <div style="width: 148px; height: 148px; line-height: 148px">
                     <Icon type="md-add" size="20"></Icon>
@@ -109,24 +112,24 @@
 
             <FormItem class="form-item-view-el required" label="上传资料" prop="goodsMaterialFiles">
               <div style="display: flex; flex-wrap: flex-start">
-                <vuedraggable :list="baseInfoForm.goodsMaterialFiles" :animation="200">
+                <draggable :list="baseInfoForm.goodsMaterialFiles" :animation="200">
                   <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsMaterialFiles"
                     :key="__index">
                     <template>
-                      <img :src="item.url" />
+                      <img src="../../../assets/upload.png" />
                       <div class="demo-upload-list-cover">
                         <div>
-                          <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
-                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture(item)"></Icon>
+                          <!-- <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon> -->
+                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsMaterialFiles', item)"></Icon>
                         </div>
                       </div>
                     </template>
                   </div>
-                </vuedraggable>
+                </draggable>
 
-                <Upload ref="upload" :show-upload-list="false" :on-success="handleSuccessGoodsPicture"
+                <Upload :show-upload-list="false" :on-success="(res, file) => handleSuccessGoodsPicture('goodsMaterialFiles', res, file)"
                   :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="handleBeforeUploadGoodsPicture"
+                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="e => handleBeforeUploadGoodsPicture('goodsMaterialFiles', e)"
                   multiple type="drag" :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
                   <div style="width: 148px; height: 148px; line-height: 148px">
                     <Icon type="md-add" size="20"></Icon>
@@ -138,6 +141,8 @@
               </Modal>
             </FormItem>
 
+
+
             </div>
             <h4>规格参数</h4>
             <div class="form-item-view-row">
@@ -147,14 +152,14 @@
                 </Select>
               </formItem>
 
-              <formItem label="EN认证" prop="ENcert">
-                <Select v-model="baseInfoForm.ENcert" style="width:100px">
+              <formItem label="EN认证" prop="ENCert">
+                <Select v-model="baseInfoForm.ENCert" style="width:100px">
                   <Option v-for="item in ENList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </formItem>
 
-              <formItem label="GB认证" prop="GBcert">
-                <Select v-model="baseInfoForm.GBcert" style="width:100px">
+              <formItem label="GB认证" prop="GBCert">
+                <Select v-model="baseInfoForm.GBCert" style="width:100px">
                   <Option v-for="item in GBList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </formItem>
@@ -165,8 +170,8 @@
                 </Select>
               </formItem>
 
-              <formItem label="辅助认证" prop="AuxCert">
-                <Select v-model="baseInfoForm.fireProofCert" style="width:100px">
+              <formItem label="辅助认证" prop="auxCert">
+                <Select v-model="baseInfoForm.auxCert" style="width:100px">
                   <Option v-for="item in auxList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </formItem>
@@ -213,7 +218,7 @@
               <editor ref="editor" openXss v-model="baseInfoForm.intro" :init="{ ...initEditor, height: '800px' }">
               </editor>
               <div class="promise-intro-btn">
-                <Button type="primary">下一步</Button>
+                <Button type="primary" @click="save">下一步</Button>
               </div>
             </FormItem>
           </div>
@@ -223,21 +228,18 @@
     <!-- 底部按钮 -->
     <div class="footer">
       <ButtonGroup>
-        <Button type="primary" @click="pre" v-if="!$route.query.id && !$route.query.draftId">上一步
+        <Button type="primary" @click="pre" v-if="!$route.query.goodsId && !$route.query.draftId">上一步
         </Button>
         <Button type="primary" @click="save" :loading="submitLoading">
-          {{ this.$route.query.id ? "保存" : "保存商品" }}
+          {{ this.$route.query.goodsId ? "保存修改" : "添加商品" }}
         </Button>
-        <!-- <Button type="primary" @click="saveToDraft">保存为模版</Button> -->
       </ButtonGroup>
     </div>
   </div>
 </template>
 <script>
 import * as API_GOODS from "@/api/goods";
-import * as API_Shop from "@/api/shops";
-import cloneObj from "@/utils/index";
-import vuedraggable from "vuedraggable";
+import draggable from "vuedraggable";
 import Editor from "@tinymce/tinymce-vue";
 import { initEditor } from "@/views/lili-components/editor/config";
 import { uploadFile } from "@/libs/axios";
@@ -248,7 +250,7 @@ export default {
   name: "goodsOperationSec",
   components: {
     editor: Editor,
-    vuedraggable,
+    draggable,
   },
   props: {
     firstData: {
@@ -280,6 +282,8 @@ export default {
       accessToken: "", //令牌token
       goodsParams: "",
       categoryId: "", // 商品分类第三级id
+        // 类别名称
+      categoryName: [],
       //提交状态
       submitLoading: false,
       //上传图片路径
@@ -300,8 +304,8 @@ export default {
           goodsId: this.goodsId,
         },
       ],
-      /** 发布商品基本参数 */
-      baseInfoForm: MetaData.baseInfoForm,
+      /** 发布商品基本参数 序列化再转对象 防止修改metaData*/
+      baseInfoForm: JSON.parse(JSON.stringify(MetaData.baseInfoForm)),
 
       baseInfoFormRule: MetaData.baseInfoFormRule,
       params: {
@@ -349,32 +353,21 @@ export default {
       this.previewPicture = url;
       this.visible = true;
     },
-    // 移除已选图片
-    handleRemove(item, index) {
-      this.selectedSku.images = this.selectedSku.images.filter(
-        (i) => i.url !== item.url
-      );
-      if (this.selectedSku.images.length > 0 && index === 0) {
-        this.previewPicture = this.selectedSku.images[0].url;
-      } else if (this.selectedSku.images.length < 0) {
-        this.previewPicture = "";
-      }
-    },
     // 查看商品大图
     handleViewGoodsPicture(url) {
       this.previewGoodsPicture = url;
       this.goodsPictureVisible = true;
     },
     // 移除商品图片
-    handleRemoveGoodsPicture(file) {
-      this.baseInfoForm.goodsGalleryFiles =
-        this.baseInfoForm.goodsGalleryFiles.filter((i) => i.url !== file.url);
+    handleRemoveGoodsPicture(fileListName, file) {
+      this.baseInfoForm[fileListName] = 
+        this.baseInfoForm[fileListName].filter((i) => i.url !== file.url);
     },
     // 商品图片上传成功
-    handleSuccessGoodsPicture(res, file) {
+    handleSuccessGoodsPicture(fileListName, res, file) {
       if (file.response) {
         file.url = file.response.result;
-        this.baseInfoForm.goodsGalleryFiles.push(file);
+        this.baseInfoForm[fileListName].push(file);
       }
     },
     // 图片格式不正确
@@ -392,38 +385,133 @@ export default {
       });
     },
     // 图片上传前钩子
-    handleBeforeUploadGoodsPicture(file) {
-      const check = this.baseInfoForm.goodsGalleryFiles.length < 5;
+    handleBeforeUploadGoodsPicture(fileListName, file) {
+      console.log(fileListName, 'upload');
+      const check = this.baseInfoForm[fileListName].length < 3;
       if (!check) {
         this.$Notice.warning({
-          title: "图片数量不能大于五张",
+          title: "数量不能多于三个",
         });
         return false;
       }
     },
-    change(category, goodsType){
-      console.log(category, goodsType);
-    },
 
-    /**  添加商品 **/
+    /**  添加商品或者修改商品 **/
     save() {
       this.submitLoading = true;
       this.$refs["baseInfoForm"].validate((valid) => {
         if (valid) {
-          
+          let submit = JSON.parse(JSON.stringify(this.baseInfoForm));
+
+          // 商品图片设置
+          if (submit.goodsGalleryFiles.length <= 0) {
+            this.submitLoading = false;
+            this.$Message.error("请上传商品图片");
+            return;
+          }else {
+            submit.goodsGalleryList = submit.goodsGalleryFiles.map(
+              (i) => i.url
+            );
+          }
+          // 添加模型文件上传
+          if(submit.goodsModelFiles.length > 0){
+            submit.modelList = submit.goodsModelFiles.map(
+              item => item.url
+            )
+          }
+          // 添加材料上传
+          if(submit.goodsMaterialFiles.length > 0){
+            submit.materialList = submit.goodsMaterialFiles.map(
+              item => item.url
+            )
+          }
+          if(this.$route.query && this.$route.query.goodsId){
+            API_GOODS.editGoods(this.$route.query.goodsId, submit).then(e=>{
+            if(e && e.success){
+              this.submitLoading = false;
+                this.$parent.activestep = 2;
+            }
+          });
+          }else{
+            API_GOODS.createGoods(submit).then(e=>{
+            if(e && e.success){
+              this.submitLoading = false;
+                this.$parent.activestep = 2;
+            }
+          });
+          }
+
+          setTimeout(() =>{
+            this.$Message.error("服务器无响应，请稍后再试");
+            this.submitLoading = false;
+          }, 1000 * 10);
         } else {
           this.submitLoading = false;
           this.$Message.error("还有必填项未做处理，请检查表单");
         }
       });
     },
+    async get_GoodData(id){
+    let response = (await API_GOODS.getGoods(id)).result;
+    console.log('response.reuslt', response);
+    this.categoryName = response.categoryName;
+    this.baseInfoForm = Object.assign(this.baseInfoForm, response);
+    // 图片处理
+    if (
+        response.goodsGalleryList &&
+        response.goodsGalleryList.length > 0
+      ) {
+        this.baseInfoForm.goodsGalleryFiles =
+          response.goodsGalleryList.map((i) => {
+            return { url: i };
+          });
+      }
+      // 模型处理
+      if (
+        response.modelList &&
+        response.modelList.length > 0
+      ) {
+        this.baseInfoForm.goodsModelFiles =
+          response.modelList.map((i) => {
+            return { url: i };
+          });
+      }
+      // 材料处理
+      if (
+        response.materialList &&
+        response.materialList.length > 0
+      ) {
+        this.baseInfoForm.goodsMaterialFiles =
+          response.materialList.map((i) => {
+            return { url: i };
+          });
+      }
+      // 报告处理&说明书处理
+
   },
+
+  },
+
   mounted() {
     this.accessToken = {
       accessToken: this.getStore("accessToken"),
     };
-    this.baseInfoForm.categoryName = this.firstData.category.map(item => item.name);
-    console.log(this.baseInfoForm);
+    console.log('firstData',this.firstData)
+    console.log('$route.query',this.$route.query)
+    // 使用JSON深拷贝
+    this.baseInfoForm = JSON.parse(JSON.stringify(MetaData.baseInfoForm));
+    if(this.$route.query && this.$route.query.goodsId){
+      // 进行商品编辑行为
+      console.log('正在进行商品编辑');
+      const goodsId = this.$route.query.goodsId;
+      this.get_GoodData(goodsId);
+    }else{
+      // 进行商品创建行为
+      console.log('正在进行商品添加');
+      this.categoryName = this.firstData.category.map(item => item.name);
+      this.baseInfoForm.categoryPath = this.firstData.category.map(item => item.id).join(',');
+    }
+
   },
 };
 </script>

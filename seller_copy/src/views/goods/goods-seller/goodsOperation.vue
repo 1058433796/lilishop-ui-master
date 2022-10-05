@@ -45,7 +45,7 @@ export default {
   },
   mounted() {
     // 编辑商品、模板
-    if (this.$route.query.id || this.$route.query.draftId) {
+    if (this.$route.query.goodsId || this.$route.query.draftId) {
       this.activestep = 1;
     } else {
       this.activestep = 0

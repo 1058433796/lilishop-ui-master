@@ -2,39 +2,27 @@
   <div class="search">
     <Card>
       <Row @keydown.enter.native="handleSearch">
-        <Form
-          ref="searchForm"
-          :model="searchForm"
-          inline
-          :label-width="70"
-          class="search-form"
-        >
-          <Form-item label="项目名称" prop="itemName">
-            <Input
-              type="text"
-              v-model="searchForm.itemName"
-              placeholder="请输入项目名称"
-              clearable
-              style="width: 200px"
-            />
+        <Form ref="searchForm" :model="searchForm" inline :label-width="70" class="search-form">
+          <Form-item label="产品编号" prop="goodsId">
+            <Input type="text" v-model="searchForm.goodsId" placeholder="请输入" clearable style="width: 200px" />
           </Form-item>
 
-          <Form-item label="地点" prop="createLocation">
-            <Input
-              type="text"
-              v-model="searchForm.createLocation"
-              placeholder="请输入地点"
-              clearable
-              style="width: 200px"
-            />
+          <Form-item label="产品名称" prop="goodsName">
+            <Input type="text" v-model="searchForm.goodsName" placeholder="请输入" clearable style="width: 200px" />
           </Form-item>
 
-          <Form-item label="创建时间" prop="createTime">
-            <date-picker 
-            v-model="searchForm.createTime"
-            placeholder="选择时间"
-             />
+          <Form-item label="产品状态" prop="marketEnable">
+            <Select v-model="searchForm.marketEnable" style="width:200px">
+              <Option v-for="(item,idx) in marketEnableList" :value="item.value" :key="idx">{{ item.label }}</Option>
+            </Select>
           </Form-item>
+
+          <Form-item label="审核状态" prop="authFlag">
+            <Select v-model="searchForm.authFlag" style="width:200px">
+              <Option v-for="(item, idx) in authFlagList" :value="item.value" :key="idx">{{ item.label }}</Option>
+            </Select>
+          </Form-item>
+
           <Button @click="handleSearch" type="primary" class="search-btn">搜索</Button>
           <Button @click="handleReset" class="search-btn">重置</Button>
         </Form>
@@ -43,116 +31,21 @@
         <Button @click="addGoods" type="primary">添加项目</Button>
       </Row>
 
-      <Table
-        class="mt_10"
-        :loading="loading"
-        border
-        :columns="columns"
-        :data="data"
-        ref="table"
-
-      >
+      <Table class="mt_10" :loading="loading" border :columns="columns" :data="data" ref="table">
         <!-- 商品栏目格式化 -->
         <template slot="goodsSlot" slot-scope="{ row }">
-          <div style="margin-top: 5px; height: 90px; display: flex">
-            <div style="">
-              <img
-                :src="row.original"
-                style="height: 80px; margin-top: 3px; width: 70px"
-              />
-            </div>
-
-
-            <div style="margin-left: 13px">
-              <div class="div-zoom">
-                <a @click="linkTo(row.id, row.skuId)">{{ row.goodsName }}</a>
-              </div>
-              <Poptip trigger="hover" title="扫码在手机中查看" transfer>
-                <div slot="content">
-                  <!-- <vueQr>123</vueQr> -->
-                  <vue-qr
-                    :text="wapLinkTo(row.id, row.skuId)"
-                    :margin="0"
-                    colorDark="#000"
-                    colorLight="#fff"
-                    :size="150"
-                  ></vue-qr>
-                </div>
-                <img
-                  src="../../../assets/qrcode.svg"
-                  class="hover-pointer"
-                  width="20"
-                  height="20"
-                  alt=""
-                />
-              </Poptip>
-            </div>
-          </div>       
-         </template>
+          <div style="margin-top: 5px; height: 90px; display: flex; justify-content: center;">
+              <img :src="row.original" style="height: 80px; margin-top: 3px; width: 80px;" />
+          </div>
+        </template>
       </Table>
+
       <Row type="flex" justify="end" class="mt_10">
-        <Page
-          :current="searchForm.pageNumber"
-          :total="total"
-          :page-size="searchForm.pageSize"
-          @on-change="changePage"
-          @on-page-size-change="changePageSize"
-          :page-size-opts="[10, 20, 50]"
-          size="small"
-          show-total
-          show-elevator
-          show-sizer
-        ></Page>
+        <Page :current="searchForm.pageNumber" :total="total" :page-size="searchForm.pageSize" @on-change="changePage"
+          @on-page-size-change="changePageSize" :page-size-opts="[10, 20, 50]" size="small" show-total show-elevator
+          show-sizer></Page>
       </Row>
     </Card>
-
-    <Modal
-      title="更新库存"
-      v-model="updateStockModalVisible"
-      :mask-closable="false"
-      :width="500"
-    >
-      <Tabs value="updateStock">
-        <TabPane label="手动规格更新" name="updateStock">
-          <Table
-            class="mt_10"
-            :columns="updateStockColumns"
-            :data="stockList"
-            border
-          ></Table>
-        </TabPane>
-        <TabPane label="批量规格更新" name="stockAll">
-          <Input type="number" v-model="stockAllUpdate" placeholder="统一规格修改" />
-        </TabPane>
-      </Tabs>
-
-      <div slot="footer">
-        <Button type="text" @click="updateStockModalVisible = false">取消</Button>
-        <Button type="primary" @click="updateStock">更新</Button>
-      </div>
-    </Modal>
-
-    <!-- 批量设置物流模板 -->
-    <Modal
-      title="批量设置物流模板"
-      v-model="shipTemplateModal"
-      :mask-closable="false"
-      :width="500"
-    >
-      <Form ref="shipTemplateForm" :model="shipTemplateForm" :label-width="120">
-        <FormItem class="form-item-view-el" label="物流模板" prop="templateId">
-          <Select v-model="shipTemplateForm.templateId" style="width: 200px">
-            <Option v-for="item in logisticsTemplate" :value="item.id" :key="item.id"
-              >{{ item.name }}
-            </Option>
-          </Select>
-        </FormItem>
-      </Form>
-      <div slot="footer">
-        <Button type="text" @click="shipTemplateModal = false">取消</Button>
-        <Button type="primary" @click="saveShipTemplate">更新</Button>
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -185,7 +78,6 @@ export default {
         pageSize: 10, // 页面大小
         sort: "create_time", // 默认排序字段
         order: "desc", // 默认排序方式
-        store_id:''//当前店铺id
       },
       stockList: [], // 库存列表
       form: {
@@ -196,49 +88,6 @@ export default {
         price: "",
         sellerName: "",
       },
-      updateStockColumns: [
-        {
-          title: "sku规格",
-          key: "sn",
-          minWidth: 120,
-          render: (h, params) => {
-            return h("div", {}, params.row.simpleSpecs);
-          },
-        },
-        {
-          title: "审核状态",
-          key: "authFlag",
-          width: 130,
-          render: (h, params) => {
-            if (params.row.authFlag == "TOBEAUDITED") {
-              return h("Tag", { props: { color: "blue" } }, "待审核");
-            } else if (params.row.authFlag == "PASS") {
-              return h("Tag", { props: { color: "green" } }, "通过");
-            } else if (params.row.authFlag == "REFUSE") {
-              return h("Tag", { props: { color: "red" } }, "审核拒绝");
-            }
-          },
-        },
-        {
-          title: "操作",
-          key: "action",
-          align: "center",
-          width: 200,
-          render: (h, params) => {
-            let vm = this;
-            return h("InputNumber", {
-              props: {
-                value: params.row.quantity,
-              },
-              on: {
-                "on-change": (event) => {
-                  vm.stockList[params.index].quantity = event;
-                },
-              },
-            });
-          },
-        },
-      ],
       // 表单验证规则
       formValidate: {},
       submitLoading: false, // 添加或编辑提交状态
@@ -251,90 +100,132 @@ export default {
         //   align: "center",
         // },
         {
-          title: "项目名称",
-          key: "itemName",
-          width: 300,
+          title: "产品编号",
+          key: "goodsId",
+          width: 150,
+          align:"center",
           tooltip: true,
         },
         {
-          title: "创建时间",
-          key: "createTime",
-          minWidth: 200,
+          title: "产品名称",
+          key: "goodsName",
+          width: 150,
+          align:"center",
+          tooltip: true,
         },
         {
-          title: "地点",
-          key: "createLocation",
-          width: 180,
+          title: "图片",
+          key: "thumbnail",
+          minwidth: 200,
+          slot: "goodsSlot"
+        },
+        {
+          title: "二维码",
+          width: 200,
+          align:"center",
           tooltip: true,
+        },
+        {
+          title: "展示价格",
+          key: "goodsDisplayPrice",
+          align: "center",
+          align:"center",
+          width: 100,
+        },
+        {
+          title: "产品状态",
+          key: "marketEnable",
+          width: 150,
+          align:"center",
+          tooltip: true,
+          render:(h, {row}) => {
+            let color = "red";
+            let title = "未知状态";
+            if(row.marketEnable === 'UPPER'){
+              color = "blue";
+              title = "在售";
+            }else if(row.marketEnable === 'DOWN'){
+              color = "red";
+              title = "下架";
+            }
+            return h("Tag",{
+              props:{
+                color     
+              }
+            }, title)
+          }
+        },
+        {
+          title: "审核状态",
+          key: "authFlag",
+          width: 150,
+          align:"center",
+          tooltip: true,
+          render: (h, {row}) => {
+            let color = "red";
+            let title = "未知状态";
+            if(row.authFlag === 'TOBEAUDITED'){
+              color = "red";
+              title = "待审";
+            }else if(row.authFlag === 'PASS'){
+              color = 'green';
+              title = '完成';
+            }else if(row.authFlag === 'REFUSE'){
+              color = 'red';
+              title = '拒绝';
+            }
+            return h("Tag", {
+              props: {
+                color
+              }
+            }, title)
+          }
         },
         {
           title: "操作",
-          key: "action",
           align: "center",
-          fixed: "right",
           width: 200,
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    // type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.editGoods(params.row);
-                    },
-                  },
-                },
-                "详情"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    // type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.itemScheme(params.row);
-                    },
-                  },
-                },
-                "项目方案"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    // type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.editGoods(params.row);
-                    },
-                  },
-                },
-                "采购"
-              ),
-            ]);
+          align:"center",
+          render: (h, {row}) => {
+            let viewBtn = h('Button', {
+              props: {
+                type: 'info',
+                size: 'small'
+              },
+              on: {
+                click: () => {
+                  this.$router.push({
+                    name: 'goods-detail',
+                    params:row
+                  })
+                }
+              }
+            },"查看");
+            let editBtn = h('Button', {
+              props: {
+                type: 'error',
+                size: 'small'
+              },
+              on: {
+                click: () => {
+                  this.$router.push({
+                    name: 'goods-operation',
+                    query: {
+                      goodsId: row.id
+                    }
+                  })
+                }
+              }
+            },"编辑");
+            return h("div", [viewBtn, editBtn]);
           },
         },
       ],
       data: [], // 表单数据
       total: 0, // 表单数据总数
+
+      marketEnableList: [{ value: 'UPPER', label: '在售' }, { value: 'DOWN', label: '下架' }],
+      authFlagList: [{ value: 'PASS', label: '完成' }, { value: 'REFUSE', label: '拒绝' }, { value: 'TOBEAUDITED', label: '待审' }]
     };
   },
   methods: {
@@ -385,23 +276,7 @@ export default {
         }
       });
     },
-    // 更新库存
-    updateStock() {
-      let updateStockList = this.stockList.map((i) => {
-        let j = { skuId: i.id, quantity: i.quantity };
-        if (this.stockAllUpdate) {
-          j.quantity = this.stockAllUpdate;
-        }
-        return j;
-      });
-      updateGoodsSkuStocks(updateStockList).then((res) => {
-        if (res.success) {
-          this.updateStockModalVisible = false;
-          this.$Message.success("更新库存成功");
-          this.getDataList();
-        }
-      });
-    },
+
     // 改变页码
     changePage(v) {
       this.searchForm.pageNumber = v;
@@ -421,7 +296,13 @@ export default {
     },
     // 重置搜索条件
     handleReset() {
-      this.searchForm = {};
+      this.searchForm = {
+        // 搜索框初始化对象
+        pageNumber: 1, // 当前页数
+        pageSize: 10, // 页面大小
+        sort: "create_time", // 默认排序字段
+        order: "desc", // 默认排序方式
+      };
       this.searchForm.pageNumber = 1;
       this.searchForm.pageSize = 10;
       // 重新加载数据
@@ -436,69 +317,26 @@ export default {
       this.selectList = e;
       this.selectCount = e.length;
     },
-    //保存物流模板信息
-    saveShipTemplate() {
-      this.$Modal.confirm({
-        title: "确认设置物流模板",
-        content: "您确认要设置所选的 " + this.selectCount + " 个商品的物流模板?",
-        loading: true,
-        onOk: () => {
-          let ids = [];
-          this.selectList.forEach(function (e) {
-            ids.push(e.id);
-          });
-          // 批量设置物流模板
-          batchShipTemplate(this.shipTemplateForm).then((res) => {
-            this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("物流模板设置成功");
-              this.clearSelectAll();
-              this.getDataList();
-            }
-            this.shipTemplateModal = false;
-          });
-        },
-      });
-    },
-    //批量设置物流模板
-    batchShipTemplate() {
-      if (this.selectCount <= 0) {
-        this.$Message.warning("您还未选择要设置物流模板的商品");
-        return;
-      }
-      this.getShipTempList();
-      let data = [];
-      this.selectList.forEach(function (e) {
-        data.push(e.id);
-      });
-      this.shipTemplateForm.goodsId = data;
-      this.shipTemplateModal = true;
-    },
+
     // 获取商品列表数据
     getDataList() {
       this.loading = true;
-      let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
-      console.log('userinfo',userInfo)
-      this.searchForm.buyerId=userInfo.id
+      // let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
+      // console.log('userinfo',userInfo)
+      // this.searchForm.buyerId=userInfo.id
+
       // 带多条件搜索参数获取表单数据
       getGoodsListDataSeller(this.searchForm).then((res) => {
         this.loading = false;
-        console.log('form',this.searchForm)
-        console.log('res',res)
+        console.log('form', this.searchForm)
+        console.log('res', res)
         if (res.success) {
           this.data = res.result.records;
           this.total = res.result.total;
         }
       });
     },
-    // 获取物流模板
-    getShipTempList() {
-      API_Shop.getShipTemplate().then((res) => {
-        if (res.success) {
-          this.logisticsTemplate = res.result;
-        }
-      });
-    },
+
     //下架商品
     lower(v) {
       this.$Modal.confirm({
@@ -628,9 +466,6 @@ export default {
         },
       });
     },
-  },
-  mounted() {
-    this.init();
   },
   mounted() {
     this.init();

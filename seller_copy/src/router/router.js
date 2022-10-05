@@ -62,6 +62,12 @@ export const otherRouter = {
       component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
     },
     {
+      path: "goods-detail",
+      title: "查看详细信息",
+      name: "goods-detail",
+      component: () => import("@/views/goods/goods-seller/goodsDetail.vue")
+    },
+    {
       path: "goods-operation-edit",
       title: "编辑商品",
       name: "goods-operation-edit",

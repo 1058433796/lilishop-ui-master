@@ -175,8 +175,8 @@ export default {
     },
     /** 查询下一级 商城商品分类*/
     GET_NextLevelCategory(row) {
-      const _id = row && row.id !== 0 ? row.id : 0;
-      API_GOODS.getGoodsCategoryAll().then((res) => {
+      // const _id = row && row.id !== 0 ? row.id : 0;
+      API_GOODS.getGoodsCategoryCommon().then((res) => {
         if (res.success && res.result) {
           this.categoryListLevel1 = res.result;
           console.log(this.categoryListLevel1);
@@ -209,6 +209,12 @@ export default {
     // 设置为实物商品
     this.goodsType = this.goodsTypeWay[0].type;
     this.GET_NextLevelCategory();
+
+    // API_GOODS.getGoodsCategoryCommon().then(e=>{
+    //   console.log('===================')
+    //   console.log(e);
+    //   console.log('===================')
+    // })
   },
 };
 </script>
