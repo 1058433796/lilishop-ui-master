@@ -9,27 +9,24 @@
           :label-width="70"
           class="search-form"
         >
-          <Form-item label="开始时间" prop="startDay">
-            <DatePicker
-              type="date"
-              v-model="searchForm.startDate"
-              format="yyyy-MM-dd HH:mm:ss"
-              placeholder="请选择"
-              clearable
-              style="width: 200px"
-            ></DatePicker>
-          </Form-item>
-          <Form-item label="结束时间" prop="endDate">
-            <DatePicker
-              type="date"
-              v-model="searchForm.endDate"
-              format="yyyy-MM-dd HH:mm:ss"
-              di
-              placeholder="请选择"
-              clearable
-              style="width: 200px"
-            ></DatePicker>
-          </Form-item>
+        <Form-item label="客户名" prop="promotionName">
+          <Input
+            type="text"
+            v-model="searchForm.promotionName"
+            placeholder="请输入客户名"
+            clearable
+            style="width: 200px"
+          />
+        </Form-item>
+        <Form-item label="联系方式" prop="promotionName">
+          <Input
+            type="text"
+            v-model="searchForm.promotionName"
+            placeholder="请输入联系方式"
+            clearable
+            style="width: 200px"
+          />
+        </Form-item>
           <Button @click="handleSearch" type="primary" class="search-btn">搜索</Button>
           <Button @click="handleReset" class="search-btn">重置</Button>
         </Form>
@@ -79,18 +76,18 @@
         },
         columns: [
           {
-            title: "账单号",
+            title: "用户名",
             key: "sn",
             minWidth: 250,
             tooltip: true          
           },
           {
-            title: "生成时间",
+            title: "地址",
             key: "createTime",
             minWidth: 120,
           },
           {
-            title: "结算时间段",
+            title: "联系方式",
             key: "startTime",
             width: 200,
             tooltip: true,
@@ -99,7 +96,7 @@
             }
           },
           {
-            title: "结算金额",
+            title: "交易金额",
             key: "billPrice",
             minWidth: 100,
             render: (h, params) => {
@@ -109,12 +106,9 @@
               );
             },
           },
-
-
           {
-            title: "状态",
+            title: "最近交易时间",
             key: "billStatus",
-            width: 100,
             render: (h, params) => {
               if (params.row.billStatus == "OUT") {
                 return h("Tag", {props: {color: "blue",},},"已出账");

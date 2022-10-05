@@ -9,8 +9,7 @@
         border
         :columns="columns"
         :data="data"
-        ref="table"
-      > 
+        ref="table"> 
       </Table>
         </Card>
         <Modal v-model="showDetail" width="60">
@@ -30,7 +29,6 @@
         <Button @click="showDetail = false">取消</Button>
       </div>
     </Modal>
-
     <Modal v-model="confirmScheme" width="60">
           <p slot="header">
             <span>方案确认</span>
@@ -63,6 +61,7 @@ export default {
     },
     guarantyForm:{
       primaryId:'',
+      schemeId: 0,
       schemeSum:0,
       payFlag:0,
       orderName:this.$route.query.itemName+'项目',
@@ -135,8 +134,7 @@ export default {
                   },
                   attrs: {
                     disabled:
-                        (params.row.checkFlag=== 1
-                          )
+                        (params.row.checkFlag=== 1)
 
                   },
                   style: {
@@ -183,7 +181,7 @@ export default {
       });
     },
     //展示方案详情
-    showSchemeDetail(v){ 
+    showSchemeDetail(v) { 
       this.searchForm.schemeId=v.schemeId
       this.showLoading=true
       getSchemeDetail(this.searchForm).then((res)=>{
@@ -197,8 +195,9 @@ export default {
 
     },
     //确认方案
-    checkScheme(v){
-      this.searchForm.schemeId=v.schemeId
+    checkScheme(v) {
+      this.searchForm.schemeId = v.schemeId;
+      this.guarantyForm.schemeId = v.schemeId;
       getSchemeDetail(this.searchForm).then((res)=>{
         if(res.success){
           res.result.records.forEach(item=>{
@@ -208,19 +207,18 @@ export default {
         })
       //再更新item_scheme表,设置履约保证单
       checkItemScheme(v.primaryId).then((res)=>{
-        if(res.success){
-          this.guarantyForm.primaryId=v.primaryId
+        if(res.success) {
+          this.guarantyForm.primaryId = v.primaryId
           console.log("确认成功")
           this.confirmScheme=true
         }
       })
     },
-    setGuaranty(){
+    setGuaranty() {
       let params = JSON.parse(JSON.stringify(this.guarantyForm));
-      saveGuaranty(params).then((res)=>{
-        this.$router.push({ name: "zhifu", query: { Form: this.guarantyForm } });
+      saveGuaranty(params).then((res)=> {
+        this.$router.push({ name: "deal", query: { Form: this.guarantyForm } });
       })
-
     }
   },
    mounted() {

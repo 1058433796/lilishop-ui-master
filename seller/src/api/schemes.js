@@ -37,3 +37,7 @@ import {
   export const testPayBack = (zongji,ordersn) => {
     return postRequest(`/payMent/payMent/pay/${zongji}/${ordersn}`)
   }
+  // 生成订单
+  export const establishOrder=(id) => {
+    return postRequest(`/schemeComponent/schemeComponent/${id}/supplier`)
+  }
