@@ -1,7 +1,9 @@
 <template>
     <div class="item-scheme">
         <Card>
-            <img src="test.png"/>
+          <div style="display: flex;justify-content: center;">
+            <img src="test.png" style="width:2600px;height:600px " />
+          </div>
             <!-- 放方案列表 -->
         <Table
         class="mt_10"
@@ -93,34 +95,103 @@ export default {
         {
           title: "方案编号",
           key: "schemeId",
-          width: 300,
+          width: 100,
           tooltip: true,
         },
         {
-          title: "方案详情",
-          key: "action",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    // type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.showSchemeDetail(params.row);
-                    },
-                  },
-                },
-                "详情"
-              ),])
-          }
+          title: "门编号",
+          key: "doorId",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "位置",
+          key: "location",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "开启方式",
+          key: "openMethod",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "开启方向",
+          key: "openDirection",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "高",
+          key: "height",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "宽",
+          key: "width",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "厚度",
+          key: "thickness",
+          width:100,
+          tooltip: true,
+        },{
+          title: "材质",
+          key: "texture",
+          width:  100,
+          tooltip: true,
+        },{
+          title: "把手",
+          key: "shandle",
+          width:100,
+          tooltip: true,
+        },{
+          title: "门禁",
+          key: "guard",
+          width: 100,
+          tooltip: true,
         },
+        {
+          title: "防火等级",
+          key: "firerating",
+          width: 100,
+          tooltip: true,
+        },
+        {
+          title: "五金配置组",
+          key: "wjgroup",
+          width:  100,
+          tooltip: true,
+        },
+        {
+          title: "最近更新",
+          key: "updateTime",
+          width:100,
+          tooltip: true,
+        },
+        // {
+        //   title: "方案详情",
+        //   key: "action",
+        //   render: (h, params) => {
+        //     return h("div", [
+        //       h(
+        //         "Button",
+        //         {
+        //           props: {
+        //             // type: "info",
+        //             size: "small",
+        //           },
+        //           style: {
+        //             marginRight: "5px",
+        //           },
+        //           on: {
+        //             click: () => {
+        //               this.showSchemeDetail(params.row);
+        //             },
+        //           },
+        //         },
+        //         "详情"
+        //       ),])
+        //   }
+        // },
         {
           title: "方案状态",
           key: "action",
@@ -209,6 +280,7 @@ export default {
       //再更新item_scheme表,设置履约保证单
       checkItemScheme(v.primaryId).then((res)=>{
         if(res.success){
+          v.checkFlag=1
           this.guarantyForm.primaryId=v.primaryId
           console.log("确认成功")
           this.confirmScheme=true

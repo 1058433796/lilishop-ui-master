@@ -29,12 +29,12 @@
             />
           </Form-item>
 
-          <Form-item label="创建时间" prop="createTime">
-            <date-picker 
+          <!-- <Form-item label="创建时间" prop="createTime">
+            <date-picker format="yyyy-MM-dd HH:mm:ss"
             v-model="searchForm.createTime"
             placeholder="选择时间"
              />
-          </Form-item>
+          </Form-item> -->
           <Button @click="handleSearch" type="primary" class="search-btn">搜索</Button>
           <Button @click="handleReset" class="search-btn">重置</Button>
         </Form>
@@ -168,6 +168,8 @@ import {
 } from "@/api/goods";
 import * as API_Shop from "@/api/shops";
 import Cookies from "js-cookie";
+import moment from "moment";
+
 export default {
   name: "goods",
   data() {
@@ -480,6 +482,12 @@ export default {
       let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
       console.log('userinfo',userInfo)
       this.searchForm.buyerId=userInfo.id
+      // this.searchForm.createTime=this.$options.filters.unixToDate(
+      //       this.searchForm.createTime / 1000
+      //     );
+
+      // this.searchForm.createTime = moment(this.searchForm.createTime).format('YYYY-MM-DD HH:mm:ss')
+      // console.log('searchForm',this.searchForm)
       // 带多条件搜索参数获取表单数据
       getGoodsListDataSeller(this.searchForm).then((res) => {
         this.loading = false;

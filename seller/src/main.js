@@ -4,7 +4,7 @@ import "./styles/theme.less";
 
 import "core-js/stable";
 import vueQr from "vue-qr";
-
+import moment from "moment";
 import App from "./App";
 import { router } from "./router/index";
 import store from "./store";
@@ -59,6 +59,7 @@ Vue.prototype.setStore = setStore;
 Vue.prototype.getStore = getStore;
 Vue.prototype.removeStore = removeStore;
 Vue.prototype.md5 = md5;
+Vue.prototype.$moment = moment;
 const PC_URL = BASE.PC_URL; // 跳转买家端地址 pc端
 const WAP_URL = BASE.WAP_URL; // 跳转买家端地址 wap端
 Vue.prototype.linkTo = function(goodsId, skuId) {
