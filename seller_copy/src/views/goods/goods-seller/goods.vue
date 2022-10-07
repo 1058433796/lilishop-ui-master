@@ -189,7 +189,7 @@ export default {
           render: (h, {row}) => {
             let viewBtn = h('Button', {
               props: {
-                type: 'info',
+                type: 'success',
                 size: 'small'
               },
               on: {
@@ -203,7 +203,7 @@ export default {
             },"查看");
             let editBtn = h('Button', {
               props: {
-                type: 'error',
+                type: 'info',
                 size: 'small'
               },
               on: {
@@ -217,7 +217,24 @@ export default {
                 }
               }
             },"编辑");
-            return h("div", [viewBtn, editBtn]);
+
+            let delBtn = h('Button', {
+              props: {
+                type: 'error',
+                size: 'small'
+              },
+              on: {
+                click: () => {
+                  let params = {goodsId: [row.id].toString()}
+                  deleteGoods(params).then(res => {
+                    console.log(res);
+                    this.getDataList();
+                  })
+                }
+              }
+            },"删除");
+
+            return h("div", [viewBtn, editBtn, delBtn]);
           },
         },
       ],

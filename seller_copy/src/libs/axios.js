@@ -12,18 +12,17 @@ export const baseUrl =
   (process.env.NODE_ENV === "development"
     ?  BASE.API_DEV.seller
     : BASE.API_PROD.seller) + BASE.PREFIX;
-// 
-export const commonUrlWithNoPrefix = 
-process.env.NODE_ENV === "development"
-    ?  BASE.API_DEV.common
-    : BASE.API_PROD.common
 
 export const commonUrl =
   process.env.NODE_ENV === "development"
     ? BASE.API_DEV.common
     : BASE.API_PROD.common;
+
 // 文件上传接口
 export const uploadFile = commonUrl + "/common/common/upload/file";
+
+export const uploadFileWithoutValid = commonUrl + "/common/common/upload/fileUpload"
+
 var isRefreshToken = 0;
 const refreshToken = getTokenDebounce();
 

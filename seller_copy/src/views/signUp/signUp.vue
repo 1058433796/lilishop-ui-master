@@ -14,6 +14,7 @@
         <Button @click="validForm('picForm')">picForm检验测试</Button>
         <Button @click="autoFill">自动填写</Button>
         <Button @click="testFileUpload">图片上传</Button>
+        <Button @click="next">下一步</Button>
         <Form ref="appForm" :model="appForm" :rules="appRules" class="form" :label-width="150">
 
           <div v-show="current === 0" class="blocks">
@@ -148,29 +149,87 @@
 
             <Block :showTitle="false" :contentStyle="{width: '80%'}">
               <template #content>
-                <Form-item label="营业执照/三证合一电子版" prop="businessLicensePhotos">
+
+                <!--  -->
+
+                <FormItem class="form-item-view-el required" label="营业执照/三证合一电子版" prop="businessLicensePhotos">
                   <div>
                     请上传清晰营业执照图片，系统识别公司信息自动进行填写，营业执照复印件需加盖公司红章扫描上传，
                     若营业执照上未体现注册资本、经营范围，请在营业执照后另行上传企业信息公示网上的截图。
                   </div>
-                  <div style="display:flex;">
-                    <div v-for="item in  picForm.businessLicensePhotos" :key="item.name" style="margin-right: 20px;">
-                      <img :src="item.url" class="photo">
-                      <div style="display:flex; justify-content: center;">
-                        <Button type="success" size="small" style="margin-right:10px;"
-                          @click="handleImgView(item.url)">预览</Button>
-                        <Button type="error" size="small"
-                          @click="handleImgRemove('businessLicensePhotos', item.name)">删除</Button>
-                      </div>
+                  <div style="display: flex; flex-wrap: flex-start;">
+                    <!-- <draggable :list="picForm.businessLicensePhotos" :animation="200"> -->
+                    <div class="demo-upload-list" v-for="(item, __index) in picForm.businessLicensePhotos"
+                      :key="__index">
+                      <template>
+                        <img :src="item.url" style="width:150px;" />
+                        <div class="demo-upload-list-cover" style="width:150px;">
+                          <div>
+                            <Icon type="md-search" size="30" @click.native="handleImgView(item.url)"></Icon>
+                            <Icon type="md-trash" size="30"
+                              @click.native="handleRemoveGoodsPicture('businessLicensePhotos', item)"></Icon>
+                          </div>
+                        </div>
+                      </template>
                     </div>
-                    <Upload action="" accept="image/png, image/jpeg, image/gif"
-                      :before-upload="file => beforeUpload('businessLicensePhotos', file, '营业执照')" :max-size="1024">
-                      <Avatar icon="ios-add" shape="square" size="100"></Avatar>
+                    <!-- </draggable> -->
+
+                    <Upload :show-upload-list="false"
+                      :on-success="(res, file) => handleSuccessGoodsPicture('businessLicensePhotos', res, file)"
+                      :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize" :max-size="1024"
+                      :before-upload="e => handleBeforeUploadGoodsPicture('businessLicensePhotos', e)" multiple
+                      type="drag" :action="fileUploadUrl" style="margin-left: 10px">
+                      <div style="width: 148px; height: 148px; line-height: 148px">
+                        <Icon type="md-add" size="20"></Icon>
+                      </div>
                     </Upload>
                   </div>
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
-                </Form-item>
-                <Form-item label="法人证件电子版" prop="legalLicensePhotos">
+                </FormItem>
+
+                <!--  -->
+
+                <FormItem class="form-item-view-el required" label="法人证件电子版" prop="legalLicensePhotos">
+                  <div>
+                    请上传清晰营业执照图片，系统识别公司信息自动进行填写，营业执照复印件需加盖公司红章扫描上传，
+                    若营业执照上未体现注册资本、经营范围，请在营业执照后另行上传企业信息公示网上的截图。
+                  </div>
+                  <div style="display: flex; flex-wrap: flex-start;">
+                    <!-- <draggable :list="picForm.businessLicensePhotos" :animation="200"> -->
+                    <div class="demo-upload-list" v-for="(item, __index) in picForm.legalLicensePhotos"
+                      :key="__index">
+                      <template>
+                        <img :src="item.url" style="width:150px;" />
+                        <div class="demo-upload-list-cover" style="width:150px;">
+                          <div>
+                            <Icon type="md-search" size="30" @click.native="handleImgView(item.url)"></Icon>
+                            <Icon type="md-trash" size="30"
+                              @click.native="handleRemoveGoodsPicture('legalLicensePhotos', item)"></Icon>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                    <!-- </draggable> -->
+
+                    <Upload :show-upload-list="false"
+                      :on-success="(res, file) => handleSuccessGoodsPicture('legalLicensePhotos', res, file)"
+                      :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize" :max-size="1024"
+                      :before-upload="e => handleBeforeUploadGoodsPicture('legalLicensePhotos', e)" multiple
+                      type="drag" :action="fileUploadUrl" style="margin-left: 10px">
+                      <div style="width: 148px; height: 148px; line-height: 148px">
+                        <Icon type="md-add" size="20"></Icon>
+                      </div>
+                    </Upload>
+                  </div>
+                  <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
+                </FormItem>
+
+
+
+
+                <!-- <Form-item label="法人证件电子版" prop="legalLicensePhotos">
                   <div>
                     请按顺序分别上传正面（带有照片一面）和反面电子版照片，复印件请加盖开店公司红章
                   </div>
@@ -190,9 +249,46 @@
                     </Upload>
                   </div>
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
-                </Form-item>
+                </Form-item> -->
 
-                <Form-item label="银行开户许可证电子版" prop="bankLicensePhotos">
+                <FormItem class="form-item-view-el required" label="银行开户许可证电子版" prop="bankLicensePhotos">
+                  <div>
+                    请上传清晰营业执照图片，系统识别公司信息自动进行填写，营业执照复印件需加盖公司红章扫描上传，
+                    若营业执照上未体现注册资本、经营范围，请在营业执照后另行上传企业信息公示网上的截图。
+                  </div>
+                  <div style="display: flex; flex-wrap: flex-start;">
+                    <!-- <draggable :list="picForm.businessLicensePhotos" :animation="200"> -->
+                    <div class="demo-upload-list" v-for="(item, __index) in picForm.bankLicensePhotos"
+                      :key="__index">
+                      <template>
+                        <img :src="item.url" style="width:150px;" />
+                        <div class="demo-upload-list-cover" style="width:150px;">
+                          <div>
+                            <Icon type="md-search" size="30" @click.native="handleImgView(item.url)"></Icon>
+                            <Icon type="md-trash" size="30"
+                              @click.native="handleRemoveGoodsPicture('bankLicensePhotos', item)"></Icon>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                    <!-- </draggable> -->
+
+                    <Upload :show-upload-list="false"
+                      :on-success="(res, file) => handleSuccessGoodsPicture('bankLicensePhotos', res, file)"
+                      :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize" :max-size="1024"
+                      :before-upload="e => handleBeforeUploadGoodsPicture('bankLicensePhotos', e)" multiple
+                      type="drag" :action="fileUploadUrl" style="margin-left: 10px">
+                      <div style="width: 148px; height: 148px; line-height: 148px">
+                        <Icon type="md-add" size="20"></Icon>
+                      </div>
+                    </Upload>
+                  </div>
+                  <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
+                </FormItem>
+
+
+                <!-- <Form-item label="银行开户许可证电子版" prop="bankLicensePhotos">
                   <div>
                     许可证上名称、法人需与营业执照一致，若发生变更须出具变更证明，复印件需加盖公司红章扫描上传
                   </div>
@@ -212,9 +308,46 @@
                     </Upload>
                   </div>
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
-                </Form-item>
+                </Form-item> -->
 
-                <Form-item label="组织机构代码证电子版" prop="orgCodeLicensePhotos">
+
+                <FormItem class="form-item-view-el required" label="组织机构代码证电子版" prop="orgCodeLicensePhotos">
+                  <div>
+                    请上传清晰营业执照图片，系统识别公司信息自动进行填写，营业执照复印件需加盖公司红章扫描上传，
+                    若营业执照上未体现注册资本、经营范围，请在营业执照后另行上传企业信息公示网上的截图。
+                  </div>
+                  <div style="display: flex; flex-wrap: flex-start;">
+                    <!-- <draggable :list="picForm.businessLicensePhotos" :animation="200"> -->
+                    <div class="demo-upload-list" v-for="(item, __index) in picForm.orgCodeLicensePhotos"
+                      :key="__index">
+                      <template>
+                        <img :src="item.url" style="width:150px;" />
+                        <div class="demo-upload-list-cover" style="width:150px;">
+                          <div>
+                            <Icon type="md-search" size="30" @click.native="handleImgView(item.url)"></Icon>
+                            <Icon type="md-trash" size="30"
+                              @click.native="handleRemoveGoodsPicture('orgCodeLicensePhotos', item)"></Icon>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                    <!-- </draggable> -->
+
+                    <Upload :show-upload-list="false"
+                      :on-success="(res, file) => handleSuccessGoodsPicture('orgCodeLicensePhotos', res, file)"
+                      :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize" :max-size="1024"
+                      :before-upload="e => handleBeforeUploadGoodsPicture('orgCodeLicensePhotos', e)" multiple
+                      type="drag" :action="fileUploadUrl" style="margin-left: 10px">
+                      <div style="width: 148px; height: 148px; line-height: 148px">
+                        <Icon type="md-add" size="20"></Icon>
+                      </div>
+                    </Upload>
+                  </div>
+                  <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
+                </FormItem>
+
+                <!-- <Form-item label="组织机构代码证电子版" prop="orgCodeLicensePhotos">
                   <div>
                     复印件需加盖公司红章扫描上传，三证合一的此处请上传营业执照电子版
                   </div>
@@ -234,7 +367,8 @@
                     </Upload>
                   </div>
                   <div>图片尺寸请确保800px*800px以上，文件大小在1MB以内，支持png、jpeg、gif格式，最多上传2张</div>
-                </Form-item>
+                </Form-item> -->
+
               </template>
             </Block>
 
@@ -306,10 +440,10 @@
 </template>
 
 <script>
-import { test, register, upLoadFile } from "@/api/index";
-import { v4 as uuidv4 } from 'uuid';
+import { test, register, upLoadFile, register2 } from "@/api/index";
 import Block from '@/views/signUp/Block'
 import * as config from "@/views/signUp/config.js"
+import { uploadFileWithoutValid } from "@/libs/axios"
 
 export default {
   name: "signUp",
@@ -339,6 +473,7 @@ export default {
       modalVisible: false,
       // modal窗口预览图片URL
       modalUrl: '',
+      fileUploadUrl: uploadFileWithoutValid
     }
   },
   methods: {
@@ -405,17 +540,44 @@ export default {
         })
       })
     },
-    applySecondStep(formName){
+    applySecondStep(formName) {
       this.$refs[formName].validate(valid => {
         console.log(valid);
         if (!valid) return;
-        let fileNameList = ['businessLicensePhotos', 'legalLicensePhotos', 'bankLicensePhotos', 'orgCodeLicensePhotos'];
-        this.handleUpload(fileNameList).then(e => {
-          console.log(e);
-          if(e && e.success){
-            this.next();
+        const form = this[formName];
+        console.log(form)
+        let submit = {};
+
+        submit.username = this.getStore("username");
+        submit.password = this.md5(this.getStore("password"));
+
+        // 营业执照设置
+        if (form.businessLicensePhotos.length > 0) {
+          submit.busLicPhotoList = form.businessLicensePhotos.map((i) => i.url).toString();
+        }
+
+        // 法人证件设置
+        if (form.legalLicensePhotos.length > 0) {
+          submit.legalLicPhotoList = form.legalLicensePhotos.map((i) => i.url).toString();
+        }
+
+        // 银行开户许可证设置
+        if (form.bankLicensePhotos.length > 0) {
+          submit.bankLicPhotoList = form.bankLicensePhotos.map((i) => i.url).toString();
+        }
+
+        //组织机构代码证设置
+        if (form.orgCodeLicensePhotos.length > 0) {
+          submit.orgCodeLicPhotosList = form.orgCodeLicensePhotos.map((i) => i.url).toString();
+        }
+
+        console.log(submit);
+        register2(submit).then(res => {
+          console.log(res);
+          if(res && res.success){
+            next();
           }
-        });
+        })
       })
     },
     // 上一步
@@ -443,17 +605,18 @@ export default {
       if (form[fileListName].length >= 2) {
         return false;
       }
-      // 修改上传文件名称为 type + uid + 后缀名
-      let postfix = file.name.split('.').pop();
-      let fileName = fileType + uuidv4() + '.' + postfix;
-      let copyFile = new File([file], fileName, { type: file.type });
-      const reader = new FileReader();
-      reader.readAsDataURL(copyFile)
-      reader.onload = () => {
-        let photoObj = { file: copyFile, name: file.name, url: reader.result }
-        form[fileListName].push(photoObj);
-      }
-      return false;
+
+      // // 修改上传文件名称为 type + uid + 后缀名
+      // let postfix = file.name.split('.').pop();
+      // let fileName = fileType + uuidv4() + '.' + postfix;
+      // let copyFile = new File([file], fileName, { type: file.type });
+      // const reader = new FileReader();
+      // reader.readAsDataURL(copyFile)
+      // reader.onload = () => {
+      //   let photoObj = { file: copyFile, name: file.name, url: reader.result }
+      //   form[fileListName].push(photoObj);
+      // }
+
     },
 
     // 将所有fileList中的图片进行上传
@@ -481,10 +644,48 @@ export default {
 
     // 处理图片删除
     handleImgRemove(photoList, fileName) {
-      let photoIdx = this.appForm[photoList].findIndex(item => item.name === fileName)
-      if (photoIdx === -1) return;
-      this.appForm[photoList].splice(photoIdx, 1)
-    }
+      // let photoIdx = this.appForm[photoList].findIndex(item => item.name === fileName)
+      // if (photoIdx === -1) return;
+      // this.appForm[photoList].splice(photoIdx, 1)
+    },
+
+    // 移除商品图片
+    handleRemoveGoodsPicture(fileListName, file) {
+      this.picForm[fileListName] =
+        this.picForm[fileListName].filter((i) => i.url !== file.url);
+    },
+
+    handleSuccessGoodsPicture(fileListName, res, file) {
+      if (file.response) {
+        file.url = file.response.result;
+        this.picForm[fileListName].push(file);
+      }
+    },
+    // 图片格式不正确
+    handleFormatError(file) {
+      this.$Notice.warning({
+        title: "文件格式不正确",
+        desc: "文件 " + file.name + " 的格式不正确",
+      });
+    },
+    // 图片大小不正确
+    handleMaxSize(file) {
+      this.$Notice.warning({
+        title: "超过文件大小限制",
+        desc: "图片大小不能超过1MB",
+      });
+    },
+    // 图片上传前钩子
+    handleBeforeUploadGoodsPicture(fileListName, file) {
+      console.log(fileListName, 'upload');
+      const check = this.picForm[fileListName].length < 3;
+      if (!check) {
+        this.$Notice.warning({
+          title: "数量不能多于三个",
+        });
+        return false;
+      }
+    },
   },
 
   created() {
@@ -547,6 +748,67 @@ export default {
 .photo {
   background-color: rgba($color: #000000, $alpha: 0.1);
   height: 100px;
-  width: 200px;
+  width: 150px;
+}
+
+.form-item-view-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ivu-select .ivu-select-dropdown {
+  overflow: hidden !important;
+}
+
+.demo-upload-list {
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  display: inline-block;
+  background: #fff;
+  position: relative;
+  margin-right: 4px;
+  vertical-align: bottom;
+}
+
+.demo-upload-list img {
+  width: 100%;
+  height: 100%;
+}
+
+.demo-upload-list-cover {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.demo-upload-list:hover .demo-upload-list-cover {
+  display: flex;
+}
+
+.demo-upload-list-cover div {
+  margin-top: 50px;
+  width: 100%;
+
+  >i {
+    width: 50%;
+    margin-top: 8px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+  }
 }
 </style>
+
+  
