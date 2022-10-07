@@ -25,12 +25,12 @@ export const uploadDeliverExcel = params => {
 
 // 获取普通订单列表
 export const getOrderList = params => {
-  return getRequest(`/itemOrder/itemOrder/list`, params);
+  return getRequest(`/itemorder/itemorder`, params);
 };
 
 // 获取普通订单详细信息
 export const getOrderDetail = sn => {
-  return getRequest(`/order/order/${sn}`);
+  return getRequest(`/itemorder/itemorder/${sn}`);
 };
 
 // 调整订单金额

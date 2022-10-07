@@ -140,6 +140,18 @@ export const otherRouter = {
       component: () => import("@/views/order/order/orderDetail.vue")
     },
     {
+      path: "contractDetail",
+      title: "合同",
+      name: "contractDetail",
+      component: () => import("@/views/contract/contractDetail.vue")
+    },
+    {
+      path: "customer-detail",
+      title: "客户详情",
+      name: "customer-detail",
+      component: () => import("@/views/customer/customerDetail.vue")
+    },
+    {
       path: "order-complaint-detail",
       title: "投诉详情",
       name: "order-complaint-detail",
@@ -164,7 +176,8 @@ export const otherRouter = {
       title: "发货",
       name: "export-order-deliver",
       component: () => import("@/views/order/order/exportOrderDeliver.vue")
-    }
+    },
+
     // {
     //   path: "/*",
     //   name: "error-404",

@@ -14,7 +14,7 @@ export const downLoadDeliverExcel = params => {
 };
 // 导出待发货订单
 export const queryExportOrder = params => {
-  return getRequest(`/order/order/queryExportOrder`, params);
+  return getRequest(`/itemOrder/itemOrder/queryExportOrder`, params);
 };
 
 
@@ -25,12 +25,12 @@ export const uploadDeliverExcel = params => {
 
 // 获取普通订单列表
 export const getOrderList = params => {
-  return getRequest(`/itemOrder/itemOrder/list`, params);
+  return getRequest(`/itemOrder/itemOrder`, params);
 };
 
 // 获取普通订单详细信息
 export const getOrderDetail = sn => {
-  return getRequest(`/order/order/${sn}`);
+  return getRequest(`/itemOrder/itemOrder/${sn}`);
 };
 
 // 调整订单金额
