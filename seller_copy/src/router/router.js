@@ -134,6 +134,12 @@ export const otherRouter = {
       component: () => import("@/views/order/order/orderDetail.vue")
     },
     {
+      path: "contractDetail",
+      title: "合同",
+      name: "contractDetail",
+      component: () => import("@/views/contract/contractDetail.vue")
+    },
+    {
       path: "customer-detail",
       title: "客户详情",
       name: "customer-detail",

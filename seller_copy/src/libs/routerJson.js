@@ -200,6 +200,36 @@ export const result = [{
     ]
   },
   {
+    name: "contract",
+    level: 0,
+    type: -1,
+    title: "合同",
+    path: "",
+    component: "",
+    children: [{
+      name: "contract",
+      level: 1,
+      type: 0,
+      title: "合同管理",
+      path: "/contract",
+      component: "Main",
+      children: [{
+        name: "contractList",
+        level: 2,
+        type: 0,
+        keepAlive: true,
+        title: "合同列表",
+        path: "contract",
+        component: "contract/contractList",
+        children: null
+      },
+
+      ]
+    },
+
+    ]
+  },
+  {
     name: "customer",
     level: 0,
     type: -1,
@@ -278,125 +308,6 @@ export const result = [{
       //       title: "投诉管理",
       //       path: "orderComplaint",
       //       component: "order/after-order/orderComplaint",
-      //       children: null
-      //     }
-      //   ]
-      // }
-    ]
-  },
-  {
-    name: "promotion",
-    level: 0,
-    type: -1,
-    title: "合同",
-    path: "",
-    component: "",
-    children: [{
-        name: "promotion",
-        level: 1,
-        type: 0,
-        title: "合同管理",
-        path: "/promotion",
-        component: "Main",
-        children: [{
-            name: "pintuan",
-            level: 2,
-            type: 0,
-            keepAlive: true,
-            title: "合同详情",
-            path: "pintuan",
-            component: "promotion/pintuan/pintuan",
-            children: null
-          },
-          // {
-          //   name: "seckill",
-          //   level: 2,
-          //   type: 0,
-          //   keepAlive: true,
-          //   title: "秒杀活动",
-          //   path: "seckill",
-          //   component: "promotion/seckill/seckill",
-          //   children: null
-          // }
-        ]
-      },
-      // {
-      //   name: "lives",
-      //   level: 1,
-      //   type: 0,
-      //   title: "直播活动",
-      //   path: "/promotion",
-      //   component: "Main",
-      //   children: [{
-      //       name: "live",
-      //       level: 2,
-      //       type: 0,
-      //       title: "直播管理",
-      //       path: "live",
-      //       component: "promotion/live/live",
-      //       children: null
-      //     },
-      //     {
-      //       name: "liveGoods",
-      //       level: 2,
-      //       type: 0,
-      //       title: "直播商品",
-      //       path: "liveGoods",
-      //       component: "promotion/live/liveGoods",
-      //       children: null
-      //     }
-      //   ]
-      // },
-      // {
-      //   name: "storePromotion",
-      //   level: 1,
-      //   type: 0,
-      //   title: "商家活动",
-      //   path: "/storePromotion",
-      //   component: "Main",
-      //   children: [{
-      //       name: "full-cut",
-      //       level: 2,
-      //       type: 0,
-      //       title: "满额活动",
-      //       path: "full-discount",
-      //       component: "promotion/full-discount/full-discount",
-      //       children: null
-      //     },
-      //     {
-      //       name: "coupon",
-      //       level: 2,
-      //       type: 0,
-      //       title: "优惠券",
-      //       path: "coupon",
-      //       component: "promotion/coupon/coupon",
-      //       children: null
-      //     },
-      //   ]
-      // },
-      // {
-      //   name: "distribution",
-      //   level: 1,
-      //   type: 0,
-      //   title: "分销管理",
-      //   path: "/distribution",
-      //   component: "Main",
-      //   children: [{
-      //       name: "distributionGoods",
-      //       level: 2,
-      //       type: 0,
-      //       title: "分销商品",
-      //       path: "distributionGoods",
-      //       component: "distribution/distributionGoods",
-      //       children: null
-      //     },
-      //     {
-      //       name: "distributionOrder",
-      //       level: 2,
-      //       type: 0,
-      //       title: "分销订单",
-      //       path: "distributionOrder",
-      //       component: "distribution/distributionOrder",
       //       children: null
       //     }
       //   ]
