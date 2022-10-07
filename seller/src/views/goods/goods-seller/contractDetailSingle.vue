@@ -1,7 +1,6 @@
 <template>
     <card>
     <div class = "contract-detail-top">
-        {{contractData}}
         <Tabs>
             <TabPane label="合同详情" name="INFO">
                 <table class="contract-table">
