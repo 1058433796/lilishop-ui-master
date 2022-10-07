@@ -182,7 +182,13 @@ export const otherRouter = {
       title: "合同",
       name: "contractDetailSingle",
       component: () => import("@/views/goods/goods-seller/contractDetailSingle.vue")
-    }
+    },
+    {
+      path: "customer-detail",
+      title: "供应商详情",
+      name: "customer-detail",
+      component: () => import("@/views/customer/customerDetail.vue")
+    },
     // {
     //   path: "/*",
     //   name: "error-404",
@@ -211,5 +217,7 @@ export const page500 = {
   name: "error-500",
   component: () => import("@/views/error-page/500.vue")
 };
+
+
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [loginRouter, registerRouter, signUpRouter, otherRouter, page500, page403];

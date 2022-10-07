@@ -83,7 +83,7 @@
           <div class="bottom-action">
             <div class="bottom-action">
               <Button class="signAciton" :type='data.replyStatus==="已响应"?"success":"primary"'  @click="buyerResponse()" :disabled='data.replyStatus==="已响应"'>{{data.replyStatus==="未响应"? "响应":data.replyStatus}}</Button>
-              <Button type="success" @click="back">返回</Button>
+              <Button type="success" @click="back()">返回</Button>
             </div>
         </div>
           </div>
@@ -348,7 +348,7 @@
           })
       },
       back() {
-        this.$emit("backToOrderResponse", this.responsed);
+        this.$router.go(-1);
       },
       // //修改地址
       // regionClick() {

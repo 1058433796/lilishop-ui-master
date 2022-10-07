@@ -349,7 +349,7 @@
           })
       },
       back() {
-        this.$emit("backToOrderResponse", this.responsed);
+        this.$emit("backToOrderResponse", this.orderData.orderId);
       },
       //修改地址
       regionClick() {

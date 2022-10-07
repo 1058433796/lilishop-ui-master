@@ -26,8 +26,11 @@
     </div>
 </template>
 <script>
+import { payOrder} from '@/api/order'
+
 export default {
     name: "orderPay",
+    props: ['data'],
     data() {
         return {
             loading: false,
@@ -39,11 +42,11 @@ export default {
                 order: "desc", // 默认排序方式
                 store_id:''//当前店铺id
             },
-            total: 0,
+            total: this.data.length,
             columns: [
                 {
                     title: "订单号",
-                    key: "order_num"
+                    key: "orderId"
                 },
                 {
                     title: "商品名称",
@@ -51,7 +54,7 @@ export default {
                 },
                 {
                     title: "供应商名称",
-                    key: "supplier"  
+                    key: "storeName"  
                 },
                 {
                     title: "数量",
@@ -59,20 +62,20 @@ export default {
                 },
                 {
                     title:"金额",
-                    key: "pay"
+                    key: "orderAmount"
                 },
                 {
                     title: "关联合同",
-                    key: "contract_state"
+                    key: "buyerState"
                 },
                 {
                     title: "创建时间",
-                    key: "create_time"
+                    key: "createTime"
                 },
                 {
                     title: "操作",
                     render: (h, params) => {
-                        if (params.row.already_pay==="已支付") {
+                        if (params.row.payStatus==="已付款") {
                             return h("div", [
                                 h(
                                     "Button",
@@ -86,11 +89,6 @@ export default {
                                         marginRight: "5px",
                                         width: "50%",
                                         "background-color": "greenyellow"
-                                    },
-                                    on: {
-                                        click: () => {
-                                        this.check(params.row)
-                                        },
                                     },
                                     },
                                     "已支付"
@@ -116,7 +114,7 @@ export default {
                                     "下一步"
                                 ),
                             ])
-                        }else if (params.row.already_pay==="支付") {
+                        }else{
                             return h("div", [
                                 h(
                                     "Button",
@@ -159,13 +157,25 @@ export default {
                     }
                 }
             ],
-            orderData: [
-                {order_num:2022021001, product_name: "样板房五金", supplier:"ASSA", product_amount:1, pay:10000.00, contract_state:"已签署", create_time:"2022-02-10 16:00:00", already_pay:"已支付"},
-                {order_num:2022021001, product_name: "公区五金", supplier:"DORMA", product_amount:1, pay:10000.00, contract_state:"已签署", create_time:"2022-02-10 16:00:00", already_pay:"支付"}
-            ]
+            orderData: this.data,
         }
     },
     methods: {
+        check(row) {
+            alert(row.orderId)
+            payOrder(row.orderId).then(res=>{
+                if(res.success && res.result) {
+                    row.payStatus ="已支付"
+                    // alert("支付成功");
+                    // console.log("-----------");
+                    // console.log(row);
+                    // row._index
+                    this.orderData[row._index].payStatus = "已付款"
+                    // alert(row._index);
+                }
+            })
+            // this.$emit("toOrderPayDetail", row);
+        },
          // 改变页码
         changePage(v) {
             this.searchForm.pageNumber = v;
