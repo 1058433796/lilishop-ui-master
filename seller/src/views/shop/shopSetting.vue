@@ -9,15 +9,30 @@
             :label-width="100"
             :rules="formValidate"
           >
-            <FormItem label="店铺名称">
+            <FormItem label="姓名">
               <Input
                 v-model="storeName"
-                disabled
                 clearable
                 style="width: 20%"
               />
             </FormItem>
-            <FormItem label="店铺地址" prop="address">
+            <!-- {{form}} -->
+            <FormItem label="手机">
+              <Input
+                v-model="addressForm.salesConsigneeMobile"
+                  clearable
+                style="width: 20%"
+              />
+            </FormItem>
+            <FormItem label="邮箱" prop="shopAddressDetail">
+              <Input
+                v-model="form.storeAddressDetail"
+                clearable
+                style="width: 20%"
+                maxlength="50"
+              />
+            </FormItem>
+            <FormItem label="地址" prop="address">
               <Input
                 v-model="form.address"
                 @on-focus="$refs.liliMap.showMap = true"
@@ -58,7 +73,7 @@
             </Form-item>
           </Form>
         </TabPane>
-        <TabPane label="退货地址" name="REFUND_GOODS_ADDRESS">
+        <!-- <TabPane label="退货地址" name="REFUND_GOODS_ADDRESS">
           <Form
             ref="addressForm"
             :model="addressForm"
@@ -120,8 +135,8 @@
               </Button>
             </Form-item>
           </Form>
-        </TabPane>
-        <TabPane label="库存预警" name="STOCK_WARNING">
+        </TabPane> -->
+        <!-- <TabPane label="库存预警" name="STOCK_WARNING">
           <Form
             ref="stockWarningForm"
             :model="stockWarningForm"
@@ -149,8 +164,8 @@
               </Button>
             </Form-item>
           </Form>
-        </TabPane>
-        <TabPane label="客服设置" name="UDESK">
+        </TabPane> -->
+        <!-- <TabPane label="客服设置" name="UDESK">
           <Form
             ref="udeskForm"
             :model="udeskForm"
@@ -175,7 +190,7 @@
               </Button>
             </Form-item>
           </Form>
-        </TabPane>
+        </TabPane> -->
       </Tabs>
     </Card>
 

@@ -28,6 +28,7 @@ export const getOrderList = params => {
   return getRequest(`/itemorder/itemorder`, params);
 };
 
+
 // 获取普通订单详细信息
 export const getOrderDetail = sn => {
   return getRequest(`/itemorder/itemorder/${sn}`);
@@ -132,3 +133,26 @@ export const getReceiptPage = params => {
 export const invoicing = id => {
   return postRequest(`/trade/receipt/${id}/invoicing`);
 };
+
+
+export const buyerResponseOrder = (oid) =>{
+  return putRequest(`/itemOrder/itemOrder/${oid}/response`)
+}
+
+export const getOrderComponent = (oid, storeId) =>{
+  return getRequest(`/itemOrder/itemOrder/provide/${oid}/${storeId}`)
+}
+
+export const getAssociatedOrders = (oid) =>{
+  return getRequest(`/itemOrder/itemOrder/associated/${oid}`)
+}
+
+export const getAssociatedContractOrders = (oid) =>{
+  return getRequest(`/itemOrder/itemOrder/contract/${oid}`)
+}
+
+export const payOrder = (oid) =>{
+  return putRequest(`/itemOrder/itemOrder/pay/${oid}`)
+}
+
+

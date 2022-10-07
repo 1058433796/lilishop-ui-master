@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <div>
     <div class="v-zhifu" v-loading="loading">
         <div class="container">
             <div class="hd">
@@ -71,14 +71,12 @@
                                 </dl>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</Card>
+</div>
 </template>
 
 <script>
@@ -105,7 +103,7 @@
         watch: {},
         computed: {},
         methods: {
-            shaxiang(){
+            shaxiang() {
                 console.log(typeof(this.form.zongji))
                 console.log(typeof(this.form.ordersn))
                 testPayBack(this.form.zongji,this.form.ordersn).then(res=>{
@@ -119,12 +117,10 @@
                 // newWin.postMessage("aa" , "*");
             },
             payment(){
-                if(this.isShaxiang){
+                if(this.isShaxiang) {
                     this.shaxiang();
                     return;
                 }
-
-
                 this.loading = true;
                 this.$post(api.payment , this.form).then(res=>{
                     this.loading = false;
