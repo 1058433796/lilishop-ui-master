@@ -89,7 +89,7 @@ export default {
       sliceNum: 5, // 展示nav数量
       userInfo: {}, // 用户信息
       navType: 1, // nav类型
-      storeSideLogo: "", //logo图片
+      storeSideLogo: require('@/assets/logo.png'), //logo图片
     };
   },
   computed: {

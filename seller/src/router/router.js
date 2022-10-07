@@ -164,6 +164,24 @@ export const otherRouter = {
       title: "支付",
       name: "zhifu",
       component: () => import("@/views/goods/goods-seller/zhifu.vue")
+    },
+     {
+      path: "deal",
+      title: "交易",
+      name: "deal",
+      component: () => import("@/views/goods/goods-seller/deal.vue")
+    },
+    {
+      path: "orderDetailSingle",
+      title: "订单",
+      name: "orderDetailSingle",
+      component: () => import("@/views/goods/goods-seller/orderDetailSingle.vue")
+    },
+    {
+      path: "contractDetailSingle",
+      title: "合同",
+      name: "contractDetailSingle",
+      component: () => import("@/views/goods/goods-seller/contractDetailSingle.vue")
     }
     // {
     //   path: "/*",
