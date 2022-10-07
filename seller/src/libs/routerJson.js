@@ -186,20 +186,20 @@ export const result = [{
     path: "",
     component: "",
     children: [{
-        name: "seller",
+        name: "customer",
         level: 1,
         type: 0,
         title: "供应商",
-        path: "/seller",
+        path: "/customer",
         component: "Main",
         children: [{
-            name: "accountStatementBill",
+            name: "customerList",
             level: 2,
             type: 0,
             keepAlive: true,
             title: "供应商管理",
-            path: "accountStatementBill",
-            component: "shop/bill/accountStatementBill",
+            path: "customerList",
+            component: "customer/customerList",
             children: null
           },
           // {
@@ -248,12 +248,12 @@ export const result = [{
       path: "/statistics",
       component: "Main",
       children: [{
-          name: "goodsStatistics",
+          name: "orderStatistics",
           level: 2,
           type: 0,
           title: "订单统计",
-          path: "goodsStatistics",
-          component: "statistics/goods",
+          path: "orderStatistics",
+          component: "statistics/order",
           children: null
         },
         // {
@@ -317,29 +317,29 @@ export const result = [{
       }
     ]
   },
-  {
-    name: "messages",
-    level: 0,
-    type: -1,
-    title: "消息",
-    path: "",
-    component: "",
-    children: [{
-      name: "user-manage",
-      level: 1,
-      type: 0,
-      title: "系统消息",
-      path: "user-manage",
-      component: "sys/user-manage/userManage",
-      children: [{
-        name: "message_index",
-        level: 2,
-        type: 0,
-        title: "系统消息",
-        path: "message",
-        component: "message",
-        children: null
-      }]
-    }]
-  }
+  // {
+  //   name: "messages",
+  //   level: 0,
+  //   type: -1,
+  //   title: "消息",
+  //   path: "",
+  //   component: "",
+  //   children: [{
+  //     name: "user-manage",
+  //     level: 1,
+  //     type: 0,
+  //     title: "系统消息",
+  //     path: "user-manage",
+  //     component: "sys/user-manage/userManage",
+  //     children: [{
+  //       name: "message_index",
+  //       level: 2,
+  //       type: 0,
+  //       title: "系统消息",
+  //       path: "message",
+  //       component: "message",
+  //       children: null
+  //     }]
+  //   }]
+  // }
 ];

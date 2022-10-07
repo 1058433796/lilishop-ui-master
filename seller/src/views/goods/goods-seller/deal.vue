@@ -14,9 +14,11 @@
         <div class="sub-component">      
             <!-- {{form}} -->
             <component :is="process"  :data="childData" 
+            @backToContractSign="backContractSign"
             @toContractSign="contractSign"  
             @backToOrderResponse="backOrderResponse"
-            @toOrderDetail="orderDetail" @toOrderPay="orderPay" @toDeliver="deliver" @toContractDetail="contractDetail">
+            @toOrderDetail="orderDetail" @toOrderPay="orderPay" @toDeliver="deliver" @toContractDetail="contractDetail"
+            @toOrderPayDetail="orderPayDetail">
             </component>
         </div>
         <!-- {{childData}}
@@ -32,6 +34,8 @@ import logistic from  '@/views/goods/goods-seller/logistic.vue'
 import orderDetail from  '@/views/goods/goods-seller/orderDetail.vue'
 import  contractDetail from '@/views/goods/goods-seller/contractDetail.vue'
 import { establishOrder} from '@/api/schemes'
+import {getAssociatedOrders, getAssociatedContractOrders} from '@/api/order'
+import { getContractList } from "@/api/promotion";
 import { createContract } from '@/api/contract'
 export default {
     name: " ",
@@ -75,11 +79,8 @@ export default {
         processChange(index) {
             console.log(this.$route.query.Form);
             // this.current_process = index
-            if(index === 0) {
-                this.process = zhifu;
-                this.current_process = index;
-            }else if (index === 1) {
-                establishOrder(this.form.schemeId).then(res => {
+            if (index === 1) {
+                establishOrder(this.form.primaryId).then(res => {
                     console.log("建立订单");
                     console.log(res);
                     this.childData = res.result;
@@ -93,7 +94,7 @@ export default {
             createContract(row.orderId).then(res=> {
                 if (res.success) {
                     console.log(res)
-                    this.childData = res.result;
+                    this.childData = res.result.records;
                     this.process = contractSign;
                     this.current_process = 2;
                 } else {
@@ -102,8 +103,18 @@ export default {
             });
         },
         orderPay(row) {
-            this.current_process++;
-            this.process = orderPay;
+            getAssociatedContractOrders(row.orderId).then(res=>{
+                if(res.success) {
+                    this.childData = res.result.records;
+                    this.current_process = 3;
+                    this.process = orderPay;
+                } else {
+                }
+            })
+        },
+        orderPayDetail(row) {
+            alert("orderPayDetail");
+            this.process = "zhifu";
         },
         deliver(row) {
             this.current_process++;
@@ -117,15 +128,35 @@ export default {
             this.process = contractDetail;
             this.childData = row;
         },
-        backOrderResponse(check) {
-            console.log(check);
-            for (var i=0; i < this.fullData.length; ++i) {
-                if(this.fullData[i].orderId === check) {
-                    this.fullData[i].replyStatus = "已响应"
+        backOrderResponse(orderId) {
+            console.log("backOrderResponse");
+            console.log(orderId);
+            getAssociatedOrders(orderId).then(res=> {
+                if (res.success) {
+                    this.childData = res.result;
+                    this.process = orderResponse;
+                }else {
+
                 }
-            }
-            this.childData = this.fullData;
-            this.process = orderResponse;
+            })
+            // for (var i=0; i < this.fullData.length; ++i) {
+            //     if(this.fullData[i].orderId === check) {
+            //         this.fullData[i].replyStatus = "已响应"
+            //     }
+            // }
+            // this.childData = this.fullData;
+            // this.process = orderResponse;
+        },
+        backContractSign(contract) {
+            createContract(contract.orderId).then(res=> {
+                if (res.success) {
+                    this.childData = res.result.records;
+                    this.process = contractSign;
+                    this.current_process = 2;
+                }else {
+
+                }
+            })
         }
     }
 }

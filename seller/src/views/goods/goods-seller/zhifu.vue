@@ -111,7 +111,6 @@
                     window.localStorage.setItem('callbackHTML', res)
                     var newWin = window.open('', '_blank')
                     newWin.document.write(localStorage.getItem('callbackHTML'))
-                    
                 })
                 // 执行沙箱支付
                 // var  newWin = window.open('http://localhost:8889/index.jsp?'+Qs.stringify(this.form) , "_blank");

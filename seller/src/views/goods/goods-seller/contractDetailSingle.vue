@@ -2,7 +2,6 @@
     <card>
     <div class = "contract-detail-top">
         <Tabs>
-        
             <TabPane label="合同详情" name="INFO">
                 <table class="contract-table">
                     <tr>
@@ -45,7 +44,7 @@
                     </tr>
                     <tr>
                         <td class="col-title">合同总金额（万）</td>
-                        <td>700,000,000</td>
+                        <td> {{contractData.amount}} </td>
                 
                         <td class="col-title">币种</td>
                         <td>RMB</td>
@@ -102,8 +101,8 @@
                     </tr>
                 </table>
                 <div class="bottom-action">
-                    <Button class="signAciton" :type='state==="已签署"?"success":"primary"'  @click="sign()" :disabled='this.state==="已签署"'>{{state}}</Button>
-                    <Button type="success">返回</Button>
+                    <Button class="signAciton" :type='contractData.buyerState==="已签署"?"success":"primary"'  @click="sign()" :disabled='contractData.buyerState==="已签署" || state==="已签署"'> {{contractData.buyerState==='已签署'?'已签署':state}}</Button>
+                    <Button type="success" @click="back()">返回</Button>
                 </div>
             </TabPane>
         </Tabs>
@@ -125,11 +124,14 @@ export default {
     },
     methods: {
         sign() {
-            signContract(this.contractData.contractId).then(res=> {
+            signContract(this.contractData.id).then(res=> {
                 if(res.success && res.result) {
                     this.state="已签署";
                 }
             });
+        },
+        back(){
+            this.$router.go (-1);
         }
     },
 }

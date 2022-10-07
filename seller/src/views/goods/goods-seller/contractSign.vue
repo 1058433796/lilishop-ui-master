@@ -29,6 +29,7 @@
     </div>
 </template>
 <script>
+import { getContractList } from "@/api/promotion";
 
 export default {
     name: "contractSign",
@@ -44,19 +45,19 @@ export default {
                 order: "desc", // 默认排序方式
                 store_id:''//当前店铺id
             },
-            total: 0,
+            total: this.data.length,
             columns: [
                 {
                     title: "合同号",
-                    key: "contractId"
+                    key: "id"
                 },
                 {
                     title: "供应商",
-                    key: "providerName"
+                    key: "storeName"
                 },
                 {
                     title: "合同时间",
-                    key: "createTime"
+                    key: "timeStart"
                 },
                 {
                     title: "供应商签署状态",
@@ -220,6 +221,9 @@ export default {
         // 点击查看合同或签署合同
         check(row) {
           this.$emit("toContractDetail", row); 
+        },
+        getDataList() {
+
         }
     }
 }

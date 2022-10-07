@@ -142,3 +142,17 @@ export const buyerResponseOrder = (oid) =>{
 export const getOrderComponent = (oid, storeId) =>{
   return getRequest(`/itemOrder/itemOrder/provide/${oid}/${storeId}`)
 }
+
+export const getAssociatedOrders = (oid) =>{
+  return getRequest(`/itemOrder/itemOrder/associated/${oid}`)
+}
+
+export const getAssociatedContractOrders = (oid) =>{
+  return getRequest(`/itemOrder/itemOrder/contract/${oid}`)
+}
+
+export const payOrder = (oid) =>{
+  return putRequest(`/itemOrder/itemOrder/pay/${oid}`)
+}
+
+

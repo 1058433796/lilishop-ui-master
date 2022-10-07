@@ -1,7 +1,9 @@
 <template>
     <div class="item-scheme">
         <Card>
-            <img src="test.png"/>
+          <div style="display: flex;justify-content: center;">
+            <img src="test.png" style="width:2600px;height:600px " />
+          </div>
             <!-- 放方案列表 -->
         <Table
         class="mt_10"
@@ -9,7 +11,8 @@
         border
         :columns="columns"
         :data="data"
-        ref="table"> 
+        ref="table"
+      >
       </Table>
         </Card>
         <Modal v-model="showDetail" width="60">
@@ -29,6 +32,7 @@
         <Button @click="showDetail = false">取消</Button>
       </div>
     </Modal>
+
     <Modal v-model="confirmScheme" width="60">
           <p slot="header">
             <span>方案确认</span>
@@ -61,7 +65,6 @@ export default {
     },
     guarantyForm:{
       primaryId:'',
-      schemeId: 0,
       schemeSum:0,
       payFlag:0,
       orderName:this.$route.query.itemName+'项目',
@@ -92,34 +95,103 @@ export default {
         {
           title: "方案编号",
           key: "schemeId",
-          width: 300,
+          width: 100,
           tooltip: true,
         },
         {
-          title: "方案详情",
-          key: "action",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    // type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.showSchemeDetail(params.row);
-                    },
-                  },
-                },
-                "详情"
-              ),])
-          }
+          title: "门编号",
+          key: "doorId",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "位置",
+          key: "location",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "开启方式",
+          key: "openMethod",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "开启方向",
+          key: "openDirection",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "高",
+          key: "height",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "宽",
+          key: "width",
+          width: 100,
+          tooltip: true,
+        },{
+          title: "厚度",
+          key: "thickness",
+          width:100,
+          tooltip: true,
+        },{
+          title: "材质",
+          key: "texture",
+          width:  100,
+          tooltip: true,
+        },{
+          title: "把手",
+          key: "shandle",
+          width:100,
+          tooltip: true,
+        },{
+          title: "门禁",
+          key: "guard",
+          width: 100,
+          tooltip: true,
         },
+        {
+          title: "防火等级",
+          key: "firerating",
+          width: 100,
+          tooltip: true,
+        },
+        {
+          title: "五金配置组",
+          key: "wjgroup",
+          width:  100,
+          tooltip: true,
+        },
+        {
+          title: "最近更新",
+          key: "updateTime",
+          width:100,
+          tooltip: true,
+        },
+        // {
+        //   title: "方案详情",
+        //   key: "action",
+        //   render: (h, params) => {
+        //     return h("div", [
+        //       h(
+        //         "Button",
+        //         {
+        //           props: {
+        //             // type: "info",
+        //             size: "small",
+        //           },
+        //           style: {
+        //             marginRight: "5px",
+        //           },
+        //           on: {
+        //             click: () => {
+        //               this.showSchemeDetail(params.row);
+        //             },
+        //           },
+        //         },
+        //         "详情"
+        //       ),])
+        //   }
+        // },
         {
           title: "方案状态",
           key: "action",
@@ -134,7 +206,8 @@ export default {
                   },
                   attrs: {
                     disabled:
-                        (params.row.checkFlag=== 1)
+                        (params.row.checkFlag=== 1
+                          )
 
                   },
                   style: {
@@ -150,7 +223,7 @@ export default {
               ),])
           }
         },
- 
+
       ],
       data: [], // 表单数据
       componentData:[],//方案零件数据
@@ -171,7 +244,7 @@ export default {
         this.loading = false;
         if (res.result.records.length==0) {
           setItemScheme(this.id).then((Res)=>{
-            this.searchForm.itemId='' 
+            this.searchForm.itemId=''
             this.getDataList()
           })
         }else{
@@ -181,7 +254,7 @@ export default {
       });
     },
     //展示方案详情
-    showSchemeDetail(v) { 
+    showSchemeDetail(v){
       this.searchForm.schemeId=v.schemeId
       this.showLoading=true
       getSchemeDetail(this.searchForm).then((res)=>{
@@ -195,9 +268,8 @@ export default {
 
     },
     //确认方案
-    checkScheme(v) {
-      this.searchForm.schemeId = v.schemeId;
-      this.guarantyForm.schemeId = v.schemeId;
+    checkScheme(v){
+      this.searchForm.schemeId=v.schemeId
       getSchemeDetail(this.searchForm).then((res)=>{
         if(res.success){
           res.result.records.forEach(item=>{
@@ -207,18 +279,20 @@ export default {
         })
       //再更新item_scheme表,设置履约保证单
       checkItemScheme(v.primaryId).then((res)=>{
-        if(res.success) {
-          this.guarantyForm.primaryId = v.primaryId
+        if(res.success){
+          v.checkFlag=1
+          this.guarantyForm.primaryId=v.primaryId
           console.log("确认成功")
           this.confirmScheme=true
         }
       })
     },
-    setGuaranty() {
+    setGuaranty(){
       let params = JSON.parse(JSON.stringify(this.guarantyForm));
-      saveGuaranty(params).then((res)=> {
-        this.$router.push({ name: "deal", query: { Form: this.guarantyForm } });
+      saveGuaranty(params).then((res)=>{
+        this.$router.push({ name: "zhifu", query: { Form: this.guarantyForm } });
       })
+
     }
   },
    mounted() {

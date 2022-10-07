@@ -12,7 +12,7 @@
             <Input
               type="text"
               v-model="searchForm.contractId"
-              placeholder="请输入订单号"
+              placeholder="请输入合同号"
               clearable
               style="width: 240px"
             />
@@ -85,7 +85,7 @@
       </Table>
       <Row type="flex" justify="end" class="mt_10">
         <Page
-          :current="searchForm.pageNumber + 1"
+          :current="searchForm.pageNumber"
           :total="total"
           :page-size="searchForm.pageSize"
           @on-change="changePage"
@@ -111,7 +111,7 @@ export default {
       loading: true, // 表单加载状态
       searchForm: {
         // 搜索框初始化对象
-        pageNumber: 0, // 当前页数
+        pageNumber: 1, // 当前页数
         pageSize: 10, // 页面大小
         // sort: "startTime", // 默认排序字段
         // order: "desc", // 默认排序方式
@@ -205,7 +205,7 @@ export default {
     },
     // 改变页码
     changePage(v) {
-      this.searchForm.pageNumber = v - 1;
+      this.searchForm.pageNumber = v;
       this.getDataList();
     },
     // 改变页数

@@ -5,7 +5,8 @@ gifs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+seller_copy/public/config.js
+seller_copy/src/libs/axios.js
 test/unit/coverage
 test/e2e/reports
 selenium-debug.log
