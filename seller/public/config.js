@@ -10,8 +10,8 @@ var BASE = {
   // },
   API_DEV: {
     common: "http://localhost:8890",
-    buyer: "https://localhost:8888",
-    seller: "http://localhost:8889",
+    buyer: "http://localhost:8888",
+    seller: "http://localhost:8888",
     manager: "http://localhost:8887"
   },
   API_PROD: {

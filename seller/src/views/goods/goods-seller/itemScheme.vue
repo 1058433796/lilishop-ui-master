@@ -290,7 +290,7 @@ export default {
     setGuaranty(){
       let params = JSON.parse(JSON.stringify(this.guarantyForm));
       saveGuaranty(params).then((res)=>{
-        this.$router.push({ name: "zhifu", query: { Form: this.guarantyForm } });
+        this.$router.push({ name: "deal", query: { Form: this.guarantyForm } });
       })
 
     }
