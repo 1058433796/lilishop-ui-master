@@ -8,8 +8,9 @@
         :columns="columns"
         :data="orderData"
         ref="table"
-       >
+       > 
       </Table>
+
       <Row type="flex" justify="end" class="mt_10">
         <Page
           :current="searchForm.pageNumber"
@@ -24,6 +25,7 @@
           show-sizer></Page>
       </Row>
     </div>
+   
 </template>
 <script>
 export default {

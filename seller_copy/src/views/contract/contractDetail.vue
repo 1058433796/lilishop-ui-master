@@ -117,7 +117,8 @@ export default {
   name: "orderDetail",
   data() {
     return {
-      defaultImg: require('@/assets/word.png'),
+      
+      // defaultImg: require('@/assets/word.png'),
       filename: "test.docx",
       state: "签署",
       contractData : this.$route.query.data,
