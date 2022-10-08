@@ -17,7 +17,7 @@
               style="width: 240px"
             />
           </Form-item>
-          <Form-item label="供应商" prop="storeName">
+          <Form-item label="采购方" prop="storeName">
             <Input
               type="text"
               v-model="searchForm.storeName"
@@ -26,7 +26,7 @@
               style="width: 240px"
             />
           </Form-item>
-          <Form-item label="供应商签署状态" prop="providerState">
+          <Form-item label="采购方商签署状态" prop="providerState">
             <Select
               v-model="searchForm.providerState"
               placeholder="请选择"
@@ -103,7 +103,7 @@
 
 <script>
 // 合同列表页面
-import { getContractList } from "@/api/promotion";
+import { getContractList } from "@/api/contract";
 export default {
   name: "contractList",
   data() {
@@ -124,7 +124,7 @@ export default {
           minWidth: 120,
         },
         {
-          title: "供应商",
+          title: "采购方",
           key: "storeName",
         },
         {
@@ -132,7 +132,7 @@ export default {
           key: "timeStart",
         },
         {
-          title: "供应商签署状态",
+          title: "采购方签署状态",
           key: "providerState",
         },
         {

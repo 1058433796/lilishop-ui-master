@@ -145,61 +145,6 @@ export const result = [{
     ]
   },
   {
-    name: "bill",
-    level: 0,
-    type: -1,
-    title: "财务",
-    path: "",
-    component: "",
-    children: [{
-        name: "bill",
-        level: 1,
-        type: 0,
-        title: "财务管理",
-        path: "/bill",
-        component: "Main",
-        children: [{
-            name: "accountStatementBill",
-            level: 2,
-            type: 0,
-            keepAlive: true,
-            title: "财务详情",
-            path: "accountStatementBill",
-            component: "shop/bill/accountStatementBill",
-            children: null
-          },
-          // {
-          //   name: "storeBill",
-          //   level: 2,
-          //   type: 0,
-          //   keepAlive: true,
-          //   title: "店铺结算",
-          //   path: "storeBill",
-          //   component: "shop/bill/storeBill",
-          //   children: null
-          // }
-        ]
-      },
-      // {
-      //   name: "receiptManager",
-      //   level: 1,
-      //   type: 0,
-      //   title: "发票管理",
-      //   path: "/bill",
-      //   component: "Main",
-      //   children: [{
-      //     name: "receipt",
-      //     level: 2,
-      //     type: 0,
-      //     title: "发票管理",
-      //     path: "receipt",
-      //     component: "order/receiptManager/receipt",
-      //     children: null
-      //   }]
-      // }
-    ]
-  },
-  {
     name: "contract",
     level: 0,
     type: -1,
@@ -407,7 +352,7 @@ export const result = [{
         name: "shop",
         level: 1,
         type: 0,
-        title: "店铺管理",
+        title: "信息管理",
         path: "/shop",
         component: "Main",
         description: "",
@@ -415,7 +360,7 @@ export const result = [{
             name: "shopSetting",
             level: 2,
             type: 0,
-            title: "店铺设置",
+            title: "信息设置",
             path: "shopSetting",
             component: "shop/shopSetting",
             children: null,

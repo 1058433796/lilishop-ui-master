@@ -181,6 +181,7 @@ export default {
           key: "orderAmount",
           minWidth: 100,
           tooltip: true,
+          align:"right",
           render: (h, params) => {
             return h(
               "div",

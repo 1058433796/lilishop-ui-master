@@ -111,10 +111,10 @@
   </card>
 </template>
 <script>
-import {signContract} from "@/api/promotion";
+import {signContract} from "@/api/contract";
 
 export default {
-  name: "orderDetail",
+  name: "contractDetail",
   data() {
     return {
       defaultImg: require('@/assets/word.png'),

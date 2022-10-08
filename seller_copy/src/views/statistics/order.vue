@@ -11,11 +11,11 @@
 
     <Card class="card">
       <div>
-        <h4>交易概况</h4>
+        <div class="card-item-label">交易概况</div>
         <div class="flex">
           <div class="transactionList">
             <div class="transaction-item" >
-              <h4>订单</h4>
+              <h3>订单</h3>
               <div class="transaction-card" >
                 <div class="card-item">
                   <div class="card-item-label">订单数</div>
@@ -35,7 +35,7 @@
 
     <Card class="card">
       <div>
-        <h4>交易趋势</h4>
+        <div class="card-item-label">交易趋势</div>
         <div>
 
         </div>
@@ -49,7 +49,7 @@
     </Card>
     <Card class="card">
       <div>
-        <h4>交易报表</h4>
+        <div class="card-item-label">交易报表</div>
         <div>
           <Table stripe :columns="orderColumns" :data="data"></Table>
         </div>
@@ -145,6 +145,8 @@ export default {
         {
           title: "支付时间",
           key: "paymentTime",
+          Width: 200,
+          align:"right",
           render: (h, params) => {
             return h("div", params.row.paymentTime || "暂无");
           },
@@ -154,6 +156,7 @@ export default {
           key: "orderAmount",
           minWidth: 100,
           tooltip: true,
+          align:"right",
           render: (h, params) => {
             return h(
               "div",
@@ -165,7 +168,7 @@ export default {
           title: "操作",
           key: "action",
           align: "center",
-          width: 100,
+          width: 200,
           render: (h, params) => {
             return h("div", [
               h(
@@ -290,7 +293,15 @@ export default {
       this.Params.pageNumber=v;
       this.getOrderList();
     },
+    // 查看订单详情
+    detail(v) {
 
+      let orderId = v.orderId;
+      this.$router.push({
+        name: "order-detail",
+        query: { orderId: orderId },
+      });
+    },
     // 订单图
     initOrderChart() {
       // 默认已经加载 legend-filter 交互
