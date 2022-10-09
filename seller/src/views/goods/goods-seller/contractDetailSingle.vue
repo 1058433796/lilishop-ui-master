@@ -6,102 +6,111 @@
                 <table class="contract-table">
                     <tr>
                         <td class="col-title">合同名称</td>
-                        <td colspan="3">测试1</td>
+                        <td colspan="3"></td>
                     </tr>
                     <tr>
                         <td class="col-title">签订时间</td>
-                        <td>{{contractData.timeStart}}</td>
+                        <td>{{contractData.signTime}}</td>
                         <td class="col-title">合同编号</td>
                         <td> {{contractData.id}}  </td>
                     </tr>
                     <tr>
                         <td class="col-title">甲方</td>
-                        <td>深圳蓝凌</td>
+                        <td>{{contractData.buyerName}}</td>
                 
                         <td class="col-title">乙方</td>
-                        <td> {{contractData.providerName}}  </td>
+                        <td> {{contractData.storeName}}  </td>
                     </tr>
                     <tr>
                         <td class="col-title">丙方</td>
                         <td></td>
                 
                         <td class="col-title">主办部分</td>
-                        <td>成都公司</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="col-title">承办人</td>
-                        <td>李文怡</td>
+                        <td></td>
                 
                         <td class="col-title">承办部分</td>
-                        <td>213123131</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="col-title">紧急程度</td>
-                        <td>一般</td>
+                        <td></td>
                 
                         <td class="col-title">合同形成方式</td>
-                        <td>委托</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="col-title">合同总金额（万）</td>
-                        <td> {{contractData.amount}} </td>
+                        <td> {{contractData.amount/10000}} </td>
                 
                         <td class="col-title">币种</td>
-                        <td>RMB</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="col-title">采购成本预算（万）</td>
-                        <td>2022-06-07</td>
+                        <td></td>
                 
                         <td class="col-title">履约保证金（万）</td>
-                        <td>213123131</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="col-title">合同类型</td>
-                        <td>测试合同</td>
+                        <td></td>
                 
                         <td class="col-title">合同期限</td>
-                        <td>2022-05-07至2021-05-07</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="col-title">合同定稿时间</td>
-                        <td>2022-05-07</td>
+                        <td></td>
                 
                         <td class="col-title">会签限定完成时间</td>
-                        <td>2022-05-08</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td class="col-title">合同摘要</td>
-                        <td colspan="3">11111</td>
+                        <td colspan="3"></td>
                     </tr>
                     <tr>
                         <td class="col-title">合同附件</td>
                         <td colspan="3">
                             <img :src="defaultImg" />
                             {{filename}}
+                            <div class="actions">
+                                <!-- <img :src="checkDetailImg" />
+                                <img :src="editImg" />
+                                <img :src="printImg" />
+                                <img :src="downloadImg" /> -->
+                                <Icon  class="fileAction" type="ios-open-outline" />
+                                <Icon  class="fileAction" type="ios-create-outline" />
+                                <Icon  class="fileAction" type="ios-print-outline" />
+                                <Icon  class="fileAction" type="ios-download-outline" />
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td class="col-title">合同对方信息</td>
-                        <td colspan="3">测试1</td>
+                        <td colspan="3"></td>
                     </tr>
                     <tr>
                         <td class="col-title">创建人</td>
-                        <td>2022-05-07</td>
+                        <td></td>
                 
                         <td class="col-title">创建时间</td>
-                        <td>2022-05-08</td>
+                        <td>  {{contractData.createTime}} </td>
                     </tr>
                     <tr>
                         <td class="col-title">修改人</td>
-                        <td>2022-05-07</td>
-                
+                        <td></td>
                         <td class="col-title">修改时间</td>
-                        <td>2022-05-08</td>
+                        <td> </td>
                     </tr>
                 </table>
                 <div class="bottom-action">
-                    <Button class="signAciton" :type='contractData.buyerState==="已签署"?"success":"primary"'  @click="sign()" :disabled='contractData.buyerState==="已签署" || state==="已签署"'> {{contractData.buyerState==='已签署'?'已签署':state}}</Button>
+                    <Button class="signAciton" :type='contractData.buyerState==="已签署"?"success":"primary"'  @click="sign()" :disabled='contractData.buyerState==="已签署"'> {{contractData.buyerState==='已签署'?'已签署':"签署"}}</Button>
                     <Button type="success" @click="back()">返回</Button>
                 </div>
             </TabPane>
@@ -118,7 +127,6 @@ export default {
         return {
             defaultImg: require('@/assets/word.png'),
             filename: "test.docx",
-            state: "签署",
             contractData : this.$route.query.data,
         }
     },
@@ -126,7 +134,8 @@ export default {
         sign() {
             signContract(this.contractData.id).then(res=> {
                 if(res.success && res.result) {
-                    this.state="已签署";
+                    this.contractData.buyerState="已签署";
+                    this.contractData.signTime = res.result;
                 }
             });
         },
@@ -144,6 +153,17 @@ export default {
         width: 30px;
         height: 30px;
     }
+    .actions {
+        text-align: right;  
+        margin-right: 3%;
+    }
+    .actions i {
+        width: 20px;
+        height: 20px
+    }
+    .contract-table td {
+        border: 1px solid #d0d0d0;
+      }
     .contract-table {
         margin: 1em 0;
         width: 100%;

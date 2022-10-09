@@ -34,6 +34,7 @@
         <Button @click="handleReset" class="search-btn">重置</Button>
       </Form>
       <Table
+        class="table"
         :loading="loading"
         border
         :columns="columns"
@@ -108,7 +109,7 @@ export default {
           render: (h, params) => {
             return h(
               "div",
-              this.$options.filters.unitPrice(params.row.tradeAmount, "￥")
+              this.$options.filters.unitPrice(Number(params.row.tradeAmount), "￥")
             );
           },
         },//tradeAmount
@@ -213,9 +214,13 @@ export default {
 };
 </script>
 <style lang="scss">
+
 // 建议引入通用样式 可删除下面样式代码
 @import "@/styles/table-common.scss";
 .export {
   margin: 10px 20px 10px 0;
+}
+.table {
+  text-align: center;
 }
 </style>

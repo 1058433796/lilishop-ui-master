@@ -1,5 +1,5 @@
 <template>
-    <Tabs type="card">
+    <Tabs>
       <!-- {{orderComponent}} -->
       <TabPane label="订单信息">
         <div class="search">

@@ -44,7 +44,7 @@
       </Row>
 
       <Table
-        class="mt_10"
+        class="mt_10 table"
         :loading="loading"
         border
         :columns="columns"
@@ -255,18 +255,15 @@ export default {
         {
           title: "项目名称",
           key: "itemName",
-          width: 300,
           tooltip: true,
         },
         {
           title: "创建时间",
           key: "createTime",
-          minWidth: 200,
         },
         {
           title: "地点",
           key: "createLocation",
-          width: 180,
           tooltip: true,
         },
         {
@@ -274,7 +271,6 @@ export default {
           key: "action",
           align: "center",
           fixed: "right",
-          width: 200,
           render: (h, params) => {
             return h("div", [
               h(
@@ -647,4 +643,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/styles/table-common.scss";
+.table{
+  text-align: center;
+}
 </style>

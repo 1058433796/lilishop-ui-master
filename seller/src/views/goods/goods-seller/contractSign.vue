@@ -56,8 +56,8 @@ export default {
                     key: "storeName"
                 },
                 {
-                    title: "合同时间",
-                    key: "timeStart"
+                    title: "合同创建时间",
+                    key: "createTime"
                 },
                 {
                     title: "供应商签署状态",

@@ -68,9 +68,9 @@
         </Form>
       </Row>
       <Row class="operation padding-row">
-        <Button @click="newAct" type="primary">导出合同</Button>
+        <Button  type="primary">导出合同</Button>
       </Row>
-      <Table :loading="loading" border :columns="columns" :data="data" ref="table">
+      <Table class="table" :loading="loading" border :columns="columns" :data="data" ref="table">
         <template slot-scope="{ row }" slot="action">
           <div class="row">
             <Button
@@ -129,14 +129,14 @@ export default {
         },
         {
           title: "合同时间",
-          key: "timeStart",
+          key: "createTime",
         },
         {
           title: "供应商签署状态",
           key: "providerState",
         },
         {
-          title: "响应状态",
+          title: "签署状态",
           render: (h, params) => {
                       if (params.row.buyerState==="未签署") {
                         return h("div", [
@@ -146,6 +146,7 @@ export default {
                               props: {
                                 // type: "info",
                                 size: "small",
+                                disabled: true,
                               },
                               style: {
                                 width: 100,
@@ -170,6 +171,7 @@ export default {
                               props: {
                                 // type: "info",
                                 size: "small",
+                                disabled: true,
                               },
                               style: {
                                 width: 100,
@@ -365,6 +367,8 @@ export default {
 @import "@/styles/table-common.scss";
 .row Button {
   margin-right: 4px;
-
+}
+.table {
+  text-align: center;
 }
 </style>

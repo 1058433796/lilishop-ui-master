@@ -226,8 +226,9 @@ export default {
                               props: {
                                 // type: "info",
                                 size: "small",
+                                disabled: true,
                               },
-                              style: {
+                              style: { 
                                 width: "100%",
                                 color: "green", 
                                 marginRight: "5px",

@@ -1,7 +1,7 @@
 <template>
     <Card>
     
-    <Tabs type="card">
+    <Tabs>
       <TabPane label="订单信息">
         <div class="search">
           <Card class="mt_10">
