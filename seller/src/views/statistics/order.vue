@@ -3,9 +3,7 @@
   <div class="wrapper">
     <Affix :offset-top="100">
       <Card class="card fixed-bottom">
-
         <affixTime @selected="clickBreadcrumb" />
-
       </Card>
     </Affix>
     <Card class="card">

@@ -194,6 +194,7 @@ export default {
                               props: {
                                 // type: "info",
                                 size: "small",
+                                disabled: true
                               },
                               style: {
                                 marginRight: "5px",

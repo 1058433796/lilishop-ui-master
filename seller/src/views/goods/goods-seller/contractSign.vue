@@ -72,7 +72,9 @@ export default {
                                     "Button",
                                     {
                                         props: {
-                                            size: "small"
+                                            size: "small",
+                                            disabled: true
+
                                         },
                                         style: {
                                             color: "green", 
@@ -185,6 +187,8 @@ export default {
                               props: {
                                 // type: "info",
                                 size: "small",
+                                disabled: true
+
                               },
                               style: {
                                 marginRight: "5px",
