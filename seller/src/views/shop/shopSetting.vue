@@ -12,15 +12,7 @@
             <FormItem label="姓名">
               <Input
                 v-model="storeName"
-                clearable
-                style="width: 20%"
-              />
-            </FormItem>
-            <!-- {{form}} -->
-            <FormItem label="手机">
-              <Input
-                v-model="addressForm.salesConsigneeMobile"
-                  clearable
+                disabled
                 style="width: 20%"
               />
             </FormItem>
@@ -73,7 +65,7 @@
             </Form-item>
           </Form>
         </TabPane>
-        <!-- <TabPane label="退货地址" name="REFUND_GOODS_ADDRESS">
+        <TabPane label="退货地址" name="REFUND_GOODS_ADDRESS">
           <Form
             ref="addressForm"
             :model="addressForm"
@@ -135,7 +127,7 @@
               </Button>
             </Form-item>
           </Form>
-        </TabPane> -->
+        </TabPane>
         <!-- <TabPane label="库存预警" name="STOCK_WARNING">
           <Form
             ref="stockWarningForm"
