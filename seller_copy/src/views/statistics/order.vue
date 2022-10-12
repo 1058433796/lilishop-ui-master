@@ -322,7 +322,8 @@ export default {
         .line()
         .position("createTime*price")
         .label("price")
-        .color("title")
+        //.color("title")
+        .color('payStatus', [ '#1890FF', '#2FC25B' ])
         //.shape("smooth");
 
       this.orderChart

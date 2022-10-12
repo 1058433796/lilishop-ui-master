@@ -19,7 +19,7 @@
           </div>
           <div>
             <div class="counts">{{ homeData.memberNum || 0 }}</div>
-            <div>会员数量</div>
+            <div>采购方数量</div>
           </div>
         </div>
         <div class="count-item" @click="navigateTo('orderList')">
@@ -37,7 +37,7 @@
           </div>
           <div>
             <div class="counts">{{ homeData.storeNum || 0 }}</div>
-            <div>店铺数量</div>
+            <div>供应商数量</div>
           </div>
         </div>
       </div>
@@ -54,24 +54,6 @@
         <div class="todo-item" @click="navigateTo('shopAuth')">
           <div class="counts">{{ $store.state.notices.store || 0 }}</div>
           <div>待审核店铺</div>
-        </div>
-        <div class="todo-item" @click="navigateTo('orderComplaint')">
-          <div class="counts">{{ $store.state.notices.complain || 0 }}</div>
-          <div>待审核投诉</div>
-        </div>
-        <div class="todo-item" @click="navigateTo('afterSaleOrder')">
-          <div class="counts">{{ $store.state.notices.refund || 0 }}</div>
-          <div>待审核售后</div>
-        </div>
-        <div class="todo-item">
-          <div class="counts">
-            {{ $store.state.notices.distributionCash || 0 }}
-          </div>
-          <div>待审核分销提现</div>
-        </div>
-        <div class="todo-item" @click="navigateTo('accountStatementBill')">
-          <div class="counts">{{ $store.state.notices.waitPayBill || 0 }}</div>
-          <div>待审核分账</div>
         </div>
       </div>
     </div>
@@ -134,21 +116,21 @@
               <span v-else>￥0.00</span>
             </div>
             <div class="today-item">
-              <div>今日新增店铺</div>
+              <div>今日新增供应商</div>
               <span>{{ homeData.todayStoreNum || 0 }}</span>
             </div>
             <div class="today-item">
-              <div>今日新增会员数</div>
+              <div>今日新增采购方</div>
               <span>{{ homeData.todayMemberNum || 0 }}</span>
             </div>
-            <div class="today-item">
-              <div>今日上架商品数量</div>
-              <span>{{ homeData.todayGoodsNum || 0 }}</span>
-            </div>
-            <div class="today-item">
-              <div>今日新增评论</div>
-              <span>{{ homeData.todayMemberEvaluation || 0 }}</span>
-            </div>
+<!--            <div class="today-item">-->
+<!--              <div>今日上架商品数量</div>-->
+<!--              <span>{{ homeData.todayGoodsNum || 0 }}</span>-->
+<!--            </div>-->
+<!--            <div class="today-item">-->
+<!--              <div>今日新增评论</div>-->
+<!--              <span>{{ homeData.todayMemberEvaluation || 0 }}</span>-->
+<!--            </div>-->
           </div>
         </div>
       </div>
@@ -162,20 +144,20 @@
       </div>
     </div>
     <!-- chart -->
-    <div class="charts flex">
-      <div class="chart-item">
-        <h4>流量走势</h4>
-        <div id="pvChart"></div>
-      </div>
-      <div class="chart-item">
-        <h4>交易趋势</h4>
-        <div id="orderChart"></div>
-      </div>
-    </div>
+<!--    <div class="charts flex">-->
+<!--      <div class="chart-item">-->
+<!--        <h4>流量走势</h4>-->
+<!--        <div id="pvChart"></div>-->
+<!--      </div>-->
+<!--      <div class="chart-item">-->
+<!--        <h4>交易趋势</h4>-->
+<!--        <div id="orderChart"></div>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- top10商品 -->
     <div class="card transform">
-      <h4>热卖商品TOP10</h4>
+      <h4>热卖产品TOP10</h4>
       <Table
         stripe
         :columns="tophotGoodsColumns"
@@ -184,14 +166,14 @@
     </div>
 
     <!-- top10店铺 -->
-    <div class="card transform">
-      <h4>热卖店铺TOP10</h4>
-      <Table
-        stripe
-        :columns="tophotShopsColumns"
-        :data="topHotShopsData"
-      ></Table>
-    </div>
+<!--    <div class="card transform">-->
+<!--      <h4>热卖店铺TOP10</h4>-->
+<!--      <Table-->
+<!--        stripe-->
+<!--        :columns="tophotShopsColumns"-->
+<!--        :data="topHotShopsData"-->
+<!--      ></Table>-->
+<!--    </div>-->
   </div>
 </template>
 

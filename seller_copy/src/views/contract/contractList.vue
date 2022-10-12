@@ -28,7 +28,7 @@
           </Form-item>
           <Form-item label="采购方商签署状态" prop="providerState">
             <Select
-              v-model="searchForm.providerState"
+              v-model="searchForm.buyerState"
               placeholder="请选择"
               clearable
               style="width: 240px"
@@ -49,7 +49,7 @@
           </Form-item>
           <Form-item label="签署状态" prop="buyerState">
             <Select
-              v-model="searchForm.buyerState"
+              v-model="searchForm.providerState"
               placeholder="请选择"
               clearable
               style="width: 240px"
@@ -133,12 +133,12 @@ export default {
         },
         {
           title: "采购方签署状态",
-          key: "providerState",
+          key: "buyerState",
         },
         {
           title: "响应状态",
           render: (h, params) => {
-            if (params.row.buyerState==="未签署") {
+            if (params.row.providerState==="未签署") {
               return h("div", [
                 h(
                   "Button",
@@ -162,7 +162,7 @@ export default {
                   },
                   "未签署"
                 ),])
-            } else if ((params.row.buyerState==="已签署")) {
+            } else if ((params.row.providerState==="已签署")) {
               return h("div", [
                 h(
                   "Button",

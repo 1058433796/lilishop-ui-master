@@ -55,24 +55,25 @@
               style="width: 200px"
             ></DatePicker>
           </Form-item>
-          <Form-item label="商家名称" prop="storeName">
+          <Form-item label="采购方" prop="memberName">
+          <Input
+            type="text"
+            v-model="searchForm.memberName"
+            placeholder="请输入采购方名称"
+            clearable
+            style="width: 200px"
+          />
+        </Form-item>
+          <Form-item label="供应商" prop="storeName">
             <Input
               type="text"
               v-model="searchForm.storeName"
-              placeholder="请输入商家名称"
+              placeholder="请输入供应商名称"
               clearable
               style="width: 200px"
             />
           </Form-item>
-          <Form-item label="会员名称" prop="memberName">
-            <Input
-              type="text"
-              v-model="searchForm.memberName"
-              placeholder="请输入会员名称"
-              clearable
-              style="width: 200px"
-            />
-          </Form-item>
+
           <Form-item label="售后类型">
             <Select
               v-model="searchForm.serviceType"
@@ -102,37 +103,37 @@
         class="mt_10"
       >
         <!-- 商品栏目格式化 -->
-        <template slot="goodsSlot" slot-scope="{ row }">
-          <div style="margin-top: 5px; height: 80px; display: flex">
-            <div style="">
-              <img :src="row.goodsImage" style="height: 60px; margin-top: 3px" />
-            </div>
+<!--        <template slot="goodsSlot" slot-scope="{ row }">-->
+<!--          <div style="margin-top: 5px; height: 80px; display: flex">-->
+<!--            <div style="">-->
+<!--              <img :src="row.goodsImage" style="height: 60px; margin-top: 3px" />-->
+<!--            </div>-->
 
-            <div style="margin-left: 13px">
-              <div class="div-zoom">
-                <a @click="linkTo(row.goodsId, row.skuId)">{{ row.goodsName }}</a>
-              </div>
-              <Poptip trigger="hover" title="扫码在手机中查看" transfer>
-                <div slot="content">
-                  <vue-qr
-                    :text="wapLinkTo(row.goodsId, row.skuId)"
-                    :margin="0"
-                    colorDark="#000"
-                    colorLight="#fff"
-                    :size="150"
-                  ></vue-qr>
-                </div>
-                <img
-                  src="../../../assets/qrcode.svg"
-                  class="hover-pointer"
-                  width="20"
-                  height="20"
-                  alt=""
-                />
-              </Poptip>
-            </div>
-          </div>
-        </template>
+<!--            <div style="margin-left: 13px">-->
+<!--              <div class="div-zoom">-->
+<!--                <a @click="linkTo(row.goodsId, row.skuId)">{{ row.goodsName }}</a>-->
+<!--              </div>-->
+<!--              <Poptip trigger="hover" title="扫码在手机中查看" transfer>-->
+<!--                <div slot="content">-->
+<!--                  <vue-qr-->
+<!--                    :text="wapLinkTo(row.goodsId, row.skuId)"-->
+<!--                    :margin="0"-->
+<!--                    colorDark="#000"-->
+<!--                    colorLight="#fff"-->
+<!--                    :size="150"-->
+<!--                  ></vue-qr>-->
+<!--                </div>-->
+<!--                <img-->
+<!--                  src="../../../assets/qrcode.svg"-->
+<!--                  class="hover-pointer"-->
+<!--                  width="20"-->
+<!--                  height="20"-->
+<!--                  alt=""-->
+<!--                />-->
+<!--              </Poptip>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </template>-->
       </Table>
       <Row type="flex" justify="end" class="mt_10">
         <Page
@@ -187,12 +188,7 @@ export default {
         billPrice: "",
       },
       columns: [
-        {
-          title: "售后服务单号",
-          key: "sn",
-          minWidth: 140,
-          tooltip: true,
-        },
+
         {
           title: "订单编号",
           key: "orderSn",
@@ -200,27 +196,34 @@ export default {
           tooltip: true,
         },
         {
-          title: "商品",
+          title: "售后服务单号",
+          key: "sn",
+          minWidth: 140,
+          tooltip: true,
+        },
+        {
+          title: "产品",
           key: "goodsName",
           minWidth: 300,
           tooltip: true,
-          slot: "goodsSlot",
+          //slot: "goodsSlot",
         },
         {
-          title: "会员名称",
+          title: "采购方",
           key: "memberName",
           width: 140,
         },
         {
-          title: "商家名称",
+          title: "供应商",
           key: "storeName",
           minWidth: 100,
           tooltip: true,
         },
         {
-          title: "售后金额",
+          title: "订单金额",
           key: "applyRefundPrice",
           width: 110,
+          align: "right",
           render: (h, params) => {
             if (params.row.applyRefundPrice == null) {
               return h("div", this.$options.filters.unitPrice(0, "￥"));
@@ -275,11 +278,7 @@ export default {
             }
           },
         },
-        {
-          title: "申请时间",
-          key: "createTime",
-          width: 180,
-        },
+
         {
           title: "操作",
           key: "action",
