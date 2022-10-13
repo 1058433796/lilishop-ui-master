@@ -172,18 +172,18 @@ export default {
         {
           title: "项目名称",
           key: "itemName",
-          width: 400,
+          width: 100,
           tooltip: true,
         },
         {
           title: "创建时间",
           key: "createTime",
-          width: 400,
+          width: 100,
         },
         {
           title: "地点",
           key: "createLocation",
-          width: 400,
+          width: 100,
           tooltip: true,
         },
         {
@@ -191,7 +191,7 @@ export default {
           key: "action",
           align: "center",
           fixed: "right",
-          width: 500,
+          width: 100,
           render: (h, params) => {
             return h("div", [
               h(
@@ -263,11 +263,11 @@ export default {
     },
     // 添加商品
     addGoods() {
-      this.$router.push({ name: "goods-operation" });
+      this.$router.push({ name: "goods-operation" , flag:false});
     },
     // 编辑商品
     editGoods(v) {
-      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId } });
+      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId ,flag:true} });
     },
     itemScheme(v) {
       console.log('v')
@@ -276,7 +276,7 @@ export default {
     },
     showItermScheme(v){
       console.log(v)
-      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId } });
+      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId} });
     },
 
     // 改变页码

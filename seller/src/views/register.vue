@@ -6,11 +6,11 @@
             <!-- <Col offset="20" style="color:red;"><div @click="$router.push('signUp')">立即注册</div></Col> -->
             <Row style="flex-direction: column;">
                 <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
-                    <FormItem prop="username" label="供应商账号">
+                    <FormItem prop="username" label="采购方账号">
                         <Input v-model="form.username" prefix="ios-contact" size="large" clearable placeholder="请输入用户名"
                             autocomplete="off" />
                     </FormItem>
-                    <FormItem prop="password" label="供应商密码">
+                    <FormItem prop="password" label="采购方密码">
                         <Input type="password" v-model="form.password" prefix="ios-lock" size="large" password
                             placeholder="请输入密码" autocomplete="off" />
                     </FormItem>
