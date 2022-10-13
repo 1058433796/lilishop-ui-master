@@ -58,6 +58,7 @@
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
                           <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsGalleryFiles',item)"></Icon>
+                          <Icon type="ios-folder" size="30" @click.native="handleDownload(item.url)"></Icon>
                         </div>
                       </div>
                     </template>
@@ -91,6 +92,7 @@
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
                           <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsModelFiles',item)"></Icon>
+                          <Icon type="ios-folder" size="30" @click.native="handleDownload(item.url)"></Icon>
                         </div>
                       </div>
                     </template>
@@ -121,8 +123,9 @@
                       <img :src="item.url" />
                       <div class="demo-upload-list-cover">
                         <div>
-                          <!-- <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon> -->
+                          <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
                           <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsMaterialFiles', item)"></Icon>
+                          <Icon type="ios-folder" size="30" @click.native="handleDownload(item.url)"></Icon>
                         </div>
                       </div>
                     </template>
@@ -396,6 +399,9 @@ export default {
         });
         return false;
       }
+    },
+    handleDownload(url){
+      window.open(url)
     },
 
     /**  添加商品或者修改商品 **/
