@@ -3,8 +3,8 @@
     <Card>
       <Row @keydown.enter.native="handleSearch">
         <Form ref="searchForm" :model="searchForm" inline :label-width="70" class="search-form">
-          <Form-item label="产品编号" prop="goodsId">
-            <Input type="text" v-model="searchForm.goodsId" placeholder="请输入" clearable style="width: 200px" />
+          <Form-item label="产品编号" prop="goodsCode">
+            <Input type="text" v-model="searchForm.goodsCode" placeholder="请输入" clearable style="width: 200px" />
           </Form-item>
 
           <Form-item label="产品名称" prop="goodsName">
@@ -101,7 +101,7 @@ export default {
         // },
         {
           title: "产品编号",
-          key: "goodsId",
+          key: "goodsCode",
           width: 150,
           align:"center",
           tooltip: true,

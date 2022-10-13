@@ -13,8 +13,8 @@
               <span> &gt; {{ this.categoryName[2] }}</span>
             </FormItem>
             <div class="form-item-view-row">
-              <FormItem label="产品编号" prop="goodsId">
-                <Input type="text" v-model="baseInfoForm.goodsId" placeholder="产品编号" clearable style="width: 260px" />
+              <FormItem label="产品编号" prop="goodsCode">
+                <Input type="text" v-model="baseInfoForm.goodsCode" placeholder="产品编号" clearable style="width: 260px" />
               </FormItem>
               <FormItem label="产品名称" prop="goodsName">
                 <Input type="text" v-model="baseInfoForm.goodsName" placeholder="产品名称" clearable style="width: 260px" />
@@ -85,7 +85,8 @@
                   <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsModelFiles"
                     :key="__index">
                     <template>
-                      <img src="../../../assets/file.png" />
+                      <!-- <img src="../../../assets/file.png" /> -->
+                      <img :src="item.url" />
                       <div class="demo-upload-list-cover">
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
@@ -116,7 +117,8 @@
                   <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsMaterialFiles"
                     :key="__index">
                     <template>
-                      <img src="../../../assets/upload.png" />
+                      <!-- <img src="../../../assets/upload.png" /> -->
+                      <img :src="item.url" />
                       <div class="demo-upload-list-cover">
                         <div>
                           <!-- <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon> -->
@@ -146,20 +148,20 @@
             </div>
             <h4>规格参数</h4>
             <div class="form-item-view-row">
-              <formItem label="ANSI认证" prop="ANSICert">
-                <Select v-model="baseInfoForm.ANSICert" style="width:100px">
+              <formItem label="ANSI认证" prop="ansiCert">
+                <Select v-model="baseInfoForm.ansiCert" style="width:100px">
                   <Option v-for="item in ANSIList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </formItem>
 
-              <formItem label="EN认证" prop="ENCert">
-                <Select v-model="baseInfoForm.ENCert" style="width:100px">
+              <formItem label="EN认证" prop="enCert">
+                <Select v-model="baseInfoForm.enCert" style="width:100px">
                   <Option v-for="item in ENList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </formItem>
 
-              <formItem label="GB认证" prop="GBCert">
-                <Select v-model="baseInfoForm.GBCert" style="width:100px">
+              <formItem label="GB认证" prop="gbCert">
+                <Select v-model="baseInfoForm.gbCert" style="width:100px">
                   <Option v-for="item in GBList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </formItem>
@@ -426,6 +428,7 @@ export default {
             )
           }
           if(this.$route.query && this.$route.query.goodsId){
+            console.log('修改商品', submit);
             API_GOODS.editGoods(this.$route.query.goodsId, submit).then(e=>{
             if(e && e.success){
               this.submitLoading = false;
@@ -433,8 +436,12 @@ export default {
             }
           });
           }else{
+            console.log('创建商品', submit);
+            // this.submitLoading = false;
+            // return;
             API_GOODS.createGoods(submit).then(e=>{
             if(e && e.success){
+              console.log(e);
               this.submitLoading = false;
                 this.$parent.activestep = 2;
             }
@@ -456,6 +463,7 @@ export default {
     console.log('response.reuslt', response);
     this.categoryName = response.categoryName;
     this.baseInfoForm = Object.assign(this.baseInfoForm, response);
+    // this.baseInfoForm = {...response}
     // 图片处理
     if (
         response.goodsGalleryList &&
