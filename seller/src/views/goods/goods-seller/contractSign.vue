@@ -56,8 +56,8 @@ export default {
                     key: "storeName"
                 },
                 {
-                    title: "合同时间",
-                    key: "timeStart"
+                    title: "合同创建时间",
+                    key: "createTime"
                 },
                 {
                     title: "供应商签署状态",
@@ -72,7 +72,9 @@ export default {
                                     "Button",
                                     {
                                         props: {
-                                            size: "small"
+                                            size: "small",
+                                            disabled: true
+
                                         },
                                         style: {
                                             color: "green", 
@@ -185,6 +187,8 @@ export default {
                               props: {
                                 // type: "info",
                                 size: "small",
+                                disabled: true
+
                               },
                               style: {
                                 marginRight: "5px",

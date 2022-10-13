@@ -1,9 +1,8 @@
 <template>
-
-  <div class="search">
-        <Card class="mt_10">
+<Card>
+    <Tabs>
+    <TabPane label="基本信息">
           <table class="contract-table" >
-            <table-head style="font-size: 20px">&nbsp;&nbsp;供应商信息:</table-head>
             <tr>
               <td class="col-title" >客户编码</td>
               <td>&nbsp;&nbsp;&nbsp;&nbsp;{{this.customerInfo.id}}</td>
@@ -20,11 +19,11 @@
             </tr>
             <tr>
               <td class="col-title">所在区域:</td>
-              <td>&nbsp;&nbsp;test1</td>
+              <td>&nbsp;&nbsp;</td>
               <td class="col-title">所在省市:</td>
-              <td>&nbsp;&nbsp;test2</td>
+              <td>&nbsp;&nbsp;</td>
               <td class="col-title">使用状态:</td>
-              <td>&nbsp;&nbsp;test3</td>
+              <td>&nbsp;&nbsp;</td>
             </tr>
             <tr>
               <td class="col-title">纳税登记号:</td>
@@ -99,16 +98,16 @@
               <td></td>
             </tr>
           </table>
-          <div>
-            关联合同
-          </div>
+        </TabPane>
+      </Tabs>
+      <Tabs>
+        <TabPane label="关联合同">
           <Table
             :loading="loading"
             border
             :columns="columns"
             :data="data"
-            ref="table"
-          >
+            ref="table">
             <!-- 格式化 -->
             <template slot="goodsSlot" slot-scope="{ row }">
               <div style="margin-top: 5px; height: 80px; display: flex">
@@ -124,10 +123,12 @@
               </div>
             </template>
           </Table>
-
-        </Card>
-  </div>
-
+        </TabPane>
+      </Tabs>
+      <div class="bottom-action">
+        <Button type="success" @click="back()">返回</Button>
+      </div>
+</Card>
 
 
 
@@ -245,6 +246,9 @@ export default {
     };
   },
   methods: {
+    back(){
+      this.$router.go (-1);
+    },
     //获取客户详细信息
     getDataDetail() {
       this.loading = true;
@@ -280,6 +284,11 @@ export default {
 <style lang="scss" scoped>
 // 建议引入通用样式 可删除下面样式代码
 // @import "@/styles/table-common.scss";
+.bottom-action {
+  text-align: right;  
+  margin-top: 2%;
+  margin-right: 5%;
+}
 .lineH30{
   line-height: 30px;
 }
@@ -462,24 +471,24 @@ dl dt {
   overflow: hidden;
   background: #FFF;
   color: black;
-  border-collapse: collapse;
+  border: 1px solid black;
 }
 .contract-table tr {
   height: 35px;
-  border: 1px solid #202020;
+  border: 1px solid #D9E4E6;
 }
 .contract-table  tr:nth-child(odd) {
-  background-color: #ffffff;
+  background-color: #f8f0ef;
 }
 .contract-table th {
   display: none;
-  border: 1px solid #000;
-  background-color: #ffffff;
+  border: 1px solid #FFF;
+  background-color: #fa735b;
   color: #FFF;
   padding: 1em;
 }
 .col-title {
-  background-color: rgb(245,245,245);
+  background-color: rgb(215,215,215);
   height: 2%;
   width: 15%;
 }

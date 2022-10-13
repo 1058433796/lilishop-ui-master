@@ -173,13 +173,13 @@ export const otherRouter = {
     },
     {
       path: "orderDetailSingle",
-      title: "订单",
+      title: "订单详情",
       name: "orderDetailSingle",
       component: () => import("@/views/goods/goods-seller/orderDetailSingle.vue")
     },
     {
       path: "contractDetailSingle",
-      title: "合同",
+      title: "合同详情",
       name: "contractDetailSingle",
       component: () => import("@/views/goods/goods-seller/contractDetailSingle.vue")
     },

@@ -23,10 +23,8 @@
             <span v-else>登录中</span>
           </div>
         </Row>
-
       </Row>
       <Footer />
-
       </Col>
     </Row>
 

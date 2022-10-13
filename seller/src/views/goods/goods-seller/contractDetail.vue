@@ -1,7 +1,6 @@
 <template>
     <div class = "contract-detail-top">
-       
-        <Tabs v-model="type">
+        <Tabs>
             <TabPane label="合同详情" name="INFO">
                 <table class="contract-table">
                     <tr>
@@ -10,17 +9,16 @@
                     </tr>
                     <tr>
                         <td class="col-title">签订时间</td>
-                        <td>{{contractData.timeStart}}</td>
-                        
+                        <td>{{contractData.signTime}}</td>
                         <td class="col-title">合同编号</td>
                         <td> {{contractData.id}}  </td>
                     </tr>
                     <tr>
                         <td class="col-title">甲方</td>
-                        <td></td>
+                        <td>{{contractData.buyerName}}</td>
                 
                         <td class="col-title">乙方</td>
-                        <td> {{contractData.providerName}}  </td>
+                        <td> {{contractData.storeName}}  </td>
                     </tr>
                     <tr>
                         <td class="col-title">丙方</td>
@@ -45,7 +43,8 @@
                     </tr>
                     <tr>
                         <td class="col-title">合同总金额（万）</td>
-                        <td>  {{contractData.amount}}   </td>
+                        <td> {{contractData.amount/10000}} </td>
+                
                         <td class="col-title">币种</td>
                         <td></td>
                     </tr>
@@ -72,14 +71,13 @@
                     </tr>
                     <tr>
                         <td class="col-title">合同摘要</td>
-                        <td colspan="3">11111</td>
+                        <td colspan="3"></td>
                     </tr>
                     <tr>
                         <td class="col-title">合同附件</td>
                         <td colspan="3">
                             <img :src="defaultImg" />
                             {{filename}}
-
                             <div class="actions">
                                 <!-- <img :src="checkDetailImg" />
                                 <img :src="editImg" />
@@ -101,19 +99,18 @@
                         <td></td>
                 
                         <td class="col-title">创建时间</td>
-                        <td></td>
+                        <td>  {{contractData.createTime}} </td>
                     </tr>
                     <tr>
                         <td class="col-title">修改人</td>
                         <td></td>
-                
                         <td class="col-title">修改时间</td>
-                        <td></td>
+                        <td> </td>
                     </tr>
                 </table>
                 <div class="bottom-action">
-                    <Button class="signAciton" :type='state==="已签署"?"success":"primary"'  @click="sign()" :disabled='this.state==="已签署"'>{{state}}</Button>
-                    <Button type="success" @click="back">返回</Button>
+                    <Button class="signAciton" :type='contractData.buyerState==="已签署"?"success":"primary"'  @click="sign()" :disabled='contractData.buyerState==="已签署"'> {{contractData.buyerState==='已签署'?'已签署':"签署"}}</Button>
+                    <Button type="success" @click="back()">返回</Button>
                 </div>
             </TabPane>
         </Tabs>
@@ -141,7 +138,8 @@ export default {
         sign() {
             signContract(this.contractData.id).then(res=> {
                 if(res.success && res.result) {
-                    this.state="已签署";
+                    this.contractData.buyerState="已签署";
+                    this.contractData.signTime = res.result;
                 }
             });
         },
