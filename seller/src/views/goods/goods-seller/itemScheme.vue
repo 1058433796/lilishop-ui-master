@@ -95,58 +95,58 @@ export default {
         {
           title: "方案编号",
           key: "schemeId",
-          width: 100,
+          width: 90,
           tooltip: true,
         },
         {
           title: "门编号",
           key: "doorId",
-          width: 100,
+          width: 90,
           tooltip: true,
         },{
           title: "位置",
           key: "location",
-          width: 100,
+          width: 90,
           tooltip: true,
         },{
           title: "开启方式",
           key: "openMethod",
-          width: 100,
+          width: 90,
           tooltip: true,
         },{
           title: "开启方向",
           key: "openDirection",
-          width: 100,
+          width: 90,
           tooltip: true,
         },{
           title: "高",
           key: "height",
-          width: 100,
+          width: 90,
           tooltip: true,
         },{
           title: "宽",
           key: "width",
-          width: 100,
+          width: 90,
           tooltip: true,
         },{
           title: "厚度",
           key: "thickness",
-          width:100,
+          width:90,
           tooltip: true,
         },{
           title: "材质",
           key: "texture",
-          width:  100,
+          width:  90,
           tooltip: true,
         },{
           title: "把手",
           key: "shandle",
-          width:100,
+          width:90,
           tooltip: true,
         },{
           title: "门禁",
           key: "guard",
-          width: 100,
+          width: 90,
           tooltip: true,
         },
         {
@@ -252,6 +252,8 @@ export default {
           this.total = res.result.total;
         }
       });
+      //再查找有没有生成保证单
+      
     },
     //展示方案详情
     showSchemeDetail(v){ 

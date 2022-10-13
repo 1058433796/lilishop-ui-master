@@ -57,7 +57,7 @@ export const otherRouter = {
     },
     {
       path: "goods-operation",
-      title: "添加商品",
+      title: "添加项目",
       name: "goods-operation",
       component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
     },
@@ -69,15 +69,15 @@ export const otherRouter = {
     },
     {
       path: "item-scheme",
-      title: "编辑商品",
+      title: "项目方案",
       name: "item-scheme",
       component: () => import("@/views/goods/goods-seller/itemScheme.vue")
     },
     {
-      path: "scheme-detail",
-      title: "方案详细信息",
-      name: "scheme-detail",
-      component: () => import("@/views/goods/goods-seller/components/schemedetail.vue")
+      path: "item-scheme-list",
+      title: "履约保证单",
+      name: "item-scheme-list",
+      component: () => import("@/views/goods/goods-seller/itemSchemeList.vue")
     },
     {
       path: "goods-template-operation-edit",

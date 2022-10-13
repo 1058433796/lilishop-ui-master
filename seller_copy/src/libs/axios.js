@@ -28,7 +28,7 @@ const refreshToken = getTokenDebounce();
 
 const service = axios.create({
   timeout: 10000,
-  baseURL: baseUrl
+  baseURL:null //baseUrl
 });
 service.interceptors.request.use(
   config => {
@@ -40,9 +40,9 @@ service.interceptors.request.use(
     }
 
     
-    // if(!config.url.startsWith("/common")){
-    //   config.url = '/store' + config.url
-    // }
+    if(!config.url.startsWith("/common")){
+      config.url = '/store' + config.url
+    }
     
     let uuid = getStore("uuid");
     if (!uuid) {

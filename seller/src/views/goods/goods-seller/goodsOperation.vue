@@ -149,6 +149,7 @@ export default {
       this.$router.go(-1);
     },
     handleSubmit() {
+      console.log("????")
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.submitLoading = true;
@@ -173,7 +174,7 @@ export default {
             this.submitLoading = false;
             return;
           }
-          console.log('form')
+          console.log('?form')
           console.log(this.form)
        
           params.replyTime = moment(params.replyTime).format('YYYY-MM-DD HH:mm:ss')
