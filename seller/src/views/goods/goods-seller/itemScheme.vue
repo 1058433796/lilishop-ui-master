@@ -12,7 +12,7 @@
         :columns="columns"
         :data="data"
         ref="table"
-      > 
+      >
       </Table>
         </Card>
         <Modal v-model="showDetail" width="60">
@@ -223,7 +223,7 @@ export default {
               ),])
           }
         },
- 
+
       ],
       data: [], // 表单数据
       componentData:[],//方案零件数据
@@ -244,7 +244,7 @@ export default {
         this.loading = false;
         if (res.result.records.length==0) {
           setItemScheme(this.id).then((Res)=>{
-            this.searchForm.itemId='' 
+            this.searchForm.itemId=''
             this.getDataList()
           })
         }else{
@@ -256,7 +256,7 @@ export default {
       
     },
     //展示方案详情
-    showSchemeDetail(v){ 
+    showSchemeDetail(v){
       this.searchForm.schemeId=v.schemeId
       this.showLoading=true
       getSchemeDetail(this.searchForm).then((res)=>{

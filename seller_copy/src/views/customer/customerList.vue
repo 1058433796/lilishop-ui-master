@@ -87,20 +87,20 @@ export default {
         {
           title: "用户名",
           key: "buyerName",
-          minWidth: 200,
+          minWidth: 100,
           tooltip: true,
         },//buyerName
         {
           title: "地址",
           key: "storeAddressPath",
-          width: 200,
+          width: 300,
           tooltip: true,
         },//buyerstoreAddressPath
 
         {
           title: "联系方式",
           key: "buyerPhone",
-          width: 120,
+          width: 170,
           tooltip: true,
         },//buyerPhone
         {
@@ -108,6 +108,7 @@ export default {
           key: "tradeAmount",
           minWidth: 100,
           tooltip: true,
+          align:"right",
           render: (h, params) => {
             return h(
               "div",
@@ -118,7 +119,7 @@ export default {
         {
           title: "最近交易时间",
           key: "latestTime",
-          width: 170,
+          width: 270,
         },//latestTime
 
         {

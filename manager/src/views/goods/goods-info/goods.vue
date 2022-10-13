@@ -9,29 +9,29 @@
         class="search-form"
         @keydown.enter.native="handleSearch"
       >
-        <Form-item label="商品名称" prop="goodsName">
+        <Form-item label="产品名称" prop="goodsName">
           <Input
             type="text"
             v-model="searchForm.goodsName"
-            placeholder="请输入商品名称"
+            placeholder="请输入产品名称"
             clearable
             style="width: 200px"
           />
         </Form-item>
-        <Form-item label="商品编号" prop="id">
+        <Form-item label="产品编号" prop="id">
           <Input
             type="text"
             v-model="searchForm.id"
-            placeholder="请输入商品编号"
+            placeholder="请输入产品编号"
             clearable
             style="width: 200px"
           />
         </Form-item>
-        <Form-item label="店铺名称" prop="id">
+        <Form-item label="供应商" prop="id">
           <Input
             type="text"
             v-model="searchForm.storeName"
-            placeholder="请输入店铺名称"
+            placeholder="请输入供应商名称"
             clearable
             style="width: 200px"
           />
@@ -47,26 +47,16 @@
             <Option value="DOWN">下架</Option>
           </Select>
         </Form-item>
-        <Form-item label="销售模式" prop="status">
+        <Form-item label="审核状态" prop="status">
           <Select
-            v-model="searchForm.salesModel"
+            v-model="searchForm.authFlag"
             placeholder="请选择"
             clearable
             style="width: 200px"
           >
-            <Option value="RETAIL">零售</Option>
-            <Option value="WHOLESALE">批发</Option>
-          </Select>
-        </Form-item>
-        <Form-item label="商品类型" prop="status">
-          <Select
-            v-model="searchForm.goodsType"
-            placeholder="请选择"
-            clearable
-            style="width: 200px"
-          >
-            <Option value="PHYSICAL_GOODS">实物商品</Option>
-            <Option value="VIRTUAL_GOODS">虚拟商品</Option>
+            <Option value="TOBEAUDITED">待审核</Option>
+            <Option value="PASS">通过</Option>
+            <Option value=" REFUSE">审核拒绝</Option>
           </Select>
         </Form-item>
         <Button
@@ -86,40 +76,40 @@
         class="mt_10"
       >
         <!-- 商品栏目格式化 -->
-        <template slot="goodsSlot" slot-scope="{ row }">
-          <div style="margin: 5px 0px; height: 80px; display: flex">
-            <div style="">
-              <img
-                :src="row.original"
-                style="height: 60px; margin-top: 1px; width: 60px"
-              />
-            </div>
+<!--        <template slot="goodsSlot" slot-scope="{ row }">-->
+<!--          <div style="margin: 5px 0px; height: 80px; display: flex">-->
+<!--            <div style="">-->
+<!--              <img-->
+<!--                :src="row.original"-->
+<!--                style="height: 60px; margin-top: 1px; width: 60px"-->
+<!--              />-->
+<!--            </div>-->
 
-            <div style="margin-left: 13px">
-              <div class="div-zoom">
-                <a @click="linkTo(row.id, row.skuId)">{{ row.goodsName }}</a>
-              </div>
-              <Poptip trigger="hover" title="扫码在手机中查看" transfer>
-                <div slot="content">
-                  <vue-qr
-                    :text="wapLinkTo(row.id, row.skuId)"
-                    :margin="0"
-                    colorDark="#000"
-                    colorLight="#fff"
-                    :size="150"
-                  ></vue-qr>
-                </div>
-                <img
-                  src="../../../assets/qrcode.svg"
-                  class="hover-pointer"
-                  width="20"
-                  height="20"
-                  alt=""
-                />
-              </Poptip>
-            </div>
-          </div>
-        </template>
+<!--            <div style="margin-left: 13px">-->
+<!--              <div class="div-zoom">-->
+<!--                <a @click="linkTo(row.id, row.skuId)">{{ row.goodsName }}</a>-->
+<!--              </div>-->
+<!--              <Poptip trigger="hover" title="扫码在手机中查看" transfer>-->
+<!--                <div slot="content">-->
+<!--                  <vue-qr-->
+<!--                    :text="wapLinkTo(row.id, row.skuId)"-->
+<!--                    :margin="0"-->
+<!--                    colorDark="#000"-->
+<!--                    colorLight="#fff"-->
+<!--                    :size="150"-->
+<!--                  ></vue-qr>-->
+<!--                </div>-->
+<!--                <img-->
+<!--                  src="../../../assets/qrcode.svg"-->
+<!--                  class="hover-pointer"-->
+<!--                  width="20"-->
+<!--                  height="20"-->
+<!--                  alt=""-->
+<!--                />-->
+<!--              </Poptip>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </template>-->
       </Table>
       <Row type="flex" justify="end" class="mt_10">
         <Page
@@ -187,7 +177,7 @@ export default {
           title: "商品名称",
           key: "goodsName",
           minWidth: 180,
-          slot: "goodsSlot",
+          //slot: "goodsSlot",
         },
         {
           title: "商品编号",
@@ -199,6 +189,8 @@ export default {
           title: "价格",
           key: "price",
           width: 130,
+          align:"right",
+          tooltip: true,
           render: (h, params) => {
             return h(
               "div",
@@ -207,18 +199,10 @@ export default {
           },
         },
         {
-          title: "销售模式",
-          key: "salesModel",
+          title: "供应商",
+          key: "storeName",
           width: 100,
-          render: (h, params) => {
-            if (params.row.salesModel === "RETAIL") {
-              return h("Tag", { props: { color: "orange" } }, "零售");
-            } else if (params.row.salesModel === "WHOLESALE") {
-              return h("Tag", { props: { color: "magenta" } }, "批发");
-            } else {
-              return h("Tag", { props: { color: "volcano" } }, "其他类型");
-            }
-          },
+          tooltip: true,
         },
         {
           title: "商品类型",
@@ -259,12 +243,6 @@ export default {
               return h("Tag", { props: { color: "red" } }, "拒绝");
             }
           },
-        },
-        {
-          title: "店铺名称",
-          key: "storeName",
-          minWidth: 100,
-          tooltip: true,
         },
         {
           title: "操作",

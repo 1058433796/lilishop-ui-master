@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 let util = {};
 
 util.title = function(title) {
-  title = title || "运营后台";
+  title = title || "管理平台";
   window.document.title = title;
 };
 // 判断元素是否存在于数组中
@@ -246,7 +246,7 @@ util.initRouterNode = function(routers, data) {
 
     let meta = {};
     // 给页面添加标题、父级菜单name（方便左侧菜单选中）
-    meta.title = menu.title ? menu.title + " - 运营后台" : null;
+    meta.title = menu.title ? menu.title + " - 管理平台" : null;
     meta.firstRouterName = item.firstRouterName;
     menu.meta = meta;
 

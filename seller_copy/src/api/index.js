@@ -62,6 +62,17 @@ export const logout = () => {
 export const userInfo = params => {
   return getRequest("/user/info", params);
 };
+
+// 获取用户登录信息
+export const getStoreUserInfo = params => {
+  return getRequest("member/user/info", params);
+};
+//
+// 保存供应商详细信息
+export const saveUserInfo = (params) => {
+  return putRequest(`member/user/update`, params)
+}
+
 // 获取登录信息
 export const userMsg = params => {
   return getRequest('/settings/storeSettings', params)
@@ -113,7 +124,7 @@ export const ipInfo = params => {
 };
 // 个人中心编辑
 export const userInfoEdit = params => {
-  return postRequest("/user/edit", params);
+  return postRequest("/member/user/edit", params);
 };
 // 个人中心发送修改邮箱验证邮件
 export const sendCodeEmail = (email, params) => {

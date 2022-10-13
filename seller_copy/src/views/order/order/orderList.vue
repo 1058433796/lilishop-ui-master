@@ -90,9 +90,9 @@
         <Button @click="handleReset" class="search-btn">重置</Button>
       </Form>
       <div class="export">
-<!--        <Button type="primary" class="mr_10" @click="expressOrderDeliver">-->
-<!--          批量发货-->
-<!--        </Button>-->
+        <Button type="primary" class="mr_10" @click="expressOrderDeliver">
+          批量发货
+        </Button>
         <download-excel
           style="display: inline-block"
           :data="data"
@@ -181,6 +181,7 @@ export default {
           key: "orderAmount",
           minWidth: 100,
           tooltip: true,
+          align:"right",
           render: (h, params) => {
             return h(
               "div",

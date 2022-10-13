@@ -7,13 +7,13 @@
             <table-head style="font-size: 20px">&nbsp;&nbsp;客户信息:</table-head>
             <tr>
               <td class="col-title" >客户编码</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;{{this.customerInfo.id}}</td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;{{this.customerInfo.storeId}}</td>
               <td class="col-title">客户名称</td>
-              <td colspan="3">&nbsp;&nbsp;{{this.customerInfo.companyName}}</td>
+              <td colspan="3">&nbsp;&nbsp;{{this.customerInfo.storeName}}</td>
             </tr>
             <tr>
               <td class="col-title">客户简称</td>
-              <td>&nbsp;&nbsp;{{this.customerInfo.companyName}}</td>
+              <td>&nbsp;&nbsp;{{this.customerInfo.storeName}}</td>
               <td class="col-title">英文名:</td>
               <td></td>
               <td class="col-title">拼音简码:</td>
@@ -110,18 +110,15 @@
             :data="data"
             ref="table"
           >
-            <!-- 格式化 -->
-            <template slot="goodsSlot" slot-scope="{ row }">
-              <div style="margin-top: 5px; height: 80px; display: flex">
-                <div style="margin-left: 13px">
-                  <span v-for="(item, key) in JSON.parse(row)" :key="key">
-                <span
-                  style="font-size: 12px; color: #999999"
+            <template slot-scope="{ row }" slot="action">
+              <div class="row">
+                <Button
+                  type="info"
+                  size="small"
+                  @click="check(row)"
+                >查看</Button
                 >
-                  {{ key }} : {{ item }}
-                </span>
-              </span>
-                </div>
+
               </div>
             </template>
           </Table>
@@ -136,6 +133,7 @@
 
 <script>
 import * as API_Order from "@/api/customer";
+import { getContractList } from "@/api/contract";
 import liliMap from "@/views/my-components/map/index";
 import region from "@/views/lili-components/region";
 export default {
@@ -146,6 +144,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       region: [], //地区
       regionId: [], //地区id
       showRegion: false,
@@ -154,8 +153,8 @@ export default {
       columns: [
         {
           title: '编号',
-          width: 200,
-          key:'',
+          width: 120,
+          key:'id',
 
         },
         {
@@ -166,21 +165,21 @@ export default {
         },
         {
           title: "时间",
-          key: "",
-          width: 200,
+          key: "timeStart",
+          width: 150,
           tooltip: true,
         },
 
         {
           title: "发起人",
-          key: "",
+          key: "buyerId",
           width: 120,
           tooltip: true,
         },
         {
           title: "金额",
-          key: "",
-          minWidth: 100,
+          key: "amount",
+          minWidth: 150,
           tooltip: true,
           render: (h, params) => {
             return h(
@@ -191,7 +190,7 @@ export default {
         },
         {
           title: "审核",
-          key: "",
+          key: "storeName",
           width: 120,
         },
         {
@@ -202,38 +201,47 @@ export default {
         {
           title: "状态",
           key: "",
-          width: 170,
+          width: 120,
         },
         {
           title: "操作",
-          key: "action",
+          slot: "action",
           align: "center",
           width: 100,
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "info",
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-
-                    },
-                  },
-                },
-                "查看"
-              ),
-            ]);
-          },
+          // render: (h, params) => {
+          //   return h("div", [
+          //     h(
+          //       "Button",
+          //       {
+          //         props: {
+          //           type: "info",
+          //           size: "small",
+          //         },
+          //         style: {
+          //           marginRight: "5px",
+          //         },
+          //         on: {
+          //           click: () => {
+          //
+          //           },
+          //         },
+          //       },
+          //       "查看"
+          //     ),
+          //   ]);
+          // },
         },
       ],
-      data: [], // 商品表单数据
+      searchForm: {
+        // 搜索框初始化对象
+        pageNumber: 0, // 当前页数
+        pageSize: 10, // 页面大小
+        buyerId:""
+        // sort: "startTime", // 默认排序字段
+        // order: "desc", // 默认排序方式
+      },
+      data: [], // 表格数据
+      total: 0, // 表格数据总数
       id:"",
     };
   },
@@ -245,10 +253,21 @@ export default {
         this.loading = false;
         if (res.success) {
           this.customerInfo=res.result
+          this.searchForm.buyerId=this.customerInfo.storeId;
+          getContractList(this.searchForm).then((res) => {
+            if (res.success) {
+              this.data = res.result.records;
+              this.total = res.result.total;
+              console.log(this.date)
+            }
+          });
         }
       });
-    },
 
+    },
+    check(row) {
+      this.$router.push({name: "customerContractDetail", query: {data: row}})
+    },
   },
   mounted() {
     this.id = this.$route.query.id;

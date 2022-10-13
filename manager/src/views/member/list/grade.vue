@@ -6,9 +6,7 @@
           <Form-item label="会员名称" prop="nickName">
             <Input type="text" v-model="searchForm.nickName" placeholder="请输入会员昵称" clearable style="width: 200px" />
           </Form-item>
-          <Form-item label="联系方式" prop="mobile">
-            <Input type="text" v-model="searchForm.mobile" placeholder="请输入会员联系方式" clearable style="width: 200px" />
-          </Form-item>
+
           <Button @click="handleSearch" class="search-btn" type="primary" icon="ios-search">搜索</Button>
         </Form>
       </Row>
@@ -155,8 +153,8 @@ export default {
           tooltip: true,
         },
         {
-          title: "会员类型",
-          key:"type",
+          title: "评级",
+          key: "grade",
           width: 200,
           tooltip: true,
         },

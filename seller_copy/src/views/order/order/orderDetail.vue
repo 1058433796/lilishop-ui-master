@@ -46,7 +46,7 @@
               <div class="div-item">
                 <div class="div-item-left">订单金额：</div>
                 <div class="div-item-right">
-                  {{ orderInfo.itemOrder.orderAmount }}
+                  {{this.$options.filters.unitPrice(orderInfo.itemOrder.orderAmount, "￥")  }}
                 </div>
               </div>
               <div class="div-item">

@@ -9,20 +9,20 @@
         :label-width="70"
         class="search-form"
       >
-        <Form-item label="商品名称" prop="goodsName">
+        <Form-item label="产品名称" prop="goodsName">
           <Input
             type="text"
             v-model="searchForm.goodsName"
-            placeholder="请输入商品名称"
+            placeholder="请输入产品名称"
             clearable
             style="width: 200px"
           />
         </Form-item>
-        <Form-item label="商品编号" prop="id">
+        <Form-item label="产品编号" prop="id">
           <Input
             type="text"
             v-model="searchForm.id"
-            placeholder="请输入商品编号"
+            placeholder="请输入产品编号"
             clearable
             style="width: 200px"
           />
@@ -40,22 +40,22 @@
         class="mt_10"
       >
         <!-- 商品栏目格式化 -->
-        <template slot="goodsSlot" slot-scope="scope">
-          <div style="margin-top: 5px; height: 80px; display: flex">
-            <div style="">
-              <img
-                :src="scope.row.original"
-                style="height: 60px; margin-top: 3px; width: 60px"
-              />
-            </div>
+<!--        <template slot="goodsSlot" slot-scope="scope">-->
+<!--          <div style="margin-top: 5px; height: 80px; display: flex">-->
+<!--            <div style="">-->
+<!--              <img-->
+<!--                :src="scope.row.original"-->
+<!--                style="height: 60px; margin-top: 3px; width: 60px"-->
+<!--              />-->
+<!--            </div>-->
 
-            <div style="margin-left: 13px">
-              <div class="div-zoom">
-                <a>{{ scope.row.goodsName }}</a>
-              </div>
-            </div>
-          </div>
-        </template>
+<!--            <div style="margin-left: 13px">-->
+<!--              <div class="div-zoom">-->
+<!--                <a>{{ scope.row.goodsName }}</a>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </template>-->
       </Table>
       <Row type="flex" justify="end" class="mt_10">
         <Page
@@ -98,14 +98,14 @@ export default {
       },
       columns: [
         {
-          title: "商品名称",
+          title: "产品名称",
           key: "goodsName",
           minWidth: 180,
-          slot: "goodsSlot",
+          //slot: "goodsSlot",
           tooltip: true,
         },
         {
-          title: "商品编号",
+          title: "产品编号",
           key: "id",
           minWidth: 100,
           tooltip: true,
@@ -113,52 +113,35 @@ export default {
         {
           title: "价格",
           key: "price",
-          minWidth: 130,
+          width: 130,
+          align:"right",
+          tooltip: true,
           render: (h, params) => {
-            return h("div", this.$options.filters.unitPrice(params.row.price, "￥"));
+            return h(
+              "div",
+              this.$options.filters.unitPrice(params.row.price, "￥")
+            );
           },
         },
         {
-          title: "审核状态",
-          key: "authFlag",
-          minWidth: 130,
+          title: "供应商",
+          key: "storeName",
+          width: 100,
+          tooltip: true,
+        },
+        {
+          title: "商品类型",
+          key: "goodsType",
+          width: 130,
           render: (h, params) => {
-            if (params.row.authFlag == "TOBEAUDITED") {
-              return h("div", [
-                h("Badge", {
-                  props: {
-                    status: "error",
-                    text: "待审核",
-                  },
-                }),
-              ]);
-            } else if (params.row.authFlag == "PASS") {
-              return h("div", [
-                h("Badge", {
-                  props: {
-                    status: "success",
-                    text: "审核通过",
-                  },
-                }),
-              ]);
-            } else if (params.row.authFlag == "REFUSE") {
-              return h("div", [
-                h("Badge", {
-                  props: {
-                    status: "error",
-                    text: "审核拒绝",
-                  },
-                }),
-              ]);
+            if (params.row.goodsType === "PHYSICAL_GOODS") {
+              return h("Tag", { props: { color: "green" } }, "实物商品");
+            } else if (params.row.goodsType === "VIRTUAL_GOODS") {
+              return h("Tag", { props: { color: "volcano" } }, "虚拟商品");
+            } else {
+              return h("Tag", { props: { color: "geekblue" } }, "电子卡券");
             }
           },
-        },
-
-        {
-          title: "店铺名称",
-          key: "storeName",
-          minWidth: 100,
-          tooltip: true,
         },
         {
           title: "操作",

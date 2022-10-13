@@ -122,20 +122,6 @@
               </div>
             </div>
 
-            <div class="detail-item">
-              <div @click="navigateTo('seckill')">
-                <span>{{homeData.seckillNum || 0}}</span>
-                <div>秒杀活动</div>
-              </div>
-              <div @click="navigateTo('accountStatementBill')">
-                <span>{{homeData.waitPayBill || 0}}</span>
-                <div>等待对账</div>
-              </div>
-              <div class="detail-title">
-                其他
-              </div>
-            </div>
-
           </div>
         </div>
       </div>

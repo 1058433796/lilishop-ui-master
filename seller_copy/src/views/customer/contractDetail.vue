@@ -102,8 +102,7 @@
             </tr>
           </table>
           <div class="bottom-action">
-            <Button class="signAciton" :type='this.contractData.providerState==="已签署"?"success":"primary"'  @click="sign()" :disabled='this.contractData.providerState==="已签署"'>{{state}}</Button>
-            <Button type="success" @click="back">返回</Button>
+            <Button type="success" @click="detail">返回</Button>
           </div>
         </TabPane>
       </Tabs>
@@ -117,8 +116,7 @@ export default {
   name: "contractDetail",
   data() {
     return {
-      
-      // defaultImg: require('@/assets/word.png'),
+      defaultImg: require('@/assets/word.png'),
       filename: "test.docx",
       state: "签署",
       contractData : this.$route.query.data,
@@ -132,9 +130,13 @@ export default {
         }
       });
     },
-    back(){
-      this.$router.push({name: "contractList"})
-    }
+    detail() {
+
+      this.$router.push({
+        name: "customer-detail",
+        query: { id: this.contractData.buyerId },
+      });
+    },
 
   },
 }
