@@ -14,10 +14,14 @@
                         <Input type="password" v-model="form.password" prefix="ios-lock" size="large" password
                             placeholder="请输入密码" autocomplete="off" />
                     </FormItem>
-                    <FormItem prop="mobile" label="手机号">
+                    <FormItem prop="repassword" label="确认密码">
+                        <Input type="password" prefix="ios-lock" v-model="form.repassword" size="large" password
+                            placeholder="请再次输入密码" autocomplete="off" />
+                    </FormItem>
+                    <!-- <FormItem prop="mobile" label="手机号">
                         <Input type="number" v-model="form.mobile" prefix="ios-lock" size="large" password
                             placeholder="请输入手机号" autocomplete="off" />
-                    </FormItem>
+                    </FormItem> -->
                 </Form>
                 <Row>
                     <div class="login-btn" type="primary" size="large" :loading="loading" @click="submitRegister" long>
@@ -50,11 +54,13 @@ export default {
         return {
             saveLogin: true, // 保存登录状态
             loading: false, // 加载状态
+            // repassword: '',
             form: {
                 // 表单数据
                 username: "",
                 password: "",
-                mobile: ""
+                repassword: "",
+                // mobile: ""
             },
             rules: {
                 // 验证规则
@@ -71,14 +77,24 @@ export default {
                         message: "密码不能为空",
                         trigger: "blur",
                     },
+
                 ],
-                mobile: [
-                    {
-                        required: true,
-                        message: "手机号不能为空",
-                        trigger: "blur"
-                    }
-                ]
+                repassword: [
+                    {required: true, trigger: 'blur', message: '确认密码不能为空'},
+                    {validator:(rule, value, cb) => {
+                        console.log(value, this.form.password);
+                        if(value !== this.form.password){
+                            cb(new Error('两次密码不一致'))
+                        }else cb();
+                    }, trigger: 'blur'}
+                ],
+                // mobile: [
+                //     {
+                //         required: true,
+                //         message: "手机号不能为空",
+                //         trigger: "blur"
+                //     }
+                // ]
             },
         };
     },
