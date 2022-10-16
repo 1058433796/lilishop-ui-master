@@ -308,6 +308,7 @@ import * as MetaData from "./metaData"
  * 1. 图片的预览格式不再是:src=item.url 而是:src=item.file.url 需要修改相关位置
  * 2. save()上传文件前需要将用户填写的文件信息一并上传
  * 3. 后端create的逻辑需要修改，可能是List<String> => List<GoodsMaterial>？ 必须存储文件相关信息
+ * 4. Get_DataList时不能仅获取url，还必须包含其他文件信息
  */
 
 
