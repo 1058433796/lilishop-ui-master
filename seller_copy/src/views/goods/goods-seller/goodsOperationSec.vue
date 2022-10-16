@@ -179,8 +179,6 @@
                       </formItem>
                     </Form>
 
-
-
                     <div style="display:flex;">
                       <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsMaterialFiles" :key="__index">
                     <template>
@@ -457,6 +455,7 @@ export default {
         fileType:null,
      }
     },
+    // 点击确认后将文件存入对应文件列表，并将fileType一并放入
     handleModalOK(fileListName, formName='baseInfoForm'){
       let {uploadFiles, fileType} = this.uploadForm
       uploadFiles.forEach(val => {
