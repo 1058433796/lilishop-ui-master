@@ -301,6 +301,16 @@ import { uploadFile } from "@/libs/axios";
 import { regular } from "@/utils";
 import * as MetaData from "./metaData"
 
+/**
+ * 重写上传文件逻辑，在添加文件前显示上传文件窗口，允许用户添加文件信息
+ * 相应文件信息保存在uploadForm中，当用户点击确定时将已上传文件及其文件信息存入对应文件列表
+ * TODO：
+ * 1. 图片的预览格式不再是:src=item.url 而是:src=item.file.url 需要修改相关位置
+ * 2. save()上传文件前需要将用户填写的文件信息一并上传
+ * 3. 后端create的逻辑需要修改，可能是List<String> => List<GoodsMaterial>？ 必须存储文件相关信息
+ */
+
+
 export default {
   name: "goodsOperationSec",
   components: {
