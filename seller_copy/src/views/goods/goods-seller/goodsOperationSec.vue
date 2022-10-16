@@ -57,7 +57,8 @@
                       <div class="demo-upload-list-cover">
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
-                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsGalleryFiles',item)"></Icon>
+                          <Icon type="md-trash" size="30"
+                            @click.native="handleRemoveGoodsPicture('goodsGalleryFiles',item)"></Icon>
                           <Icon type="ios-folder" size="30" @click.native="handleDownload(item.url)"></Icon>
                         </div>
                       </div>
@@ -65,10 +66,12 @@
                   </div>
                 </draggable>
 
-                <Upload :show-upload-list="false" :on-success="(res, file) => handleSuccessGoodsPicture('goodsGalleryFiles', res, file)"
+                <Upload :show-upload-list="false"
+                  :on-success="(res, file) => handleSuccessGoodsPicture('goodsGalleryFiles', res, file)"
                   :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="e => handleBeforeUploadGoodsPicture('goodsGalleryFiles', e)"
-                  multiple type="drag" :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
+                  :on-exceeded-size="handleMaxSize" :max-size="1024"
+                  :before-upload="e => handleBeforeUploadGoodsPicture('goodsGalleryFiles', e)" multiple type="drag"
+                  :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
                   <div style="width: 148px; height: 148px; line-height: 148px">
                     <Icon type="md-add" size="20"></Icon>
                   </div>
@@ -83,15 +86,15 @@
             <FormItem class="form-item-view-el required" label="上传模型" prop="goodsModelFiles">
               <div style="display: flex; flex-wrap: flex-start">
                 <draggable :list="baseInfoForm.goodsModelFiles" :animation="200">
-                  <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsModelFiles"
-                    :key="__index">
+                  <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsModelFiles" :key="__index">
                     <template>
                       <!-- <img src="../../../assets/file.png" /> -->
                       <img :src="item.url" />
                       <div class="demo-upload-list-cover">
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
-                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsModelFiles',item)"></Icon>
+                          <Icon type="md-trash" size="30"
+                            @click.native="handleRemoveGoodsPicture('goodsModelFiles',item)"></Icon>
                           <Icon type="ios-folder" size="30" @click.native="handleDownload(item.url)"></Icon>
                         </div>
                       </div>
@@ -99,10 +102,12 @@
                   </div>
                 </draggable>
 
-                <Upload :show-upload-list="false" :on-success="(res, file) => handleSuccessGoodsPicture('goodsModelFiles', res, file)"
+                <Upload :show-upload-list="false"
+                  :on-success="(res, file) => handleSuccessGoodsPicture('goodsModelFiles', res, file)"
                   :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="e => handleBeforeUploadGoodsPicture('goodsModelFiles', e)"
-                  multiple type="drag" :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
+                  :on-exceeded-size="handleMaxSize" :max-size="1024"
+                  :before-upload="e => handleBeforeUploadGoodsPicture('goodsModelFiles', e)" multiple type="drag"
+                  :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
                   <div style="width: 148px; height: 148px; line-height: 148px">
                     <Icon type="md-add" size="20"></Icon>
                   </div>
@@ -120,100 +125,147 @@
                     :key="__index">
                     <template>
                       <!-- <img src="../../../assets/upload.png" /> -->
-                      <img :src="item.url" />
+                      <img :src="item.file.url" />
                       <div class="demo-upload-list-cover">
                         <div>
                           <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon>
-                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('goodsMaterialFiles', item)"></Icon>
+                          <Icon type="md-trash" size="30"
+                            @click.native="handleRemoveGoodsPicture('goodsMaterialFiles', item)"></Icon>
                           <Icon type="ios-folder" size="30" @click.native="handleDownload(item.url)"></Icon>
                         </div>
                       </div>
                     </template>
                   </div>
                 </draggable>
-
-                <Upload :show-upload-list="false" :on-success="(res, file) => handleSuccessGoodsPicture('goodsMaterialFiles', res, file)"
+                <div
+                  style="width: 148px; height: 148px; line-height: 148px;border: 1px solid gainsboro; border-radius:5px;"
+                  @click="handleUploadModalOpen">
+                  <Icon type="md-add" size="20"></Icon>
+                </div>
+                <!-- <Upload :show-upload-list="false"
+                  :on-success="(res, file) => handleSuccessGoodsPicture('goodsMaterialFiles', res, file)"
                   :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="e => handleBeforeUploadGoodsPicture('goodsMaterialFiles', e)"
-                  multiple type="drag" :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
+                  :on-exceeded-size="handleMaxSize" :max-size="1024"
+                  :before-upload="e => handleBeforeUploadGoodsPicture('goodsMaterialFiles', e)" multiple type="drag"
+                  :action="uploadFileUrl" :headers="{ ...accessToken }" style="margin-left: 10px">
                   <div style="width: 148px; height: 148px; line-height: 148px">
                     <Icon type="md-add" size="20"></Icon>
                   </div>
-                </Upload>
+                </Upload> -->
               </div>
-              <Modal title="View Image" v-model="goodsPictureVisible">
+              <Modal title="图片预览" v-model="goodsPictureVisible">
                 <img :src="previewGoodsPicture" v-if="goodsPictureVisible" style="width: 100%" />
+              </Modal>
+              <Modal title="文件上传" v-model="uploadFileVisible" @on-ok="handleModalOK('goodsMaterialFiles')">
+                <div style="display:flex; flex-direction: column; justify-content: space-around;">
+                    <Form
+                    style="display:flex; flex-direction:column; align-items: center;" :label-width="80"
+                    ref="uploadForm" :model="uploadForm"
+                    >
+                      <formItem label="文件上传">
+                        <Upload :show-upload-list="false"
+                      :on-success="(res, file) => handleSuccessGoodsPicture('uploadFiles', res, file, 'uploadForm')"
+                      :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize" :max-size="1024"
+                      :before-upload="e => handleBeforeUploadGoodsPicture('uploadFiles', e, 'uploadForm')" multiple
+                      :action="uploadFileUrl" :headers="{ ...accessToken }">
+                      <Button icon="ios-cloud-upload-outline" style="width:200px;">上传文件</Button>
+                    </Upload>
+                      </formItem>
+                      <formItem label="文件类型" prop="fileType">
+                        <Select style="width:200px" v-model="uploadForm.fileType">
+                    <Option v-for="item in fileTypeList" :value="item" :key="item">{{ item }}</Option>
+                  </Select>
+                      </formItem>
+                    </Form>
+
+
+
+                    <div style="display:flex;">
+                      <div class="demo-upload-list" v-for="(item, __index) in baseInfoForm.goodsMaterialFiles" :key="__index">
+                    <template>
+                      <img :src="item.url" style=""/>
+                      <div class="demo-upload-list-cover">
+                        <div>
+                          <Icon type="md-trash" size="30"
+                            @click.native="handleRemoveGoodsPicture('goodsMaterialFiles',item)"></Icon>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                    </div>
+                </div>
+
+
               </Modal>
             </FormItem>
 
+          </div>
+          <h4>规格参数</h4>
+          <div class="form-item-view-row">
+            <formItem label="ANSI认证" prop="ansiCert">
+              <Select v-model="baseInfoForm.ansiCert" style="width:100px">
+                <Option v-for="item in ANSIList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
+            <formItem label="EN认证" prop="enCert">
+              <Select v-model="baseInfoForm.enCert" style="width:100px">
+                <Option v-for="item in ENList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
-            </div>
-            <h4>规格参数</h4>
-            <div class="form-item-view-row">
-              <formItem label="ANSI认证" prop="ansiCert">
-                <Select v-model="baseInfoForm.ansiCert" style="width:100px">
-                  <Option v-for="item in ANSIList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
+            <formItem label="GB认证" prop="gbCert">
+              <Select v-model="baseInfoForm.gbCert" style="width:100px">
+                <Option v-for="item in GBList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
-              <formItem label="EN认证" prop="enCert">
-                <Select v-model="baseInfoForm.enCert" style="width:100px">
-                  <Option v-for="item in ENList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
+            <formItem label="防火认证" prop="fireProofCert">
+              <Select v-model="baseInfoForm.fireProofCert" style="width:100px">
+                <Option v-for="item in fireProofList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
-              <formItem label="GB认证" prop="gbCert">
-                <Select v-model="baseInfoForm.gbCert" style="width:100px">
-                  <Option v-for="item in GBList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
+            <formItem label="辅助认证" prop="auxCert">
+              <Select v-model="baseInfoForm.auxCert" style="width:100px">
+                <Option v-for="item in auxList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
-              <formItem label="防火认证" prop="fireProofCert">
-                <Select v-model="baseInfoForm.fireProofCert" style="width:100px">
-                  <Option v-for="item in fireProofList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
+            <formItem label="材质" prop="material">
+              <Select v-model="baseInfoForm.material" style="width:100px">
+                <Option v-for="item in materialList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
-              <formItem label="辅助认证" prop="auxCert">
-                <Select v-model="baseInfoForm.auxCert" style="width:100px">
-                  <Option v-for="item in auxList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
+            <formItem label="饰面" prop="decoration">
+              <Select v-model="baseInfoForm.decoration" style="width:100px">
+                <Option v-for="item in decorationList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
-              <formItem label="材质" prop="material">
-                <Select v-model="baseInfoForm.material" style="width:100px">
-                  <Option v-for="item in materialList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
+            <formItem label="尺寸规格" prop="size">
+              <Select v-model="baseInfoForm.size" style="width:100px">
+                <Option v-for="item in sizeList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
-              <formItem label="饰面" prop="decoration">
-                <Select v-model="baseInfoForm.decoration" style="width:100px">
-                  <Option v-for="item in decorationList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
-
-              <formItem label="尺寸规格" prop="size">
-                <Select v-model="baseInfoForm.size" style="width:100px">
-                  <Option v-for="item in sizeList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
-
-              <formItem label="承重" prop="loadBearing">
-                <Select v-model="baseInfoForm.loadBearing" style="width:100px">
-                  <Option v-for="item in loadBearingList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
-              <formItem label="力级" prop="forceLevel">
-                <Select v-model="baseInfoForm.forceLevel" style="width:100px">
-                  <Option v-for="item in forceLevelList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
-              <formItem label="可调节参数" prop="adjustParam">
-                <Select v-model="baseInfoForm.adjustParam"  style="width:100px">
-                  <Option v-for="item in adjustParamList" :value="item" :key="item">{{ item }}</Option>
-                </Select>
-              </formItem>
+            <formItem label="承重" prop="loadBearing">
+              <Select v-model="baseInfoForm.loadBearing" style="width:100px">
+                <Option v-for="item in loadBearingList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
+            <formItem label="力级" prop="forceLevel">
+              <Select v-model="baseInfoForm.forceLevel" style="width:100px">
+                <Option v-for="item in forceLevelList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
+            <formItem label="可调节参数" prop="adjustParam">
+              <Select v-model="baseInfoForm.adjustParam" style="width:100px">
+                <Option v-for="item in adjustParamList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
+            </formItem>
 
           </div>
 
@@ -264,21 +316,6 @@ export default {
     },
   },
   data() {
-    // 表单验证项，商品价格
-    const checkPrice = (rule, value, callback) => {
-      if (!value && value !== 0) {
-        return callback(new Error("商品价格不能为空"));
-      }
-      setTimeout(() => {
-        if (!regular.money.test(value)) {
-          callback(new Error("请输入正整数或者两位小数"));
-        } else if (parseFloat(value) > 99999999) {
-          callback(new Error("商品价格设置超过上限值"));
-        } else {
-          callback();
-        }
-      }, 1000);
-    };
     return {
       regular,
       initEditor,
@@ -287,7 +324,7 @@ export default {
       accessToken: "", //令牌token
       goodsParams: "",
       categoryId: "", // 商品分类第三级id
-        // 类别名称
+      // 类别名称
       categoryName: [],
       //提交状态
       submitLoading: false,
@@ -301,6 +338,7 @@ export default {
       visible: false,
       //展示商品图片
       goodsPictureVisible: false,
+      uploadFileVisible: false,
 
       wholesaleData: [
         {
@@ -309,6 +347,11 @@ export default {
           goodsId: this.goodsId,
         },
       ],
+      // 上传文件使用的form
+      uploadForm: {
+        uploadFiles:[],
+        fileType:null,
+      },
       /** 发布商品基本参数 序列化再转对象 防止修改metaData*/
       baseInfoForm: JSON.parse(JSON.stringify(MetaData.baseInfoForm)),
 
@@ -327,16 +370,18 @@ export default {
       goodsUnitList: MetaData.goodsUnitList,
       // 规格参数列表
       ANSIList: MetaData.ANSIList,
-      ENList:MetaData.ENList,
-      GBList:MetaData.GBList,
-      fireProofList:MetaData.fireProofList,
-      auxList:MetaData.auxList,
-      materialList:MetaData.materialList,
-      decorationList:MetaData.decorationList,
-      sizeList:MetaData.sizeList,
-      loadBearingList:MetaData.loadBearingList,
-      forceLevelList:MetaData.forceLevelList,
-      adjustParamList:MetaData.adjustParamList,
+      ENList: MetaData.ENList,
+      GBList: MetaData.GBList,
+      fireProofList: MetaData.fireProofList,
+      auxList: MetaData.auxList,
+      materialList: MetaData.materialList,
+      decorationList: MetaData.decorationList,
+      sizeList: MetaData.sizeList,
+      loadBearingList: MetaData.loadBearingList,
+      forceLevelList: MetaData.forceLevelList,
+      adjustParamList: MetaData.adjustParamList,
+      // 文件类型列表
+      fileTypeList: ['说明书', '检测报告', '其他'],
     };
   },
   methods: {
@@ -364,15 +409,15 @@ export default {
       this.goodsPictureVisible = true;
     },
     // 移除商品图片
-    handleRemoveGoodsPicture(fileListName, file) {
-      this.baseInfoForm[fileListName] = 
-        this.baseInfoForm[fileListName].filter((i) => i.url !== file.url);
+    handleRemoveGoodsPicture(fileListName, file, fileForm='baseInfoForm') {
+      this[fileForm][fileListName] =
+        this[fileForm][fileListName].filter((i) => i.url !== file.url);
     },
     // 商品图片上传成功
-    handleSuccessGoodsPicture(fileListName, res, file) {
+    handleSuccessGoodsPicture(fileListName, res, file, fileForm='baseInfoForm') {
       if (file.response) {
         file.url = file.response.result;
-        this.baseInfoForm[fileListName].push(file);
+        this[fileForm][fileListName].push(file);
       }
     },
     // 图片格式不正确
@@ -390,9 +435,9 @@ export default {
       });
     },
     // 图片上传前钩子
-    handleBeforeUploadGoodsPicture(fileListName, file) {
+    handleBeforeUploadGoodsPicture(fileListName, file, fileForm='baseInfoForm') {
       console.log(fileListName, 'upload');
-      const check = this.baseInfoForm[fileListName].length < 3;
+      const check = this[fileForm][fileListName].length < 3;
       if (!check) {
         this.$Notice.warning({
           title: "数量不能多于三个",
@@ -400,10 +445,24 @@ export default {
         return false;
       }
     },
-    handleDownload(url){
+    handleDownload(url) {
       window.open(url)
     },
-
+    // modal打开时事件
+    handleUploadModalOpen(){
+     this.uploadFileVisible = true
+    //  重置参数
+     this.uploadForm = {
+      uploadFiles:[],
+        fileType:null,
+     }
+    },
+    handleModalOK(fileListName, formName='baseInfoForm'){
+      let {uploadFiles, fileType} = this.uploadForm
+      uploadFiles.forEach(val => {
+        this[formName][fileListName].push({file: val, fileType: fileType})
+      })
+    },
     /**  添加商品或者修改商品 **/
     save() {
       this.submitLoading = true;
@@ -416,45 +475,45 @@ export default {
             this.submitLoading = false;
             this.$Message.error("请上传商品图片");
             return;
-          }else {
+          } else {
             submit.goodsGalleryList = submit.goodsGalleryFiles.map(
               (i) => i.url
             );
           }
           // 添加模型文件上传
-          if(submit.goodsModelFiles.length > 0){
+          if (submit.goodsModelFiles.length > 0) {
             submit.modelList = submit.goodsModelFiles.map(
               item => item.url
             )
           }
           // 添加材料上传
-          if(submit.goodsMaterialFiles.length > 0){
+          if (submit.goodsMaterialFiles.length > 0) {
             submit.materialList = submit.goodsMaterialFiles.map(
               item => item.url
             )
           }
-          if(this.$route.query && this.$route.query.goodsId){
+          if (this.$route.query && this.$route.query.goodsId) {
             console.log('修改商品', submit);
-            API_GOODS.editGoods(this.$route.query.goodsId, submit).then(e=>{
-            if(e && e.success){
-              this.submitLoading = false;
+            API_GOODS.editGoods(this.$route.query.goodsId, submit).then(e => {
+              if (e && e.success) {
+                this.submitLoading = false;
                 this.$parent.activestep = 2;
-            }
-          });
-          }else{
+              }
+            });
+          } else {
             console.log('创建商品', submit);
             // this.submitLoading = false;
             // return;
-            API_GOODS.createGoods(submit).then(e=>{
-            if(e && e.success){
-              console.log(e);
-              this.submitLoading = false;
+            API_GOODS.createGoods(submit).then(e => {
+              if (e && e.success) {
+                console.log(e);
+                this.submitLoading = false;
                 this.$parent.activestep = 2;
-            }
-          });
+              }
+            });
           }
 
-          setTimeout(() =>{
+          setTimeout(() => {
             this.$Message.error("服务器无响应，请稍后再试");
             this.submitLoading = false;
           }, 1000 * 10);
@@ -464,14 +523,14 @@ export default {
         }
       });
     },
-    async get_GoodData(id){
-    let response = (await API_GOODS.getGoods(id)).result;
-    console.log('response.reuslt', response);
-    this.categoryName = response.categoryName;
-    this.baseInfoForm = Object.assign(this.baseInfoForm, response);
-    // this.baseInfoForm = {...response}
-    // 图片处理
-    if (
+    async get_GoodData(id) {
+      let response = (await API_GOODS.getGoods(id)).result;
+      console.log('response.reuslt', response);
+      this.categoryName = response.categoryName;
+      this.baseInfoForm = Object.assign(this.baseInfoForm, response);
+      // this.baseInfoForm = {...response}
+      // 图片处理
+      if (
         response.goodsGalleryList &&
         response.goodsGalleryList.length > 0
       ) {
@@ -502,7 +561,7 @@ export default {
       }
       // 报告处理&说明书处理
 
-  },
+    },
 
   },
 
@@ -510,16 +569,16 @@ export default {
     this.accessToken = {
       accessToken: this.getStore("accessToken"),
     };
-    console.log('firstData',this.firstData)
-    console.log('$route.query',this.$route.query)
+    console.log('firstData', this.firstData)
+    console.log('$route.query', this.$route.query)
     // 使用JSON深拷贝
     this.baseInfoForm = JSON.parse(JSON.stringify(MetaData.baseInfoForm));
-    if(this.$route.query && this.$route.query.goodsId){
+    if (this.$route.query && this.$route.query.goodsId) {
       // 进行商品编辑行为
       console.log('正在进行商品编辑');
       const goodsId = this.$route.query.goodsId;
       this.get_GoodData(goodsId);
-    }else{
+    } else {
       // 进行商品创建行为
       console.log('正在进行商品添加');
       this.categoryName = this.firstData.category.map(item => item.name);
