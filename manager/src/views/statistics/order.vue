@@ -47,15 +47,15 @@
                 <div class="card-item">
                   <div class="card-item-label">下单笔数</div>
                   <div class="card-item-value">
-                    {{ overViewList.orderNum || 0 }}
+                    {{ overViewList.totalOrders || 0 }}
                   </div>
                 </div>
-                <div class="card-item">
+                <!-- <div class="card-item">
                   <div class="card-item-label">下单人数</div>
                   <div class="card-item-value">
                     {{ overViewList.orderMemberNum || 0 }}
                   </div>
-                </div>
+                </div> -->
                 <div class="card-item">
                   <div class="card-item-label">下单金额</div>
                   <div class="card-item-value">
@@ -68,12 +68,12 @@
                     {{ overViewList.paymentOrderNum || 0 }}
                   </div>
                 </div>
-                <div class="card-item">
+                <!-- <div class="card-item">
                   <div class="card-item-label">付款人数</div>
                   <div class="card-item-value">
                     {{ overViewList.paymentsNum || 0 }}
                   </div>
-                </div>
+                </div> -->
                 <div class="card-item">
                   <div class="card-item-label">付款金额</div>
                   <div class="card-item-value">
@@ -100,17 +100,17 @@
           <div class="shap">
             <div id="overViewChart">
               <!-- 上 -->
-              <div class="block">
+              <!-- <div class="block">
                 <div class="box">
                   <span>访客数</span>
                   <span>{{ overViewList.uvNum || 0 }}</span>
                 </div>
-              </div>
+              </div> -->
               <!-- 中 -->
               <div class="block">
                 <div class="box">
                   <span>下单笔数</span>
-                  <span>{{ overViewList.orderNum || 0 }}</span>
+                  <span>{{ overViewList.totalOrders || 0 }}</span>
                 </div>
               </div>
               <!-- 下 -->
@@ -122,22 +122,23 @@
               </div>
 
               <!-- 线 -->
-              <div class="rightBorder"></div>
-              <div class="leftTopBorder"></div>
+              <!-- <div class="rightBorder"></div> -->
+              <!-- <div class="leftTopBorder"></div> -->
               <div class="leftBottomBorder"></div>
               <!--数据 -->
-              <div class="leftTopTips">
+              <!-- <div class="leftTopTips">
                 <div>下单转化率</div>
                 <div>{{ overViewList.orderConversionRate || "0%" }}</div>
-              </div>
+              </div> -->
               <div class="leftBottomTips">
                 <div>付款转化率</div>
-                <div>{{ overViewList.paymentsConversionRate || "0%" }}</div>
+                <div> {{ (overViewList.paymentOrderNum*100/overViewList.totalOrders).toFixed(2) +"%"  || "0%" }} </div>
+                <!-- <div>{{ overViewList.paymentsConversionRate || "0%" }}</div> -->
               </div>
-              <div class="rightTips">
+              <!-- <div class="rightTips">
                 <div>整体转换率</div>
                 <div>{{ overViewList.overallConversionRate || "0%" }}</div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -154,7 +155,6 @@
         <div id="orderChart"></div>
       </div>
     </Card>
-
     <Card class="card">
       <div>
         <h4>订退单统计</h4>
@@ -175,16 +175,8 @@
         <Page
           v-if="showRecords"
           size="small"
-          @on-change="
-            (index) => {
-              refundParams.pageNumber = index;
-            }
-          "
-          @on-page-size-change="
-            (size) => {
-              (refundParams.pageSize = size), (refundParams.pageNumber = 1);
-            }
-          "
+          @on-change="changePage"
+          @on-page-size-change="changePageSize"
           class="mt_10"
           show-total
           show-sizer
@@ -261,19 +253,20 @@ export default {
           },
         },
         {
-          title: "商家名称",
+          title: "供应商",
           key: "storeName",
         },
         {
-          title: "用户名",
-          key: "memberName",
+          title: "采购方",
+          key: "buyerName",
         },
 
         {
           title: "订单状态",
           key: "orderStatus",
           render: (h, params) => {
-            return h("div", this.orderStatusList[params.row.orderStatus]);
+            return h("div", params.row.orderStatus)
+            // return h("div", this.orderStatusList[params.row.orderStatus]);
           },
         },
         {
@@ -283,18 +276,17 @@ export default {
 
         {
           title: "支付时间",
-          key: "paymentTime",
           render: (h, params) => {
-            return h("div", params.row.paymentTime || "暂无");
+            return h("div", params.row.payTime || "暂无");
           },
         },
         {
           title: "价格",
-          key: "flowPrice",
+          key: "orderAmount",
           render: (h, params) => {
             return h(
               "div",
-              this.$options.filters.unitPrice(params.row.flowPrice, "￥")
+              this.$options.filters.unitPrice(params.row.orderAmount, "￥")
             );
           },
         },
@@ -308,10 +300,10 @@ export default {
               },
               on:{
                 click: () => {
-                 const { sn } = params.row
-                  this.$router.push({
-                    query: {sn},
-                    path: this.orderOrRefund == 1 ? 'order-detail' : 'after-order-detail' + '?sn='+sn
+                //  const { sn } = params.row
+                  this.$router.push({ 
+                    path: this.orderOrRefund == 1 ? 'order-detail' : 'after-order-detail',
+                    query: params.row,
                   })
                 }
               }
@@ -426,10 +418,10 @@ export default {
 
       // 交易概况
       transactionList: [
-        {
-          label: "转换",
-          value: "",
-        },
+        // {
+        //   label: "转换",
+        //   value: "",
+        // },
         {
           label: "订单",
           value: "",
@@ -530,6 +522,15 @@ export default {
     },
   },
   methods: {
+    // 改变页数
+    changePage(v){
+      this.refundParams.pageNumber=v;
+      this.getOrderList();
+    },
+    changePageSize(v) {
+      this.refundParams.pageSize = v;
+      this.getOrderList();
+    },
     // 订单图
     initOrderChart() {
       // 默认已经加载 legend-filter 交互

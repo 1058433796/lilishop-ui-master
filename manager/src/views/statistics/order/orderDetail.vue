@@ -4,53 +4,77 @@
       <h3>订单详情</h3>
       <div class="shop-item">
         <div class="label-item">
-          <span>订单来源</span>
-          <span>{{ res.clientType | clientTypeWay }}</span>
+          <span>采购方id</span>
+          <span>{{ res.buyerId | clientTypeWay }}</span>
+        </div>
+        <div class="label-item">
+          <span>供应商id</span>
+          <span>{{ res.storeId || "暂无" }}</span>
+        </div>
+        <div class="label-item">
+          <span>供应商</span>
+          <span>{{ res.storeName }}</span>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="label-item">
+          <span>采购方</span>
+          <span>{{ res.buyerName }}</span>
+        </div>
+        <div class="label-item">
+          <span>采购人姓名</span>
+          <span>{{ res.consigneeName }}</span>
+        </div>
+        <div class="label-item">
+          <span>采购人电话</span>
+          <span>{{ res.consigneePhone }}</span>
+        </div>
+       
+      </div>
+      <div class="shop-item">
+
+        <div class="label-item">
+          <span>创建时间</span>
+          <span>{{ res.createTime }}</span>
         </div>
         <div class="label-item">
           <span>订单状态</span>
-          <span>{{ orderStatusList[res.orderStatus] }}</span>
+          <span> {{res.orderStatus}}</span>
+          <!-- <span>{{ orderStatusList[res.orderStatus] }}</span> -->
         </div>
-        <div class="label-item">
-          <span>付款状态</span>
-          <span>{{
-            res.payStatus == "UNPAID"
-              ? "未付款"
-              : res.payStatus == "PAID"
-              ? "已付款"
-              : ""
-          }}</span>
-        </div>
-        <div class="label-item">
-          <span>支付时间</span>
-          <span>{{ res.paymentTime || "暂无" }}</span>
-        </div>
+      </div>
+      <div class="shop-item">
+        
+    
         <div class="label-item">
           <span>支付方式</span>
-          <span
-            >{{ res.paymentMethod == "ONLINE" ? "在线支付" : ""
+          <span>
+            {{res.payMode || "暂无"}}
+            <!-- {{ res.payMode == "ONLINE" ? "在线支付" : ""
             }}{{
               res.paymentMethod == "ALIPAY"
                 ? "支付宝"
                 : res.paymentMethod == "BANK_TRANSFER"
                 ? "银行卡"
                 : "" || "暂无"
-            }}</span
-          >
-        </div>
-      </div>
-      <div class="shop-item">
+            }} -->
+          </span>
+          </div>
+
         <div class="label-item">
-          <span>用户名</span>
-          <span>{{ res.memberName }}</span>
+          <span>付款状态</span>
+          <span>{{
+            res.payStatus == "未付款"
+              ? "未付款"
+              : res.payStatus == "已付款"
+              ? "已付款"
+              : ""
+          }}</span>
         </div>
+       
         <div class="label-item">
-          <span>店铺名称</span>
-          <span>{{ res.storeName }}</span>
-        </div>
-        <div class="label-item">
-          <span>创建时间</span>
-          <span>{{ res.createTime }}</span>
+          <span>支付时间</span>
+          <span>{{ res.payTime || "暂无" }}</span>
         </div>
       </div>
       <h3>商品详情</h3>
@@ -74,7 +98,7 @@
       <div class="count-price">
         <div class="label-item">
           <span>总价格</span>
-          <span class="flowPrice">{{ res.flowPrice | unitPrice("￥") }}</span>
+          <span class="flowPrice">{{ res.orderAmount | unitPrice("￥") }}</span>
         </div>
       </div>
     </div>

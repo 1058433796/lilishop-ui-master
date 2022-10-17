@@ -17,7 +17,6 @@
       <div>
         <h4>客户增长报表</h4>
         <Table class="mt_10" stripe :columns="columns" :data="data"></Table>
-
       </div>
     </Card>
 
@@ -186,7 +185,6 @@ export default {
             item.activeQuantity += "";
           });
           this.data = res.result;
-
           if (!this.orderChart) {
             this.orderChart = new Chart({
               container: "orderChart",

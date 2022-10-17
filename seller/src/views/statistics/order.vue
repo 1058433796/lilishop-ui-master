@@ -3,9 +3,12 @@
   <div class="wrapper">
     <Affix :offset-top="100">
       <Card class="card fixed-bottom">
+
         <affixTime @selected="clickBreadcrumb" />
+
       </Card>
     </Affix>
+    {{overViewList}}
     <Card class="card">
       <div>
         <h4>交易概况</h4>
@@ -15,30 +18,13 @@
               <h4>订单</h4>
               <div class="transaction-card" >
                 <div class="card-item">
-                  <div class="card-item-label">已支付订单数</div>
+                  <div class="card-item-label">订单数</div>
                   <div class="card-item-value">{{overViewList.paymentOrderNum  || 0}}</div>
                 </div>
                 <div class="card-item">
-                  <div class="card-item-label">已支付订单金额</div>
+                  <div class="card-item-label">订单金额</div>
                   <div class="card-item-value">{{ overViewList.paymentAmount || 0 | unitPrice('￥')}}</div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">未支付订单数</div>
-                  <div class="card-item-value"> {{overViewList.totalOrders - overViewList.paymentOrderNum || 0}} </div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">未支付订单金额</div>
-                  <div class="card-item-value"> {{ overViewList.orderAmount - overViewList.paymentAmount || 0 | unitPrice('￥')}} </div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">总订单数</div>
-                  <div class="card-item-value"> {{overViewList.totalOrders  || 0}} </div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">总订单金额</div>
-                  <div class="card-item-value"> {{ overViewList.orderAmount || 0 | unitPrice('￥')}} </div>
-                </div>
-               
+                </div>    
               </div>
             </div>
           </div>
@@ -50,11 +36,14 @@
       <div>
         <h4>交易趋势</h4>
         <div>
+
         </div>
       </div>
 
       <div>
+
         <div id="orderChart"></div>
+
       </div>
     </Card>
     <Card class="card">
@@ -135,10 +124,6 @@ export default {
         //   },
         // },
         {
-          title: "订单号",
-          key: "orderId"
-        },
-        {
           title: "采购方",
           key: "buyerName",
         },
@@ -194,7 +179,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.orderDetail(params.row);
+                      this.detail(params.row);
                     },
                   },
                 },
@@ -303,9 +288,6 @@ export default {
     changePage(v){
       this.Params.pageNumber=v;
       this.getOrderList();
-    },
-    orderDetail(row) {
-      this.$router.push( { name: "orderDetailSingle", query: {form: row}});
     },
 
     // 订单图

@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <div>
-      <Card style="height: 60px">
+      <!-- <Card style="height: 60px">
         <div style="">
           <Button v-if="allowOperation.editPrice" @click="modifyPrice">调整价格</Button>
           <Button
@@ -23,12 +23,12 @@
           <Button @click="orderLog" type="info" ghost>订单日志</Button>
           <Button @click="printOrder" type="primary" ghost style="float:right;">打印发货单</Button>
         </div>
-      </Card>
+      </Card> -->
       <Card class="mt_10 clearfix">
         <div style="width: 30%; float: left; margin-left: 20px">
           <div class="div-item">
             <div class="div-item-left">订单号：</div>
-            <div class="div-item-right">{{ orderInfo.order.sn }}</div>
+            <div class="div-item-right">{{ sn.orderId }}</div>
           </div>
           <div class="div-item">
             <div class="div-item-left">订单来源：</div>
@@ -47,7 +47,7 @@
           <div class="div-item">
             <div class="div-item-left">下单时间：</div>
             <div class="div-item-right">
-              {{ orderInfo.order.createTime }}
+              {{ sn.createTime }}
             </div>
           </div>
         </div>
@@ -109,10 +109,10 @@
           <div class="div-item">
             <div class="div-item-left">收货信息：</div>
             <div class="div-item-right">
-              {{ orderInfo.order.consigneeName }}
-              {{ orderInfo.order.consigneeMobile }}
-              {{ orderInfo.order.consigneeAddressPath }}
-              {{ orderInfo.order.consigneeDetail }}
+              {{ sn.buyerName }}
+              {{ sn.consigneePhone }}
+              {{ sn.consigneeAddress }}
+              <!-- {{ orderInfo.order.consigneeDetail }} -->
             </div>
           </div>
           <div class="div-item">
@@ -248,7 +248,7 @@
             <li>
               <span class="label">商品总额：</span>
               <span class="txt">{{
-                orderInfo.order.priceDetailDTO.goodsPrice | unitPrice("￥")
+                sn.orderAmount | unitPrice("￥")
               }}</span>
             </li>
             <li
@@ -277,7 +277,7 @@
             <li>
               <span class="label">运费：</span>
               <span class="txt">{{
-                orderInfo.order.freightPrice | unitPrice("￥")
+                orderInfo.order.freightPrice|| "暂未发货" | unitPrice("￥")
               }}</span>
             </li>
             <li v-if="orderInfo.order.priceDetailDTO.updatePrice">
@@ -828,8 +828,8 @@ export default {
     },
   },
   mounted() {
-    this.sn = this.$route.query.sn;
-    this.getDataList();
+    this.sn = this.$route.query;
+    // this.getDataList();
   },
 };
 </script>
