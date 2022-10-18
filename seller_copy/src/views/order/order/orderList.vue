@@ -90,9 +90,9 @@
         <Button @click="handleReset" class="search-btn">重置</Button>
       </Form>
       <div class="export">
-        <Button type="primary" class="mr_10" @click="expressOrderDeliver">
-          批量发货
-        </Button>
+<!--        <Button type="primary" class="mr_10" @click="expressOrderDeliver">-->
+<!--          批量发货-->
+<!--        </Button>-->
         <download-excel
           style="display: inline-block"
           :data="data"
@@ -235,9 +235,9 @@ export default {
               return h("div", [
                 h("tag", { props: { color: "cyan" } }, "已发货"),
               ]);
-            } else if (params.row.distributionStatus == "待发货") {
+            } else if (params.row.distributionStatus == "未发货") {
               return h("div", [
-                h("tag", { props: { color: "geekblue" } }, "待发货"),
+                h("tag", { props: { color: "geekblue" } }, "未发货"),
               ]);
             }  else if (params.row.orderStatus == "已完成") {
               return h("div", [
@@ -276,7 +276,8 @@ export default {
           align: "center",
           width: 100,
           render: (h, params) => {
-            return h("div", [
+            if(params.row.distributionStatus === "未发货"&&params.row.payStatus==="已付款")
+              return h("div", [
               h(
                 "Button",
                 {
@@ -293,9 +294,30 @@ export default {
                     },
                   },
                 },
-                "查看"
+                "查看/发货"
               ),
             ]);
+            else
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "info",
+                      size: "small",
+                    },
+                    style: {
+                      marginRight: "5px",
+                    },
+                    on: {
+                      click: () => {
+                        this.detail(params.row);
+                      },
+                    },
+                  },
+                  "查看"
+                ),
+              ]);
           },
         },
       ],

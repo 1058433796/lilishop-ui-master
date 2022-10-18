@@ -59,20 +59,19 @@
               <div class="div-item">
                 <div class="div-item-left">收货人：</div>
                 <div class="div-item-right">
-                  {{ orderInfo.itemOrder.buyerName}}
+                  {{ orderInfo.itemOrder.consigneeName}}
                 </div>
               </div>
 
               <div class="div-item">
                 <div class="div-item-left">收货地址：</div>
-                <div class="div-item-right">{{ orderInfo.itemOrder.buyerAddress }}</div>
+                <div class="div-item-right">{{ orderInfo.itemOrder.consigneeAddress }}</div>
               </div>
 
 
             </Col>
           </Row>
         </Card>
-
         <Card class="mt_10">
           <Table
             :loading="loading"
@@ -397,6 +396,7 @@
             <Button type="primary" @click="orderDeliverySubmit">发货</Button>
           </div>
         </Modal>
+
         <!-- 打印发货单 -->
         <Modal v-model="printModal" width="530" @on-cancel="printCancel" >
           <p slot="header" style="line-height:26px;height:26px;">
@@ -689,28 +689,28 @@ export default {
         },
         {
           title: "配送方式",
-          key: "goodName",
+          key: "distributionMode",
           minWidth: 100,
         },
         {
           title: "物流公司",
-          key: "",
+          key: "logisticsName",
           minWidth: 100,
         },
         {
           title: "运单号",
-          key: "",
+          key: "logisticsNo",
           minWidth: 100,
 
         },
-       {
+        {
           title: "收货人",
-          key: "",
+          key: "consigneeName",
           minWidth: 100,
         },
         {
           title: "发货时间",
-          key: "",
+          key: "logisticsTime",
           minWidth: 100,
         },
 
@@ -789,6 +789,7 @@ export default {
         if (res.success) {
           //this.orderInfo = res.result;
           this.orderInfo.itemOrder=res.result.itemOrder
+          this.fhdata[0]=res.result.itemOrder;
           this.orderInfo.orderGoods=res.result.orderGoods
           this.data = res.result.orderGoods;
           console.log(JSON.parse(this.data[0]))
