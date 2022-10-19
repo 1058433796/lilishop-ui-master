@@ -15,7 +15,7 @@
                   <template>
                     <img src="../../../assets/file.png" />
                     <!-- <img :src="item" /> -->
-                    <div class="demo-upload-list-cover" @click="handleDownload(item)">
+                    <div class="demo-upload-list-cover" @click="handleDownload(item.url)">
                     </div>
                   </template>
                 </div>
@@ -72,7 +72,7 @@ export default {
         { key: '饰面', value: '' },
         { key: '品牌', value: '' },
         { key: '价格', value: '' },
-        { key: '上传模型', value: [], type:'file' },
+        // { key: '上传模型', value: [], type:'file' },
         { key: '上传资料', value: [], type: 'file' },
         // { key: '联系人', value: '合页' },
         // { key: '联系电话', value: '合页' },
@@ -162,8 +162,8 @@ export default {
       this.data[3].value = result.decoration;
       this.data[4].value = result.goodsBrand;
       this.data[5].value = result.goodsDisplayPrice;
-      this.data[6].value = result.modelList;
-      this.data[7].value = result.materialList;
+      // this.data[6].value = result.modelList;
+      this.data[6].value = result.materialList;
       this.goodsInfo.thumbnail = result.thumbnail;
       this.goodsInfo.original = result.original;
       console.log(this.data);
