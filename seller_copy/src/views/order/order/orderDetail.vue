@@ -1,6 +1,14 @@
 <template>
   <Tabs type="card">
     <TabPane label="订单信息">
+      <Card style="height: 60px">
+        <div>
+          <Button v-if="orderInfo.itemOrder.distributionStatus==='未发货'&&orderInfo.itemOrder.payStatus==='已付款'" @click="orderDeliver" type="primary"
+          >发货</Button
+          >
+        </div>
+      </Card>
+
       <div class="search">
         <Card class="mt_10">
           <Row>
@@ -59,20 +67,19 @@
               <div class="div-item">
                 <div class="div-item-left">收货人：</div>
                 <div class="div-item-right">
-                  {{ orderInfo.itemOrder.buyerName}}
+                  {{ orderInfo.itemOrder.consigneeName}}
                 </div>
               </div>
 
               <div class="div-item">
                 <div class="div-item-left">收货地址：</div>
-                <div class="div-item-right">{{ orderInfo.itemOrder.buyerAddress }}</div>
+                <div class="div-item-right">{{ orderInfo.itemOrder.consigneeAddress }}</div>
               </div>
 
 
             </Col>
           </Row>
         </Card>
-
         <Card class="mt_10">
           <Table
             :loading="loading"
@@ -397,6 +404,7 @@
             <Button type="primary" @click="orderDeliverySubmit">发货</Button>
           </div>
         </Modal>
+
         <!-- 打印发货单 -->
         <Modal v-model="printModal" width="530" @on-cancel="printCancel" >
           <p slot="header" style="line-height:26px;height:26px;">
@@ -476,6 +484,7 @@ import * as API_Order from "@/api/order";
 import liliMap from "@/views/my-components/map/index";
 import * as RegExp from "@/libs/RegExp.js";
 import region from "@/views/lili-components/region";
+import {itemOrderDelivery} from "../../../api/order";
 
 export default {
   name: "orderDetail",
@@ -689,28 +698,28 @@ export default {
         },
         {
           title: "配送方式",
-          key: "goodName",
+          key: "distributionMode",
           minWidth: 100,
         },
         {
           title: "物流公司",
-          key: "",
+          key: "logisticsName",
           minWidth: 100,
         },
         {
           title: "运单号",
-          key: "",
+          key: "logisticsNo",
           minWidth: 100,
 
         },
        {
           title: "收货人",
-          key: "",
+          key: "consigneeName",
           minWidth: 100,
         },
         {
           title: "发货时间",
-          key: "",
+          key: "logisticsTime",
           minWidth: 100,
         },
 
@@ -742,6 +751,7 @@ export default {
       ],
       // 订单日志数据
       orderLogData: [],
+
     };
   },
   methods: {
@@ -789,6 +799,7 @@ export default {
         if (res.success) {
           //this.orderInfo = res.result;
           this.orderInfo.itemOrder=res.result.itemOrder
+          this.fhdata[0]=res.result.itemOrder;
           this.orderInfo.orderGoods=res.result.orderGoods
           this.data = res.result.orderGoods;
           console.log(JSON.parse(this.data[0]))
@@ -847,7 +858,7 @@ export default {
     orderDeliverySubmit() {
       this.$refs.orderDeliveryForm.validate((valid) => {
         if (valid) {
-          API_Order.orderDelivery(this.sn, this.orderDeliveryForm).then(
+          API_Order.itemOrderDelivery(this.orderId, this.orderDeliveryForm).then(
             (res) => {
               if (res.success) {
                 this.$Message.success("订单发货成功");

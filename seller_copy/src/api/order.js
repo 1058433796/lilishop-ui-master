@@ -77,6 +77,11 @@ export const orderDelivery = (sn, params) => {
   return postRequest(`/order/order/${sn}/delivery`, params);
 };
 
+// 订单发货
+export const itemOrderDelivery = (orderId, params) => {
+  return postRequest(`/itemOrder/itemOrder/${orderId}/delivery`, params);
+};
+
 // 获取商家选中的物流公司
 export const getLogisticsChecked = () => {
   return getRequest(`/other/logistics/getChecked`);

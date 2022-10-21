@@ -65,12 +65,12 @@ export const userInfo = params => {
 
 // 获取用户登录信息
 export const getStoreUserInfo = params => {
-  return getRequest("member/user/info", params);
+  return getRequest("/member/user/info", params);
 };
 //
 // 保存供应商详细信息
 export const saveUserInfo = (params) => {
-  return putRequest(`member/user/update`, params)
+  return putRequest(`/member/user/update`, params)
 }
 
 // 获取登录信息
