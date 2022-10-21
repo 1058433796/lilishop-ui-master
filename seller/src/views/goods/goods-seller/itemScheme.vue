@@ -47,7 +47,7 @@
     </div>
 </template>
 <script>
-import { getItemSchemeList, getSchemeDetail,checkItemScheme,saveGuaranty,setItemScheme} from '@/api/schemes'
+import { getItemSchemeList, getSchemeDetail,checkItemScheme,saveGuaranty,setItemScheme ,testIbank} from '@/api/schemes'
 import { runInThisContext } from 'vm';
 
 export default {
@@ -272,6 +272,13 @@ export default {
     //确认方案
     checkScheme(v){
       this.searchForm.schemeId=v.schemeId
+      testIbank().then((res)=>{
+        console.log(res)
+        window.localStorage.setItem('callbackHTML', res)
+                    var newWin = window.open('', '_blank')
+                    newWin.document.write(localStorage.getItem('callbackHTML'))
+      })
+
       getSchemeDetail(this.searchForm).then((res)=>{
         if(res.success){
           res.result.records.forEach(item=>{
@@ -288,6 +295,7 @@ export default {
           this.confirmScheme=true
         }
       })
+
     },
     setGuaranty(){
       let params = JSON.parse(JSON.stringify(this.guarantyForm));

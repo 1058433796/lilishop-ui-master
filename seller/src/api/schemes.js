@@ -41,3 +41,7 @@ import {
   export const establishOrder=(id) => {
     return postRequest(`/schemeComponent/schemeComponent/${id}/supplier`)
   }
+
+  export const testIbank = () => {
+    return postRequest(`iBank/iBank/pay/`)
+  }
