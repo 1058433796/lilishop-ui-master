@@ -290,4 +290,8 @@ export const handleRefreshToken = (token) => {
   return getRequestWithNoToken(`/passport/login/refresh/${token}`);
 };
 
+// HTMLToPDF API
+export const HtmlToPDF = (params) => {
+  return getRequest(commonUrl+'/common/common/pdf', params)
+}
 

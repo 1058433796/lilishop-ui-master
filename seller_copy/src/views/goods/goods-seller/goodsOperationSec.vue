@@ -186,87 +186,6 @@
               </Modal>
             </FormItem>
 
-            <!-- <FormItem
-              class="form-item-view-el required"
-              label="上传模型"
-              prop="goodsModelFiles"
-            >
-              <div style="display: flex; flex-wrap: flex-start">
-                <draggable
-                  :list="baseInfoForm.goodsModelFiles"
-                  :animation="200"
-                >
-                  <div
-                    class="demo-upload-list"
-                    v-for="(item, __index) in baseInfoForm.goodsModelFiles"
-                    :key="__index"
-                  >
-                    <template>
-                      
-                      <img :src="item.file.url" />
-                      <div class="demo-upload-list-cover">
-                        <div>
-                          <Icon
-                            type="md-search"
-                            size="30"
-                            @click.native="
-                              handleViewGoodsPicture(item.file.url)
-                            "
-                          ></Icon>
-                          <Icon
-                            type="md-trash"
-                            size="30"
-                            @click.native="
-                              handleRemoveGoodsPicture(
-                                'goodsModelFiles',
-                                item.file
-                              )
-                            "
-                          ></Icon>
-                          <Icon
-                            type="ios-folder"
-                            size="30"
-                            @click.native="handleDownload(item.file.url)"
-                          ></Icon>
-                        </div>
-                      </div>
-                    </template>
-                  </div>
-                </draggable>
-
-                <Upload
-                  :show-upload-list="false"
-                  :on-success="
-                    (res, file) =>
-                      handleSuccessGoodsPicture('goodsModelFiles', res, file)
-                  "
-                  :format="['jpg', 'jpeg', 'png']"
-                  :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize"
-                  :max-size="1024"
-                  :before-upload="
-                    (e) => handleBeforeUploadGoodsPicture('goodsModelFiles', e)
-                  "
-                  multiple
-                  type="drag"
-                  :action="uploadFileUrl"
-                  :headers="{ ...accessToken }"
-                  style="margin-left: 10px"
-                >
-                  <div style="width: 148px; height: 148px; line-height: 148px">
-                    <Icon type="md-add" size="20"></Icon>
-                  </div>
-                </Upload>
-              </div>
-              <Modal title="View Image" v-model="goodsPictureVisible">
-                <img
-                  :src="previewGoodsPicture"
-                  v-if="goodsPictureVisible"
-                  style="width: 100%"
-                />
-              </Modal>
-            </FormItem> -->
-
             <FormItem
               class="form-item-view-el required"
               label="上传资料"
@@ -284,29 +203,16 @@
                   >
                     <template>
                       <div style="position: relative width:100%; height:100%;">
-                        <img
+                        <img src="../../../assets/file.png" />
+                        <!-- <img
                           :src="item.file.url"
                           style="w  idth: 100%; height: 100%"
-                        />
+                        /> -->
                         <div class="badge">{{getItemLabelByValue(item.type)}}</div>
                       </div>
 
                       <div class="demo-upload-list-cover">
                         <div>
-                          <!-- <Icon
-                            type="md-search"
-                            size="30"
-                            @click.native="
-                              handleViewGoodsPicture(item.file.url)
-                            "
-                          ></Icon> -->    
-                           <!-- <Icon
-                            type="ios-create-outline"
-                            size="30"
-                            @click.native="
-                              handleEditFile(item.file, item.type, 'goodsMaterialFiles', 'baseInfoForm')
-                            "
-                          ></Icon> -->
                           <Icon
                             type="md-trash"
                             size="30"
@@ -384,7 +290,7 @@
                               'uploadForm'
                             )
                         "
-                        :format="['jpg', 'jpeg', 'png']"
+                        :format="allowFileFormatList"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
                         :max-size="1024"
@@ -429,7 +335,8 @@
                       :key="__index"
                     >
                       <template>
-                        <img :src="item.url" style="" />
+                        <img src="../../../assets/file.png" />
+                        <!-- <img :src="item.url" style="" /> -->
                         <div class="demo-upload-list-cover">
                           <div>
                             <Icon
@@ -695,6 +602,8 @@ export default {
       adjustParamList: MetaData.adjustParamList,
       // 文件类型列表
       fileTypeList: [ {label: '说明书', value:' INSTRUCTION'}, {label: '检测报告', value:'REPORT'}, {label:'模型', value:'MODEL'}, {label:'其他', value:'OTHER'}],
+      // 允许上传文件类型
+      allowFileFormatList: [],
     };
   },
   methods: {
