@@ -45,7 +45,7 @@
 
       <Row type="flex">
         <Col span="2" push="16">
-          <Button type="primary">导出PDF</Button>
+          <Button type="primary" @click="exportPDF">导出PDF</Button>
         </Col>
       </Row>
     </Card>
@@ -54,7 +54,7 @@
 
 <script>
 import * as API_GOODS from "@/api/goods";
-import {HtmlToPDF} from "@/api/index";
+import { HtmlToPDF } from "@/api/index";
 
 export default {
   data() {
@@ -166,15 +166,18 @@ export default {
         goodsOrigin,
         goodsBrand,
         goodsWeight,
+        goodsUnit,
         goodsDisplayPrice,
         goodsMarketPrice,
         ansiCert,
         enCert,
         gbCert,
+        fireProofCert,
         auxCert,
         material,
         decoration,
         size,
+        loadBearing,
         forceLevel,
         adjustParam,
         intro,
@@ -197,6 +200,7 @@ h2{
       padding: 8px;
     }
     td img{
+        height:300px;
         width: 300px;
     }
 </style>
@@ -293,7 +297,7 @@ h2{
     },
     // 获取图像文件的table
     getImgTableTemplateHtml() {
-      const imgFormats = ['jpg', 'jpeg', 'png'];
+      const imgFormats = ["jpg", "jpeg", "png"];
       const { materialList } = this.rawData;
       let trs = [];
       //判断是否存在材料文件
@@ -302,9 +306,9 @@ h2{
         materialList.forEach((item) => {
           let { type, url } = item;
           // 取出文件后缀名
-          let postfix = url.split('.').pop();
+          let postfix = url.split(".").pop();
           // 判断文件是否属于图片
-          if(!imgFormats.find(postfix))return;
+          if (!imgFormats.find((item) => item === postfix)) return;
           let tr = `            <tr>
                 <td>${type}</td>
                 <td colspan="2">
@@ -329,8 +333,8 @@ h2{
     },
     // 获取其他文件的table
     getOtherTableTemplateHtml() {
-      const imgFormats = ['jpg', 'jpeg', 'png'];
-      const {materialList} = this.rawData;
+      const imgFormats = ["jpg", "jpeg", "png"];
+      const { materialList } = this.rawData;
       let trs = [];
       //判断是否存在材料文件
       if (materialList && materialList.length > 0) {
@@ -338,9 +342,9 @@ h2{
         materialList.forEach((item) => {
           let { type, url } = item;
           // 取出文件后缀名
-          let postfix = url.split('.').pop();
+          let postfix = url.split(".").pop();
           // 判断文件是否属于图片
-          if(imgFormats.find(postfix))return;
+          if (imgFormats.find((item) => item === postfix)) return;
           let tr = `            <tr>
                 <td>${type}</td>
                 <td><a href="${url}">下载</a></td>
@@ -357,7 +361,7 @@ h2{
                 <th>文件类型</th>
                 <th>文件下载</th>
             </tr>
-            ${trs.join(' ')}
+            ${trs.join(" ")}
         </table>`;
       return table;
     },
@@ -366,14 +370,14 @@ h2{
       let basicHtml = this.getBasicInfoTemplateHtml();
       const imgTable = this.getImgTableTemplateHtml();
       const otherTable = this.getOtherTableTemplateHtml();
-      basicHtml = basicHtml.replace('<!-- imgTable -->', imgTable);
-      basicHtml = basicHtml.replace('<!-- otherTable -->', otherTable);
-      HtmlToPDF(basicHtml).then(res => {
-        console.log(res);
-        // 查看res返回的数据形式 如果是文件 想办法触发下载
-        // 如果是URL window.open(url)直接触发下载
-      })
+      basicHtml = basicHtml.replace("<!-- imgTable -->", imgTable);
+      basicHtml = basicHtml.replace("<!-- otherTable -->", otherTable);
+      console.log(basicHtml);
+      basicHtml = encodeURI(basicHtml);
 
+      HtmlToPDF({ html: basicHtml }, {responseType: 'arraybuffer'}).then((response) => {
+      window.open(response.result)
+      });
     },
   },
   created() {
@@ -442,7 +446,7 @@ h2{
   margin-top: 50px;
   width: 100%;
 
-  >i {
+  > i {
     width: 50%;
     margin-top: 8px;
     color: #fff;

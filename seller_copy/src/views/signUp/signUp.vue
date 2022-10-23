@@ -575,7 +575,7 @@ export default {
         register2(submit).then(res => {
           console.log(res);
           if(res && res.success){
-            next();
+            this.next();
           }
         })
       })
