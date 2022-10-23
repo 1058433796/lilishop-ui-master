@@ -1,5 +1,13 @@
 // 统一请求路径前缀在libs/axios.js中修改
 import {getRequest, postRequest, putRequest} from '@/libs/axios';
+//查询会员列表
+export const getStoreListData = (params) => {
+  return getRequest('/store/store/buyer', params)
+}
+// 获取会员详细信息
+export const getStoreDetail = Id => {
+  return getRequest(`/store/store/detail/${Id}`);
+};
 
 //查询店铺列表
 export const getBillPage = (params) => {

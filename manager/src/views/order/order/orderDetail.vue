@@ -1,6 +1,11 @@
 <template>
   <Tabs type="card">
     <TabPane label="订单信息">
+      <Card style="height: 60px">
+        <div>
+        </div>
+      </Card>
+
       <div class="search">
         <Card class="mt_10">
           <Row>
@@ -131,49 +136,11 @@
               </div>
             </template>
           </Table>
-          <!--      <div class="goods-total">-->
-          <!--        <ul>-->
-          <!--          <li>-->
-          <!--            <span class="label">商品总额：</span>-->
-          <!--            <span class="txt">{{-->
-          <!--              orderInfo.order.priceDetailDTO.goodsPrice | unitPrice("￥")-->
-          <!--            }}</span>-->
-          <!--          </li>-->
-          <!--          <li v-if="orderInfo.order.priceDetailDTO.discountPrice && orderInfo.order.priceDetailDTO.discountPrice > 0">-->
-          <!--            <span class="label">优惠金额：</span>-->
-          <!--            <span class="txt"> {{ orderInfo.order.priceDetailDTO.discountPrice | unitPrice('￥') }} </span>-->
-          <!--          </li>-->
-
-          <!--          <li v-if="orderInfo.order.priceDetailDTO.couponPrice && orderInfo.order.priceDetailDTO.couponPrice > 0">-->
-          <!--            <span class="label">优惠券金额：</span>-->
-          <!--            <span class="txt"> {{ orderInfo.order.priceDetailDTO.couponPrice | unitPrice('￥') }} </span>-->
-          <!--          </li>-->
-          <!--          <li>-->
-          <!--            <span class="label">运费：</span>-->
-          <!--            <span class="txt">{{-->
-          <!--              orderInfo.order.freightPrice | unitPrice("￥")-->
-          <!--            }}</span>-->
-          <!--          </li>-->
-          <!--          <li v-if="orderInfo.order.priceDetailDTO.updatePrice">-->
-          <!--              <span class="label">修改金额：</span>-->
-          <!--              <span class="txt theme_color">¥{{ orderInfo.order.priceDetailDTO.updatePrice | unitPrice }}</span>-->
-          <!--            </li>-->
-          <!--          <li v-if="orderInfo.order.priceDetailDTO.payPoint != 0">-->
-          <!--            <span class="label">使用积分：</span>-->
-          <!--            <span class="txt">{{-->
-          <!--              orderInfo.order.priceDetailDTO.payPoint-->
-          <!--            }}</span>-->
-          <!--          </li>-->
-
-          <!--          <li>-->
-          <!--            <span class="label">应付金额：</span>-->
-          <!--            <span class="txt flowPrice"-->
-          <!--              >¥{{ orderInfo.order.flowPrice | unitPrice }}</span-->
-          <!--            >-->
-          <!--          </li>-->
-          <!--        </ul>-->
-          <!--      </div>-->
+          <div class="bottom-action"  style="margin-top: 20px;text-align: right">
+            <Button type="success" @click="back">返回</Button>
+          </div>
         </Card>
+
         <Modal v-model="modal" width="530">
           <p slot="header">
             <Icon type="edit"></Icon>
@@ -453,18 +420,7 @@
           </div>
         </Modal>
       </div>
-    </TabPane>
-    <TabPane label="发货状态" v-if="orderInfo.itemOrder.distributionStatus==='已发货'">
-      <Card class="mt_10">
-        <Table
-          :loading="loading"
-          border
-          :columns="fhcolumns"
-          :data="fhdata"
-          ref="fhtable"
-        >
-        </Table>
-      </Card>
+
     </TabPane>
 
   </Tabs>
@@ -476,6 +432,7 @@ import * as API_Order from "@/api/order";
 import liliMap from "@/views/my-components/map/index";
 import * as RegExp from "@/libs/RegExp.js";
 import region from "@/views/lili-components/region";
+import {itemOrderDelivery, ReplyOrder} from "../../../api/order";
 
 export default {
   name: "orderDetail",
@@ -510,7 +467,7 @@ export default {
         itemOrder: {
 
         },
-        orderGoods:[],
+        schemeComponentList:[],
         order: {
           logisticsName: {},
         },
@@ -581,45 +538,14 @@ export default {
       columns: [
         {
           title: "序号",
-          key: "orderId",
+          key: "componentId",
           minWidth: 100,
         },
         {
           title: "商品名",
-          key: "goodName",
+          key: "componentName",
           minWidth: 200,
-          //slot: "goodsSlot",
         },
-        // {
-        //   title: "优惠",
-        //   key: "num",
-        //   minWidth: 100,
-        //   render: (h, params) => {
-        //     let resultText = "";
-        //     if (params.row.promotionType) {
-        //       let type = params.row.promotionType.split(",");
-        //       if (type.indexOf("PINTUAN") != -1) {
-        //         resultText += "拼团 ";
-        //       }
-        //       if (type.indexOf("SECKILL") != -1) {
-        //         resultText += "秒杀 ";
-        //       }
-        //       if (type.indexOf("COUPON") != -1) {
-        //         resultText += "优惠券 ";
-        //       }
-        //       if (type.indexOf("FULL_DISCOUNT") != -1) {
-        //         resultText += "满减 ";
-        //       }
-        //       if (type.indexOf("POINTS_GOODS") != -1) {
-        //         resultText += "积分商品 ";
-        //       }
-        //     }
-        //     if (resultText === "") {
-        //       resultText = "暂无未参与任何促销";
-        //     }
-        //     return h("div", resultText);
-        //   },
-        // },
         {
           title: "参数",
           key: "goodRequire",
@@ -643,7 +569,7 @@ export default {
         },
         {
           title: "数量",
-          key: "goodNumber",
+          key: "componentNumber",
           minWidth: 80,
         },
         {
@@ -653,7 +579,7 @@ export default {
         },
         {
           title: "单价",
-          key: "goodUnitprice",
+          key: "componentUnitPrice",
           minWidth: 100,
           // render: (h, params) => {
           //   if (!params.row.goodUnitprice) {
@@ -703,7 +629,7 @@ export default {
           minWidth: 100,
 
         },
-        {
+       {
           title: "收货人",
           key: "consigneeName",
           minWidth: 100,
@@ -742,9 +668,14 @@ export default {
       ],
       // 订单日志数据
       orderLogData: [],
+
     };
   },
   methods: {
+    back(){
+      this.$router.push({name: "orderList"})
+    },
+
     //修改地址
     regionClick() {
       this.showRegion = true;
@@ -790,8 +721,9 @@ export default {
           //this.orderInfo = res.result;
           this.orderInfo.itemOrder=res.result.itemOrder
           this.fhdata[0]=res.result.itemOrder;
-          this.orderInfo.orderGoods=res.result.orderGoods
-          this.data = res.result.orderGoods;
+          this.orderInfo.schemeComponentList =res.result.schemeComponentList;
+          this.data = res.result.schemeComponentList;
+
           console.log(JSON.parse(this.data[0]))
           this.allowOperation = res.result.allowOperationVO;
 
@@ -848,7 +780,7 @@ export default {
     orderDeliverySubmit() {
       this.$refs.orderDeliveryForm.validate((valid) => {
         if (valid) {
-          API_Order.orderDelivery(this.sn, this.orderDeliveryForm).then(
+          API_Order.itemOrderDelivery(this.orderId, this.orderDeliveryForm).then(
             (res) => {
               if (res.success) {
                 this.$Message.success("订单发货成功");

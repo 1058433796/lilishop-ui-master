@@ -15,7 +15,7 @@
             v-model="searchForm.goodsName"
             placeholder="请输入产品名称"
             clearable
-            style="width: 200px"
+            style="width:170px"
           />
         </Form-item>
         <Form-item label="产品编号" prop="id">
@@ -24,7 +24,7 @@
             v-model="searchForm.id"
             placeholder="请输入产品编号"
             clearable
-            style="width: 200px"
+            style="width: 170px"
           />
         </Form-item>
         <Form-item label="供应商" prop="id">
@@ -33,20 +33,20 @@
             v-model="searchForm.storeName"
             placeholder="请输入供应商名称"
             clearable
-            style="width: 200px"
+            style="width: 170px"
           />
         </Form-item>
-        <Form-item label="状态" prop="status">
-          <Select
-            v-model="searchForm.marketEnable"
-            placeholder="请选择"
-            clearable
-            style="width: 200px"
-          >
-            <Option value="UPPER">上架</Option>
-            <Option value="DOWN">下架</Option>
-          </Select>
-        </Form-item>
+<!--        <Form-item label="状态" prop="status">-->
+<!--          <Select-->
+<!--            v-model="searchForm.marketEnable"-->
+<!--            placeholder="请选择"-->
+<!--            clearable-->
+<!--            style="width: 200px"-->
+<!--          >-->
+<!--            <Option value="UPPER">上架</Option>-->
+<!--            <Option value="DOWN">下架</Option>-->
+<!--          </Select>-->
+<!--        </Form-item>-->
         <Form-item label="审核状态" prop="status">
           <Select
             v-model="searchForm.authFlag"
@@ -126,24 +126,24 @@
         ></Page>
       </Row>
     </Card>
-    <Modal
-      title="下架操作"
-      v-model="modalVisible"
-      :mask-closable="false"
-      :width="500"
-    >
-      <Form ref="underForm" :model="underForm" :label-width="100">
-        <FormItem label="下架原因" prop="reason">
-          <Input v-model="underForm.reason" clearable style="width: 100%" />
-        </FormItem>
-      </Form>
-      <div slot="footer">
-        <Button type="text" @click="modalVisible = false">取消</Button>
-        <Button type="primary" :loading="submitLoading" @click="lower"
-          >提交</Button
-        >
-      </div>
-    </Modal>
+<!--    <Modal-->
+<!--      title="下架操作"-->
+<!--      v-model="modalVisible"-->
+<!--      :mask-closable="false"-->
+<!--      :width="500"-->
+<!--    >-->
+<!--      <Form ref="underForm" :model="underForm" :label-width="100">-->
+<!--        <FormItem label="下架原因" prop="reason">-->
+<!--          <Input v-model="underForm.reason" clearable style="width: 100%" />-->
+<!--        </FormItem>-->
+<!--      </Form>-->
+<!--      <div slot="footer">-->
+<!--        <Button type="text" @click="modalVisible = false">取消</Button>-->
+<!--        <Button type="primary" :loading="submitLoading" @click="lower"-->
+<!--          >提交</Button-->
+<!--        >-->
+<!--      </div>-->
+<!--    </Modal>-->
   </div>
 </template>
 
@@ -218,18 +218,18 @@ export default {
             }
           },
         },
-        {
-          title: "状态",
-          key: "marketEnable",
-          width: 100,
-          render: (h, params) => {
-            if (params.row.marketEnable == "DOWN") {
-              return h("Tag", { props: { color: "volcano" } }, "下架");
-            } else if (params.row.marketEnable == "UPPER") {
-              return h("Tag", { props: { color: "green" } }, "上架");
-            }
-          },
-        },
+        // {
+        //   title: "状态",
+        //   key: "marketEnable",
+        //   width: 100,
+        //   render: (h, params) => {
+        //     if (params.row.marketEnable == "DOWN") {
+        //       return h("Tag", { props: { color: "volcano" } }, "下架");
+        //     } else if (params.row.marketEnable == "UPPER") {
+        //       return h("Tag", { props: { color: "green" } }, "上架");
+        //     }
+        //   },
+        // },
         {
           title: "审核状态",
           key: "authFlag",
@@ -252,75 +252,155 @@ export default {
           width: 150,
           render: (h, params) => {
             if (params.row.marketEnable == "DOWN") {
-              return h("div", [
-                h(
-                  "Button",
-                  {
-                    props: {
-                      type: "info",
-                      size: "small",
-                    },
-                    style: {
-                      marginRight: "5px",
-                    },
-                    on: {
-                      click: () => {
-                        this.upper(params.row);
+              if (params.row.authFlag == "PASS"){
+                return h("div",
+                  [
+                    // h(
+                    //   "Button",
+                    //   {
+                    //     props: {
+                    //       type: "info",
+                    //       size: "small",
+                    //     },
+                    //     style: {
+                    //       marginRight: "5px",
+                    //     },
+                    //     on: {
+                    //       click: () => {
+                    //         this.upper(params.row);
+                    //       },
+                    //     },
+                    //   },
+                    //   "上架"
+                    // ),
+                    h(
+                      "Button",
+                      {
+                        props: {
+                          size: "small",
+                        },
+                        on: {
+                          click: () => {
+                            this.showDetail(params.row);
+                          },
+                        },
                       },
-                    },
-                  },
-                  "上架"
-                ),
-                h(
-                  "Button",
-                  {
-                    props: {
-                      size: "small",
-                    },
-                    on: {
-                      click: () => {
-                        this.showDetail(params.row);
+                      "查看"
+                    ),
+                  ]);
+              }
+              if (params.row.authFlag == "TOBEAUDITED"){
+                return h("div",
+                  [
+                    // h(
+                    //   "Button",
+                    //   {
+                    //     props: {
+                    //       type: "info",
+                    //       size: "small",
+                    //     },
+                    //     style: {
+                    //       marginRight: "5px",
+                    //     },
+                    //     on: {
+                    //       click: () => {
+                    //         this.upper(params.row);
+                    //       },
+                    //     },
+                    //   },
+                    //   "上架"
+                    // ),
+                    h(
+                      "Button",
+                      {
+                        props: {
+                          size: "small",
+                        },
+                        on: {
+                          click: () => {
+                            this.showDetail(params.row);
+                          },
+                        },
                       },
-                    },
-                  },
-                  "查看"
-                ),
-              ]);
+                      "审核"
+                    ),
+                  ]);
+              }
             } else {
-              return h("div", [
-                h(
-                  "Button",
-                  {
-                    props: {
-                      type: "error",
-                      size: "small",
-                    },
-                    style: {
-                      marginRight: "5px",
-                    },
-                    on: {
-                      click: () => {
-                        this.edit(params.row);
+              if (params.row.authFlag == "PASS"){
+                return h("div",
+                  [
+                    // h(
+                    //   "Button",
+                    //   {
+                    //     props: {
+                    //       type: "info",
+                    //       size: "small",
+                    //     },
+                    //     style: {
+                    //       marginRight: "5px",
+                    //     },
+                    //     on: {
+                    //       click: () => {
+                    //         this.upper(params.row);
+                    //       },
+                    //     },
+                    //   },
+                    //   "上架"
+                    // ),
+                    h(
+                      "Button",
+                      {
+                        props: {
+                          size: "small",
+                        },
+                        on: {
+                          click: () => {
+                            this.showDetail(params.row);
+                          },
+                        },
                       },
-                    },
-                  },
-                  "下架"
-                ),
-                h(
-                  "Button",
-                  {
-                    props: {
-                      size: "small",
-                    },
-                    on: {
-                      click: () => {
-                        this.showDetail(params.row);
+                      "查看"
+                    ),
+                  ]);
+              }
+              if (params.row.authFlag == "TOBEAUDITED"){
+                return h("div",
+                  [
+                    // h(
+                    //   "Button",
+                    //   {
+                    //     props: {
+                    //       type: "info",
+                    //       size: "small",
+                    //     },
+                    //     style: {
+                    //       marginRight: "5px",
+                    //     },
+                    //     on: {
+                    //       click: () => {
+                    //         this.upper(params.row);
+                    //       },
+                    //     },
+                    //   },
+                    //   "上架"
+                    // ),
+                    h(
+                      "Button",
+                      {
+                        props: {
+                          size: "small",
+                        },
+                        on: {
+                          click: () => {
+                            this.showDetail(params.row);
+                          },
+                        },
                       },
-                    },
-                  },
-                  "查看"
-                ),
-              ]);
+                      "审核"
+                    ),
+                  ]);
+              }
             }
           },
         },
@@ -330,6 +410,9 @@ export default {
     };
   },
   methods: {
+    back(){
+      this.$router.push({name: "manager-goods"})
+    },
     // 初始化数据
     init() {
       this.getDataList();
@@ -399,11 +482,10 @@ export default {
     },
 
     //查看商品详情
-    showDetail(v) {
-      let id = v.id;
+    showDetail(row) {
       this.$router.push({
         name: "goods-detail",
-        query: { id: id },
+        params:row,
       });
     },
   },

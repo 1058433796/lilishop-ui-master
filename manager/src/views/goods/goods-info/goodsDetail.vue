@@ -1,281 +1,222 @@
 <template>
-  <div>
-    <Form :label-width="120">
-      <Card>
-        <div class="base-info-item">
-          <h4>基本信息</h4>
-          <div class="form-item-view">
-            <FormItem label="商品分类">
-              <span v-for="(item, index) in goods.categoryName" :key="index">
-                {{ item }}
-                <i v-if="index !== goods.categoryName.length - 1">&gt;</i>
-              </span>
-            </FormItem>
-            <FormItem label="商品名称">
-              {{ goods.goodsName }}
-            </FormItem>
+    <div>
+        <Card>
+            <p class="title">产品详情</p>
+            <Divider />
 
-            <FormItem label="商品卖点">
-              {{ goods.sellingPoint }}
-            </FormItem>
-          </div>
-          <h4>商品交易信息</h4>
-          <div class="form-item-view">
-            <FormItem label="计量单位"> {{ goods.goodsUnit }}</FormItem>
-            <FormItem label="销售模式">
-              {{ goods.salesModel === "RETAIL" ? "零售型" : "批发型" }}
-            </FormItem>
-            <FormItem label="销售规则" v-if="goods.salesModel !== 'RETAIL'">
-              <Table
-                border
-                :columns="wholesalePreviewColumns"
-                :data="wholesaleData"
-              >
-              </Table>
-            </FormItem>
-          </div>
-          <h4>商品规格及图片</h4>
-          <div class="form-item-view">
-            <FormItem label="商品编号"> {{ goods.id }}</FormItem>
-            <FormItem label="商品价格">
-              ¥{{ goods.price | unitPrice }}
-            </FormItem>
-            <FormItem label="商品图片">
-              <div
-                class="demo-upload-list"
-                v-for="(item, __index) in goods.goodsGalleryList"
-                :key="__index"
-              >
-                <img :src="item" />
-                <div class="demo-upload-list-cover">
-                  <Icon
-                    type="ios-eye-outline"
-                    @click.native="handleViewGoodsPicture(item)"
-                  ></Icon>
-                </div>
-                <Modal title="View Image" v-model="goodsPictureVisible">
-                  <img
-                    :src="previewGoodsPicture"
-                    v-if="goodsPictureVisible"
-                    style="width: 100%"
-                  />
-                </Modal>
-              </div>
-            </FormItem>
-            <FormItem label="商品规格">
-              <Table :columns="skuColumn" :data="skuData">
-                <template slot="showImage" slot-scope="scope">
-                  <div style="margin-top: 5px; height: 80px; display: flex">
-                    <div>
-                      <img
-                        :src="scope.row.image"
-                        style="height: 60px; margin-top: 1px; width: 60px"
-                      />
-                    </div>
+            <Row type="flex" justify="center">
+                <Col span="8">
+                <Table id="table" :data="data" :columns="columns" :show-header="false" :width="301" size="small">
+                    <template slot="goodsSlot" slot-scope="{ row }">
+                        <div v-if="row.type && row.type === 'image'">
+
+                <div style="display: flex; flex-wrap: flex-start">
+                  <div class="demo-upload-list" v-for="(item, __index) in reportFileList"
+                    :key="__index">
+                    <template>
+                      <img src="../../../assets/file.png" />
+                      <div class="demo-upload-list-cover">
+                        <div>
+                          <!-- <Icon type="md-search" size="30" @click.native="handleViewGoodsPicture(item.url)"></Icon> -->
+                          <Icon type="md-trash" size="30" @click.native="handleRemoveGoodsPicture('reportFiles',item)"></Icon>
+                        </div>
+                      </div>
+                    </template>
                   </div>
-                </template>
-                <template slot-scope="{ row }" slot="wholePrice0">
-                  <Input
-                    v-if="wholesaleData[0]"
-                    clearable
-                    disabled
-                    v-model="wholesaleData[0].price"
-                  >
-                    <span slot="append">元</span>
-                  </Input>
-                </template>
-                <template slot-scope="{ row }" slot="wholePrice1">
-                  <Input
-                    v-if="wholesaleData[1]"
-                    clearable
-                    disabled
-                    v-model="wholesaleData[1].price"
-                  >
-                    <span slot="append">元</span>
-                  </Input>
-                </template>
-                <template slot-scope="{ row }" slot="wholePrice2">
-                  <Input
-                    v-if="wholesaleData[2]"
-                    clearable
-                    disabled
-                    v-model="wholesaleData[2].price"
-                  >
-                    <span slot="append">元</span>
-                  </Input>
-                </template>
-              </Table>
-            </FormItem>
-          </div>
-          <h4>商品详情描述</h4>
-          <div class="form-item-view">
-            <FormItem label="商品描述">
-              <div v-html="goods.intro"></div>
-            </FormItem>
-            <FormItem label="移动端描述">
-              <div v-html="goods.mobileIntro"></div>
-            </FormItem>
-          </div>
-        </div>
-      </Card>
-    </Form>
-  </div>
+
+                <Upload disabled :show-upload-list="false" :on-success="(res, file) => handleSuccessGoodsPicture('reportFiles', res, file)"
+                  :format="['jpg', 'jpeg', 'png']" :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize" :max-size="1024" :before-upload="e => handleBeforeUploadGoodsPicture('reportFiles', e)"
+                  multiple type="drag" :action="uploadFile" :headers="{ ...accessToken }" style="margin-left: 10px">
+                  <div style="width: 148px; height: 148px; line-height: 148px">
+                    <Icon type="md-add" size="20"></Icon>
+                  </div>
+                </Upload>
+              </div>
+
+                        </div>
+                        <div v-else>{{row.value}}</div>
+                    </template>
+                </Table>
+                </Col>
+
+                <Col span="6">
+                <img :src="goodsInfo.original" style="width: 350px;"/>
+                </Col>
+            </Row>
+
+            <div class="bottom-action"  style="margin-top: 20px;text-align: center">
+                    <Button type="primary" v-if="goodsInfo.authFlag==='PASS'" disabled>已通过</Button>
+                    <Button type="primary" v-if="goodsInfo.authFlag==='TOBEAUDITED'" @click="examine(goodsInfo,1)">审核通过</Button>
+
+                    <Button type="success" style="margin-left: 10px" @click="back">返回</Button>
+            </div>
+        </Card>
+    </div>
+
+
 </template>
+
 <script>
-import { getGoodsDetail } from "@/api/goods";
+import { uploadFile } from "@/libs/axios";
+import { authGoods} from "@/api/goods";
 export default {
-  name: "goodsDetail",
-  data() {
-    return {
-      goods: {}, // 商品信息
-      previewGoodsPicture: "", // 预览图片
-      goodsPictureVisible: false, // 预览图片模态框
-      wholesalePreviewColumns: [
-        {
-          title: "销售规则",
-          width: 300,
-          render: (h, params) => {
-            let guide =
-              "当商品购买数量 ≥" +
-              params.row.num +
-              " 时，售价为 ￥" +
-              params.row.price +
-              " /" +
-              this.goods.goodsUnit;
-            return h("div", guide);
-          },
-        },
-      ],
-      wholesaleData: [],
-      skuColumn: [
-        // 规格表头
-        {
-          title: "规格",
-          key: "specs",
-        },
-        {
-          title: "编号",
-          key: "sn",
-        },
-        {
-          title: "重量(kg)",
-          key: "weight",
-        },
-      ],
-      skuData: [], // sku数据
-    };
-  },
-  mounted() {
-    this.initGoods(this.$route.query.id);
-  },
-  methods: {
-    // 初始化数据，获取商品详情
-    initGoods(id) {
-      getGoodsDetail(id).then((res) => {
-        this.goods = res.result;
-        let that = this;
-        res.result.skuList.forEach(function (sku, index, array) {
-          that.skuData.push({
-            specs: sku.goodsName,
-            sn: sku.sn,
-            weight: sku.weight,
-            cost: that.$options.filters.unitPrice(sku.cost, "¥"),
-            price: that.$options.filters.unitPrice(sku.price, "¥"),
-            image: sku.thumbnail,
-          });
-        });
-        if (res.result.salesModel === "WHOLESALE" && res.result.wholesaleList) {
-          res.result.wholesaleList.forEach((item, index) => {
-            this.skuColumn.push({
-              title: "购买量 ≥ " + item.num,
-              slot: "wholePrice" + index,
-            });
-          });
-        } else {
-          this.skuColumn.push(
-            {
-              title: "成本",
-              key: "cost",
+    data() {
+        return {
+            goodsInfo: {
+                goodsName: '未知',
+                material: '未知',
+                decoration: '未知',
+                goodsBrand: '未知',
+                goodsDisplayPrice: '未知',
+                email: '未知',
+                thumbnail: '',
+                authFlag:'',
             },
-            {
-              title: "价格",
-              key: "price",
-            }
-          );
+            goodsAuditForm: {
+            // 商品编辑表单
+            auth_flag: 1,
+            },
+            // 检测报告
+            reportFileList:[],
+            reportFiles:[],
+            // 说明书
+            instructionFileList:[],
+            instructionFiles:[],
+            data: [
+                { key: '名称', value: '合页' },
+                { key: '性能规格', value: '433，2BB' },
+                { key: '材质', value: '304不锈钢' },
+                { key: '饰面', value: '合页' },
+                { key: '品牌', value: '合页' },
+                { key: '价格', value: '合页' },
+                { key: '联系人', value: '合页' },
+                { key: '联系电话', value: '合页' },
+                { key: '邮箱', value: '合页' },
+                { key: '检测报告', type: 'image' },
+                { key: '说明书', type: 'image' },
+            ],
+            columns: [
+                {
+                    key: 'key',
+                    width: 100,
+                    align: 'right',
+                    render: (h, { row }) => {
+                        return h("span", {
+                            style: { fontWeight: 'bold' }
+                        }, row.key + "：")
+                    }
+                },
+                {
+                    key: 'value',
+                    width: 200,
+                    align: 'left',
+                    slot: "goodsSlot"
+                }
+            ]
         }
-        this.skuColumn.push({
-          title: "图片",
-          slot: "showImage",
-        });
-        this.wholesaleData = res.result.wholesaleList;
-      });
     },
-    // 预览商品图片
+    methods:{
+      back(){
+        this.$router.push({name: "manager-goods"})
+      },
+      examine(v, authFlag) {
+        // 审核商品
+        let examine = "通过";
+        this.goodsAuditForm.authFlag = "PASS";
+        if (authFlag != 1) {
+          examine = "拒绝";
+          this.goodsAuditForm.authFlag = "REFUSE";
+        }
+        this.$Modal.confirm({
+          title: "确认审核",
+          content: "您确认要审核" + examine + " " + v.goodsName + " ?",
+          loading: true,
+          onOk: () => {
+            authGoods(v.id, this.goodsAuditForm).then((res) => {
+              this.$Modal.remove();
+              if (res.success) {
+                this.$Message.success("审核成功");
+                this.goodsInfo.authFlag=this.goodsAuditForm.authFlag;
+              }
+            });
+          },
+        });
+      },
+        // 预览图片
+    handleView(url) {
+      this.previewPicture = url;
+      this.visible = true;
+    },
+    // 查看商品大图
     handleViewGoodsPicture(url) {
       this.previewGoodsPicture = url;
       this.goodsPictureVisible = true;
     },
-  },
-};
+    // 移除商品图片
+    handleRemoveGoodsPicture(fileListName, file) {
+      this[fileListName] =
+        this[fileListName].filter((i) => i.url !== file.url);
+    },
+    // 商品图片上传成功
+    handleSuccessGoodsPicture(fileListName, res, file) {
+      if (file.response) {
+        file.url = file.response.result;
+        this[fileListName].push(file);
+      }
+    },
+    // 图片格式不正确
+    handleFormatError(file) {
+      this.$Notice.warning({
+        title: "文件格式不正确",
+        desc: "文件 " + file.name + " 的格式不正确",
+      });
+    },
+    // 图片大小不正确
+    handleMaxSize(file) {
+      this.$Notice.warning({
+        title: "超过文件大小限制",
+        desc: "图片大小不能超过1MB",
+      });
+    },
+    // 图片上传前钩子
+    handleBeforeUploadGoodsPicture(fileListName, file) {
+      console.log(fileListName, 'upload');
+      const check = this[fileListName].length < 3;
+      if (!check) {
+        this.$Notice.warning({
+          title: "数量不能多于三个",
+        });
+        return false;
+      }
+    },
+    // 获取产品已有的图片信息
+    getImgList(){
+      // 获取reportList
+
+      // 获取instructionList
+    }
+
+    },
+    created() {
+        // this.goodsInfo = this.$router.params;
+        const row = this.$route.params
+        this.data[0].value = row.goodsName;
+        this.data[2].value = row.material;
+        this.data[3].value = row.decoration;
+        this.data[4].value = row.goodsBrand;
+        this.data[5].value = row.goodsDisplayPrice;
+        this.goodsInfo.thumbnail = row.thumbnail;
+        this.goodsInfo.original = row.original;
+        this.goodsInfo.authFlag=row.authFlag;
+        this.goodsInfo.id=row.id;
+        console.log(this.$route.params);
+    }
+}
 </script>
 
-<style lang="scss" soped>
-/*平铺*/
-div.base-info-item {
-  h4 {
-    margin-bottom: 10px;
-    padding: 0 10px;
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
-    font-weight: bold;
-    color: #333;
-    font-size: 14px;
-    line-height: 40px;
-    text-align: left;
-  }
-
-  .form-item-view {
-    padding-left: 80px;
-  }
-}
-
-.demo-upload-list {
-  display: inline-block;
-  width: 60px;
-  height: 60px;
-  text-align: center;
-  line-height: 60px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #fff;
-  position: relative;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  margin-right: 4px;
-}
-.demo-upload-list img {
-  width: 100%;
-  height: 100%;
-}
-.demo-upload-list-cover {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.6);
-}
-.demo-upload-list:hover .demo-upload-list-cover {
-  display: block;
-}
-.demo-upload-list-cover i {
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  margin: 0 2px;
-}
-.ivu-table table {
-  width: 100% !important;
+<style scoped>
+.title {
+    font-size: 16px;
 }
 </style>
