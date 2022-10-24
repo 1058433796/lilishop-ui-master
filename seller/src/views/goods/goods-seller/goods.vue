@@ -172,26 +172,26 @@ export default {
         {
           title: "项目名称",
           key: "itemName",
-          width: 100,
-          tooltip: true,
+          width: 400,
+          // tooltip: true,
         },
         {
           title: "创建时间",
           key: "createTime",
-          width: 100,
+          width: 400,
         },
         {
           title: "地点",
           key: "createLocation",
-          width: 100,
-          tooltip: true,
+          width: 400,
+          // tooltip: true,
         },
         {
           title: "操作",
           key: "action",
           align: "center",
           fixed: "right",
-          width: 100,
+          width: 600,
           render: (h, params) => {
             return h("div", [
               h(
