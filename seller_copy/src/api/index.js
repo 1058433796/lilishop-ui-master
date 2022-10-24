@@ -50,7 +50,7 @@ export const getSellerHomeData = params => {
 
 // 登陆
 export const login = params => {
-  return postRequestWithNoTokenData("/passport/login/userLogin", params);
+  return postRequestWithNoTokenData("/passport/login/storeLogin", params);
 };
 
 // 登出
@@ -301,4 +301,8 @@ export const handleRefreshToken = (token) => {
   return getRequestWithNoToken(`/passport/login/refresh/${token}`);
 };
 
+// HTMLToPDF API
+export const HtmlToPDF = (params) => {
+  return getRequest(commonUrl+'/common/common/pdf', params)
+}
 
