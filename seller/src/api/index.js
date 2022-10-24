@@ -21,6 +21,10 @@ export const userRegister = (params) => {
   return postRequestWithNoTokenData("/passport/login/userRegister", params);
 }
 
+export const userRegisterWithStore = (params) => {
+  return postRequestWithNoTokenData("/passport/login/userRegisterWithStore", params);
+}
+
 // 公司注册
 export const register = (params) => {
   return postRequestWithNoToken("/passport/login/storeRegister", params);
@@ -44,9 +48,14 @@ export const getSellerHomeData = params => {
 };
 
 
+// // 登陆
+// export const storeLogin = params => {
+//   return postRequestWithNoTokenData("/passport/login/storeLogin", params);
+// };
+
 // 登陆
 export const login = params => {
-  return postRequestWithNoTokenData("/passport/login/userLogin", params);
+  return postRequestWithNoTokenData("/passport/login/storeLogin", params);
 };
 
 // 登出
