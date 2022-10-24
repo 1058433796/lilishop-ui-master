@@ -265,7 +265,7 @@ export default {
               ]);
             } else if (params.row.replyStatus == "未响应") {
               return h("div", [
-                h("tag", { props: { color: "blue" } }, "已响应"),
+                h("tag", { props: { color: "blue" } }, "未响应"),
               ]);
             }
           },

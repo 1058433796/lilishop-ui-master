@@ -122,7 +122,7 @@
               </div>
             </template>
           </Table>
-          <div class="bottom-action">
+          <div class="bottom-action" style="margin-top: 20px;text-align: right">
             <Button type="success" @click="back">返回</Button>
           </div>
         </Card>
@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import * as API_Order from "@/api/customer";
+import * as API_Store from "@/api/shops";
 import { getContractList } from "@/api/contract";
 import liliMap from "@/views/my-components/map/index";
 import region from "@/views/lili-components/region";
@@ -254,7 +254,7 @@ export default {
     //获取客户详细信息
     getDataDetail() {
       this.loading = true;
-      API_Order.getCustomerDetail(this.id).then((res) => {
+      API_Store.getStoreDetail(this.id).then((res) => {
         this.loading = false;
         if (res.success) {
           this.customerInfo=res.result

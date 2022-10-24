@@ -30,7 +30,15 @@ export const getOrderList = params => {
 
 // 获取普通订单详细信息
 export const getOrderDetail = sn => {
-  return getRequest(`/itemOrder/itemOrder/${sn}`);
+  return getRequest(`/itemOrder/itemOrder/provide/${sn}`);
+};
+// export const getOrderDetail = sn => {
+//   return getRequest(`/itemOrder/itemOrder/${sn}`);
+// };
+
+//响应
+export const ReplyOrder = sn => {
+  return putRequest(`/itemOrder/itemOrder/${sn}/response`);
 };
 
 // 调整订单金额
