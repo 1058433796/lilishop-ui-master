@@ -189,6 +189,12 @@ export const otherRouter = {
       name: "customer-detail",
       component: () => import("@/views/customer/customerDetail.vue")
     },
+    {
+      path: "projectPurchase",
+      title: "项目采购",
+      name: "projectPurchase",
+      component: () => import("@/views/goods/goods-seller/projectPurchase.vue")
+    },
     // {
     //   path: "/*",
     //   name: "error-404",

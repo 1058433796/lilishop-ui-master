@@ -1,4 +1,7 @@
 <template>
+  <card>
+    <Tabs>
+      <TabPane label="订单信息">
   <div class="search">
     <div>
       <!-- <Card style="height: 60px">
@@ -188,12 +191,11 @@
           </div>
         </div>
       </Card>
-      <Card class="mt_10">
         <Table
           :loading="loading"
           border
           :columns="columns"
-          :data="data"
+          :data="orderComponent"
           ref="table"
           sortable="custom"
         >
@@ -295,15 +297,13 @@
             <li>
               <span class="label">应付金额：</span>
               <span class="txt flowPrice"
-                >¥{{ orderInfo.order.priceDetailDTO.flowPrice | unitPrice }}</span
-              >
+                >¥{{ orderInfo.order.priceDetailDTO.flowPrice | unitPrice }}</span>
             </li>
           </ul>
         </div>
-      </Card>
     </div>
 
-    <Modal v-model="modal" width="530">
+    <!-- <Modal v-model="modal" width="530">
       <p slot="header">
         <Icon type="edit"></Icon>
         <span>修改金额</span>
@@ -332,7 +332,6 @@
         <Button type="primary" @click="modifyPriceSubmit">调整</Button>
       </div>
     </Modal>
-    <!-- 订单取消模态框 -->
     <Modal v-model="orderCancelModal" width="530">
       <p slot="header">
         <Icon type="edit"></Icon>
@@ -360,9 +359,9 @@
         <Button @click="orderCancelModal = false">关闭</Button>
         <Button type="primary" @click="orderCancelSubmit">确认</Button>
       </div>
-    </Modal>
+    </Modal> -->
     <!--收件地址弹出框-->
-    <Modal v-model="addressModal" width="530">
+    <!-- <Modal v-model="addressModal" width="530">
       <p slot="header">
         <Icon type="edit"></Icon>
         <span>修改收件信息</span>
@@ -424,9 +423,9 @@
         <Button @click="addressModal = false">关闭</Button>
         <Button type="primary" @click="editAddressSubmit">修改</Button>
       </div>
-    </Modal>
+    </Modal> -->
     <!-- 订单日志 -->
-    <Modal v-model="orderLogModal" width="60">
+    <!-- <Modal v-model="orderLogModal" width="60">
       <p slot="header">
         <span>订单日志</span>
       </p>
@@ -498,8 +497,11 @@
         <Button @click="printModal = false">关闭</Button>
         <Button type="primary" v-print="printInfoObj">打印发货单</Button>
       </div>
-    </Modal>
+    </Modal> -->
   </div>
+</TabPane>
+</Tabs>
+</card>
 </template>
 
 <script>
@@ -515,6 +517,7 @@ export default {
   },
   data() {
     return {
+      orderComponent: [],
       printHiddenFlag:false,//隐藏信息
       printInfoObj:{
         id: "printInfo",//要打印的id名 无#号
@@ -603,70 +606,129 @@ export default {
           { required: true, message: "详细地址不能为空", trigger: "blur" },
         ],
       },
-
       columns: [
-        {
-          title: "商品",
-          key: "goodsName",
-          minWidth: 200,
-          slot: "goodsSlot",
-        },
-        {
-          title: "优惠",
-          key: "num",
-          minWidth: 100,
-          render: (h, params) => {
-            let resultText = "";
-            if (params.row.promotionType) {
-              let type = params.row.promotionType.split(",");
-              if (type.indexOf("PINTUAN") != -1) {
-                resultText += "拼团 ";
-              }
-              if (type.indexOf("SECKILL") != -1) {
-                resultText += "秒杀 ";
-              }
-              if (type.indexOf("COUPON") != -1) {
-                resultText += "优惠券 ";
-              }
-              if (type.indexOf("FULL_DISCOUNT") != -1) {
-                resultText += "满减 ";
-              }
-              if (type.indexOf("POINTS_GOODS") != -1) {
-                resultText += "积分商品 ";
-              }
+          {
+            title: "序号",
+            minWidth: 50,
+            render:(h,params)=>{
+              return h("span" ,{
+              },params.index+1)
             }
-            if (resultText === "") {
-              resultText = "暂无未参与任何促销";
-            }
-            return h("div", resultText);
           },
-        },
-        {
-          title: "单价",
-          key: "goodsPrice",
-          minWidth: 100,
-          render: (h, params) => {
-            if (!params.row.goodsPrice) {
-              return h("div", this.$options.filters.unitPrice(0, "￥"));
-            }
-            return h("div", this.$options.filters.unitPrice(params.row.unitPrice, "￥"));
+          {
+            title: "商品名",
+            key: "componentName",
+            minWidth: 200,
+            //slot: "goodsSlot",
           },
-        },
+          {
+            title: "参数",
+            key: "goodRequire",
+            minWidth: 200,
+          },
+          {
+            title: "饰面颜色",
+            key: "goodColor",
+            minWidth: 100,
+  
+          },
+          {
+            title: "品牌",
+            key: "goodBrand",
+            minWidth: 100,
+          },
+          {
+            title: "型号",
+            key: "goodType",
+            minWidth: 100,
+          },
+          {
+            title: "数量",
+            key: "componentNumber",
+            minWidth: 80,
+          },
+          {
+            title: "单位",
+            value: "件",
+            key: "goodUnit",
+            minWidth: 100,
+          },
+          {
+            title: "单价",
+            key: "componentUnitPrice",
+            minWidth: 100,
+          },
+          {
+            title: "小计",
+            minWidth: 100,
+            render: (h, params) => {
+              return h("div", {},Number(params.row.componentUnitPrice)*Number(params.row.componentNumber))
+            }
+          },
+        ],
+      // columns: [
+      //   {
+      //     title: "商品",
+      //     key: "goodsName",
+      //     minWidth: 200,
+      //     slot: "goodsSlot",
+      //   },
+      //   {
+      //     title: "优惠",
+      //     key: "num",
+      //     minWidth: 100,
+      //     render: (h, params) => {
+      //       let resultText = "";
+      //       if (params.row.promotionType) {
+      //         let type = params.row.promotionType.split(",");
+      //         if (type.indexOf("PINTUAN") != -1) {
+      //           resultText += "拼团 ";
+      //         }
+      //         if (type.indexOf("SECKILL") != -1) {
+      //           resultText += "秒杀 ";
+      //         }
+      //         if (type.indexOf("COUPON") != -1) {
+      //           resultText += "优惠券 ";
+      //         }
+      //         if (type.indexOf("FULL_DISCOUNT") != -1) {
+      //           resultText += "满减 ";
+      //         }
+      //         if (type.indexOf("POINTS_GOODS") != -1) {
+      //           resultText += "积分商品 ";
+      //         }
+      //       }
+      //       if (resultText === "") {
+      //         resultText = "暂无未参与任何促销";
+      //       }
+      //       return h("div", resultText);
+      //     },
+      //   },
+      //   {
+      //     title: "单价",
+      //     key: "goodsPrice",
+      //     minWidth: 100,
+      //     render: (h, params) => {
+      //       if (!params.row.goodsPrice) {
+      //         return h("div", this.$options.filters.unitPrice(0, "￥"));
+      //       }
+      //       return h("div", this.$options.filters.unitPrice(params.row.unitPrice, "￥"));
+      //     },
+      //   },
 
-        {
-          title: "数量",
-          key: "num",
-          minWidth: 80,
-        },
-        {
-          title: "小计",
-          key: "subTotal",
-          minWidth: 100,
-          render: (h, params) => {
-            return h("div", this.$options.filters.unitPrice(params.row.flowPrice, "￥"));
-          },
-        },
-      ],
+      //   {
+      //     title: "数量",
+      //     key: "num",
+      //     minWidth: 80,
+      //   },
+      //   {
+      //     title: "小计",
+      //     key: "subTotal",
+      //     minWidth: 100,
+      //     render: (h, params) => {
+      //       return h("div", this.$options.filters.unitPrice(params.row.flowPrice, "￥"));
+      //     },
+      //   },
+      // ],
       data: [], // 表单数据
       orderLogColumns: [
         {
@@ -826,9 +888,20 @@ export default {
         }
       });
     },
+    init(){
+      this.sn = this.$route.query;
+      API_Order.getOrderComponent(this.sn.orderId, this.sn.storeId).then(res=> {
+          if(res.success) {
+            console.log(res)
+            this.orderComponent = res.result;
+            this.loading = false;
+          }
+        })
+    }
   },
   mounted() {
-    this.sn = this.$route.query;
+    this.init();
+    // this.sn = this.$route.query;
     // this.getDataList();
   },
 };

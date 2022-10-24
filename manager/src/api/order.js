@@ -155,3 +155,7 @@ export const refundLog = (params) => {
 export const storeAddress = (sn) => {
   return getRequest(`/order/afterSale/getStoreAfterSaleAddress/${sn}`)
 }
+// 获取订单中包含的零件
+export const getOrderComponent = (oid, storeId) =>{
+  return getRequest(`/itemOrder/itemOrder/provide/${oid}/${storeId}`)
+}

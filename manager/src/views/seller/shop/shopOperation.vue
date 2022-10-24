@@ -1,411 +1,132 @@
 <template>
-  <div>
-    <Card>
-      <Button class="mb_10" v-if="shopForm.storeDisable === 'APPLYING'" type="primary" @click="auditHandler">审核</Button>
-      <Tabs v-model="tabName" :animated="false" style="overflow: visible">
-        <Form
-          ref="shopForm"
-          :model="shopForm"
-          :label-width="130"
-          label-position="right"
-          :rules="shopValidate"
-          @on-validate="formValidate"
-        >
-          <TabPane label="基本信息" class="tab" name="base">
-            <Divider orientation="left">基本信息</Divider>
-            <!-- 遮罩层  -->
-            <div v-if="isRead" class="mask">只读不可修改</div>
-            <div>
-              <FormItem label="会员名称" prop="memberName">
-                <div class="item">
-                  <Input disabled v-model="shopForm.memberName" />
-                  <Button @click="selectMember()" v-if="!$route.query.shopId"
-                    >选择会员</Button
-                  >
-                </div>
-              </FormItem>
-              <FormItem label="店铺名称" prop="storeName">
-                <Input v-model="shopForm.storeName" clearable style="width: 350px" />
-              </FormItem>
-
-              <FormItem label="是否自营" prop="selfOperated">
-                <RadioGroup
-                  type="button"
-                  button-style="solid"
-                  v-model="shopForm.selfOperated"
-                >
-                  <Radio label="true">自营</Radio>
-                  <Radio label="false">非自营</Radio>
-                </RadioGroup>
-              </FormItem>
-
-              <FormItem label="店铺定位" prop="shopCenter">
-                <!-- <Input v-model="shopForm.storeCenter" @on-focus="$refs.liliMap.showMap = true" clearable style="width: 350px" /> -->
-                <Button
-                  type="info"
-                  v-if="!shopForm.storeCenter"
-                  @click="$refs.liliMap.showMap = true"
-                  >点击获取店铺定位</Button
-                >
-                <Button type="success" v-else @click="$refs.liliMap.showMap = true"
-                  >已定位</Button
-                >
-              </FormItem>
-
-              <FormItem label="店铺所在地" prop="storeAddressPath">
-                <Input
-                  disabled
-                  v-model="shopForm.storeAddressPath"
-                  style="width: 350px"
-                />
-              </FormItem>
-              <FormItem label="店铺详细地址" prop="storeAddressDetail">
-                <Input
-                  v-model="shopForm.storeAddressDetail"
-                  clearable
-                  style="width: 350px"
-                />
-              </FormItem>
-
-              <FormItem label="店铺logo" class="storeLogo">
-                <Avatar
-                  style="height: 100px; width: 100px"
-                  v-if="shopForm.storeLogo"
-                  shape="square"
-                  icon="ios-person"
-                  size="default"
-                  :src="shopForm.storeLogo"
-                />
-                <div>
-                  <Button @click="handleCLickImg('storeLogo')" type="primary"
-                    >选择图片</Button
-                  >
-                </div>
-              </FormItem>
-
-              <FormItem label="店铺简介" prop="storeDesc" style="width: 350px">
-                <Input
-                  v-model="shopForm.storeDesc"
-                  type="textarea"
-                  :rows="4"
-                  maxlength="200"
-                  show-word-limit
-                  clearable
-                  style="width: 400px"
-                />
-              </FormItem>
-              <br />
-              <Divider orientation="left">退货收件地址</Divider>
-              <FormItem label="收件人姓名">
-                <Input
-                  v-model="shopForm.salesConsigneeName"
-                  clearable
-                  style="width: 350px"
-                />
-              </FormItem>
-              <FormItem label="收件人手机">
-                <Input
-                  v-model="shopForm.salesConsigneeMobile"
-                  clearable
-                  maxlength="11"
-                  style="width: 350px"
-                />
-              </FormItem>
-              <FormItem label="地址信息">
-                <region
-                  style="width: 350px"
-                  @selected="selectedConsigneeRegion"
-                  :addressId="returnAddress"
-                />
-              </FormItem>
-              <FormItem label="详细地址">
-                <Input
-                  v-model="shopForm.salesConsigneeDetail"
-                  clearable
-                  style="width: 350px"
-                />
-              </FormItem>
-              <!-- <Divider orientation="left">腾讯云智服</Divider>
-              <FormItem label="唯一标识">
-                <Input v-model="shopForm.yzfSign" clearable style="width: 350px" />
-              </FormItem>
-              <FormItem label="小程序唯一标识">
-                <Input v-model="shopForm.yzfMpSign" clearable style="width: 350px" />
-              </FormItem>
-              <Spin fix v-if="loading"></Spin> -->
-            </div>
-          </TabPane>
-
-          <!-- 入驻信息 -->
-          <TabPane label="入驻信息" class="tab" name="entry">
-            <!-- 遮罩层  -->
-            <div v-if="isRead" class="mask">只读不可修改</div>
-            <Divider orientation="left">公司信息</Divider>
-            <div>
-              <FormItem label="公司名称" prop="companyName">
-                <Input v-model="shopForm.companyName" clearable style="width: 350px" />
-              </FormItem>
-
-              <FormItem label="公司电话" prop="companyPhone">
-                <Input v-model="shopForm.companyPhone" clearable style="width: 350px" />
-              </FormItem>
-              <FormItem label="公司所在地" prop="companyAddressIdPath">
-                <region
-                  style="width: 350px"
-                  @selected="selectedRegion"
-                  :addressId="address"
-                />
-              </FormItem>
-              <FormItem label="公司详细地址" prop="companyAddress">
-                <Input v-model="shopForm.companyAddress" clearable style="width: 350px" />
-              </FormItem>
-              <FormItem label="员工总数" prop="employeeNum">
-                <InputNumber
-                  style="width: 150px"
-                  :min="1"
-                  :max="9999999"
-                  v-model="shopForm.employeeNum"
-                >
-                </InputNumber>
-              </FormItem>
-              <FormItem label="注册资金" prop="registeredCapital">
-                <InputNumber
-                  style="width: 150px"
-                  :min="1"
-                  :max="9999999"
-                  v-model="shopForm.registeredCapital"
-                >
-                </InputNumber>
-                <span style="margin-left: 10px">万</span>
-              </FormItem>
-              <FormItem label="联系人姓名" prop="linkName">
-                <Input v-model="shopForm.linkName" clearable style="width: 200px" />
-              </FormItem>
-              <FormItem label="联系人手机" prop="linkPhone">
-                <Input
-                  v-model="shopForm.linkPhone"
-                  maxlength="11"
-                  clearable
-                  style="width: 200px"
-                />
-              </FormItem>
-              <FormItem label="电子邮箱" prop="companyEmail">
-                <Input v-model="shopForm.companyEmail" clearable style="width: 200px" />
-              </FormItem>
-
-              <Divider orientation="left">营业执照信息</Divider>
-
-              <FormItem label="营业执照号" prop="licenseNum">
-                <Input v-model="shopForm.licenseNum" clearable style="width: 200px" />
-              </FormItem>
-
-              <FormItem label="法定经营范围" prop="scope">
-                <Input v-model="shopForm.scope" clearable style="width: 200px" />
-              </FormItem>
-
-              <Divider orientation="left">法人信息</Divider>
-
-              <FormItem label="法人姓名" prop="legalName">
-                <Input v-model="shopForm.legalName" clearable style="width: 200px" />
-              </FormItem>
-              <FormItem label="法人证件号" prop="legalId">
-                <Input v-model="shopForm.legalId" clearable style="width: 200px" />
-              </FormItem>
-              <FormItem label="法人身份证照片" prop="legalPhoto">
-                <Avatar
-                  class="legal-photo"
-                  shape="square"
-                  size="100"
-                  icon="md-add"
-                  @click.native="handleCLickImg('legalPhoto', 0)"
-                  :src="shopForm.legalPhoto[0]"
-                />
-                <Avatar
-                  class="ml_10 legal-photo"
-                  shape="square"
-                  size="100"
-                  icon="md-add"
-                  @click.native="handleCLickImg('legalPhoto', 1)"
-                  :src="shopForm.legalPhoto[1]"
-                />
-                <span>点击图片上传身份证正反面，要求身份证清晰，四角无缺漏</span>
-              </FormItem>
-
-              <Divider orientation="left">结算银行信息</Divider>
-              <FormItem label="银行开户名" prop="settlementBankAccountName">
-                <Input
-                  v-model="shopForm.settlementBankAccountName"
-                  clearable
-                  style="width: 200px"
-                />
-              </FormItem>
-              <FormItem label="银行账号" prop="settlementBankAccountNum">
-                <Input
-                  v-model="shopForm.settlementBankAccountNum"
-                  clearable
-                  style="width: 200px"
-                />
-              </FormItem>
-              <FormItem label="银行支行名称" prop="settlementBankBranchName">
-                <Input
-                  v-model="shopForm.settlementBankBranchName"
-                  clearable
-                  style="width: 200px"
-                />
-              </FormItem>
-              <FormItem label="支行联行号" prop="settlementBankJointName">
-                <Input
-                  v-model="shopForm.settlementBankJointName"
-                  clearable
-                  style="width: 200px"
-                />
-              </FormItem>
-
-              <FormItem label="许可证电子版">
-                <Avatar
-                  style="height: 100px; width: 100px"
-                  v-if="shopForm.licencePhoto"
-                  shape="square"
-                  icon="ios-person"
-                  size="default"
-                  :src="shopForm.licencePhoto"
-                />
-                <div>
-                  <Button @click="handleCLickImg('licencePhoto')" type="primary"
-                    >选择图片</Button
-                  >
-                </div>
-              </FormItem>
-              <Spin fix v-if="loading"></Spin>
-            </div>
-          </TabPane>
-          <TabPane label="经营范围" class="tab" name="category">
-            <!-- 遮罩层  -->
-            <div v-if="isRead" class="mask">只读不可修改</div>
-            <FormItem label="经营类目" prop="goodsManagementCategory">
-              <div>
-                <Checkbox
-                  :indeterminate="indeterminate"
-                  :value="checkAll"
-                  @click.prevent.native="handleCheckAll"
-                  >全选
-                </Checkbox>
+<card>
+  {{shopForm}}
+    <div class = "contract-detail-top">
+      <Tabs>
+          <TabPane label="供应商详情" name="INFO">
+              <table class="contract-table">
+                  <tr>
+                      <td class="col-title">客户编码</td>
+                      <td> {{shopForm.storeId }}</td>
+                      <td class="col-title">客户名称</td>
+                      <td colspan="3"> {{shopForm.storeName }} </td>
+                  </tr>
+                  <tr>
+                      <td class="col-title">客户简称</td>
+                      <td></td>
+                      <td class="col-title">英文名</td>
+                      <td>  </td>
+                      <td class="col-title">拼音简码</td>
+                      <td> </td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">所在区域</td>
+                    <td> {{shopForm.storeAddressPath}}  </td>
+            
+                    <td class="col-title">所在省市</td>
+                    <td> {{shopForm.storeAddressPath.split(" ")[0] +" " + shopForm.storeAddressPath.split(" ")[1]}} </td>
+                    <td class="col-title">使用状态</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                      <td class="col-title">纳税登记号</td>
+                      <td></td>
+              
+                      <td class="col-title">地址1</td>
+                      <td colspan="3">  </td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">邮编</td>
+                    <td></td>
+                    <td class="col-title">地址2</td>
+                    <td colspan="3"> </td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">公司电话</td>
+                    <td></td>
+                    <td class="col-title">地址3</td>
+                    <td colspan="3"> </td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">公司传真</td>
+                    <td></td>
+                    <td class="col-title">公司网站</td>
+                    <td colspan="3"> </td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">客户类型</td>
+                    <td></td>
+                    <td class="col-title">客户状态</td>
+                    <td>  </td>
+                    <td class="col-title">客户性质</td>
+                    <td> </td>
+                </tr>
+                <tr>
+                  <td class="col-title">获得方式</td>
+                  <td></td>
+                  <td class="col-title">所属行业</td>
+                  <td>  </td>
+                  <td class="col-title">行业地位</td>
+                  <td> </td>
+              </tr>
+              <tr>
+                <td class="col-title">信用等级</td>
+                <td></td>
+                <td class="col-title">维护级别</td>
+                <td>  </td>
+                <td class="col-title">规模级别</td>
+                <td> </td>
+              </tr>
+              <tr>
+                  <td class="col-title">客户描述</td>
+                  <td colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="col-title">客户需求</td>
+                <td colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="col-title">客户价值</td>
+                <td colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="col-title">客户描述</td>
+                <td colspan="5"></td>
+              </tr>
+              <tr rowspan="2">
+                <td class="col-title">相关附件</td>
+                <td colspan="5">
+                    <div class="actions">
+                        <!-- <img :src="checkDetailImg" />
+                        <img :src="editImg" />
+                        <img :src="printImg" />
+                        <img :src="downloadImg" /> -->
+                        <Icon  class="fileAction" type="ios-open-outline" />
+                        <Icon  class="fileAction" type="ios-create-outline" />
+                        <Icon  class="fileAction" type="ios-print-outline" />
+                        <Icon  class="fileAction" type="ios-download-outline" />
+                    </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-title">客户经理</td>
+                <td> {{shopForm.memberName}}</td>
+                <td class="col-title">创建者</td>
+                <td> {{shopForm.memberName}} </td>
+                <td class="col-title">创建时间</td>
+                <td> {{createTime}} </td>
+               </tr>
+            
+                  
+              </table>
+              <div class="bottom-action">
+                  <Button class="signAciton" :type='shopForm.storeDisable==="APPLY"?"success":"primary"'  @click="sign()" :disabled='shopForm.storeDisable!=="APPLY"'> {{shopForm.storeDisable==="APPLY"?'通过':"已审核通过"}}</Button>
+                  <Button type="success" @click="back()">返回</Button>
               </div>
-              <CheckboxGroup v-model="checkAllGroup" @on-change="checkAllGroupChange">
-                <Checkbox v-for="(item, i) in categories" :key="i + 1" :label="item.id"
-                  >{{ item.name }}
-                </Checkbox>
-              </CheckboxGroup>
-            </FormItem>
           </TabPane>
-
-          <!-- <TabPane label="配送信息" class="tab" name="send"> -->
-            <!-- 遮罩层  -->
-            <!-- <FormItem label="达达编码" prop="ddCode">
-              <Input
-                v-model="shopForm.ddCode"
-                maxlength="20"
-                clearable
-                style="width: 200px"
-              />
-            </FormItem> -->
-          <!-- </TabPane> -->
-
-          <TabPane label="结算信息" class="tab" name="settlement">
-            <Alert type="error"
-              >已添加<span class="theme_color">{{ settlementCycle.length }}</span
-              >个结算日，最多可添加5个结算日，当月不包含所设日期时，将会顺延到下一个结算日</Alert
-            >
-            <FormItem label="结算日期">
-              <Tag
-                v-for="item in settlementCycle"
-                :key="item"
-                :name="item"
-                closable
-                style="marrgin-left: 10px"
-                @on-close="removesettlementCycle"
-                >{{ item }}
-              </Tag>
-              <InputNumber
-                size="small"
-                :max="31"
-                :min="1"
-                v-model="day"
-                v-show="settlementShow"
-              ></InputNumber>
-              <Button
-                type="default"
-                @click="addsettlementCycle"
-                size="small"
-                v-if="addSettlementBtn && settlementCycle.length < 5"
-                style="margin-left: 8px"
-                >添加结算日期
-              </Button>
-              <Button
-                v-if="addSettlementConfirmBtn"
-                type="default"
-                @click="addsettlementCycleConfirm"
-                size="small"
-                style="margin-left: 8px"
-                >确认
-              </Button>
-            </FormItem>
-          </TabPane>
-        </Form>
       </Tabs>
-      <div align="center">
-        <Button
-          type="info"
-          v-show="tabNameList.indexOf(tabName) > 0"
-          class="mr_10"
-          @click="prev"
-          >上一步</Button
-        >
-        <Button type="primary" v-show="tabNameList.indexOf(tabName) < 4" @click="next"
-          >下一步</Button
-        >
-        <Button
-          type="primary"
-          v-show="tabNameList.indexOf(tabName) === 4"
-          @click="save"
-          v-if="!isRead"
-        >
-          {{ shopId ? "修改" : "保存" }}
-        </Button>
-      </div>
-    </Card>
-    <liliMap ref="liliMap" @getAddress="getAddress"></liliMap>
-
-    <Modal width="1200px" v-model="picModalFlag">
-      <ossManage @callback="callbackSelected" ref="ossManage" />
-    </Modal>
-
-    <Modal width="1200px" v-model="memberModalFlag">
-      <memberLayout
-        @callback="callbackMember"
-        class="selectedMember"
-        ref="memberLayout"
-      />
-    </Modal>
-
-    <Modal v-model="auditModel" width="360">
-      <p slot="header" style="color: #f60; text-align: center">
-        <Icon type="ios-information-circle"></Icon>
-        <span>审核店铺</span>
-      </p>
-      <div style="text-align: center">
-        <p>您确认要审核通过该店铺</p>
-      </div>
-      <div slot="footer">
-        <Button type="error" :loading="auditModalLoading" @click="audit('REFUSED')"
-          >驳回</Button
-        >
-        <Button type="info" :loading="auditModalLoading" @click="audit('PASS')"
-          >通过</Button
-        >
-      </div>
-    </Modal>
   </div>
+</card>
 </template>
 
 <script>
@@ -429,6 +150,8 @@ export default {
 
   data() {
     return {
+      contractData: "",
+      createTime: this.$route.query.createTime,
       shopId: this.$route.query.shopId, // 店铺id
       isRead: false, // 是否只读，只有在店铺通过审核才可修改
       selectedFormBtnName: "", // 点击图片绑定form
@@ -549,6 +272,9 @@ export default {
     };
   },
   methods: {
+    back(){
+        this.$router.go (-1);
+    },
     // 选择会员的回调
     callbackMember(val) {
       if (val) {
@@ -672,7 +398,6 @@ export default {
             this.settlementCycle = this.shopForm.settlementCycle.split(",");
           }
           this.shopForm.legalPhoto = this.shopForm.legalPhoto.split(",");
-
           this.address = this.shopForm.companyAddressIdPath;
           this.returnAddress = this.shopForm.salesConsigneeAddressId;
         }
@@ -797,6 +522,79 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.signAciton {
+  margin-right: 80px;
+}
+img {
+  width: 30px;
+  height: 30px;
+}
+.actions {
+  text-align: right;  
+  margin-right: 3%;
+}
+.actions i {
+  width: 20px;
+  height: 20px
+}
+.contract-table td {
+  border: 1px solid #d0d0d0;
+}
+.contract-table {
+  margin: 1em 0;
+  width: 100%;
+  overflow: hidden;
+  background: #FFF;
+  color: black;
+  border: 1px solid black;
+}
+.contract-table tr {
+  height: 35px;
+  border: 1px solid #D9E4E6;
+}
+.contract-table  tr:nth-child(odd) {
+  background-color: #f8f0ef;
+}
+.contract-table th {
+  display: none;
+  border: 1px solid #FFF;
+  background-color: #fa735b;
+  color: #FFF;
+  padding: 1em;
+}
+.col-title {
+  background-color: rgb(215,215,215);
+  height: 2%;
+  width: 13%;
+}
+.bottom-action {
+  text-align: right;  
+  margin-top: 5%;
+  margin-right: 5%;
+}
+.bottom-action .sign {
+  margin-right: 30px;
+}
+td {
+  min-width: 13%;
+  max-width: 20%;
+}
+.bubbly-button {
+  font-family: "Helvetica", "Arial", sans-serif;
+  display: inline-block;
+  font-size: 1em;
+  padding: 1em 2em;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: rgb(1,202,252);
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+}
 .selectedMember {
   width: 100%;
 }

@@ -5,7 +5,7 @@
           <table class="contract-table" >
             <tr>
               <td class="col-title" >客户编码</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;{{this.customerInfo.id}}</td>
+              <td>{{this.customerInfo.id}}</td>
               <td class="col-title">客户名称</td>
               <td colspan="3">&nbsp;&nbsp;{{this.customerInfo.storeName}}</td>
             </tr>
@@ -156,8 +156,8 @@ export default {
         // 搜索框初始化对象
         pageNumber: 1, // 当前页数
         pageSize: 10, // 页面大小
-        // sort: "startTime", // 默认排序字段
-        // order: "desc", // 默认排序方式
+        sort: "createTime", // 默认排序字段
+        order: "desc", // 默认排序方式
       },
       columns: [
         {
@@ -173,8 +173,8 @@ export default {
           tooltip: true,
         },
         {
-          title: "时间",
-          key: "timeStart",
+          title: "创建时间",
+          key: "createTime",
           width: 200,
           tooltip: true,
         },

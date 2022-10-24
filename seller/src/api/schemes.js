@@ -41,3 +41,13 @@ import {
   export const establishOrder=(id) => {
     return postRequest(`/schemeComponent/schemeComponent/${id}/supplier`)
   }
+
+  export const searchGuaranty = (params) => {
+    return getRequest(`/itemGuaranty/itemGuaranty/item`,params)
+  }
+  export const searchOrderGuaranty = (params) => {
+    return getRequest(`/itemGuaranty/itemGuaranty/order`,params)
+  }
+  export const searchContractGuaranty = (params) => {
+    return getRequest(`/itemGuaranty/itemGuaranty/contract`,params)
+  }

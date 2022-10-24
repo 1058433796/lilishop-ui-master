@@ -317,29 +317,29 @@ export const result = [{
       }
     ]
   },
-  // {
-  //   name: "messages",
-  //   level: 0,
-  //   type: -1,
-  //   title: "消息",
-  //   path: "",
-  //   component: "",
-  //   children: [{
-  //     name: "user-manage",
-  //     level: 1,
-  //     type: 0,
-  //     title: "系统消息",
-  //     path: "user-manage",
-  //     component: "sys/user-manage/userManage",
-  //     children: [{
-  //       name: "message_index",
-  //       level: 2,
-  //       type: 0,
-  //       title: "系统消息",
-  //       path: "message",
-  //       component: "message",
-  //       children: null
-  //     }]
-  //   }]
-  // }
+  {
+    name: "messages",
+    level: 0,
+    type: -1,
+    title: "消息",
+    path: "",
+    component: "",
+    children: [{
+      name: "user-manage",
+      level: 1,
+      type: 0,
+      title: "系统消息",
+      path: "user-manage",
+      component: "sys/user-manage/userManage",
+      children: [{
+        name: "message_index",
+        level: 2,
+        type: 0,
+        title: "系统消息",
+        path: "message",
+        component: "message",
+        children: null
+      }]
+    }]
+  }
 ];

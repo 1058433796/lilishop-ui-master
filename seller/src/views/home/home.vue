@@ -21,7 +21,7 @@
               <div>店铺状态：{{userData.storeDisable=='OPEN' ? '开启中' : '关闭'}}</div>
             </div>
             <div class="box-item" @click="im()">
-              <Button type="info">点击登录客服</Button>
+              <Button type="info">联系客服</Button>
             </div>
           </div>
 
@@ -60,14 +60,30 @@
           <div class="detail-list">
             <div class="detail-item" @click="navigateTo('orderList')">
               <div>
-                <span>{{homeData.totalOrderNum- homeData.payedOrderNum|| 0}}</span>
-                <div>待付款</div>
-              </div>
-              <div class="detail-title">
-                交易前
+                <span>{{homeData.waitToSignGuaranty|| 0}}</span>
+                <div>待签履约保证</div>
               </div>
             </div>
-
+            <div class="detail-item" @click="navigateTo('orderList')">
+              <div>
+                <span>{{homeData.waitToSignOrder|| 0}}</span>
+                <div>待响应订单</div>
+              </div>
+            </div>
+            <div class="detail-item" @click="navigateTo('orderList')">
+              <div>
+                <span>{{homeData.waitToSignContract|| 0}}</span>
+                <div>待响应合同</div>
+              </div>
+            </div>
+            <div class="detail-item" @click="navigateTo('orderList')">
+              <div>
+                <span>{{homeData.totalOrderNum- homeData.payedOrderNum|| 0}}</span>
+                <div>待付款订单</div>
+              </div>
+            </div>
+  
+<!-- 
             <div class="detail-item" @click="navigateTo('orderList')">
               <div>
                 <span>{{homeData.unDeliveredOrder || 0}}</span>
@@ -120,7 +136,7 @@
               <div class="detail-title">
                 商品
               </div>
-            </div>
+            </div> -->
 
             <!-- <div class="detail-item">
               <div @click="navigateTo('seckill')">
@@ -159,7 +175,7 @@
           </div>
           <div>
             <div class="counts">{{homeData.productNum ||0}}</div>
-            <div>商品数量</div>
+            <div>项目数量</div>
           </div>
 
         </div>

@@ -1,5 +1,5 @@
 <template>
-    <card>
+  <card>
     <div class = "contract-detail-top">
         <Tabs>
             <TabPane label="合同详情" name="INFO">

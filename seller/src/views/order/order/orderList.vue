@@ -94,8 +94,7 @@
           style="display: inline-block"
           :data="data"
           :fields="excelColumns"
-          name="订单.xls"
-        >
+          name="订单.xls">
           <Button type="primary">导出订单</Button>
         </download-excel>
       </div>
@@ -118,11 +117,10 @@
           size="small"
           show-total
           show-elevator
-          show-sizer
-        ></Page>
+          show-sizer>
+        </Page>
       </Row>
     </Card>
-    <!-- {{data}} -->
   </div>
 </template>
 
@@ -191,10 +189,10 @@ export default {
         },
         {
           title: "响应状态",
-          key: "replyStatus",
+          key: "buyerReply",
           width:100,
           render: (h, params) => {
-            if (params.row.replyStatus==="未响应") {
+            if (params.row.buyerReply==="未响应") {
               return h("div", [
                       h(
                         "Button",
@@ -218,7 +216,7 @@ export default {
                         },
                         "响应"
                       ),])
-          }else if (params.row.replyStatus==="已响应") {
+          }else if (params.row.buyerReply==="已响应") {
             return h("div", [
                           h(
                             "Button",
@@ -281,7 +279,7 @@ export default {
         下单时间: "createTime",
         供应商响应状态: "storeReply",
         发货状态: "distributionStatus",
-        响应状态: "replyStatus",
+        响应状态: "buyerReply",
       },
     };
   },

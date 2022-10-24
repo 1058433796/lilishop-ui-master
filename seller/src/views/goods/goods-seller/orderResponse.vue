@@ -71,7 +71,7 @@ export default {
                     key: "response_state",
                     width: "100px",
                     render: (h, params) => {
-                      if (params.row.replyStatus==="未响应") {
+                      if (params.row.buyerReply==="未响应") {
                         return h("div", [
                           h(
                             "Button",
@@ -95,7 +95,7 @@ export default {
                             },
                             "响应"
                           ),])
-                      } else if ((params.row.replyStatus==="已响应")) {
+                      } else if ((params.row.buyerReply==="已响应")) {
                         return h("div", [
                           h(
                             "Button",
@@ -120,7 +120,7 @@ export default {
                     title: "操作",
                     key: "action",
                     render: (h, params) => {
-                      if (params.row.replyStatus==="已响应" && params.row.storeReply==="已响应" ) {
+                      if (params.row.buyerReply==="已响应" && params.row.storeReply==="已响应" ) {
                         return h("div", [
                           h(
                             "Button",

@@ -1,6 +1,5 @@
 <template>
     <Card>
-    
     <Tabs>
       <TabPane label="订单信息">
         <div class="search">
@@ -72,7 +71,7 @@
           </Card>
           
           <Table
-          class = "table"
+          class = "productTable"
           :loading="loading"
           border
           :columns="columns"
@@ -82,7 +81,7 @@
         </Table>
           <div class="bottom-action">
             <div class="bottom-action">
-              <Button class="signAciton" :type='data.replyStatus==="已响应"?"success":"primary"'  @click="buyerResponse()" :disabled='data.replyStatus==="已响应"'>{{data.replyStatus==="未响应"? "响应":data.replyStatus}}</Button>
+              <Button class="signAciton" :type='data.buyerReply==="已响应"?"success":"primary"'  @click="buyerResponse()" :disabled='data.buyerReply==="已响应"'>{{data.buyerReply==="未响应"? "响应":data.buyerReply}}</Button>
               <Button type="success" @click="back()">返回</Button>
             </div>
         </div>
@@ -340,7 +339,7 @@
       buyerResponse() {
           API_Order.buyerResponseOrder(this.data.orderId).then(res => {
             if (res.success && res.result) {
-              this.data.replyStatus = "已响应";
+              this.data.buyerReply = "已响应";
               this.responsed = this.data.orderId;
             }else {
               console.log("响应失败");
@@ -515,6 +514,10 @@
 .table {
   margin-top: 20px;
 }
+.productTable{
+  margin-top: 3%;
+
+}
   .already {
     font-family: "Helvetica", "Arial", sans-serif;
     display: inline-block;
@@ -533,6 +536,9 @@
 }
   .lineH30{
     line-height: 30px;
+  }
+  .table {
+    margin-top: 3%;
   }
   .order-log-div {
     line-height: 30px;

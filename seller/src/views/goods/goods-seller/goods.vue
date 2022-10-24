@@ -321,7 +321,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.editGoods(params.row);
+                      this.purchase(params.row);
                     },
                   },
                 },
@@ -339,6 +339,10 @@ export default {
     init() {
       // 初始化数据
       this.getDataList();
+    },
+    // 项目采购
+    purchase(row) {
+        this.$router.push({name: "projectPurchase", query: { itemId: row.itemId }})
     },
     // 添加商品
     addGoods() {

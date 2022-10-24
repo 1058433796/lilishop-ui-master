@@ -2,20 +2,20 @@
   <div class="search">
     <Card>
       <Form ref="searchForm" :model="searchForm" inline :label-width="70" class="search-form">
-        <Form-item label="会员名称" prop="memberName">
+        <Form-item label="管理人名称" prop="memberName">
           <Input
             type="text"
             v-model="searchForm.memberName"
-            placeholder="请输入会员名称"
+            placeholder="请输入管理人名称"
             clearable
             style="width: 200px"
           />
         </Form-item>
-        <Form-item label="店铺名称" prop="storeName">
+        <Form-item label="供应商名称" prop="storeName">
           <Input
             type="text"
             v-model="searchForm.storeName"
-            placeholder="请输入店铺名称"
+            placeholder="请输入供应商名称"
             clearable
             style="width: 200px"
           />
@@ -61,19 +61,19 @@
         columns: [
           // 表头
           {
-            title: "店铺名称",
+            title: "供应商名称",
             key: "storeName",
             minWidth: 120,
             align: "left",
           },
           {
-            title: "会员名称",
+            title: "管理人名称",
             key: "memberName",
             align: "left",
             minWidth: 120,
           },
           {
-            title: "店铺地址",
+            title: "供应商地址",
             key: "storeAddressPath",
             width: 300,
             sortable: false,
@@ -81,30 +81,28 @@
             return h(
               "Tag",
               {
-
               },
               params.row.storeAddressPath ||  "暂未填写"
             );
           },
           },
-          {
-            title: "是否自营",
-            key: "selfOperated",
-            align: "left",
-            width: 120,
-            render: (h, params) => {
-              return h(
-                "Tag",
-                {
-                  props: {
-                    color: params.row.selfOperated ? "default" : "success",
-                  },
-                },
-                params.row.selfOperated ? "自营" : "非自营"
-              );
-            },
-          },
-
+          // {
+          //   title: "是否自营",
+          //   key: "selfOperated",
+          //   align: "left",
+          //   width: 120,
+          //   render: (h, params) => {
+          //     return h(
+          //       "Tag",
+          //       {
+          //         props: {
+          //           color: params.row.selfOperated ? "default" : "success",
+          //         },
+          //       },
+          //       params.row.selfOperated ? "自营" : "非自营"
+          //     );
+          //   },
+          // },
           {
             title: "创建时间",
             key: "createTime",
@@ -119,7 +117,7 @@
             align: "center",
             fixed: "right",
             render: (h, params) => {
-              if (params.row.storeDisable == "APPLYING") {
+              if (params.row.storeDisable == "APPLY") {
                 return h(
                     "Button",
                     {
@@ -183,7 +181,7 @@
       getDataList() {
         this.loading = true;
         // 带多条件搜索参数获取表单数据 请自行修改接口
-        this.searchForm.storeDisable='APPLYING'
+        this.searchForm.storeDisable='APPLY'
         getShopListData(this.searchForm).then((res) => {
           this.loading = false;
           if (res.success) {
@@ -196,7 +194,7 @@
       },
       // 查看店铺
       edit(v) {
-        this.$router.push({ path: '/shop-operation', query: { shopId: v.id } });
+        this.$router.push({ path: '/shop-operation', query: { shopId: v.id,  createTime: v.createTime} });
       },
       
     },
