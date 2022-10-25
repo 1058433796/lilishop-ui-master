@@ -273,6 +273,7 @@ export default {
     checkScheme(v){
       this.searchForm.schemeId=v.schemeId
       testIbank().then((res)=>{
+        console.log('银联')
         console.log(res)
         window.localStorage.setItem('callbackHTML', res)
                     var newWin = window.open('', '_blank')

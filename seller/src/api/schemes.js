@@ -51,3 +51,6 @@ import {
   export const searchContractGuaranty = (params) => {
     return getRequest(`/itemGuaranty/itemGuaranty/contract`,params)
   }
+  
+  export const testIbank = () => {
+    return postRequest(`iBank/iBank/pay/`)}
