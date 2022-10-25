@@ -63,7 +63,7 @@ export const otherRouter = {
     },
     {
       path: "shop-detail",
-      title: "供应商详细",
+      title: "供应商详情",
       name: "shop-detail",
       component: () => import("@/views/seller/shop/shopDetail.vue")
     },

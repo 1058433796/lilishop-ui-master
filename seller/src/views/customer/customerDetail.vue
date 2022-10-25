@@ -164,7 +164,12 @@ export default {
           title: '编号',
           width: 200,
           key:'id',
-
+          render: (h, params) => {
+            return h(
+              "div",
+               params.row._index + 1
+            );
+          },
         },
         {
           title: "名称",
@@ -231,7 +236,7 @@ export default {
                   },
                   on: {
                     click: () => {
-
+                        this.check(params.row)
                     },
                   },
                 },
@@ -248,6 +253,9 @@ export default {
   methods: {
     back(){
       this.$router.go (-1);
+    },
+    check(row) {
+      this.$router.push({name: "contractDetailSingle", query: {data: row}})
     },
     //获取客户详细信息
     getDataDetail() {

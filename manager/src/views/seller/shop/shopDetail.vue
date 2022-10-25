@@ -1,7 +1,6 @@
 <template>
   <div>
     <card>
-      {{contractData}}
         <div class = "contract-detail-top">
           <Tabs>
               <TabPane label="基本信息" name="INFO">
@@ -313,8 +312,8 @@
 
     <Card class="mt_10">
       <Tabs value="order" @on-click="storeInfoChange">
-        <TabPane label="TA的订单" name="order" style="min-height: 200px">
-          <Row>
+        <TabPane label="合同" name="order" style="min-height: 200px">
+          <!-- <Row>
             <Form ref="searchForm" :model="orderSearchForm" inline :label-width="70" class="search-form">
               <Form-item label="订单号" prop="orderSn">
                 <Input
@@ -373,13 +372,13 @@
               </Form-item>
               <Button @click="getOrderData" type="primary" icon="ios-search" class="search-btn">搜索</Button>
             </Form>
-          </Row>
+          </Row> -->
           <div style="min-height: 180px">
             <Table
               :loading="loading"
-              border
-              :columns="orderColumns"
-              :data="orderData"
+              borderc
+              :columns="columns"
+              :data="contractData"
               ref="table"
               class="mt_10"
             >
@@ -389,7 +388,7 @@
               </template>
             </Table>
 
-            <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+            <!-- <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
               <Page
                 :current="orderSearchForm.pageNumber"
                 :total="orderTotal"
@@ -402,10 +401,10 @@
                 show-elevator
                 show-sizer
               ></Page>
-            </Row>
+            </Row> -->
           </div>
         </TabPane>
-        <TabPane label="TA的退货单" name="refundGoods">
+        <!-- <TabPane label="TA的退货单" name="refundGoods">
           <Row>
             <Form ref="refundGoodsOrderSearchForm" :model="refundGoodsOrderSearchForm" inline :label-width="70"
                   class="search-form">
@@ -484,7 +483,6 @@
               ref="table"
               class="mt_10"
             >
-              <!-- 商品栏目格式化 -->
               <template slot="goodsSlot" slot-scope="scope">
                 <div style="margin-top: 5px;height: 80px; display: flex;">
                   <div style="">
@@ -500,13 +498,11 @@
 
               </template>
 
-              <!-- 订单详情格式化 -->
               <template slot="orderSlot" slot-scope="scope">
                 <a
                   @click="$router.push({name: 'order-detail',query: {sn: scope.row.orderSn}})">{{scope.row.orderSn}}</a>
               </template>
 
-              <!-- 售后单详情格式化 -->
               <template slot="refundGoodsOrderSlot" slot-scope="scope">
                 <a @click="$router.push({name: 'after-order-detail',query: {sn: scope.row.sn}})">{{scope.row.sn}}</a>
               </template>
@@ -527,8 +523,8 @@
               ></Page>
             </Row>
           </div>
-        </TabPane>
-        <TabPane label="TA的退款单" name="refund">
+        </TabPane> -->
+        <!-- <TabPane label="TA的退款单" name="refund">
           <Row>
             <Form ref="refundOrderSearchForm" :model="refundOrderSearchForm" inline :label-width="70"
                   class="search-form">
@@ -607,7 +603,6 @@
               ref="table"
               class="mt_10"
             >
-              <!-- 商品栏目格式化 -->
               <template slot="goodsSlot" slot-scope="scope">
                 <div style="margin-top: 5px;height: 80px; display: flex;">
                   <div style="">
@@ -623,13 +618,11 @@
 
               </template>
 
-              <!-- 订单详情格式化 -->
               <template slot="orderSlot" slot-scope="scope">
                 <a
                   @click="$router.push({name: 'order-detail',query: {sn: scope.row.orderSn}})">{{scope.row.orderSn}}</a>
               </template>
 
-              <!-- 售后单详情格式化 -->
               <template slot="refundGoodsOrderSlot" slot-scope="scope">
                 <a @click="$router.push({name: 'after-order-detail',query: {sn: scope.row.sn}})">{{scope.row.sn}}</a>
               </template>
@@ -650,7 +643,7 @@
               ></Page>
             </Row>
           </div>
-        </TabPane>
+        </TabPane> -->
       </Tabs>
     </Card>
 
@@ -690,6 +683,98 @@
           order: "desc", // 默认排序方式
         },
         contractData: [],
+        columns: [
+        {
+          title: '编号',
+          width: 200,
+          key:'id',
+          render: (h, params) => {
+            return h(
+              "div",
+               params.row._index + 1
+            );
+          },
+        },
+        {
+          title: '合同号',
+          width: 200,
+          key:'id',
+        },
+        {
+          title: "名称",
+          key: "",
+          minWidth: 150,
+          tooltip: true,
+        },
+        {
+          title: "创建时间",
+          key: "createTime",
+          width: 200,
+          tooltip: true,
+        },
+
+        {
+          title: "发起人",
+          key: "",
+          width: 120,
+          tooltip: true,
+        },
+        {
+          title: "金额",
+          key: "",
+          minWidth: 100,
+          tooltip: true,
+          render: (h, params) => {
+            return h(
+              "div",
+              this.$options.filters.unitPrice(params.row.amount, "￥")
+            );
+          },
+        },
+        {
+          title: "审核",
+          key: "",
+          width: 120,
+        },
+        {
+          title: "类型",
+          key: "",
+          width: 120,
+        },
+        {
+          title: "状态",
+          key: "",
+          width: 170,
+        },
+        {
+          title: "操作",
+          key: "action",
+          align: "center",
+          width: 100,
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "info",
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                        this.check(params.row)
+                    },
+                  },
+                },
+                "查看"
+              ),
+            ]);
+          },
+        },
+      ],
         orderColumns: [
           {
             title: "订单编号",

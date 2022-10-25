@@ -27,171 +27,86 @@
           <Button @click="printOrder" type="primary" ghost style="float:right;">打印发货单</Button>
         </div>
       </Card> -->
-      <Card class="mt_10 clearfix">
-        <div style="width: 30%; float: left; margin-left: 20px">
-          <div class="div-item">
-            <div class="div-item-left">订单号：</div>
-            <div class="div-item-right">{{ sn.orderId }}</div>
-          </div>
-          <div class="div-item">
-            <div class="div-item-left">订单来源：</div>
-            <div class="div-item-right">
-              {{ orderInfo.order.clientType | clientTypeWay }}
+      <Card class="mt_10">
+        <Row>
+          <Col span="12">
+            <div class="div-item">
+              <div class="div-item-left">订单号：</div>
+              <div class="div-item-right">{{ order.orderId}}</div>
             </div>
-          </div>
+            <div class="div-item">
+              <div class="div-item-left">发货状态：</div>
+              <div class="div-item-right">{{order.orderStatus}}
+              </div>
+            </div>
+            <div class="div-item">
+              <div class="div-item-left">支付方式：</div>
+              <div class="div-item-right">{{order.payMode}}
+              </div>
+            </div>
+            <div class="div-item"  >
+              <div class="div-item-left">配送方式：</div>
+              <div class="div-item-right">
+                {{
+                  order.distributionMode
+                }}
+              </div>
+            </div>
+            <div class="div-item">
+              <div class="div-item-left">电话：</div>
+              <div class="div-item-right">
+                {{ order.buyerPhone }}
+              </div>
+            </div>
+            <div class="div-item">
+              <div class="div-item-left">发货状态：</div>
+              <div class="div-item-right">{{ order.logisticsNo || "暂未发货" }}</div>
+            </div>
+            
+          </Col>
+          <Col span="12">
+            <div class="div-item">
+              <div class="div-item-left">创建日期：</div>
+              <div class="div-item-right">
+                {{ order.createTime }}
+              </div>
+            </div>
+            <div class="div-item">
+              <div class="div-item-left">订单金额：</div>
+              <div class="div-item-right">
+                {{ order.orderAmount }}
+              </div>
+            </div>
+            <div class="div-item">
+              <div class="div-item-left">付款状态：</div>
+              <div class="div-item-right">
+                {{ order.payStatus==='已付款'?"于" +order.payTime+order.payStatus :order.payStatus }}
+              </div>
+            </div>
 
-          <div class="div-item">
-            <div class="div-item-left">订单状态：</div>
-            <div class="div-item-right">
-              {{ orderInfo.orderStatusValue }}
+            <div class="div-item">
+              <div class="div-item-left">收货人：</div>
+              <div class="div-item-right">
+                {{ order.buyerName}}
+              </div>
             </div>
-          </div>
 
-          <div class="div-item">
-            <div class="div-item-left">下单时间：</div>
-            <div class="div-item-right">
-              {{ sn.createTime }}
+            <div class="div-item">
+              <div class="div-item-left">收货地址：</div>
+              <div class="div-item-right">{{ order.consigneeAddress }}</div>
             </div>
-          </div>
-        </div>
-        <div style="width: 30%; float: left; margin-left: 20px">
-          <div class="div-item" v-if="orderInfo.order.needReceipt == false">
-            <div class="div-item-left">发票信息：</div>
-            <div class="div-item-right">暂无发票信息</div>
-          </div>
 
-          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
-            <div class="div-item-left">发票抬头：</div>
-            <div class="div-item-right">
-              {{
-                orderInfo.receipt && orderInfo.receipt.receiptTitle ? orderInfo.receipt.receiptTitle : "暂无"
-              }}
-            </div>
-          </div>
+    
 
-          <div
-            class="div-item"
-            v-if="orderInfo.order.needReceipt == true && orderInfo.receipt &&  orderInfo.receipt.taxpayerId"
-          >
-            <div class="div-item-left">发票税号：</div>
-            <div class="div-item-right">
-              {{ orderInfo.receipt && orderInfo.receipt.taxpayerId ? orderInfo.receipt.taxpayerId : "暂无" }}
+            <div class="div-item">
+              <div class="div-item-left">快递单号：</div>
+              <div class="div-item-right">{{ order.logisticsNo || "暂无" }}</div>
             </div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
-            <div class="div-item-left">发票内容：</div>
-            <div class="div-item-right">
-              {{
-                orderInfo.receipt && orderInfo.receipt.receiptContent
-                  ? orderInfo.receipt.receiptContent
-                  : "暂无"
-              }}
-            </div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
-            <div class="div-item-left">发票金额：</div>
-            <div class="div-item-right">
-              {{
-                orderInfo.receipt && orderInfo.receipt.receiptPrice
-                  ? orderInfo.receipt.receiptPrice
-                  : "暂无" | unitPrice("￥")
-              }}
-            </div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
-            <div class="div-item-left">是否开票：</div>
-            <div class="div-item-right">
-              {{ orderInfo.receipt?(orderInfo.receipt.receiptStatus == 0 ? "未开" : "已开"):"空" }}
-            </div>
-          </div>
-        </div>
-        <div style="width: 36%; float: left">
-          <div class="div-item">
-            <div class="div-item-left">收货信息：</div>
-            <div class="div-item-right">
-              {{ sn.buyerName }}
-              {{ sn.consigneePhone }}
-              {{ sn.consigneeAddress }}
-              <!-- {{ orderInfo.order.consigneeDetail }} -->
-            </div>
-          </div>
-          <div class="div-item">
-            <div class="div-item-left">支付方式：</div>
-            <div class="div-item-right">
-              {{ orderInfo.paymentMethodValue }}
-            </div>
-          </div>
-
-          <div class="div-item">
-            <div class="div-item-left">买家留言：</div>
-            <div class="div-item-right">{{ orderInfo.order.remark }}</div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.needReceipt == false">
-            <div class="div-item-left">发票信息：</div>
-            <div class="div-item-right">暂无发票信息</div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
-            <div class="div-item-left">发票抬头：</div>
-            <div class="div-item-right">
-              {{
-                orderInfo.receipt && orderInfo.receipt.receiptTitle ? orderInfo.receipt.receiptTitle : "暂无"
-              }}
-            </div>
-          </div>
-
-          <div
-            class="div-item"
-            v-if="orderInfo.order.needReceipt == true && orderInfo.receipt && orderInfo.receipt.taxpayerId"
-          >
-            <div class="div-item-left">发票税号：</div>
-            <div class="div-item-right">
-              {{ orderInfo.receipt && orderInfo.receipt.taxpayerId ? orderInfo.receipt.taxpayerId : "暂无" }}
-            </div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
-            <div class="div-item-left">发票内容：</div>
-            <div class="div-item-right">
-              {{
-                orderInfo.receipt && orderInfo.receipt.receiptContent
-                  ? orderInfo.receipt.receiptContent
-                  : "暂无"
-              }}
-            </div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
-            <div class="div-item-left">发票金额：</div>
-            <div class="div-item-right">
-              {{
-                orderInfo.receipt && orderInfo.receipt.receiptPrice
-                  ? orderInfo.receipt.receiptPrice
-                  : "暂无" | unitPrice("￥")
-              }}
-            </div>
-          </div>
-
-          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
-            <div class="div-item-left">是否开票：</div>
-            <div class="div-item-right">
-              {{ orderInfo.receipt?(orderInfo.receipt.receiptStatus == 0 ? "未开" : "已开"):"空" }}
-            </div>
-          </div>
-
-          <div class="div-item">
-            <div class="div-item-left">配送方式：</div>
-            <div class="div-item-right">
-              {{ orderInfo.deliveryMethodValue }}
-            </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </Card>
         <Table
+        class="component-table"
           :loading="loading"
           border
           :columns="columns"
@@ -250,7 +165,7 @@
             <li>
               <span class="label">商品总额：</span>
               <span class="txt">{{
-                sn.orderAmount | unitPrice("￥")
+                order.orderAmount | unitPrice("￥")
               }}</span>
             </li>
             <li
@@ -276,28 +191,28 @@
                 {{ orderInfo.order.priceDetailDTO.couponPrice | unitPrice("￥") }}
               </span>
             </li>
-            <li>
+            <!-- <li>
               <span class="label">运费：</span>
               <span class="txt">{{
-                orderInfo.order.freightPrice|| "暂未发货" | unitPrice("￥")
+                0 || "暂未发货" | unitPrice("￥")
               }}</span>
-            </li>
+            </li> -->
             <li v-if="orderInfo.order.priceDetailDTO.updatePrice">
               <span class="label">修改金额：</span>
               <span class="txt theme_color"
                 >¥{{ orderInfo.order.priceDetailDTO.updatePrice | unitPrice }}</span
               >
             </li>
-            <li v-if="orderInfo.order.priceDetailDTO.payPoint != 0">
+            <!-- <li v-if="orderInfo.order.priceDetailDTO.payPoint != 0">
               <span class="label">使用积分：</span>
               <span class="txt flowPrice">{{
                 orderInfo.order.priceDetailDTO.payPoint
               }}</span>
-            </li>
+            </li> -->
             <li>
               <span class="label">应付金额：</span>
               <span class="txt flowPrice"
-                >¥{{ orderInfo.order.priceDetailDTO.flowPrice | unitPrice }}</span>
+                >¥{{ order.orderAmount | unitPrice }}</span>
             </li>
           </ul>
         </div>
@@ -524,6 +439,7 @@ export default {
         popTitle:'&nbsp;',//页眉标题 默认浏览器标题 空字符串时显示undefined 使用html语言
         extraHead:'',//头部文字 默认空
       },
+      order: "",
       loading: false, //加载表格
       submitLoading: false, // 添加或编辑提交状态
       addr: "", //地区
@@ -896,7 +812,12 @@ export default {
             this.orderComponent = res.result;
             this.loading = false;
           }
-        })
+      })
+      API_Order.getOrderDetail(this.sn.orderId).then(res=>{
+        if(res.success) {
+          this.order = res.result;
+        }
+      })
     }
   },
   mounted() {
@@ -1060,5 +981,8 @@ export default {
   html,body{
     height:inherit;
   }
+}
+.component-table {
+  margin-top: 3%;
 }
 </style>

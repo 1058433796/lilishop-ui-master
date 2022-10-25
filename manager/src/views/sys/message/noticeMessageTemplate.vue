@@ -130,8 +130,7 @@
       :title="messageModalTitle"
       v-model="messageModalVisible"
       :mask-closable="false"
-      :width="800"
-    >
+      :width="800">
       <Form ref="messageSendForm" :model="messageSendForm" :label-width="100" :rules="messageFormValidate">
         <FormItem label="消息标题" prop="title">
           <Input v-model="messageSendForm.title" maxlength="15" clearable style="width: 70%"/>
