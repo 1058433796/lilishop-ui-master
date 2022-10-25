@@ -5,7 +5,7 @@ var BASE = {
    * @description api请求基础路径
    */
   API_DEV: {
-    common: "https://localhost:8890",
+    common: "http://localhost:8890",
     buyer: "https://localhost:8888",
     seller: "http://localhost:8889",
     manager: "http://localhost:8887"
