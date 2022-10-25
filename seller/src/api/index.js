@@ -60,7 +60,7 @@ export const getSellerHomeData = params => {
 
 // 登陆
 export const login = params => {
-  return postRequestWithNoTokenData("/passport/login/storeLogin", params);
+  return postRequestWithNoTokenData("/passport/login/userLogin", params);
 };
 
 // 登出

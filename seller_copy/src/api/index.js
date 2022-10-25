@@ -4,6 +4,7 @@ import {
   postRequest,
   putRequest,
   deleteRequest,
+  postRequestWithHeaders,
   getRequestWithNoToken,
   postRequestWithNoToken,
   postRequestWithNoTokenData,
@@ -303,6 +304,6 @@ export const handleRefreshToken = (token) => {
 
 // HTMLToPDF API
 export const HtmlToPDF = (params) => {
-  return getRequest(commonUrl+'/common/common/pdf', params)
+  return postRequest(commonUrl+'/common/common/pdf', params)
 }
 
