@@ -17,11 +17,11 @@
       @on-select="changeMenu"
     >
       <template v-for="item in menuList">
-        <MenuGroup :title="item.title" :key="item.id" style="padding-left:0;">
+        <div :title="item.title" :key="item.id" style="padding-left:0;">
           <MenuItem :name="menu.name" v-for="menu in item.children" :key="menu.name">
             {{menu.title}}
           </MenuItem>
-        </MenuGroup>
+        </div>
 
       </template>
     </Menu>

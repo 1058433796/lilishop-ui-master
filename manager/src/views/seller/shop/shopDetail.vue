@@ -1,6 +1,133 @@
 <template>
   <div>
-    <Card style="padding: 10px 12px 0px">
+    <card>
+        <div class = "contract-detail-top">
+          <Tabs>
+              <TabPane label="基本信息" name="INFO">
+                  <table class="contract-table">
+                      <tr>
+                          <td class="col-title">客户编码</td>
+                          <td> {{shopForm.storeId }}</td>
+                          <td class="col-title">客户名称</td>
+                          <td colspan="3"> {{shopForm.storeName }} </td>
+                      </tr>
+                      <tr>
+                          <td class="col-title">客户简称</td>
+                          <td></td>
+                          <td class="col-title">英文名</td>
+                          <td>  </td>
+                          <td class="col-title">拼音简码</td>
+                          <td> </td>
+                      </tr>
+                      <tr>
+                        <td class="col-title">所在区域</td>
+                        <td> {{shopForm.storeAddressPath}}  </td>
+                
+                        <td class="col-title">所在省市</td>
+                        <td> {{shopForm.storeAddressPath.split(" ")[0] +" " + shopForm.storeAddressPath.split(" ")[1]}} </td>
+                        <td class="col-title">使用状态</td>
+                        <td> {{shopForm.storeDisable}}   </td>
+                      </tr>
+                      <tr>
+                          <td class="col-title">纳税登记号</td>
+                          <td></td>
+                  
+                          <td class="col-title">地址1</td>
+                          <td colspan="3">  </td>
+                      </tr>
+                      <tr>
+                        <td class="col-title">邮编</td>
+                        <td></td>
+                        <td class="col-title">地址2</td>
+                        <td colspan="3"> </td>
+                      </tr>
+                      <tr>
+                        <td class="col-title">公司电话</td>
+                        <td></td>
+                        <td class="col-title">地址3</td>
+                        <td colspan="3"> </td>
+                      </tr>
+                      <tr>
+                        <td class="col-title">公司传真</td>
+                        <td></td>
+                        <td class="col-title">公司网站</td>
+                        <td colspan="3"> </td>
+                      </tr>
+                      <tr>
+                        <td class="col-title">客户类型</td>
+                        <td></td>
+                        <td class="col-title">客户状态</td>
+                        <td>  </td>
+                        <td class="col-title">客户性质</td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                      <td class="col-title">获得方式</td>
+                      <td></td>
+                      <td class="col-title">所属行业</td>
+                      <td>  </td>
+                      <td class="col-title">行业地位</td>
+                      <td> </td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">信用等级</td>
+                    <td></td>
+                    <td class="col-title">维护级别</td>
+                    <td>  </td>
+                    <td class="col-title">规模级别</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                      <td class="col-title">客户描述</td>
+                      <td colspan="5"></td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">客户需求</td>
+                    <td colspan="5"></td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">客户价值</td>
+                    <td colspan="5"></td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">客户描述</td>
+                    <td colspan="5"></td>
+                  </tr>
+                  <tr rowspan="2">
+                    <td class="col-title">相关附件</td>
+                    <td colspan="5">
+                        <div class="actions">
+                            <!-- <img :src="checkDetailImg" />
+                            <img :src="editImg" />
+                            <img :src="printImg" />
+                            <img :src="downloadImg" /> -->
+                            <Icon  class="fileAction" type="ios-open-outline" />
+                            <Icon  class="fileAction" type="ios-create-outline" />
+                            <Icon  class="fileAction" type="ios-print-outline" />
+                            <Icon  class="fileAction" type="ios-download-outline" />
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-title">客户经理</td>
+                    <td> {{shopForm.memberName}}</td>
+                    <td class="col-title">创建者</td>
+                    <td> {{shopForm.memberName}} </td>
+                    <td class="col-title">创建时间</td>
+                    <td> {{createTime}} </td>
+                   </tr>
+                
+                      
+                  </table>
+                  <!-- <div class="bottom-action">
+                      <Button class="signAciton" :type='shopForm.storeDisable==="APPLY"?"success":"primary"'  @click="sign()" :disabled='shopForm.storeDisable!=="APPLY"'> {{shopForm.storeDisable==="APPLY"?'通过':"已审核通过"}}</Button>
+                      <Button type="success" @click="back()">返回</Button>
+                  </div> -->
+              </TabPane>
+          </Tabs>
+      </div>
+    </card>
+    <!-- <Card style="padding: 10px 12px 0px">
       <div class="head-title">基本信息</div>
       <div class="detail-body">
         <div class="ant-col-md-6" style="width: 25%;">
@@ -181,12 +308,12 @@
           </p>
         </div>
       </div>
-    </Card>
+    </Card> -->
 
     <Card class="mt_10">
       <Tabs value="order" @on-click="storeInfoChange">
-        <TabPane label="TA的订单" name="order" style="min-height: 200px">
-          <Row>
+        <TabPane label="合同" name="order" style="min-height: 200px">
+          <!-- <Row>
             <Form ref="searchForm" :model="orderSearchForm" inline :label-width="70" class="search-form">
               <Form-item label="订单号" prop="orderSn">
                 <Input
@@ -245,13 +372,13 @@
               </Form-item>
               <Button @click="getOrderData" type="primary" icon="ios-search" class="search-btn">搜索</Button>
             </Form>
-          </Row>
+          </Row> -->
           <div style="min-height: 180px">
             <Table
               :loading="loading"
-              border
-              :columns="orderColumns"
-              :data="orderData"
+              borderc
+              :columns="columns"
+              :data="contractData"
               ref="table"
               class="mt_10"
             >
@@ -261,7 +388,7 @@
               </template>
             </Table>
 
-            <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+            <!-- <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
               <Page
                 :current="orderSearchForm.pageNumber"
                 :total="orderTotal"
@@ -274,10 +401,10 @@
                 show-elevator
                 show-sizer
               ></Page>
-            </Row>
+            </Row> -->
           </div>
         </TabPane>
-        <TabPane label="TA的退货单" name="refundGoods">
+        <!-- <TabPane label="TA的退货单" name="refundGoods">
           <Row>
             <Form ref="refundGoodsOrderSearchForm" :model="refundGoodsOrderSearchForm" inline :label-width="70"
                   class="search-form">
@@ -356,7 +483,6 @@
               ref="table"
               class="mt_10"
             >
-              <!-- 商品栏目格式化 -->
               <template slot="goodsSlot" slot-scope="scope">
                 <div style="margin-top: 5px;height: 80px; display: flex;">
                   <div style="">
@@ -372,13 +498,11 @@
 
               </template>
 
-              <!-- 订单详情格式化 -->
               <template slot="orderSlot" slot-scope="scope">
                 <a
                   @click="$router.push({name: 'order-detail',query: {sn: scope.row.orderSn}})">{{scope.row.orderSn}}</a>
               </template>
 
-              <!-- 售后单详情格式化 -->
               <template slot="refundGoodsOrderSlot" slot-scope="scope">
                 <a @click="$router.push({name: 'after-order-detail',query: {sn: scope.row.sn}})">{{scope.row.sn}}</a>
               </template>
@@ -399,8 +523,8 @@
               ></Page>
             </Row>
           </div>
-        </TabPane>
-        <TabPane label="TA的退款单" name="refund">
+        </TabPane> -->
+        <!-- <TabPane label="TA的退款单" name="refund">
           <Row>
             <Form ref="refundOrderSearchForm" :model="refundOrderSearchForm" inline :label-width="70"
                   class="search-form">
@@ -479,7 +603,6 @@
               ref="table"
               class="mt_10"
             >
-              <!-- 商品栏目格式化 -->
               <template slot="goodsSlot" slot-scope="scope">
                 <div style="margin-top: 5px;height: 80px; display: flex;">
                   <div style="">
@@ -495,13 +618,11 @@
 
               </template>
 
-              <!-- 订单详情格式化 -->
               <template slot="orderSlot" slot-scope="scope">
                 <a
                   @click="$router.push({name: 'order-detail',query: {sn: scope.row.orderSn}})">{{scope.row.orderSn}}</a>
               </template>
 
-              <!-- 售后单详情格式化 -->
               <template slot="refundGoodsOrderSlot" slot-scope="scope">
                 <a @click="$router.push({name: 'after-order-detail',query: {sn: scope.row.sn}})">{{scope.row.sn}}</a>
               </template>
@@ -522,7 +643,7 @@
               ></Page>
             </Row>
           </div>
-        </TabPane>
+        </TabPane> -->
       </Tabs>
     </Card>
 
@@ -536,6 +657,7 @@
   import {getCategoryTree} from "@/api/goods";
   import * as API_Store from "@/api/shops.js";
   import * as API_Order from "@/api/order.js";
+  import * as API_Contract from "@/api/contract";
 
 
   export default {
@@ -546,13 +668,113 @@
     },
     data() {
       return {
+        shopForm: "",
         id: "",//店铺id
         categories: [], //店铺静音范围
         loading: true, // 表单加载状态
         storeInfo: {},//店铺信息
         checkAllGroup: [], //选中的经营分类
         selectDate: null, // 申请时间
+        contractSearchForm: {
+          // 搜索框初始化对象
+          pageNumber: 1, // 当前页数
+          pageSize: 10, // 页面大小
+          sort: "createTime", // 默认排序字段
+          order: "desc", // 默认排序方式
+        },
+        contractData: [],
+        columns: [
+        {
+          title: '编号',
+          width: 200,
+          key:'id',
+          render: (h, params) => {
+            return h(
+              "div",
+               params.row._index + 1
+            );
+          },
+        },
+        {
+          title: '合同号',
+          width: 200,
+          key:'id',
+        },
+        {
+          title: "名称",
+          key: "",
+          minWidth: 150,
+          tooltip: true,
+        },
+        {
+          title: "创建时间",
+          key: "createTime",
+          width: 200,
+          tooltip: true,
+        },
 
+        {
+          title: "发起人",
+          key: "",
+          width: 120,
+          tooltip: true,
+        },
+        {
+          title: "金额",
+          key: "",
+          minWidth: 100,
+          tooltip: true,
+          render: (h, params) => {
+            return h(
+              "div",
+              this.$options.filters.unitPrice(params.row.amount, "￥")
+            );
+          },
+        },
+        {
+          title: "审核",
+          key: "",
+          width: 120,
+        },
+        {
+          title: "类型",
+          key: "",
+          width: 120,
+        },
+        {
+          title: "状态",
+          key: "",
+          width: 170,
+        },
+        {
+          title: "操作",
+          key: "action",
+          align: "center",
+          width: 100,
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "info",
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                        this.check(params.row)
+                    },
+                  },
+                },
+                "查看"
+              ),
+            ]);
+          },
+        },
+      ],
         orderColumns: [
           {
             title: "订单编号",
@@ -826,6 +1048,8 @@
         this.getCategories();
         //查询订单信息
         this.getOrderData();
+        // 查询关联合同信息
+        this.getContractData();
       },
       //会员信息tab改变事件
       storeInfoChange(v) {
@@ -839,17 +1063,34 @@
           this.getRefundOrder();
         }
       },
-      //查询会员信息
       getStoreInfo() {
-        API_Store.getShopDetailData(this.id).then((res) => {
-          this.$set(this, "storeInfo", res.result);
-          //因switch开关需要用到true或者false 所以进行一次格式化
-          this.storeInfo.storeDisable = this.storeInfo.storeDisable === "OPEN" ? true : false
-          this.checkAllGroup = this.storeInfo.goodsManagementCategory.split(",");
-          this.storeInfo.legalPhoto = this.storeInfo.legalPhoto.split(",");
-        });
+        // 原本的实现
+        // API_Store.getShopDetailData(this.id).then((res) => {
+        //   this.$set(this, "storeInfo", res.result);
+        //   //因switch开关需要用到true或者false 所以进行一次格式化
+        //   this.storeInfo.storeDisable = this.storeInfo.storeDisable === "OPEN" ? true : false
+        //   this.checkAllGroup = this.storeInfo.goodsManagementCategory.split(",");
+        //   this.storeInfo.legalPhoto = this.storeInfo.legalPhoto.split(",");
+        // });
+        // 2022.10.21 更新后的实现
+        API_Store.shopDetail(this.id).then((res) => {
+        if (res.success) {
+          this.infoResult = res.result;
+          this.shopForm = res.result;
+          this.shopForm.selfOperated
+            ? (this.shopForm.selfOperated = "true")
+            : (this.shopForm.selfOperated = "false");
+
+          this.checkAllGroup = this.shopForm.goodsManagementCategory.split(",");
+          if (this.shopForm.settlementCycle) {
+            this.settlementCycle = this.shopForm.settlementCycle.split(",");
+          }
+          this.shopForm.legalPhoto = this.shopForm.legalPhoto.split(",");
+          this.address = this.shopForm.companyAddressIdPath;
+          this.returnAddress = this.shopForm.salesConsigneeAddressId;
+        }
+      });
       },
-      //店铺状态改变事件
       shopStatusChange(v) {
         if (v) {
           API_Store.enableBrand(this.id).then(res => {
@@ -862,7 +1103,7 @@
       //查询TA的订单
       getOrderData() {
         this.loading = true;
-        this.orderSearchForm.storeId = this.id
+        this.orderSearchForm.buyerId = this.id
         API_Order.getOrderList(this.orderSearchForm).then((res) => {
           this.loading = false;
           if (res.success) {
@@ -872,6 +1113,14 @@
         });
         this.loading = false;
       },
+      getContractData() {
+        this.contractSearchForm.storeId = this.id;
+        API_Contract.getContractList(this.contractSearchForm).then(res=> {
+          if(res.success) {
+            this.contractData = res.result.records;
+          }
+        })
+      },  
       //查询TA的售后单
       getRefundOrder() {
         this.loading = true;
@@ -968,10 +1217,64 @@
     },
     mounted() {
       this.id = this.$route.query.id;
+      this.createTime = this.$route.query.createTime;
       this.init();
     }
   };
 </script>
 <style lang="scss" scoped>
   @import "shopDetail.scss";
+  .signAciton {
+    margin-right: 80px;
+  }
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  .actions {
+    text-align: right;  
+    margin-right: 3%;
+  }
+  .actions i {
+    width: 20px;
+    height: 20px
+  }
+  .contract-table td {
+    border: 1px solid #d0d0d0;
+  }
+  .contract-table {
+    margin: 1em 0;
+    width: 100%;
+    overflow: hidden;
+    background: #FFF;
+    color: black;
+    border: 1px solid black;
+  }
+  .contract-table tr {
+    height: 35px;
+    border: 1px solid #D9E4E6;
+  }
+  .contract-table  tr:nth-child(odd) {
+    background-color: #f8f0ef;
+  }
+  .contract-table th {
+    display: none;
+    border: 1px solid #FFF;
+    background-color: #fa735b;
+    color: #FFF;
+    padding: 1em;
+  }
+  .col-title {
+    background-color: rgb(215,215,215);
+    height: 2%;
+    width: 13%;
+  }
+  .bottom-action {
+    text-align: right;  
+    margin-top: 5%;
+    margin-right: 5%;
+  }
+  .bottom-action .sign {
+    margin-right: 30px;
+  }
 </style>

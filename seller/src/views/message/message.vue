@@ -1,5 +1,7 @@
 
 <template>
+  <card>
+  <div class="htitle">消息中心</div>
   <div class="message-main-con">
     <div class="message-mainlist-con">
       <div>
@@ -95,6 +97,7 @@
       </transition>
     </div>
   </div>
+</card>
 </template>
 
 <script>
@@ -407,5 +410,10 @@
 </script>
 <style lang="scss" scoped>
 @import "./message.scss";
+.htitle {
+  font-weight: bold;
+  font-size: x-large;
+  margin-bottom: 2%;
+}
 </style>
 

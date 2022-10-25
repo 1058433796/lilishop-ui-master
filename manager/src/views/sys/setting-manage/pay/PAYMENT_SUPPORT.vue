@@ -1,14 +1,12 @@
 <template>
   <div class="layout">
     <div class="row" v-for="(client,clientIndex) in supportForm.clients" :key="clientIndex">
-
       <div class="col" v-if="client ==item.client" v-for="(item,index) in  formValidate" :key="index">
         <Card :padding="0">
           <div>
-
             <!-- app -->
             <div class="icon-item" v-if="client ==item.client &&item.client== 'APP'">
-              <img class="icon" src="../../../../assets/setting/app.svg" alt="" srcset="">
+              <img class="icon" src="../../../../assets/setting/alipay.png" alt="" srcset="">
             </div>
             <div class="icon-item" v-if="  client ==item.client &&  item.client== 'PC'">
               <!-- pc -->
@@ -30,11 +28,10 @@
 
             <div v-if=" client ==item.client ">
               <Divider orientation="left">支付设置</Divider>
-
               <div class="pay-list">
                 <CheckboxGroup @on-change="handleChangePayType" v-model="item.supports">
 
-                  <Checkbox v-for="(support,i)  in supportForm.payments" :key="i" :label="support">
+                  <Checkbox v-for="(support,i)  in supportForm.payments" :key="i"  :label="support">
 
                     {{payWay[support] || support}}
 
@@ -60,7 +57,7 @@ export default {
     return {
       ruleValidate: {}, // 验证规则
       way: { // 类型
-        APP: "移动应用端",
+        APP: "支付宝支付",
         H5: "移动端",
         WECHAT_MP: "小程序端",
         PC: "PC端",
@@ -68,9 +65,9 @@ export default {
       formValidate: {}, // 表单数据
       // key obj
       payWay: { // 支付方式
-        ALIPAY: "支付宝支付",
-        WECHAT: "微信支付",
-        WALLET: "余额支付",
+        ALIPAY: "支付宝支付 ",
+        WECHAT: "开启",
+        WALLET: "关闭",
       },
       supportForm: "", // 支持的支付方式
     };

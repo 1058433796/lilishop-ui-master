@@ -51,19 +51,19 @@ export const otherRouter = {
     },
     {
       path: "shop",
-      title: "店铺列表",
+      title: "供应商列表",
       name: "shop",
       component: () => import("@/views/seller/shop/shopList.vue")
     },
     {
       path: "shop-operation",
-      title: "店铺操作",
+      title: "待审供应商详情",
       name: "shop-operation",
       component: () => import("@/views/seller/shop/shopOperation.vue")
     },
     {
       path: "shop-detail",
-      title: "店铺详细",
+      title: "供应商详情",
       name: "shop-detail",
       component: () => import("@/views/seller/shop/shopDetail.vue")
     },
@@ -137,7 +137,7 @@ export const otherRouter = {
     },
     {
       path: "shop-operation",
-      title: "店铺详情",
+      title: "供应商详情",
       name: "shop-operation",
       component: () => import("@/views/seller/shop/shopOperation.vue")
     },

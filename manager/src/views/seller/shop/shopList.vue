@@ -67,23 +67,30 @@ export default {
         startDate: "", // 起始时间
         endDate: "", // 终止时间
       },
+      searchForm: {
+        // 搜索框初始化对象
+        pageNumber: 1, // 当前页数
+        pageSize: 10, // 页面大小
+        sort: "createTime", // 默认排序字段
+        order: "desc", // 默认排序方式
+      },
       selectDate: null, // 创建时间
       columns: [
         // 表头
         {
-          title: "店铺名称",
+          title: "供应商名称",
           key: "storeName",
           minWidth: 120,
           align: "left",
         },
+        // {
+        //   title: "会员名称",
+        //   key: "memberName",
+        //   minWidth: 130,
+        //   tooltip: true
+        // },
         {
-          title: "会员名称",
-          key: "memberName",
-          minWidth: 130,
-          tooltip: true
-        },
-        {
-          title: "店铺地址",
+          title: "供应商地址",
           key: "storeAddressPath",
           width: 300,
           tooltip: true,
@@ -97,26 +104,26 @@ export default {
             );
           },
         },
-        {
-          title: "是否自营",
-          key: "selfOperated",
-          align: "left",
-          width: 120,
-          render: (h, params) => {
-            return h(
-              "Tag",
-              {
-                props: {
-                  color: params.row.selfOperated ? "volcano" : "green",
-                },
-              },
-              params.row.selfOperated  ? "自营" : "非自营"
-            );
-          },
-        },
+        // {
+        //   title: "是否自营",
+        //   key: "selfOperated",
+        //   align: "left",
+        //   width: 120,
+        //   render: (h, params) => {
+        //     return h(
+        //       "Tag",
+        //       {
+        //         props: {
+        //           color: params.row.selfOperated ? "volcano" : "green",
+        //         },
+        //       },
+        //       params.row.selfOperated  ? "自营" : "非自营"
+        //     );
+        //   },
+        // },
 
         {
-          title: "店铺状态",
+          title: "供应商状态",
           key: "storeDisable",
           align: "left",
           width: 130,
@@ -264,25 +271,25 @@ export default {
                 },
                 "查看"
               ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "info",
-                    size: "small",
-                    ghost:true
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.edit(params.row);
-                    },
-                  },
-                },
-                "修改"
-              ),
+              // h(
+              //   "Button",
+              //   {
+              //     props: {
+              //       type: "info",
+              //       size: "small",
+              //       ghost:true
+              //     },
+              //     style: {
+              //       marginRight: "5px",
+              //     },
+              //     on: {
+              //       click: () => {
+              //         this.edit(params.row);
+              //       },
+              //     },
+              //   },
+              //   "修改"
+              // ),
               enableOrDisable,
             ]);
           },
@@ -368,7 +375,7 @@ export default {
     },
     //查看店铺详细
     detail(row){
-      this.$router.push({ name: "shop-detail", query: { id: row.id } });
+      this.$router.push({ name: "shop-detail", query: { id: row.id, createTime: row.createTime} });
     },
     // 审核店铺
     audit(v) {

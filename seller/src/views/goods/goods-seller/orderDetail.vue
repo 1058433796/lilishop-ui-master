@@ -81,7 +81,7 @@
         </Table>
           <div class="bottom-action">
             <div class="bottom-action">
-              <Button class="signAciton" :type='orderData.replyStatus==="已响应"?"success":"primary"'  @click="buyerResponse()" :disabled='orderData.replyStatus==="已响应"'>{{data.replyStatus==="未响应"? "响应":data.replyStatus}}</Button>
+              <Button class="signAciton" :type='orderData.buyerReply==="已响应"?"success":"primary"'  @click="buyerResponse()" :disabled='orderData.buyerReply==="已响应"'>{{data.buyerReply==="未响应"? "响应":data.buyerReply}}</Button>
               <Button type="success" @click="back">返回</Button>
             </div>
           </div>
@@ -341,7 +341,7 @@
           API_Order.buyerResponseOrder(this.orderData.orderId).then(res => {
             if (res.success) {
               console.log("已响应订单");
-              this.orderData.replyStatus = "已响应";
+              this.orderData.buyerReply = "已响应";
               this.responsed = this.data.orderId;
             }else {
               console.log("响应失败");

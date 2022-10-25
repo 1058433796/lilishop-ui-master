@@ -74,6 +74,12 @@ export default {
                 this.childData = this.$route.query.data;
                 this.current_process = 1;
                 this.fullData = [this.$route.query.data];
+            }else if (this.$route.query.type==="contractSign") {
+                var order = this.$route.query.data;
+                this.contractSign(order);
+            }else if (this.$route.query.type==="orderPay") {
+                var contract = this.$route.query.data;
+                this.orderPay(contract)
             }
         },
         processChange(index) {
@@ -90,7 +96,7 @@ export default {
                 })
             }
         },
-        contractSign(row){
+        contractSign(row) {
             createContract(row.orderId).then(res=> {
                 if (res.success) {
                     console.log(res)
