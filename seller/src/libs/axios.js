@@ -28,7 +28,7 @@ var isRefreshToken = 0;
 const refreshToken = getTokenDebounce();
 const service = axios.create({
   timeout: 10000,
-  baseURL:baseUrl//baseUrl null
+  baseURL:baseUrl//baseUrl null部署
 });
 service.interceptors.request.use(
   config => {

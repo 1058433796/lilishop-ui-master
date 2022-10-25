@@ -34,7 +34,7 @@
           </Input>
         </FormItem>
         <FormItem label="项目开始和结束时间" prop="rangeTime">
-          <DatePicker type="datetimerange" v-model="form.rangeTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" :options="options" style="width: 300px" :disabled="flag">
+          <DatePicker type="datetimerange" v-model="form.rangeTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" style="width: 300px" :disabled="flag">
           </DatePicker>
         </FormItem>
       </Col>
@@ -83,7 +83,7 @@
           <Col span="6">
         <FormItem label="批复时间" prop="replyTime" :label-width="100">
           <date-picker 
-            v-model="form.replyTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" :options="options" style="width: 260px" :disabled="flag" />
+            v-model="form.replyTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择"  style="width: 260px" :disabled="flag" />
         </FormItem>
           </Col>
         </Row>
@@ -132,12 +132,12 @@ export default {
         endTime: "",
       },
       submitLoading: false, // 添加或编辑提交状态
-      options: {
-        // 不可选取时间
-        disabledDate(date) {
-          return date && date.valueOf() < Date.now() - 86400000;
-        },
-      },
+      // options: {
+      //   // 不可选取时间
+      //   disabledDate(date) {
+      //     return date && date.valueOf() < Date.now() - 86400000;
+      //   },
+      // },
     };
   },
   methods: {
@@ -149,7 +149,6 @@ export default {
       this.$router.go(-1);
     },
     handleSubmit() {
-      console.log("????")
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.submitLoading = true;
@@ -166,11 +165,6 @@ export default {
           );
           if (params.startTime === "" || params.endTime === "") {
             this.$Message.error("时间不能为空");
-            this.submitLoading = false;
-            return;
-          }
-          if (params.startTime < new Date()) {
-            this.$Message.error("开始时间不能小于当前时间");
             this.submitLoading = false;
             return;
           }

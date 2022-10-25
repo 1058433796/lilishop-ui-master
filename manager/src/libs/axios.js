@@ -21,7 +21,7 @@ export const uploadFile = commonUrl + "/common/common/upload/file";
 
 const service = axios.create({
   timeout: 8000,
-  baseURL: managerUrl
+  baseURL: null//managerUrl null
 });
 var isRefreshToken = 0;
 const refreshToken = getTokenDebounce();
@@ -46,7 +46,9 @@ service.interceptors.request.use(
     return Promise.reject(err);
   }
 );
-
+if(!config.url.startsWith("/common")){
+  config.url = '/manager' + config.url
+}
 // http response 拦截器
 service.interceptors.response.use(
   response => {
