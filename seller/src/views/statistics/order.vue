@@ -3,126 +3,42 @@
   <div class="wrapper">
     <Affix :offset-top="100">
       <Card class="card fixed-bottom">
-
         <affixTime @selected="clickBreadcrumb" />
-
       </Card>
     </Affix>
-
     <Card class="card">
       <div>
         <h4>交易概况</h4>
         <div class="flex">
           <div class="transactionList">
-            <div class="transaction-item" v-for="(item,index) in transactionList" :key="index">
-              <h4>{{item.label}}</h4>
-              <div class="transaction-card" v-if="item.label=='转换'">
-
+            <div class="transaction-item" >
+              <h4>订单</h4>
+              <div class="transaction-card" >
                 <div class="card-item">
-                  <div class="card-item-label">访客数UV</div>
-                  <div class="card-item-value">{{overViewList.uvNum || 0}}</div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">下单转化率</div>
-                  <div class="card-item-value">{{overViewList.orderConversionRate || '0%'}}</div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">付款转化率</div>
-                  <div class="card-item-value">{{overViewList.paymentsConversionRate ||'0%'}}</div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">全店转化率</div>
-                  <div class="card-item-value">{{overViewList.overallConversionRate || '0%'}}</div>
-                </div>
-
-              </div>
-              <div class="transaction-card" v-if="item.label=='订单'">
-                <div class="card-item">
-                  <div class="card-item-label">下单笔数</div>
-                  <div class="card-item-value">{{overViewList.orderNum || 0}}</div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">下单人数</div>
-                  <div class="card-item-value">{{overViewList.orderMemberNum || 0}}</div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">下单金额</div>
-                  <div class="card-item-value">{{overViewList.orderAmount || 0 | unitPrice('￥')}}</div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">付款笔数</div>
+                  <div class="card-item-label">已支付订单数</div>
                   <div class="card-item-value">{{overViewList.paymentOrderNum  || 0}}</div>
                 </div>
                 <div class="card-item">
-                  <div class="card-item-label">付款人数</div>
-                  <div class="card-item-value">{{overViewList.paymentsNum || 0}}</div>
-                </div>
-                <div class="card-item">
-                  <div class="card-item-label">付款金额</div>
+                  <div class="card-item-label">已支付订单金额</div>
                   <div class="card-item-value">{{ overViewList.paymentAmount || 0 | unitPrice('￥')}}</div>
                 </div>
-
-              </div>
-              <div class="transaction-card" v-if="item.label=='退单'">
-
                 <div class="card-item">
-                  <div class="card-item-label">退单笔数</div>
-                  <div class="card-item-value">{{overViewList.refundOrderNum || 0}}</div>
+                  <div class="card-item-label">未支付订单数</div>
+                  <div class="card-item-value"> {{overViewList.totalOrders - overViewList.paymentOrderNum || 0}} </div>
                 </div>
                 <div class="card-item">
-                  <div class="card-item-label">退单金额</div>
-                  <div class="card-item-value">{{overViewList.refundOrderPrice || 0 | unitPrice('￥')}}</div>
+                  <div class="card-item-label">未支付订单金额</div>
+                  <div class="card-item-value"> {{ overViewList.orderAmount - overViewList.paymentAmount || 0 | unitPrice('￥')}} </div>
                 </div>
-
-              </div>
-            </div>
-          </div>
-          <div class="shap">
-            <div id="overViewChart">
-              <!-- 上 -->
-              <div class="block">
-                <div class="box">
-                  <span>访客数</span>
-                  <span>{{overViewList.uvNum  || 0}}</span>
+                <div class="card-item">
+                  <div class="card-item-label">总订单数</div>
+                  <div class="card-item-value"> {{overViewList.totalOrders  || 0}} </div>
                 </div>
-              </div>
-              <!-- 中 -->
-              <div class="block">
-                <div class="box">
-                  <span>下单笔数</span>
-                  <span>{{overViewList.orderNum  || 0}}</span>
+                <div class="card-item">
+                  <div class="card-item-label">总订单金额</div>
+                  <div class="card-item-value"> {{ overViewList.orderAmount || 0 | unitPrice('￥')}} </div>
                 </div>
-              </div>
-              <!-- 下 -->
-              <div class="block">
-                <div class="box">
-                  <span>付款笔数</span>
-                  <span>{{overViewList.paymentOrderNum  || 0 }}</span>
-                </div>
-              </div>
-
-              <!-- 线 -->
-              <div class="rightBorder">
-
-              </div>
-              <div class="leftTopBorder">
-
-              </div>
-              <div class="leftBottomBorder">
-
-              </div>
-              <!--数据 -->
-              <div class="leftTopTips">
-                <div>下单转化率 </div>
-                <div>{{overViewList.orderConversionRate  || '0%' }}</div>
-              </div>
-              <div class="leftBottomTips">
-                <div>付款转化率</div>
-                <div>{{overViewList.paymentsConversionRate  || '0%'}}</div>
-              </div>
-              <div class="rightTips">
-                <div>整体转换率</div>
-                <div>{{overViewList.overallConversionRate  || '0%'}}</div>
+               
               </div>
             </div>
           </div>
@@ -134,29 +50,20 @@
       <div>
         <h4>交易趋势</h4>
         <div>
-
         </div>
       </div>
 
       <div>
-
         <div id="orderChart"></div>
-
       </div>
     </Card>
     <Card class="card">
       <div>
-        <h4>订退单统计</h4>
-        <div class="breadcrumb" style="margin-bottom:20px;">
-          <RadioGroup v-model="orderOrRefund" type="button" size="small" button-style="solid">
-            <Radio :label="1">订单</Radio>
-            <Radio :label="0">退单</Radio>
-          </RadioGroup>
-        </div>
+        <h4>交易报表</h4>
         <div>
-          <Table stripe :columns="columns" :data="data"></Table>
+          <Table stripe :columns="orderColumns" :data="data"></Table>
         </div>
-        <Page @on-change="(index)=>{refundParams.pageNumber = index}" @on-page-size-change="(size)=>{refundParams.pageSize= size}" class="mt_10" show-total show-elevator :total="total" />
+        <Page @on-change="changePage" @on-page-size-change="(size)=>{this.Params.pageSize= size}" class="mt_10" show-total show-elevator :total="total" />
       </div>
     </Card>
 
@@ -175,7 +82,6 @@ export default {
 
   data() {
     return {
-      orderOrRefund: 1, // 订单还是退单
       total:0, // 订单总数
       // 订单状态
       orderStatusList: {
@@ -217,32 +123,33 @@ export default {
 
       orderColumns: [
         // 订单表头
+        // {
+        //   type: "expand",
+        //   width: 50,
+        //   render: (h, params) => {
+        //     return h(orderRow, {
+        //       props: {
+        //         res: params.row,
+        //       },
+        //     });
+        //   },
+        // },
         {
-          type: "expand",
-          width: 50,
-          render: (h, params) => {
-            return h(orderRow, {
-              props: {
-                res: params.row,
-              },
-            });
-          },
+          title: "订单号",
+          key: "orderId"
         },
         {
-          title: "商家名称",
+          title: "采购方",
+          key: "buyerName",
+        },
+        {
+          title: "供货方",
           key: "storeName",
-        },
-        {
-          title: "用户名",
-          key: "memberName",
         },
 
         {
           title: "订单状态",
           key: "orderStatus",
-          render: (h, params) => {
-            return h("div", this.orderStatusList[params.row.orderStatus]);
-          },
         },
         {
           title: "创建时间",
@@ -257,112 +164,52 @@ export default {
           },
         },
         {
-          title: "价格",
-          key: "flowPrice",
+          title: "交易金额",
+          key: "orderAmount",
+          minWidth: 100,
+          tooltip: true,
           render: (h, params) => {
             return h(
               "div",
-              this.$options.filters.unitPrice(params.row.flowPrice, "￥")
+              this.$options.filters.unitPrice(params.row.orderAmount, "￥")
             );
+          },
+        },//orderAmount
+        {
+          title: "操作",
+          key: "action",
+          align: "center",
+          width: 100,
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "info",
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                      this.orderDetail(params.row);
+                    },
+                  },
+                },
+                "查看"
+              ),
+            ]);
           },
         },
       ],
-      refundColumns: [
-        // 退货单表头
-        {
-          type: "expand",
-          width: 50,
-          render: (h, params) => {
-            return h(refundRow, {
-              props: {
-                res: params.row,
-              },
-            });
-          },
-        },
-        {
-          title: "商品图片",
-          key: "goodsImage",
-          render: (h, params) => {
-            return h("img", {
-              attrs: {
-                src: params.row.goodsImage,
-              },
-              style: {
-                width: "60px",
-                verticalAlign: "middle",
-              },
-            });
-          },
-        },
 
-        {
-          title: "商品名称",
-          key: "goodsName",
-        },
-        {
-          title: "商家名称",
-          key: "sellerName",
-        },
-        {
-          title: "售后单类型",
-          key: "serviceType",
-          render: (h, params) => {
-            return h("div", this.serviceTypeList[params.row.serviceType]);
-          },
-        },
-        {
-          title: "售后单状态",
-          key: "serviceStatus",
-          render: (h, params) => {
-            return h("div", this.serviceStatusList[params.row.serviceStatus]);
-          },
-        },
-        {
-          title: "退款时间",
-          key: "refundTime",
-          render: (h, params) => {
-            return h("div", params.row.refundTime || "暂无");
-          },
-        },
-        {
-          title: "申请退款金额",
-          key: "applyRefundPrice",
-          render: (h, params) => {
-            return h(
-              "div",
-              this.$options.filters.unitPrice(params.row.applyRefundPrice, "￥")
-            );
-          },
-        },
-        {
-          title: "申请原因",
-          key: "reason",
-        },
-        {
-          title: "实际金额",
-          key: "flowPrice",
-          render: (h, params) => {
-            return h(
-              "div",
-              this.$options.filters.unitPrice(params.row.flowPrice, "￥")
-            );
-          },
-        },
-      ],
 
       // 交易概况
       transactionList: [
         {
-          label: "转换",
-          value: "",
-        },
-        {
           label: "订单",
-          value: "",
-        },
-        {
-          label: "退单",
           value: "",
         },
       ],
@@ -418,9 +265,9 @@ export default {
         year: "",
       },
 
-      refundIndex: 0, // 当前退单下标详情
-      // 退单订单
-      refundParams: {
+
+      // 报表
+      Params: {
         pageNumber: 1,
         pageSize: 10,
         searchType: "LAST_SEVEN",
@@ -433,17 +280,11 @@ export default {
     };
   },
   watch: {
-    refundParams: {
+    Params: {
       handler() {
-        console.log(this.refundIndex);
-        if (this.refundIndex == 1) {
-          this.getOrderRefundList();
-        } else {
           this.getOrderList();
-        }
       },
       deep: true,
-      immediate: true,
     },
     orderParams: {
       handler() {
@@ -457,18 +298,16 @@ export default {
       },
       deep: true,
     },
-    orderOrRefund: {
-      // 订单还是退单
-      handler(val) {
-        if (val == 1) {
-          this.getOrderList();
-        } else {
-          this.getOrderRefundList();
-        }
-      },
-    },
   },
   methods: {
+    changePage(v){
+      this.Params.pageNumber=v;
+      this.getOrderList();
+    },
+    orderDetail(row) {
+      this.$router.push( { name: "orderDetailSingle", query: {form: row}});
+    },
+
     // 订单图
     initOrderChart() {
       // 默认已经加载 legend-filter 交互
@@ -490,7 +329,7 @@ export default {
         .position("createTime*price")
         .label("price")
         .color("title")
-        .shape("smooth");
+        //.shape("smooth");
 
       this.orderChart
         .point()
@@ -507,11 +346,10 @@ export default {
     // 时间筛选
     clickBreadcrumb(item, index) {
       let callback = JSON.parse(JSON.stringify(item));
-
       this.orderParams = callback;
-
+      this.Params = callback;
       this.overViewParams = callback;
-      this.refundParams = callback;
+
     },
 
     // 实例化订单概览
@@ -541,7 +379,7 @@ export default {
     },
     // 统计相关订单统计
     async getOrderList() {
-      const res = await API_Goods.statisticsOrderList(this.refundParams);
+      const res = await API_Goods.statisticsOrderList(this.Params);
       if (res.success) {
         this.data = res.result.records;
         this.columns = this.orderColumns;
@@ -549,15 +387,7 @@ export default {
       }
     },
 
-    //  统计相关退单统计
-    async getOrderRefundList() {
-      const res = await API_Goods.statisticsOrderRefundList(this.refundParams);
-      if (res.success) {
-        this.data = res.result.records;
-        this.columns = this.refundColumns;
-        this.total = res.result.total;
-      }
-    },
+
 
     // 实例化初始值
     initBaseParams() {
@@ -565,6 +395,7 @@ export default {
       this.getOrderList();
       this.orderParams.year = data.getFullYear();
       this.overViewParams.year = data.getFullYear();
+
     },
   },
 

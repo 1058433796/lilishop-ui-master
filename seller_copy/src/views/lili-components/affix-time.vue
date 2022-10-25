@@ -104,27 +104,29 @@ export default {
       }
     },
     // 点击时间筛选
-    clickBreadcrumb(item) {
+    clickBreadcrumb(item,index) {
       this.dateList.forEach((res) => {
         res.selected = false;
       });
       item.selected = true;
       item.storeId = this.storeId;
       this.month = "";
-
-       if (item.searchType == "") {
+       if (item.searchType === "") {
         if (
-          dateList.some((date) => {
+          this.dateList.some((date) => {
             return date.title == item.title;
           })
         ) {
-          item.searchType = date.searchType;
+          item.searchType = this.dateList[index].searchType;
         } else {
           item.searchType = "LAST_SEVEN";
         }
       }
 
-      this.selectedWay = item;
+
+      this.selectedWay.title = item.title;
+      this.selectedWay.selected = item.selected;
+      this.selectedWay.searchType = item.searchType;
       this.selectedWay.year = new Date().getFullYear();
       this.selectedWay.month = "";
 

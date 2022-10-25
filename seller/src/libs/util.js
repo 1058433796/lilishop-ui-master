@@ -331,8 +331,9 @@ util.initRouter = function (vm) { // 初始化路由
         let menuData = result;
         // 格式化数据，设置 空children 为 null
         for(let i =0;i<menuData.length;i++){
+            // 一级菜单
             let t = menuData[i].children
-            for(let k = 0;k<t.length;k++){
+            for(let k = 0; k<t.length ; k++) {
                 let tt = t[k].children;
                 for(let z = 0;z<tt.length;z++){
                     tt[z].children = null

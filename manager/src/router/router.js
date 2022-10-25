@@ -6,7 +6,7 @@ export const loginRouter = {
   path: "/login",
   name: "login",
   meta: {
-    title: `登录 - ${config.title}运营后台`
+    title: `登录 - ${config.title}管理平台`
   },
   component: () => import("@/views/login.vue")
 };
@@ -146,6 +146,24 @@ export const otherRouter = {
       title: "会员详情",
       name: "member-detail",
       component: () => import("@/views/member/list/memberDetail.vue")
+    },
+    {
+      path: "customer-detail",
+      title: "采购方详情",
+      name: "customer-detail",
+      component: () => import("@/views/customer/customerDetail.vue")
+    },
+    {
+      path: "customerContractDetail",
+      title: "关联合同详情",
+      name: "customerContractDetail",
+      component: () => import("@/views/customer/contractDetail.vue")
+    },
+    {
+      path: "customer-list",
+      title: "采购方列表",
+      name: "customer-list",
+      component: () => import("@/views/customer/customerList.vue")
     },
 
     {

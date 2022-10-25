@@ -1,5 +1,5 @@
 <template>
-  <div class="login" @click='$refs.verify.show = false'>
+  <div class="login">
     <Row @keydown.enter.native="submitLogin" class="flex">
       <Col style="width: 368px">
       <Header />
@@ -15,19 +15,17 @@
         </Form>
 
         <Row>
-          <Button class="login-btn" type="primary" size="large" :loading="loading" @click="submitLogin" long>
-            <span v-if="!loading">{{ $t("login") }}</span>
-            <span v-else>{{ $t("logining") }}</span>
-          </Button>
+          <div class="login-btn" type="primary" size="large" :loading="loading" @click="submitLogin" long>
+            <span v-if="!loading">登录</span>
+            <span v-else>登录中</span>
+          </div>
         </Row>
 
       </Row>
-      <!-- 拼图验证码 -->
-      <verify ref="verify" class="verify-con" verifyType="LOGIN" @change="verifyChange"></verify>
       <Footer />
-      </Col>
       <!-- <LangSwitch /> -->
-    </Row>
+
+</Col></Row>
   </div>
 </template>
 
@@ -36,16 +34,12 @@ import { login, userInfo } from "@/api/index";
 import Cookies from "js-cookie";
 import Header from "@/views/main-components/header";
 import Footer from "@/views/main-components/footer";
-import LangSwitch from "@/views/main-components/lang-switch";
 import util from "@/libs/util.js";
-import verify from "@/views/my-components/verify";
 
 export default {
   components: {
-    LangSwitch,
     Header,
     Footer,
-    verify
   },
   data() {
     return {
@@ -102,32 +96,27 @@ export default {
       // 登录操作
       this.$refs.usernameLoginForm.validate((valid) => {
         if (valid) {
-          this.$refs.verify.init();
+          this.loading = true;
+          console.log("submitlogin")
+          let fd = new FormData();
+          fd.append('username',this.form.username)
+          fd.append('password',this.md5(this.form.password))
+          console.log("lgin")
+          login(fd)
+          .then((res) => {
+       if (res && res.success) {
+           this.afterLogin(res);
+           } else {
+              this.loading = false;
+              }
+          })
+           .catch(() => {
+          this.loading = false;
+          });
         }
       });
     },
-    verifyChange(con) {
-      // 拼图验证码回显
-      if (!con.status) return;
-
-      this.loading = true;
-
-      let fd = new FormData();
-      fd.append('username',this.form.username)
-      fd.append('password',this.md5(this.form.password))
-      login(fd)
-        .then((res) => {
-          if (res && res.success) {
-            this.afterLogin(res);
-          } else {
-            this.loading = false;
-          }
-        })
-        .catch(() => {
-          this.loading = false;
-        });
-      this.$refs.verify.show = false;
-    },
+    
   },
 };
 </script>

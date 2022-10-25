@@ -60,7 +60,7 @@
           <div class="detail-list">
             <div class="detail-item" @click="navigateTo('orderList')">
               <div>
-                <span>{{homeData.unPaidOrder || 0}}</span>
+                <span>{{homeData.totalOrderNum- homeData.payedOrderNum|| 0}}</span>
                 <div>待付款</div>
               </div>
               <div class="detail-title">
@@ -122,7 +122,7 @@
               </div>
             </div>
 
-            <div class="detail-item">
+            <!-- <div class="detail-item">
               <div @click="navigateTo('seckill')">
                 <span>{{homeData.seckillNum || 0}}</span>
                 <div>秒杀活动</div>
@@ -134,7 +134,7 @@
               <div class="detail-title">
                 其他
               </div>
-            </div>
+            </div> -->
 
           </div>
         </div>
@@ -158,7 +158,7 @@
             <Icon class="icon" size="31" type="md-photos" />
           </div>
           <div>
-            <div class="counts">{{homeData.goodsNum ||0}}</div>
+            <div class="counts">{{homeData.productNum ||0}}</div>
             <div>商品数量</div>
           </div>
 
@@ -168,7 +168,7 @@
             <Icon class="icon" size="31" type="ios-card" />
           </div>
           <div>
-            <div class="counts">{{homeData.orderPrice || 0 | unitPrice('￥')}}</div>
+            <div class="counts">{{homeData.totalOrderAmount || 0 | unitPrice('￥')}}</div>
             <div>订单总额</div>
           </div>
 
@@ -179,12 +179,12 @@
             <Icon class="icon" size="31" type="md-list" />
           </div>
           <div>
-            <div class="counts">{{homeData.orderNum ||0}}</div>
+            <div class="counts">{{homeData.totalOrderNum ||0}}</div>
             <div>订单数量</div>
           </div>
 
         </div>
-        <div class="count-item" @click="navigateTo('trafficStatistics')">
+        <!-- <div class="count-item" @click="navigateTo('trafficStatistics')">
           <div>
             <Icon class="icon" size="31" type="md-person" />
           </div>
@@ -193,7 +193,7 @@
             <div>访客数量</div>
           </div>
 
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

@@ -24,3 +24,24 @@ import {
   export const getSchemeDetail = params => {
     return getRequest(`/schemeComponent/schemeComponent/list`,params)
   }
+
+  //确认项目方案
+  export const checkItemScheme = (id,params)  => {
+    return postRequest(`/itemScheme/itemScheme/${id}/check`,params)
+  }
+  //新增履约保证单
+  export const saveGuaranty = (params) => {
+    return postRequest(`/itemGuaranty/itemGuaranty/set`,params,{'Content-type': 'application/json'})
+  }
+  //测试jsp
+  export const testPayBack = (zongji,ordersn) => {
+    return postRequest(`/payMent/payMent/pay/${zongji}/${ordersn}`)
+  }
+  // 生成订单
+  export const establishOrder=(id) => {
+    return postRequest(`/schemeComponent/schemeComponent/${id}/supplier`)
+  }
+
+  export const testIbank = () => {
+    return postRequest(`iBank/iBank/pay/`)
+  }

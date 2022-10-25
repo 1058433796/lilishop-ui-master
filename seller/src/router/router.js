@@ -57,7 +57,7 @@ export const otherRouter = {
     },
     {
       path: "goods-operation",
-      title: "添加商品",
+      title: "添加项目",
       name: "goods-operation",
       component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
     },
@@ -69,15 +69,15 @@ export const otherRouter = {
     },
     {
       path: "item-scheme",
-      title: "编辑商品",
+      title: "项目方案",
       name: "item-scheme",
       component: () => import("@/views/goods/goods-seller/itemScheme.vue")
     },
     {
-      path: "scheme-detail",
-      title: "方案详细信息",
-      name: "scheme-detail",
-      component: () => import("@/views/goods/goods-seller/components/schemedetail.vue")
+      path: "item-scheme-list",
+      title: "履约保证单",
+      name: "item-scheme-list",
+      component: () => import("@/views/goods/goods-seller/itemSchemeList.vue")
     },
     {
       path: "goods-template-operation-edit",
@@ -158,7 +158,37 @@ export const otherRouter = {
       title: "发货",
       name: "export-order-deliver",
       component: () => import("@/views/order/order/exportOrderDeliver.vue")
-    }
+    } ,
+    {
+      path: "zhifu",
+      title: "支付",
+      name: "zhifu",
+      component: () => import("@/views/goods/goods-seller/zhifu.vue")
+    },
+     {
+      path: "deal",
+      title: "交易",
+      name: "deal",
+      component: () => import("@/views/goods/goods-seller/deal.vue")
+    },
+    {
+      path: "orderDetailSingle",
+      title: "订单详情",
+      name: "orderDetailSingle",
+      component: () => import("@/views/goods/goods-seller/orderDetailSingle.vue")
+    },
+    {
+      path: "contractDetailSingle",
+      title: "合同详情",
+      name: "contractDetailSingle",
+      component: () => import("@/views/goods/goods-seller/contractDetailSingle.vue")
+    },
+    {
+      path: "customer-detail",
+      title: "供应商详情",
+      name: "customer-detail",
+      component: () => import("@/views/customer/customerDetail.vue")
+    },
     // {
     //   path: "/*",
     //   name: "error-404",
@@ -187,5 +217,7 @@ export const page500 = {
   name: "error-500",
   component: () => import("@/views/error-page/500.vue")
 };
+
+
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [loginRouter, registerRouter, signUpRouter, otherRouter, page500, page403];

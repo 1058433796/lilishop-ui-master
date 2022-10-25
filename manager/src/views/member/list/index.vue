@@ -3,23 +3,18 @@
     <Card>
       <Row @keydown.enter.native="handleSearch">
         <Form ref="searchForm" :model="searchForm" inline :label-width="70" class="search-form">
-          <Form-item label="会员名称" prop="username">
-            <Input type="text" v-model="searchForm.username" placeholder="请输入会员名称" clearable style="width: 200px" />
-          </Form-item>
-
-          <Form-item label="会员昵称" prop="nickName">
+          <Form-item label="会员名称" prop="nickName">
             <Input type="text" v-model="searchForm.nickName" placeholder="请输入会员昵称" clearable style="width: 200px" />
           </Form-item>
-
           <Form-item label="联系方式" prop="mobile">
             <Input type="text" v-model="searchForm.mobile" placeholder="请输入会员联系方式" clearable style="width: 200px" />
           </Form-item>
           <Button @click="handleSearch" class="search-btn" type="primary" icon="ios-search">搜索</Button>
         </Form>
       </Row>
-      <Row class="operation padding-row" v-if="!selectedMember">
-        <Button @click="addMember" type="primary">添加会员</Button>
-      </Row>
+<!--      <Row class="operation padding-row" v-if="!selectedMember">-->
+<!--        <Button @click="addMember" type="primary">添加会员</Button>-->
+<!--      </Row>-->
 
       <Table :loading="loading" border :columns="columns" class="mt_10" :data="data" ref="table"></Table>
       <Row type="flex" justify="end" class="mt_10">
@@ -155,17 +150,19 @@ export default {
       columns: [
         {
           title: "会员名称",
-          key: "username",
+          key: "nickName",
+          width: 300,
           tooltip: true,
         },
         {
-          title: "会员昵称",
-          key: "nickName",
+          title: "会员类型",
+          key:"type",
+          width: 200,
           tooltip: true,
         },
         {
           title: "联系方式",
-          width: 130,
+          width: 200,
           key: "mobile",
           render: (h, params) => {
             if (params.row.mobile == null) {
@@ -178,13 +175,13 @@ export default {
         {
           title: "注册时间",
           key: "createTime",
-          width: 180,
+          width: 200,
         },
 
         {
           title: "积分数量",
           align: "left",
-          width: 100,
+          width: 150,
           render: (h, params) => {
             return h(
               "div",
@@ -248,45 +245,45 @@ export default {
                   },
                   "查看"
                 ),
-                h(
-                  "Button",
-                  {
-                    props: {
-                      type: "info",
-                      size: "small",
-                      ghost: true,
-                    },
-                    style: {
-                      marginRight: "5px",
-                      display: this.selectedMember ? "none" : "block",
-                    },
-                    on: {
-                      click: () => {
-                        this.editPerm(params.row);
-                      },
-                    },
-                  },
-                  "编辑"
-                ),
-                h(
-                  "Button",
-                  {
-                    props: {
-                      size: "small",
-                      type: "error",
-                    },
-                    style: {
-                      marginRight: "5px",
-                      display: this.selectedMember ? "none" : "block",
-                    },
-                    on: {
-                      click: () => {
-                        this.disabled(params.row);
-                      },
-                    },
-                  },
-                  "禁用"
-                ),
+                // h(
+                //   "Button",
+                //   {
+                //     props: {
+                //       type: "info",
+                //       size: "small",
+                //       ghost: true,
+                //     },
+                //     style: {
+                //       marginRight: "5px",
+                //       display: this.selectedMember ? "none" : "block",
+                //     },
+                //     on: {
+                //       click: () => {
+                //         this.editPerm(params.row);
+                //       },
+                //     },
+                //   },
+                //   "编辑"
+                // ),
+                // h(
+                //   "Button",
+                //   {
+                //     props: {
+                //       size: "small",
+                //       type: "error",
+                //     },
+                //     style: {
+                //       marginRight: "5px",
+                //       display: this.selectedMember ? "none" : "block",
+                //     },
+                //     on: {
+                //       click: () => {
+                //         this.disabled(params.row);
+                //       },
+                //     },
+                //   },
+                //   "禁用"
+                // ),
               ]
             );
           },

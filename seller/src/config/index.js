@@ -1,5 +1,5 @@
 module.exports = {
-  title: "lilishop", //配置显示在浏览器标签的title
+  title: "采购方", //配置显示在浏览器标签的title
    /**
    * 高德地图申请链接
    * https://lbs.amap.com/api/javascript-api/guide/abc/prepare

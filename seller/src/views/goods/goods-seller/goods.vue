@@ -29,12 +29,12 @@
             />
           </Form-item>
 
-          <Form-item label="创建时间" prop="createTime">
-            <date-picker 
+          <!-- <Form-item label="创建时间" prop="createTime">
+            <date-picker format="yyyy-MM-dd HH:mm:ss"
             v-model="searchForm.createTime"
             placeholder="选择时间"
              />
-          </Form-item>
+          </Form-item> -->
           <Button @click="handleSearch" type="primary" class="search-btn">搜索</Button>
           <Button @click="handleReset" class="search-btn">重置</Button>
         </Form>
@@ -50,45 +50,9 @@
         :columns="columns"
         :data="data"
         ref="table"
+        textAlign="center"
 
       >
-        <!-- 商品栏目格式化 -->
-        <template slot="goodsSlot" slot-scope="{ row }">
-          <div style="margin-top: 5px; height: 90px; display: flex">
-            <div style="">
-              <img
-                :src="row.original"
-                style="height: 80px; margin-top: 3px; width: 70px"
-              />
-            </div>
-
-
-            <div style="margin-left: 13px">
-              <div class="div-zoom">
-                <a @click="linkTo(row.id, row.skuId)">{{ row.goodsName }}</a>
-              </div>
-              <Poptip trigger="hover" title="扫码在手机中查看" transfer>
-                <div slot="content">
-                  <!-- <vueQr>123</vueQr> -->
-                  <vue-qr
-                    :text="wapLinkTo(row.id, row.skuId)"
-                    :margin="0"
-                    colorDark="#000"
-                    colorLight="#fff"
-                    :size="150"
-                  ></vue-qr>
-                </div>
-                <img
-                  src="../../../assets/qrcode.svg"
-                  class="hover-pointer"
-                  width="20"
-                  height="20"
-                  alt=""
-                />
-              </Poptip>
-            </div>
-          </div>       
-         </template>
       </Table>
       <Row type="flex" justify="end" class="mt_10">
         <Page
@@ -106,53 +70,6 @@
       </Row>
     </Card>
 
-    <Modal
-      title="更新库存"
-      v-model="updateStockModalVisible"
-      :mask-closable="false"
-      :width="500"
-    >
-      <Tabs value="updateStock">
-        <TabPane label="手动规格更新" name="updateStock">
-          <Table
-            class="mt_10"
-            :columns="updateStockColumns"
-            :data="stockList"
-            border
-          ></Table>
-        </TabPane>
-        <TabPane label="批量规格更新" name="stockAll">
-          <Input type="number" v-model="stockAllUpdate" placeholder="统一规格修改" />
-        </TabPane>
-      </Tabs>
-
-      <div slot="footer">
-        <Button type="text" @click="updateStockModalVisible = false">取消</Button>
-        <Button type="primary" @click="updateStock">更新</Button>
-      </div>
-    </Modal>
-
-    <!-- 批量设置物流模板 -->
-    <Modal
-      title="批量设置物流模板"
-      v-model="shipTemplateModal"
-      :mask-closable="false"
-      :width="500"
-    >
-      <Form ref="shipTemplateForm" :model="shipTemplateForm" :label-width="120">
-        <FormItem class="form-item-view-el" label="物流模板" prop="templateId">
-          <Select v-model="shipTemplateForm.templateId" style="width: 200px">
-            <Option v-for="item in logisticsTemplate" :value="item.id" :key="item.id"
-              >{{ item.name }}
-            </Option>
-          </Select>
-        </FormItem>
-      </Form>
-      <div slot="footer">
-        <Button type="text" @click="shipTemplateModal = false">取消</Button>
-        <Button type="primary" @click="saveShipTemplate">更新</Button>
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -168,6 +85,8 @@ import {
 } from "@/api/goods";
 import * as API_Shop from "@/api/shops";
 import Cookies from "js-cookie";
+import moment from "moment";
+
 export default {
   name: "goods",
   data() {
@@ -253,26 +172,26 @@ export default {
         {
           title: "项目名称",
           key: "itemName",
-          width: 300,
-          tooltip: true,
+          width: 400,
+          // tooltip: true,
         },
         {
           title: "创建时间",
           key: "createTime",
-          minWidth: 200,
+          width: 400,
         },
         {
           title: "地点",
           key: "createLocation",
-          width: 180,
-          tooltip: true,
+          width: 400,
+          // tooltip: true,
         },
         {
           title: "操作",
           key: "action",
           align: "center",
           fixed: "right",
-          width: 200,
+          width: 600,
           render: (h, params) => {
             return h("div", [
               h(
@@ -323,7 +242,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.editGoods(params.row);
+                      this.showItermScheme(params.row);
                     },
                   },
                 },
@@ -344,64 +263,22 @@ export default {
     },
     // 添加商品
     addGoods() {
-      this.$router.push({ name: "goods-operation" });
+      this.$router.push({ name: "goods-operation" , flag:false});
     },
     // 编辑商品
     editGoods(v) {
-      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId } });
+      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId ,flag:true} });
     },
     itemScheme(v) {
-      console.log('????')
+      console.log('v')
+      console.log(v.itemName)
+      this.$router.push({ name: "item-scheme", query: { itemid: v.itemId, buyerId:v.buyerId,itemName:v.itemName} });
+    },
+    showItermScheme(v){
       console.log(v)
-      this.$router.push({ name: "item-scheme", query: { id: v.itemId } });
+      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId} });
     },
 
-    //批量操作
-    handleDropdown(v) {
-      //批量上架
-      if (v == "uppers") {
-        this.uppers();
-      }
-      //批量下架
-      if (v == "lowers") {
-        this.lowers();
-      }
-      //批量删除商品
-      if (v == "deleteAll") {
-        this.deleteAll();
-      }
-      //批量设置物流模板
-      if (v == "batchShipTemplate") {
-        this.batchShipTemplate();
-      }
-    },
-    // 获取库存详情
-    getStockDetail(id) {
-      getGoodsSkuListDataSeller({ goodsId: id, pageSize: 1000 }).then((res) => {
-        if (res.success) {
-          this.updateStockModalVisible = true;
-          this.stockAllUpdate = undefined;
-          this.stockList = res.result.records;
-        }
-      });
-    },
-    // 更新库存
-    updateStock() {
-      let updateStockList = this.stockList.map((i) => {
-        let j = { skuId: i.id, quantity: i.quantity };
-        if (this.stockAllUpdate) {
-          j.quantity = this.stockAllUpdate;
-        }
-        return j;
-      });
-      updateGoodsSkuStocks(updateStockList).then((res) => {
-        if (res.success) {
-          this.updateStockModalVisible = false;
-          this.$Message.success("更新库存成功");
-          this.getDataList();
-        }
-      });
-    },
     // 改变页码
     changePage(v) {
       this.searchForm.pageNumber = v;
@@ -436,50 +313,18 @@ export default {
       this.selectList = e;
       this.selectCount = e.length;
     },
-    //保存物流模板信息
-    saveShipTemplate() {
-      this.$Modal.confirm({
-        title: "确认设置物流模板",
-        content: "您确认要设置所选的 " + this.selectCount + " 个商品的物流模板?",
-        loading: true,
-        onOk: () => {
-          let ids = [];
-          this.selectList.forEach(function (e) {
-            ids.push(e.id);
-          });
-          // 批量设置物流模板
-          batchShipTemplate(this.shipTemplateForm).then((res) => {
-            this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("物流模板设置成功");
-              this.clearSelectAll();
-              this.getDataList();
-            }
-            this.shipTemplateModal = false;
-          });
-        },
-      });
-    },
-    //批量设置物流模板
-    batchShipTemplate() {
-      if (this.selectCount <= 0) {
-        this.$Message.warning("您还未选择要设置物流模板的商品");
-        return;
-      }
-      this.getShipTempList();
-      let data = [];
-      this.selectList.forEach(function (e) {
-        data.push(e.id);
-      });
-      this.shipTemplateForm.goodsId = data;
-      this.shipTemplateModal = true;
-    },
     // 获取商品列表数据
     getDataList() {
       this.loading = true;
       let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
       console.log('userinfo',userInfo)
       this.searchForm.buyerId=userInfo.id
+      // this.searchForm.createTime=this.$options.filters.unixToDate(
+      //       this.searchForm.createTime / 1000
+      //     );
+
+      // this.searchForm.createTime = moment(this.searchForm.createTime).format('YYYY-MM-DD HH:mm:ss')
+      // console.log('searchForm',this.searchForm)
       // 带多条件搜索参数获取表单数据
       getGoodsListDataSeller(this.searchForm).then((res) => {
         this.loading = false;
@@ -491,143 +336,7 @@ export default {
         }
       });
     },
-    // 获取物流模板
-    getShipTempList() {
-      API_Shop.getShipTemplate().then((res) => {
-        if (res.success) {
-          this.logisticsTemplate = res.result;
-        }
-      });
-    },
-    //下架商品
-    lower(v) {
-      this.$Modal.confirm({
-        title: "确认下架",
-        content: "您确认要下架 " + v.goodsName + " ?",
-        loading: true,
-        onOk: () => {
-          let params = {
-            goodsId: v.id,
-          };
-          lowGoods(params).then((res) => {
-            this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("下架成功");
-              this.getDataList();
-            }
-          });
-        },
-      });
-    },
-    //批量下架
-    lowers() {
-      if (this.selectCount <= 0) {
-        this.$Message.warning("您还未选择要下架的商品");
-        return;
-      }
-      this.$Modal.confirm({
-        title: "确认下架",
-        content: "您确认要下架所选的 " + this.selectCount + " 个商品?",
-        loading: true,
-        onOk: () => {
-          let ids = [];
-          this.selectList.forEach(function (e) {
-            ids.push(e.id);
-          });
-          let params = {
-            goodsId: ids.toString(),
-          };
-          // 批量上架
-          lowGoods(params).then((res) => {
-            this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("下架成功");
-              this.clearSelectAll();
-              this.getDataList();
-            }
-          });
-        },
-      });
-    },
-    //批量删除商品
-    deleteAll() {
-      if (this.selectCount <= 0) {
-        this.$Message.warning("您还未选择要删除的商品");
-        return;
-      }
-      this.$Modal.confirm({
-        title: "确认删除",
-        content: "您确认要删除所选的 " + this.selectCount + " 个商品?",
-        loading: true,
-        onOk: () => {
-          let ids = [];
-          this.selectList.forEach(function (e) {
-            ids.push(e.id);
-          });
-          let params = {
-            goodsId: ids.toString(),
-          };
-          // 批量删除
-          deleteGoods(params).then((res) => {
-            this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("删除成功");
-              this.clearSelectAll();
-              this.getDataList();
-            }
-          });
-        },
-      });
-    },
-    //批量上架
-    uppers(v) {
-      if (this.selectCount <= 0) {
-        this.$Message.warning("您还未选择要上架的商品");
-        return;
-      }
-      this.$Modal.confirm({
-        title: "确认上架",
-        content: "您确认要上架所选的 " + this.selectCount + " 个商品?",
-        loading: true,
-        onOk: () => {
-          let ids = [];
-          this.selectList.forEach(function (e) {
-            ids.push(e.id);
-          });
-          let params = {
-            goodsId: ids.toString(),
-          };
-          // 批量上架
-          upGoods(params).then((res) => {
-            this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("上架成功");
-              this.clearSelectAll();
-              this.getDataList();
-            }
-          });
-        },
-      });
-    },
-    upper(v) {
-      this.$Modal.confirm({
-        title: "确认上架",
-        content: "您确认要上架 " + v.goodsName + " ?",
-        loading: true,
-        onOk: () => {
-          let params = {
-            goodsId: v.id,
-          };
-          upGoods(params).then((res) => {
-            this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("上架成功");
-              this.getDataList();
-            }
-          });
-        },
-      });
-    },
+
   },
   mounted() {
     this.init();

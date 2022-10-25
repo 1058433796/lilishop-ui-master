@@ -9,16 +9,24 @@ var BASE = {
   //   manager: "https://admin-api.pickmall.cn"
   // },
   API_DEV: {
+    // common:"",
+    // buyer:"",
+    // seller:"",
+    // manager:""
     common: "http://localhost:8890",
-    buyer: "https://localhost:8888",
-    seller: "http://localhost:8889",
+    buyer: "http://localhost:8888",
+    seller: "http://localhost:8888",
     manager: "http://localhost:8887"
   },
   API_PROD: {
-    common: "https://common-api.pickmall.cn",
-    buyer: "https://buyer-api.pickmall.cn",
-    seller: "https://store-api.pickmall.cn",
-    manager: "https://admin-api.pickmall.cn"
+    // common:"",
+    // buyer:"",
+    // seller:"",
+    // manager:""
+    common: "http://localhost:8890",
+    buyer: "http://localhost:8888",
+    seller: "http://localhost:8888",
+    manager: "http://localhost:8887"
   },
   /**
    * @description // 跳转买家端地址 pc端

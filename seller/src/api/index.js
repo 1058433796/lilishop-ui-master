@@ -42,10 +42,15 @@ export const getHomeNotice = params => {
 
 
 
-// 登陆
+// // 登陆 （原本数据请求）
+// export const getSellerHomeData = params => {
+//   return getRequest("/statistics/index", params);
+// };
+
 export const getSellerHomeData = params => {
-  return getRequest("/statistics/index", params);
-};
+  return getRequest(`/statistics/order/home`, params)
+}
+
 
 
 // // 登陆

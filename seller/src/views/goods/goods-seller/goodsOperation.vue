@@ -1,40 +1,24 @@
 <template>
 <div class="new-item">
-    <Card>
+    <Card>  
       <Form ref="form" :model="form" :label-width="130" >
-        <FormItem label="工程项目名称" prop="itemName" :label-width="130">
-          <Input v-model="form.itemName" clearable style="width: 260px" maxlength="25" />
+      <Row type="flex" :gutter="20">
+        <Col span="8" :offset="3">
+        <FormItem label="工程项目名称" prop="itemName" :label-width="100">
+          <Input v-model="form.itemName" clearable style="width: 200px" maxlength="25" :disabled="flag" />
         </FormItem>
-        
-        <FormItem label="归属区域" prop="createLocation" :label-width="130">
-          <Input v-model="form.createLocation" style="width: 260px" maxlength="25">
+        <FormItem label="归属区域" prop="createLocation" :label-width="100">
+          <Input v-model="form.createLocation" style="width: 200px" maxlength="25" :disabled="flag">
           </Input>
         </FormItem>
-
-        <FormItem label="项目坐标" prop="createLocationDetail" :label-width="130">
-          <Input v-model="form.itemLongitude" style="width: 130px" maxlength="25" placeholder="经度">
-          </Input>
-          <Input v-model="form.itemLatitude" style="width: 130px" maxlength="25" placeholder="纬度">
+        <FormItem label="项目规模描述" prop="itemScale" :label-width="100">
+          <Input v-model="form.itemScale" type="textarea" :rows="1" style="width: 200px" :disabled="flag">
           </Input>
         </FormItem>
-        <FormItem label="项目规模描述" prop="itemScale" :label-width="130">
-          <Input v-model="form.itemScale" type="textarea" :rows="1" style="width: 260px">
-          </Input>
-        </FormItem>
-        <FormItem label="项目详细地址" prop="itemAddress" :label-width="130">
-          <Input v-model="form.itemAddress" type="textarea" :rows="1" style="width: 260px">
-          </Input>
-        </FormItem>
-        <FormItem label="项目开始和结束时间" prop="rangeTime">
-          <DatePicker type="datetimerange" v-model="form.rangeTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" :options="options" style="width: 260px">
-          </DatePicker>
-        </FormItem>
-        <FormItem label="项目概述" prop="itemOverview" :label-width="130">
-          <Input v-model="form.itemOverview" type="textarea" :rows="1" style="width: 260px">
-          </Input>
-        </FormItem>
-        <FormItem label="项目状态" prop="itemStatus">
-          <RadioGroup type="button" button-style="solid" v-model="form.itemStatus">
+        </Col>
+        <Col span="12"  > 
+          <FormItem label="项目状态" prop="itemStatus">
+          <RadioGroup type="button" button-style="solid" v-model="form.itemStatus" :disabled="flag">
             <Radio title="开工" :label="1">
               <span>开工</span>
             </Radio>
@@ -42,36 +26,79 @@
               <span>未开工</span>
             </Radio>
           </RadioGroup>
-          <br />
         </FormItem>
-        <FormItem label="项目标识" prop="itemLogo" :label-width="130">
-          <Input v-model="form.itemLogo" type="textarea" :rows="1" style="width: 260px">
+          <FormItem label="项目坐标" prop="createLocationDetail" :label-width="130">
+          <Input v-model="form.itemLongitude" style="width: 50px" maxlength="25" placeholder="经度" :disabled="flag">
+          </Input>
+          <Input v-model="form.itemLatitude" style="width: 50px" maxlength="25" placeholder="纬度" :disabled="flag">
           </Input>
         </FormItem>
-        <FormItem label="项目概算" prop="itemBudget" :label-width="130">
-          <Input v-model="form.itemBudget" style="width: 260px" >
+        <FormItem label="项目开始和结束时间" prop="rangeTime">
+          <DatePicker type="datetimerange" v-model="form.rangeTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" :options="options" style="width: 300px" :disabled="flag">
+          </DatePicker>
+        </FormItem>
+      </Col>
+    </Row> 
+
+      <Row>
+        <Col span="12" :offset="3">
+        <FormItem label="项目概述" prop="itemOverview" :label-width="100">
+          <Input v-model="form.itemOverview" type="textarea" :rows="3" style="width: 980px" :disabled="flag">
+          </Input>
+        </FormItem>
+      </Col>
+      </Row>
+      
+      <Row type="flex" :gutter="20">
+        <Col span="8" :offset="3">
+          <FormItem label="项目详细地址" prop="itemAddress" :label-width="100">
+          <Input v-model="form.itemAddress" type="textarea" :rows="1" style="width: 400px" :disabled="flag">
+          </Input>
+        </FormItem>
+        </Col>
+        <Col span="12" :offset="1">
+          <FormItem label="项目标识" prop="itemLogo" :label-width="100">
+          <Input v-model="form.itemLogo" type="textarea" :rows="1" style="width: 260px" :disabled="flag">
+          </Input>
+        </FormItem>
+        </Col>
+      </Row>
+
+
+        <Row type="flex" :gutter="30">
+          <Col span="4" :offset="3">
+            <FormItem label="项目概算" prop="itemBudget" :label-width="100" >
+          <Input v-model="form.itemBudget" style="width: 200px" :disabled="flag">
           <span slot="append">元</span>
           </Input>
         </FormItem>
-        <FormItem label="批复概算" prop="replyBudget" :label-width="130">
-          <Input v-model="form.replyBudget" style="width: 260px" >
+          </Col>
+          <Col span="5">  
+             <FormItem label="批复概算" prop="replyBudget" :label-width="100">
+          <Input v-model="form.replyBudget" style="width: 200px" :disabled="flag">
           <span slot="append">元</span>
           </Input>
         </FormItem>
-        <FormItem label="批复时间" prop="replyTime" :label-width="130">
+          </Col>
+          <Col span="6">
+        <FormItem label="批复时间" prop="replyTime" :label-width="100">
           <date-picker 
-            v-model="form.replyTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" :options="options" style="width: 260px"/>
+            v-model="form.replyTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" :options="options" style="width: 260px" :disabled="flag" />
         </FormItem>
+          </Col>
+        </Row>
       </Form>
-      <div>
+  
+      <div style="text-align: center">
         <Button type="text" @click="closeCurrentPage">返回</Button>
-        <Button type="primary" :loading="submitLoading" @click="handleSubmit">提交</Button>
+        <Button type="primary" :loading="submitLoading" @click="handleSubmit" :disabled="flag">提交</Button>
       </div>
     </Card>
   </div>
 </template>
 <script>
 import { saveItem,getItemDetail} from "@/api/goods";
+import moment from "moment";
 export default {
   // name: "addGoods",
   // components: {
@@ -85,7 +112,7 @@ export default {
       // /** 当前激活步骤*/
       // activestep: 0,
       // firstData: {}, // 第一步传递的数据
-
+      flag:this.$route.query.flag,
       id: this.$route.query.id, // 项目id 这里要改
       form: {
         // 添加或编辑表单对象初始化数据
@@ -122,6 +149,7 @@ export default {
       this.$router.go(-1);
     },
     handleSubmit() {
+      console.log("????")
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.submitLoading = true;
@@ -146,8 +174,10 @@ export default {
             this.submitLoading = false;
             return;
           }
-          console.log('form')
+          console.log('?form')
           console.log(this.form)
+       
+          params.replyTime = moment(params.replyTime).format('YYYY-MM-DD HH:mm:ss')
           delete params.rangeTime;
           if (!this.id) {
             // 添加 避免编辑后传入id等数据 记得删除

@@ -6,7 +6,7 @@ export const loginRouter = {
   path: "/login",
   name: "login",
   meta: {
-    title: `登录 - ${config.title}商家后台`
+    title: `登录 - ${config.title}供应商后台`
   },
   component: () => import("@/views/login.vue")
 };
@@ -140,6 +140,24 @@ export const otherRouter = {
       component: () => import("@/views/order/order/orderDetail.vue")
     },
     {
+      path: "contractDetail",
+      title: "合同",
+      name: "contractDetail",
+      component: () => import("@/views/contract/contractDetail.vue")
+    },
+    {
+      path: "customerContractDetail",
+      title: "合同",
+      name: "customerContractDetail",
+      component: () => import("@/views/customer/contractDetail.vue")
+    },
+    {
+      path: "customer-detail",
+      title: "客户详情",
+      name: "customer-detail",
+      component: () => import("@/views/customer/customerDetail.vue")
+    },
+    {
       path: "order-complaint-detail",
       title: "投诉详情",
       name: "order-complaint-detail",
@@ -164,7 +182,8 @@ export const otherRouter = {
       title: "发货",
       name: "export-order-deliver",
       component: () => import("@/views/order/order/exportOrderDeliver.vue")
-    }
+    },
+
     // {
     //   path: "/*",
     //   name: "error-404",

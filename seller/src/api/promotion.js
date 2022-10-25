@@ -47,10 +47,6 @@ export const addLiveGoods = (params) => {
   return putRequest(`/broadcast/studio/push/${params.roomId}/${params.liveGoodsId}`)
 }
 
-// 获取拼团列表
-export const getPintuanList = (params) => {
-    return getRequest('/promotion/pintuan', params)
-}
 // 新建 拼团
 export const savePintuan = (params) => {
     return postRequest('/promotion/pintuan', params,{'Content-type': 'application/json'})
@@ -176,4 +172,14 @@ export const delFullDiscount = (id) => {
 // 开启、关闭满减活动
 export const updateFullDiscount = (id, params) => {
     return putRequest(`/promotion/fullDiscount/status/${id}`, params)
+}
+
+
+// 获取拼团列表
+export const getContractList = (params) => {
+    return getRequest('/contract/contract/list', params)
+}
+
+export const signContract = (contractId)=> {
+    return putRequest(`/contract/contract/${contractId}/sign`)
 }

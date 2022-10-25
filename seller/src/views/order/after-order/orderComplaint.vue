@@ -42,8 +42,7 @@
         :columns="columns"
         :data="data"
         class="mt_10"
-        ref="table"
-      >
+        ref="table">
         <template slot-scope="{row}" slot="goodsName">
           <a class="mr_10" @click="linkTo(row.goodsId,row.skuId)">{{row.goodsName}}</a>
           <Poptip trigger="hover" title="扫码在手机中查看" transfer>

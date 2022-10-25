@@ -34,7 +34,7 @@ export const homeStatistics = (params) => {
 
 // 获取首页tpo10商品
 export const hotGoods = (params) => {
-  return getRequest("/statistics/index/goodsStatistics", params);
+  return getRequest("/statistics/index/goodsStatistics/top10", params);
 };
 // 获取首页tpo10店铺
 export const hotShops = (params) => {

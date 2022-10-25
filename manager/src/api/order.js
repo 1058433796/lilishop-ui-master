@@ -75,7 +75,15 @@ export const orderComplete = (id, params) => {
 
 //  查询订单列表
 export const getOrderList = (params) => {
-  return getRequest(`/order/order`, params)
+  return getRequest(`/itemOrder/itemOrder`, params)
+}
+// 获取普通订单详细信息
+export const getOrderDetail = sn => {
+  return getRequest(`/itemOrder/itemOrder/provide/${sn}`);
+};
+// 导出待发货订单
+export const queryExportOrder = params => {
+  return getRequest(`/itemOrder/itemOrder/queryExportOrder`, params);
 }
 
 //  订单付款
