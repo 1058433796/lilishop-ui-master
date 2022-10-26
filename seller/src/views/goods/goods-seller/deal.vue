@@ -21,8 +21,6 @@
             @toOrderPayDetail="orderPayDetail">
             </component>
         </div>
-        <!-- {{childData}}
-        {{this.$route.query.data}} -->
     </card>
 </template>
 <script>
@@ -123,8 +121,15 @@ export default {
             this.process = "zhifu";
         },
         deliver(row) {
-            this.current_process++;
-            this.process = logistic;
+            getAssociatedContractOrders(row.orderId).then(res=>{
+                if(res.success) {
+                    this.childData = res.result.records;
+                    this.current_process = 4;
+                    this.process = logistic;
+                } else {
+                }
+            })
+           
         },
         orderDetail(row) {
             this.process = orderDetail;

@@ -10,7 +10,6 @@ var BASE = {
       // manager: "https://admin-api.pickmall.cn",
        manager: "http://localhost:8887",
        common: "http://192.168.0.120:8890",
-
       // common: "",
       // buyer: "",
       // seller: "",

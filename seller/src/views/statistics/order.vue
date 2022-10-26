@@ -161,7 +161,7 @@ export default {
           title: "支付时间",
           key: "paymentTime",
           render: (h, params) => {
-            return h("div", params.row.paymentTime || "暂无");
+            return h("div", params.row.payTime || "暂无");
           },
         },
         {
@@ -301,6 +301,9 @@ export default {
     },
   },
   methods: {
+    detail(row) {
+      this.$router.push( { name: "orderDetailSingle", query: {form: row}});
+    },
     changePage(v){
       this.Params.pageNumber=v;
       this.getOrderList();

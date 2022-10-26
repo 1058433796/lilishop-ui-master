@@ -155,4 +155,8 @@ export const payOrder = (oid) =>{
   return putRequest(`/itemOrder/itemOrder/pay/${oid}`)
 }
 
+export const orderLogisticSign = (oid) =>{
+  return putRequest(`/itemOrder/itemOrder/logistic/${oid}`)
+}
+
 

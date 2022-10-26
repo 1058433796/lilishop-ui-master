@@ -26,12 +26,15 @@
     </div>
 </template>
 <script>
+import { orderLogisticSign} from '@/api/order'
+
 export default {
     name: "logistic",
+    props: ['data'],
     data() {
         return {
             loading: false,
-            total: 0,
+            total: this.data.length,
             searchForm: {
                 // 搜索框初始化对象
                 pageNumber: 1, // 当前页数
@@ -43,31 +46,86 @@ export default {
             columns: [
                 {
                     title: "订单号",
-                    key: "order_num"
+                    key: "orderId"
                 },
                 {
                     title: "配送方式",
-                    key: "deliver_type"
+                    key: "deliver_type",
+                    render:(h, params) => {
+                        return h("div", [
+                          h(
+                            "div",
+                            {
+                            },
+                            "快递"
+                          ),])
+                    }
                 },
                 {
                     title: "物流公司",
-                    key: "deliver_cop"
+                    key: "logisticsName",
+                    render:(h, params) => {
+                        return h("div", [
+                          h(
+                            "div",
+                            {
+                            },
+                            params.row.logisticsName || "暂未发货"
+                          ),])
+                    }
                 },
                 {
                     title: "运单号",
-                    key:"deliver_order_num"
+                    key:"logisticsNo",
+                    render:(h, params) => {
+                        return h("div", [
+                          h(
+                            "div",
+                            {
+                            },
+                            params.row.logisticsNo || "暂未发货"
+                          ),])
+                    }
                 },
                 {
                     title:"发货人",
-                    key: "sender"
+                    key: "storeName"
                 },
                 {
                     title:"发货时间",
-                    key:"send_time"
+                    key:"logisticsTime",
+                    render:(h, params) => {
+                        return h("div", [
+                          h(
+                            "div",
+                            {
+                            },
+                            params.row.logisticsTime || "暂未发货"
+                          ),])
+                    }
                 },
                 {
                     title: "操作",
                     render:(h, params) => {
+                      if(params.row.orderStatus==="已签收") {
+                        return h("div", [
+                          h(
+                            "Button",
+                            {
+                              props: {
+                                // type: "info",
+                                size: "small",
+                                disabled: true,
+                              },
+                              style: {
+                                color: "green", 
+                                width: "50%",
+                              },
+                              on
+                            },
+                            "已签收"
+                          ),])
+                      }else{
                         return h("div", [
                           h(
                             "Button",
@@ -77,19 +135,23 @@ export default {
                                 size: "small",
                               },
                               style: {
-                                color: "green", 
-                               
+                                color: "red", 
                                 width: "50%",
                               },
+                              on: {
+                                click: () => {
+                                this.sign(params.row);
+                                },
+                              },
+                              
                             },
                             "签收"
                           ),])
+                      }
                     }
                 }
             ],
-            deliverData : [
-                {order_num: "2020171809", deliver_type: "快递", deliver_cop: "顺丰", deliver_order_num:"12408888S", sender: "ASSA", send_time:"2022-1-3" }
-            ]
+            deliverData : this.data
         }
     },
     methods: {
@@ -104,7 +166,17 @@ export default {
             this.searchForm.pageSize = v;
             this.getDataList();
         },
-
+        sign(row) {
+          orderLogisticSign(row.orderId).then(res=>{
+                if(res.success && res.result) {
+                    row.orderStatus ="已签收"
+                    this.$Message.success('签收成功');
+                    this.deliverData[row._index].orderStatus = "已签收"
+                }else {
+                    this.$Message.error('签收失败');
+                }
+            })
+        }
     }
     
 }

@@ -23,8 +23,7 @@
               v-model="searchForm.storeName"
               placeholder="请输入名称"
               clearable
-              style="width: 240px"
-            />
+              style="width: 240px"/>
           </Form-item>
           <Form-item label="供应商签署状态" prop="providerState">
             <Select
@@ -76,10 +75,7 @@
             <Button
               type="info"
               size="small"
-              @click="check(row)"
-              >查看及签署</Button
-            >
-
+              @click="check(row)">查看及签署</Button>
           </div>
         </template>
       </Table>
