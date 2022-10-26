@@ -812,10 +812,12 @@ export default {
             this.orderComponent = res.result;
             this.loading = false;
           }
-      })
+      });
       API_Order.getOrderDetail(this.sn.orderId).then(res=>{
         if(res.success) {
-          this.order = res.result;
+          this.order = res.result.itemOrder;
+        }else {
+          this.$Message.error("获取订单详情失败");
         }
       })
     }

@@ -63,7 +63,7 @@
                 </div>
   
                 <div class="div-item">
-                  <div class="div-item-left">收货地址：</div>
+                  <div class="div-item-left">收货1地址：</div>
                   <div class="div-item-right">{{ data.buyerAddress }}</div>
                 </div>
               </Col>

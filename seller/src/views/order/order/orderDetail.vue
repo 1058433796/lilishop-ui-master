@@ -492,8 +492,7 @@
           border
           :columns="fhcolumns"
           :data="fhdata"
-          ref="fhtable"
-        >
+          ref="fhtable">
         </Table>
       </Card>
     </TabPane>

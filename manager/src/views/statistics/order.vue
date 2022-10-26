@@ -406,7 +406,7 @@ export default {
                 click: () => {
                  const { sn } = params.row
                   this.$router.push({
-                    query: {sn},
+                    query: { sn },
                     path: this.orderOrRefund == 1 ? 'order-detail' : 'after-order-detail' + '?sn='+sn
                   })
                 }

@@ -22,6 +22,7 @@
 import memberLayout from "@/views/member/list";
 import * as API_Goods from "@/api/goods";
 import affixTime from "@/views/lili-components/affix-time";
+import { hotGoods } from "@/api/index";
 
 export default {
   components: {
@@ -74,13 +75,24 @@ export default {
       this.params.type = type;
       this.getData();
     },
+    async toHotGoods() {
+      let res = await hotGoods(this.params);
+      res.success ? (this.data = res.result) : "";
+    },
+    
     // 获取数据
     getData() {
-      Promise.all([API_Goods.goodsStatistics(this.params)]).then((res) => {
-        if (res[0].result) {
-          this.data = res[0].result;
+      hotGoods(this.params).then(res=>{
+        if(res.success) {
+          this.data = res.result;
         }
-      });
+      })
+      // Promise.all([API_Goods.goodsStatistics(this.params)]).then((res) => {
+      //   if (res[0].result) {
+      //     this.data = res[0].result;
+      //   }
+      // });
+      
     },
   },
   mounted() {

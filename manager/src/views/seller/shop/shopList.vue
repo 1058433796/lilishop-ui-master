@@ -138,6 +138,14 @@ export default {
               return h("Tag", {props: {color: "purple",},},"审核中");
             } else if (params.row.storeDisable == "REFUSED") {
               return h("Tag", {props: {color: "red",},},"审核拒绝");
+            } else if ( params.row.storeDisable =="APPLY_SECOND_STEP") {
+              return h("Tag", {props: {color: "geekblue",},},"申请步骤2");
+            }  else if ( params.row.storeDisable =="APPLY_FIRST_STEP") {
+              return h("Tag", {props: {color: "geekblue",},},"申请步骤1");
+            } else if ( params.row.storeDisable =="APPLY_THIRD_STEP") {
+              return h("Tag", {props: {color: "geekblue",},},"申请步骤3");
+            }else if ( params.row.storeDisable =="APPLY_FOURTH_STEP") {
+              return h("Tag", {props: {color: "geekblue",},},"申请步骤4");
             }
           },
         },
