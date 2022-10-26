@@ -167,13 +167,8 @@ export default {
             payOrder(row.orderId).then(res=>{
                 if(res.success && res.result) {
                     row.payStatus ="已支付"
-                    // alert("支付成功");
-                    // console.log("-----------");
-                    // console.log(row);
-                    // row._index
                     this.$Message.success('伪支付--成功');
                     this.orderData[row._index].payStatus = "已付款"
-                    // alert(row._index);
                 }else {
                     this.$Message.error('伪支付--失败');
                 }

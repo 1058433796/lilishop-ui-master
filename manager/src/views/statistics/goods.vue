@@ -7,14 +7,13 @@
     </Affix>
     <Card class="card">
       <Tabs @on-click="handleClickType">
-        <TabPane label="热门商品订单数量" name="NUM">
+        <TabPane label="产品订单数量" name="NUM">
           <Table :columns="columns" :data="data"></Table>
         </TabPane>
-        <TabPane label="热门商品订单金额" name="PRICE">
+        <!-- <TabPane label="热门商品订单金额" name="PRICE">
           <Table :columns="columns" :data="data"></Table>
-        </TabPane>
+        </TabPane> -->
       </Tabs>
-
     </Card>
   </div>
 </template>
