@@ -217,7 +217,7 @@ export default {
     },
     // 搜索
     handleSearch() {
-      this.searchForm.pageNumber = 0;
+      this.searchForm.pageNumber = 1;
       this.searchForm.pageSize = 10;
       this.getDataList();
     },

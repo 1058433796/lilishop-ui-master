@@ -168,6 +168,6 @@ export const getOrderComponent = (oid, storeId) =>{
   return getRequest(`/itemOrder/itemOrder/provide/${oid}/${storeId}`)
 }
 // 获取订单详细信息
-export const getOrderDetail = (oid) =>{
+export const getOrderDetail2 = (oid) =>{
   return getRequest(`/itemOrder/itemOrder/order/${oid}`)
 }

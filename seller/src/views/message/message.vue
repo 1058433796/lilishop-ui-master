@@ -4,7 +4,7 @@
   <div class="htitle">消息中心</div>
   <div class="message-main-con">
     <div class="message-mainlist-con">
-      <div>
+      <div class="action">
         <Button @click="setCurrentMesType('unread')" size="large" long type="text">
           <div class="mes-wrap">
             <transition name="mes-current-type-btn">
@@ -19,7 +19,7 @@
           </div>
         </Button>
       </div>
-      <div>
+      <div class="action">
         <Button @click="setCurrentMesType('read')" size="large" long type="text">
           <div class="mes-wrap">
             <transition name="mes-current-type-btn">
@@ -34,7 +34,7 @@
           </div>
         </Button>
       </div>
-      <div>
+      <div class="action">
         <Button @click="setCurrentMesType('recycleBin')" size="large" long type="text">
           <div class="mes-wrap">
             <transition name="mes-current-type-btn">
@@ -250,18 +250,16 @@
         mesTitleColumns: [ // 表格表头
 
           {
-            title: " ",
+            title: "标题",
             key: "title",
-            align: "left",
+            align: "center",
             ellipsis: true,
             render: (h, params) => {
               return h("span", [
                 h(
                   "a",
                   {
-                    style: {
-                      margin: "0 30px 0 0"
-                    },
+                    
                     on: {
                       click: () => {
                         this.showMesTitleList = false;
@@ -277,7 +275,7 @@
             }
           },
           {
-            title: " ",
+            title: "时间",
             key: "time",
             align: "center",
             width: 190,
@@ -297,7 +295,7 @@
             }
           },
           {
-            title: " ",
+            title: "操作",
             key: "asread",
             align: "center",
             width: 210,
