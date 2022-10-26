@@ -281,7 +281,6 @@ export default {
     },
     // 导出的待发货订单数据
     async exportOrder() {
-      let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
       const params = {
         // 搜索框初始化对象
         pageNumber: 1, // 当前页数
@@ -295,7 +294,7 @@ export default {
         type:"",
         //tag: "WAIT_SHIP",
         //orderType: "NORMAL",
-        storeId: userInfo.id,
+        storeId: "",
       };
       const res = await API_Order.queryExportOrder(params);
       if (res.success) {
@@ -305,9 +304,6 @@ export default {
         }
         for (let i = 0; i < res.result.length; i++) {
           res.result[i].index = i + 1;
-          // res.result[i].consigneeAddress =
-          //   res.result[i].consigneeAddressPath.replace(/,/g, "") +
-          //   res.result[i].consigneeDetail;
           res.result[i].orderAmount = this.$options.filters.unitPrice(
             res.result[i].orderAmount,
             "￥"

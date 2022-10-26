@@ -124,7 +124,7 @@
           </div>
 
         </div>
-        <div class="count-item" @click="navigateTo('orderStatistics')">
+        <div class="count-item" @click="navigateTo('orderList')">
           <div>
             <Icon class="icon" size="31" type="ios-card" />
           </div>

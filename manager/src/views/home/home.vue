@@ -13,7 +13,7 @@
             <div>商品数量</div>
           </div>
         </div>
-        <div class="count-item" @click="navigateTo('memberList')">
+        <div class="count-item" @click="navigateTo('customerList')">
           <div>
             <Icon class="icon" size="31" type="md-person" />
           </div>
@@ -47,7 +47,7 @@
     <div class="card">
       <h4>今日待办</h4>
       <div class="todo-list flex">
-        <div class="todo-item" @click="navigateTo('applyGoods')">
+        <div class="todo-item" @click="navigateTo('managerGoods')">
           <div class="counts">{{ $store.state.notices.goods || 0 }}</div>
           <div>待审核商品</div>
         </div>
