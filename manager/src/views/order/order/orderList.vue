@@ -322,9 +322,12 @@ export default {
     detail(v) {
 
       let orderId = v.orderId;
+      let storeId=v.storeId;
+      console.log("id",orderId)
+      console.log(v)
       this.$router.push({
         name: "order-detail",
-        query: { orderId: orderId },
+        query: { orderId: orderId,storeId:storeId },
       });
     },
   },
