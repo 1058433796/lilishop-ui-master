@@ -552,75 +552,64 @@ export default {
       },
 
       columns: [
-        {
-          title: "序号",
-          key: "componentId",
-          minWidth: 100,
-        },
-        {
-          title: "商品名",
-          key: "componentName",
-          minWidth: 200,
-        },
-        {
-          title: "参数",
-          key: "goodRequire",
-          minWidth: 200,
-        },
-        {
-          title: "饰面颜色",
-          key: "goodColor",
-          minWidth: 100,
-
-        },
-        {
-          title: "品牌",
-          key: "goodBrand",
-          minWidth: 100,
-        },
-        {
-          title: "型号",
-          key: "goodType",
-          minWidth: 100,
-        },
-        {
-          title: "数量",
-          key: "componentNumber",
-          minWidth: 80,
-        },
-        {
-          title: "单位",
-          key: "goodUnit",
-          minWidth: 100,
-        },
-        {
-          title: "单价",
-          key: "componentUnitPrice",
-          minWidth: 100,
-          // render: (h, params) => {
-          //   if (!params.row.goodUnitprice) {
-          //     return h("div", this.$options.filters.goodUnitprice(0, "￥"));
-          //   }
-          //   return h(
-          //     "div",
-          //     this.$options.filters.goodUnitprice(
-          //       params.row.goodUnitprice,
-          //       "￥"
-          //     )
-          //   );
-          // },
-        },
-        {
-          title: "小计",
-          key: "goodTotalprice",
-          minWidth: 100,
-          // render: (h, params) => {
-          //   return h(
-          //     "div",
-          //     this.$options.filters.good_totalprice(params.row.flowPrice, "￥")
-          //   );
-          // },
-        },
+      {
+            title: "序号",
+            minWidth: 50,
+            render:(h,params)=>{
+              return h("span" ,{
+              },params.index+1)
+            }
+          },
+          {
+            title: "商品名",
+            key: "pm",
+            minWidth: 200,
+            //slot: "goodsSlot",
+          },
+          {
+            title: "参数",
+            key: "cs",
+            minWidth: 200,
+          },
+          {
+            title: "饰面",
+            key: "sm",
+            minWidth: 100,
+  
+          },
+          {
+            title: "品牌",
+            key: "pp",
+            minWidth: 100,
+          },
+          {
+            title: "型号",
+            key: "xh",
+            minWidth: 100,
+          },
+          {
+            title: "数量",
+            key: "componentNumber",
+            minWidth: 80,
+          },
+          {
+            title: "单位",
+            value: "件",
+            key: "dw",
+            minWidth: 100,
+          },
+          {
+            title: "单价",
+            key: "componentUnitPrice",
+            minWidth: 100,
+          },
+          {
+            title: "小计",
+            minWidth: 100,
+            render: (h, params) => {
+              return h("div", {},Number(params.row.componentUnitPrice)*Number(params.row.componentNumber))
+            }
+          },
       ],
       data: [], // 商品表单数据
       fhcolumns: [
@@ -748,6 +737,8 @@ export default {
           this.fhdata[0]=res.result.itemOrder;
           this.orderInfo.schemeComponentList =res.result.schemeComponentList;
           this.data = res.result.schemeComponentList;
+          console.log("comdatA")
+          console.log(this.data)
 
           console.log(JSON.parse(this.data[0]))
           this.allowOperation = res.result.allowOperationVO;

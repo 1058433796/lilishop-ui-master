@@ -32,7 +32,7 @@
           <Col span="12">
             <div class="div-item">
               <div class="div-item-left">订单号：</div>
-              <div class="div-item-right">{{ order.orderId}}</div>
+              <div class="div-item-right">{{this.order.orderId}}</div>
             </div>
             <div class="div-item">
               <div class="div-item-left">发货状态：</div>
@@ -523,7 +523,7 @@ export default {
         ],
       },
       columns: [
-          {
+      {
             title: "序号",
             minWidth: 50,
             render:(h,params)=>{
@@ -533,29 +533,29 @@ export default {
           },
           {
             title: "商品名",
-            key: "componentName",
+            key: "pm",
             minWidth: 200,
             //slot: "goodsSlot",
           },
           {
             title: "参数",
-            key: "goodRequire",
+            key: "cs",
             minWidth: 200,
           },
           {
-            title: "饰面颜色",
-            key: "goodColor",
+            title: "饰面",
+            key: "sm",
             minWidth: 100,
   
           },
           {
             title: "品牌",
-            key: "goodBrand",
+            key: "pp",
             minWidth: 100,
           },
           {
             title: "型号",
-            key: "goodType",
+            key: "xh",
             minWidth: 100,
           },
           {
@@ -566,7 +566,7 @@ export default {
           {
             title: "单位",
             value: "件",
-            key: "goodUnit",
+            key: "dw",
             minWidth: 100,
           },
           {
@@ -815,7 +815,9 @@ export default {
       })
       API_Order.getOrderDetail(this.sn.orderId).then(res=>{
         if(res.success) {
-          this.order = res.result;
+          console.log("order")
+          console.log(res.result)
+          this.order = res.result.itemOrder;
         }
       })
     }
