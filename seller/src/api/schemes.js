@@ -53,4 +53,4 @@ import {
   }
   
   export const testIbank = () => {
-    return postRequest(`iBank/iBank/pay/`)}
+    return postRequest(`iBank/iBank/payNew`)}

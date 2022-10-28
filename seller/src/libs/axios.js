@@ -39,8 +39,9 @@ service.interceptors.request.use(
       };
     }
     // if(!config.url.startsWith("/common")){
-    //   config.url = '/store' + config.url
+    //   config.url = '/manager' + config.url
     // }
+    
     
     let uuid = getStore("uuid");
     if (!uuid) {
