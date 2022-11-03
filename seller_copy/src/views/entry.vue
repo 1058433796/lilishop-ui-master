@@ -13,7 +13,7 @@
             :rules="rules"
             class="form"
           >
-            <FormItem prop="username" label="采购方账号">
+            <FormItem prop="username" label="供应商账号">
               <Input
                 v-model="form.username"
                 prefix="ios-contact"
@@ -23,7 +23,7 @@
                 autocomplete="off"
               />
             </FormItem>
-            <FormItem prop="password" label="采购方密码">
+            <FormItem prop="password" label="供应商密码">
               <Input
                 type="password"
                 v-model="form.password"
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { login, userMsg,testlogin} from "@/api/index";
+import { login, userMsg, userRole } from "@/api/index";
 import Cookies from "js-cookie";
 import Header from "@/views/main-components/header";
 import Footer from "@/views/main-components/footer";
@@ -69,10 +69,6 @@ export default {
   },
   data() {
     return {
-      newform:{
-        username:'',
-        password:''
-      },
       saveLogin: true, // 保存登录状态
       loading: false, // 加载状态
       form: {
@@ -119,7 +115,7 @@ export default {
           } else {
             Cookies.set("userInfoSeller", JSON.stringify(res.result));
           }
-          this.$store.commit("setAvatarPath", res.result.face);
+          this.$store.commit("setAvatarPath", res.result.storeLogo);
           // 加载菜单
           util.initRouter(this);
           this.$router.push({
@@ -135,6 +131,57 @@ export default {
         case Code.USER_NOT_EXIST:
           this.$router.push("register");
           break;
+        case Code.STORE_NOT_OPEN:
+          // 跳转到店铺开通页面 signup
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          this.$router.push("signUp");
+          break;
+        case Code.STORE_CLOSE_ERROR:
+          break;
+        case Code.STORE_FIRST_STEP:
+          // 店铺正在审核
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          // 跳转到signUp第一页
+          this.$router.push({
+            path: "signUp",
+            query: {
+              current: 0,
+            },
+          });
+          break;
+        case Code.STORE_SECOND_STEP:
+          // 店铺正在审核
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          // 跳转到signUp第二页
+          this.$router.push({
+            path: "signUp",
+            query: {
+              current: 1,
+            },
+          });
+          break;
+        case Code.STORE_ON_APPLYING:
+          // 店铺正在审核
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          // 跳转到signUp第三页
+          this.$router.push({
+            path: "signUp",
+            query: {
+              current: 2,
+            },
+          });
+          break;
+        case Code.STORE_REFUSED:
+          // 店铺审核不通过
+          this.setStore("username", this.form.username);
+          this.setStore("password", this.form.password);
+          // 跳转到店铺开通页面 signup
+          this.$router.push("signUp");
+          break;
       }
     },
     submitLogin() {
@@ -142,57 +189,30 @@ export default {
       this.$refs.usernameLoginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-<<<<<<< HEAD
+          // 1、获得用户类型
+          console.log(this.form.username);
           let fd = new FormData();
-          fd.append('username', this.form.username);
-          fd.append('password', this.md5(this.form.password));
-        
-          login(fd)
-            .then((res) => {
-              this.loading = false;
-              if (!res) return;
-              if (res.success) {
-                this.afterLogin(res);
+          fd.append("username", this.form.username);
+          userRole(fd).then((res) => {
+            if (res && res.success) {
+              let role = res.result.role;
+              console.log(res.result);
+              let url = null;
+              if (role === "unknown") {
+                console.log("角色未知");
+                return;
               }
-              else this.handleErrCode(res.code);
-              //  else if (res.code === Code.USER_NOT_EXIST) {
-              //   this.$router.push('register');
-              // } else if (res.code === Code.STORE_NOT_OPEN) {
-              //   // 跳转到店铺开通页面 signup
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   this.$router.push("signUp");
-
-              // } else if (res.code === Code.STORE_CLOSE_ERROR) {
-              //   // 店铺被关闭
-              // } else if (res.code === Code.STORE_ON_APPLYING) {
-              //   // 店铺正在审核
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   // 跳转到signUp第三页
-              //   this.$router.push({
-              //     path: 'signUp',
-              //     query: {
-              //       current: 2
-              //     }
-              //   });
-              // } else if (res.code === STORE_REFUSED) {
-              //   // 店铺审核不通过
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   // 跳转到店铺开通页面 signup
-              //   this.$router.push("signUp");
-              // }
-
-            })
-            .catch(() => {
-              this.loading = false;
-            });
-            console.log("fd",fd)
-            
-=======
-          this.handleLogin(this.form.username, this.form.password);
->>>>>>> LYJ
+              if (role === "member") {
+                url = BASE.WEB_URL.buyer;
+                window.location.href = `${url}/login?username=${this.form.username}&password=${this.form.password}`;
+              } else if (role === "store") {
+                this.handleLogin(this.form.username, this.form.password);
+              } else {
+                url = BASE.WEB_URL.admin;
+                window.location.href = `${url}/login?username=${this.form.username}&password=${this.form.password}`;
+              }
+            }
+          });
         }
       });
     },
@@ -211,24 +231,16 @@ export default {
           } else this.handleErrCode(res.code);
         })
         .catch(() => {
-          this.goToLoginPage();
           this.loading = false;
         });
     },
-    goToLoginPage() {
-      window.location.href = BASE.WEB_URL.seller;
-    },
   },
-  created() {
+  mounted() {
     const query = this.$route.query;
-    if (query && query.username && query.password) {
+    if(query && query.username && query.password){
       this.handleLogin(query.username, query.password);
-    } else {
-      this.goToLoginPage();
     }
   },
-
-  mounted() {},
 };
 </script>
 <style lang="scss" scoped>

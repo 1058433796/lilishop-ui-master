@@ -28,6 +28,14 @@ var BASE = {
     // seller: "http://localhost:8888",
     // manager: "http://localhost:8887"
   },
+    /**
+   * @description 各个网站的url
+   */
+     WEB_URL:{
+      buyer: 'http://localhost:10003',
+      seller: 'http://localhost:10002',
+      admin: '',
+    },
   /**
    * @description // 跳转买家端地址 pc端
    */

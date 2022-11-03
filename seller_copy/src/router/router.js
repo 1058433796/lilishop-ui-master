@@ -10,6 +10,15 @@ export const loginRouter = {
   },
   component: () => import("@/views/login.vue")
 };
+const entryRouter = {
+  path: "/entry",
+  name: "entry",
+  meta: {
+    title: "登录"
+  },
+  component: () => import("@/views/entry.vue")
+}
+
 // 个人信息注册页面
 const registerRouter = {
   path: "/register",
@@ -213,4 +222,4 @@ export const page500 = {
   component: () => import("@/views/error-page/500.vue")
 };
 // 所有上面定义的路由都要写在下面的routers里
-export const routers = [loginRouter, registerRouter, signUpRouter, otherRouter, page500, page403];
+export const routers = [loginRouter, entryRouter, registerRouter, signUpRouter, otherRouter, page500, page403];
