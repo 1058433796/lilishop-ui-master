@@ -33,9 +33,9 @@
                   <p class="bold">{{userData.serviceScore}}分</p>
                 </div>
               </i-circle>
-              <h5>服务得分</h5>
+              <h5>履约信用</h5>
             </div>
-            <div>
+            <!-- <div>
               <i-circle :size="120" stroke-color="#a7c5eb" :trail-width="4" :stroke-width="5" :percent="(userData.deliveryScore  *  20)" stroke-linecap="square">
                 <div>
 
@@ -43,7 +43,7 @@
                 </div>
               </i-circle>
               <h5>交货得分</h5>
-            </div>
+            </div> -->
             <div>
               <i-circle :size="120" stroke-color="#848ccf" :trail-width="4" :stroke-width="5" :percent="(userData.descriptionScore  *  20)" stroke-linecap="square">
                 <div>

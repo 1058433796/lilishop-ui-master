@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { login, userMsg } from "@/api/index";
+import { login, userMsg,testlogin} from "@/api/index";
 import Cookies from "js-cookie";
 import Header from "@/views/main-components/header";
 import Footer from "@/views/main-components/footer";
@@ -47,6 +47,10 @@ export default {
   },
   data() {
     return {
+      newform:{
+        username:'',
+        password:''
+      },
       saveLogin: true, // 保存登录状态
       loading: false, // 加载状态
       form: {
@@ -170,10 +174,10 @@ export default {
           let fd = new FormData();
           fd.append('username', this.form.username);
           fd.append('password', this.md5(this.form.password));
+        
           login(fd)
             .then((res) => {
               this.loading = false;
-              console.log(res);
               if (!res) return;
               if (res.success) {
                 this.afterLogin(res);
@@ -212,6 +216,8 @@ export default {
             .catch(() => {
               this.loading = false;
             });
+            console.log("fd",fd)
+            
         }
       });
     },

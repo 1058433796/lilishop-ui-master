@@ -54,3 +54,7 @@ import {
   
   export const testIbank = () => {
     return postRequest(`iBank/iBank/payNew`)}
+
+    export const getSchemeSum = (id) => {
+      return getRequest(`/schemeComponent/schemeComponent/sum/${id}`)
+    }

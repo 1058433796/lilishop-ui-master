@@ -87,6 +87,20 @@
         </FormItem>
           </Col>
         </Row>
+        <Row v-if="!flag">
+          <Col span="4" :offset="3">
+            <FormItem  label="设计师用户名" prop="designerName" :label-width="100" >
+          <Input v-model="form.designerName" style="width: 200px" :disabled="flag">
+          </Input>
+        </FormItem>
+          </Col>
+          <Col span="4" :offset="3">
+            <FormItem label="设计师密码" prop="designerName" :label-width="100" >
+          <Input v-model="form.designerPass" style="width: 200px" :disabled="flag">
+          </Input>
+        </FormItem>
+          </Col>
+        </Row>
       </Form>
   
       <div style="text-align: center">
@@ -99,6 +113,7 @@
 <script>
 import { saveItem,getItemDetail} from "@/api/goods";
 import moment from "moment";
+import Cookies from "js-cookie";
 export default {
   // name: "addGoods",
   // components: {
@@ -130,6 +145,10 @@ export default {
         replyTime:"",
         startTime: "",
         endTime: "",
+        designerName:"",
+        designerPass:"",
+        buyerId: JSON.parse(Cookies.get("userInfoSeller")).memberId,
+        buyerName:JSON.parse(Cookies.get("userInfoSeller")).memberName
       },
       submitLoading: false, // 添加或编辑提交状态
       // options: {

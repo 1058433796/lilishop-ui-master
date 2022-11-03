@@ -18,7 +18,7 @@
             @toContractSign="contractSign"  
             @backToOrderResponse="backOrderResponse"
             @toOrderDetail="orderDetail" @toOrderPay="orderPay" @toDeliver="deliver" @toContractDetail="contractDetail"
-            @toOrderPayDetail="orderPayDetail">
+            @toOrderPayDetail="orderPayDetail" @toProcess="processChange">
             </component>
         </div>
     </card>
@@ -81,7 +81,7 @@ export default {
             }
         },
         processChange(index) {
-            console.log(this.$route.query.Form);
+            console.log("testform",this.$route.query.Form);
             // this.current_process = index
             if (index === 1) {
                 establishOrder(this.form.primaryId).then(res => {
@@ -94,6 +94,10 @@ export default {
                 })
             }
         },
+        // test(index){
+        //     console.log("?????",index)
+        // },
+
         contractSign(row) {
             createContract(row.orderId).then(res=> {
                 if (res.success) {

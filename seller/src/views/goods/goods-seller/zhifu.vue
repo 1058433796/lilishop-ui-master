@@ -6,12 +6,12 @@
                 <div class="hd-main">
                     <div class="ep-hd-info">
                         <div class="ep-order-status">
-                            <h1>订单模拟支付</h1>
+                            <h1>履约保证单详情</h1>
                         </div>
                     </div>
-                    <div class="user-info">
+                    <!-- <div class="user-info">
                         <p>账号：xxxxxxxxxx</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="bd">
@@ -28,7 +28,13 @@
                                             </dd>
                                         </dl>
                                         <dl>
-                                            <dt>订单内容：</dt>
+                                            <dt>创建时间：</dt>
+                                            <dd>
+                                               谢飞龙
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>内容：</dt>
                                             <dd>
                                                 {{$route.query.Form.orderContent}}
                                             </dd>
@@ -38,10 +44,11 @@
                                             <dd>
                                                 {{$route.query.Form.schemeSum}}
                                             </dd>
-                                        </dl> <dl>
+                                        </dl> 
+                                        <dl>
                                             <dt>履约保证金：</dt>
                                             <dd>
-                                                {{$route.query.Form.orderName}}
+                                                {{Number($route.query.Form.schemeSum)*0.2}}
                                             </dd>
                                         </dl>
                                     </div>
@@ -52,22 +59,24 @@
                             </div>
                             <div class="ep-pay-method ep-pay-methods">
                                 <dl>
-                                    <dt>支付方式：</dt>
-                                    <dd class="pay-channel" id="pay-channel">
-                                        <div class="ep-pay-method-list-tit">
+                                    <!-- <dt>支付方式：</dt>
+                                    <dd class="pay-channel" id="pay-channel"> -->
+                                        <!-- <div class="ep-pay-method-list-tit">
                                             <ul>
                                                 <li :class="{selected:form.payType == 'alipay'}" title="支付宝支付" >
                                                     <span class="ep-icon ep-icon-alipay"></span> <span class="ep-pay-method-name">支付宝支付</span>
                                                 </li>
                                                
                                             </ul>
-                                        </div>
+                                        </div> -->
 
                                         <div class="ep-pay-operate">
                                             <a data-action="delay" href="javascript:void(0);" @click="payment()"
-                                               title="立即支付" class="ep-btn ep-btn-blue">立即支付</a>
+                                               title="支付保证金" class="ep-btn ep-btn-blue">支付保证金</a>
+                                            <a title="下一步" @click="toOrder()" class="ep-btn ep-btn-blue">下一步
+                                            </a>
                                         </div>
-                                    </dd>
+                                    <!-- </dd> -->
                                 </dl>
                             </div>
                         </div>
@@ -147,7 +156,11 @@
                     });
                 }
                 console.log(event);
-            }
+            },
+            toOrder() {
+                console.log("order")
+                this.$emit("toProcess", 1)
+            },
         },
         created() {
             if(this.isShaxiang){

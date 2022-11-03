@@ -47,7 +47,7 @@
     </div>
 </template>
 <script>
-import { getItemSchemeList, getSchemeDetail,checkItemScheme,saveGuaranty,setItemScheme ,testIbank} from '@/api/schemes'
+import { getItemSchemeList, getSchemeDetail,checkItemScheme,saveGuaranty,setItemScheme ,testIbank,getSchemeSum} from '@/api/schemes'
 
 export default {
    name:"item-scheme",
@@ -66,7 +66,7 @@ export default {
     },
     guarantyForm:{
       primaryId:1,
-      // schemeSum:0,
+      schemeSum:0,
       // payFlag:0,
       orderName:this.$route.query.itemName+'项目',
       orderContent:this.$route.query.itemName+'内容',
@@ -262,8 +262,6 @@ export default {
           }
           console.log(this.data)
           this.countCheck(this.data,this.total)
-          console.log("查看方案列表的count")
-          console.log(this.checkNum)
         }
       });
       //再查找有没有生成保证单
@@ -299,6 +297,8 @@ export default {
       //     })
       //     }
       //   })
+      
+
       //再更新item_scheme表,设置履约保证单
       checkItemScheme(v.primaryId).then((res)=>{
         if(res.success){
@@ -306,6 +306,9 @@ export default {
           this.checkNum=this.checkNum+1
           if (this.checkNum==this.total){
             this.confirmScheme=true
+            getSchemeSum(1).then((res)=>{//1是方案ID，后续可替换
+              this.guarantyForm.schemeSum=res
+            })
           }
         }
       })

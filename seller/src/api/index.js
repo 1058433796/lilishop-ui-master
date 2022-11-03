@@ -62,7 +62,10 @@ export const getSellerHomeData = params => {
 export const login = params => {
   return postRequestWithNoTokenData("/passport/login/userLogin", params);
 };
-
+//测试登录
+export const testlogin = (params) => {
+  return postRequest(`/item/item/login`,params);
+};
 // 登出
 export const logout = () => {
   return postRequest("/passport/login/logout");
