@@ -21,10 +21,6 @@ export const userRegister = (params) => {
   return postRequestWithNoTokenData("/passport/login/userRegister", params);
 }
 
-export const userRegisterWithStore = (params) => {
-  return postRequestWithNoTokenData("/passport/login/userRegisterWithStore", params);
-}
-
 // 公司注册
 export const register = (params) => {
   return postRequestWithNoToken("/passport/login/storeRegister", params);
@@ -67,6 +63,8 @@ export const login = params => {
 export const logout = () => {
   return postRequest("/passport/login/logout");
 };
+
+
 
 // 获取用户登录信息
 export const userInfo = params => {

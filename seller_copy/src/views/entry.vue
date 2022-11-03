@@ -4,7 +4,7 @@
       <Col style="width: 368px">
         <Header />
         <Col offset="20" style="color: red">
-          <div @click="visible = true">立即注册</div>
+          <div @click="$router.push('register')">立即注册</div>
         </Col>
         <Row style="flex-direction: column">
           <Form
@@ -49,13 +49,6 @@
             </div>
           </Row>
         </Row>
-        <Modal v-model="visible" title="请选择注册账号类型">
-          <div style="display: flex; justify-content: space-around">
-            <Button @click="handleRegister('buyer')">采购方</Button>
-            <Button @click="handleRegister('seller')">供应商</Button>
-            <Button @click="handleRegister('admin')">管理员</Button>
-          </div>
-        </Modal>
         <Footer />
       </Col>
     </Row>
@@ -78,7 +71,6 @@ export default {
     return {
       saveLogin: true, // 保存登录状态
       loading: false, // 加载状态
-      visible: false,
       form: {
         // 表单数据
         username: "",
@@ -242,26 +234,10 @@ export default {
           this.loading = false;
         });
     },
-    // 跳转到相应网站注册
-    handleRegister(role) {
-      let url = null;
-      switch (role) {
-        case "buyer":
-          url = BASE.WEB_URL.buyer;
-          break;
-        case "seller":
-          url = BASE.WEB_URL.seller;
-          break;
-        case "admin":
-          url = BASE.WEB_URL.admin;
-          break;
-      }
-      window.location.href = `${url}/register`;
-    },
   },
   mounted() {
     const query = this.$route.query;
-    if (query && query.username && query.password) {
+    if(query && query.username && query.password){
       this.handleLogin(query.username, query.password);
     }
   },

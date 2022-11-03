@@ -2,33 +2,56 @@
   <div class="login">
     <Row type="flex" @keydown.enter.native="submitLogin">
       <Col style="width: 368px">
-      <Header />
-      <Col offset="20" style="color:red;">
-      <div @click="$router.push('register')">立即注册</div>
-      </Col>
-      <Row style="flex-direction: column;">
-        <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
-          <FormItem prop="username" label="采购方账号">
-            <Input v-model="form.username" prefix="ios-contact" size="large" clearable placeholder="请输入用户名"
-              autocomplete="off" />
-          </FormItem>
-          <FormItem prop="password" label="采购方密码">
-            <Input type="password" v-model="form.password" prefix="ios-lock" size="large" password placeholder="请输入密码"
-              autocomplete="off" />
-          </FormItem>
-        </Form>
-        <Row>
-          <div class="login-btn" type="primary" size="large" :loading="loading" @click="submitLogin" long>
-            <span v-if="!loading">登录</span>
-            <span v-else>登录中</span>
-          </div>
+        <Header />
+        <Col offset="20" style="color: red">
+          <div @click="$router.push('register')">立即注册</div>
+        </Col>
+        <Row style="flex-direction: column">
+          <Form
+            ref="usernameLoginForm"
+            :model="form"
+            :rules="rules"
+            class="form"
+          >
+            <FormItem prop="username" label="采购方账号">
+              <Input
+                v-model="form.username"
+                prefix="ios-contact"
+                size="large"
+                clearable
+                placeholder="请输入用户名"
+                autocomplete="off"
+              />
+            </FormItem>
+            <FormItem prop="password" label="采购方密码">
+              <Input
+                type="password"
+                v-model="form.password"
+                prefix="ios-lock"
+                size="large"
+                password
+                placeholder="请输入密码"
+                autocomplete="off"
+              />
+            </FormItem>
+          </Form>
+          <Row>
+            <div
+              class="login-btn"
+              type="primary"
+              size="large"
+              :loading="loading"
+              @click="submitLogin"
+              long
+            >
+              <span v-if="!loading">登录</span>
+              <span v-else>登录中</span>
+            </div>
+          </Row>
         </Row>
-      </Row>
-      <Footer />
+        <Footer />
       </Col>
     </Row>
-
-
   </div>
 </template>
 
@@ -43,7 +66,6 @@ export default {
   components: {
     Header,
     Footer,
-
   },
   data() {
     return {
@@ -93,7 +115,7 @@ export default {
           } else {
             Cookies.set("userInfoSeller", JSON.stringify(res.result));
           }
-          this.$store.commit("setAvatarPath", res.result.storeLogo);
+          this.$store.commit("setAvatarPath", res.result.face);
           // 加载菜单
           util.initRouter(this);
           this.$router.push({
@@ -107,58 +129,7 @@ export default {
     handleErrCode(code) {
       switch (code) {
         case Code.USER_NOT_EXIST:
-          this.$router.push('register');
-          break;
-        case Code.STORE_NOT_OPEN:
-          // 跳转到店铺开通页面 signup
-          this.setStore("username", this.form.username);
-          this.setStore("password", this.form.password);
-          this.$router.push("signUp");
-          break;
-        case Code.STORE_CLOSE_ERROR:
-          break;
-        case Code.STORE_FIRST_STEP:
-          // 店铺正在审核
-          this.setStore("username", this.form.username);
-          this.setStore("password", this.form.password);
-          // 跳转到signUp第一页
-          this.$router.push({
-            path: 'signUp',
-            query: {
-              current: 0
-            }
-          });
-          break;
-        case Code.STORE_SECOND_STEP:
-          // 店铺正在审核
-          this.setStore("username", this.form.username);
-          this.setStore("password", this.form.password);
-          // 跳转到signUp第二页
-          this.$router.push({
-            path: 'signUp',
-            query: {
-              current: 1
-            }
-          });
-          break;
-        case Code.STORE_ON_APPLYING:
-          // 店铺正在审核
-          this.setStore("username", this.form.username);
-          this.setStore("password", this.form.password);
-          // 跳转到signUp第三页
-          this.$router.push({
-            path: 'signUp',
-            query: {
-              current: 2
-            }
-          });
-          break;
-        case Code.STORE_REFUSED:
-          // 店铺审核不通过
-          this.setStore("username", this.form.username);
-          this.setStore("password", this.form.password);
-          // 跳转到店铺开通页面 signup
-          this.$router.push("signUp");
+          this.$router.push("register");
           break;
       }
     },
@@ -167,55 +138,43 @@ export default {
       this.$refs.usernameLoginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          let fd = new FormData();
-          fd.append('username', this.form.username);
-          fd.append('password', this.md5(this.form.password));
-          login(fd)
-            .then((res) => {
-              this.loading = false;
-              console.log(res);
-              if (!res) return;
-              if (res.success) {
-                this.afterLogin(res);
-              }
-              else this.handleErrCode(res.code);
-              //  else if (res.code === Code.USER_NOT_EXIST) {
-              //   this.$router.push('register');
-              // } else if (res.code === Code.STORE_NOT_OPEN) {
-              //   // 跳转到店铺开通页面 signup
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   this.$router.push("signUp");
-
-              // } else if (res.code === Code.STORE_CLOSE_ERROR) {
-              //   // 店铺被关闭
-              // } else if (res.code === Code.STORE_ON_APPLYING) {
-              //   // 店铺正在审核
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   // 跳转到signUp第三页
-              //   this.$router.push({
-              //     path: 'signUp',
-              //     query: {
-              //       current: 2
-              //     }
-              //   });
-              // } else if (res.code === STORE_REFUSED) {
-              //   // 店铺审核不通过
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   // 跳转到店铺开通页面 signup
-              //   this.$router.push("signUp");
-              // }
-
-            })
-            .catch(() => {
-              this.loading = false;
-            });
+          this.handleLogin(this.form.username, this.form.password);
         }
       });
     },
+    // 登录
+    handleLogin(username, password) {
+      let fd = new FormData();
+      fd.append("username", username);
+      fd.append("password", this.md5(password));
+      login(fd)
+        .then((res) => {
+          this.loading = false;
+          console.log(res);
+          if (!res) return;
+          if (res.success) {
+            this.afterLogin(res);
+          } else this.handleErrCode(res.code);
+        })
+        .catch(() => {
+          this.goToLoginPage();
+          this.loading = false;
+        });
+    },
+    goToLoginPage() {
+      window.location.href = BASE.WEB_URL.seller;
+    },
   },
+  created() {
+    const query = this.$route.query;
+    if (query && query.username && query.password) {
+      this.handleLogin(query.username, query.password);
+    } else {
+      this.goToLoginPage();
+    }
+  },
+
+  mounted() {},
 };
 </script>
 <style lang="scss" scoped>
@@ -228,7 +187,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-
 
   .verify-con {
     position: absolute;
@@ -257,7 +215,7 @@ export default {
   }
 
   .login-btn:hover {
-    opacity: .9;
+    opacity: 0.9;
     border-radius: 10px;
   }
 }

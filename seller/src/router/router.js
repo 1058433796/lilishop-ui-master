@@ -20,16 +20,6 @@ const registerRouter = {
   component: () => import("@/views/register.vue")
 }
 
-// 企业信息注册页面
-const signUpRouter = {
-  path: "/SignUp",
-  name: "signUp",
-  meta: {
-    title: "注册"
-  },
-  component: () => import("@/views/signUp/signUp.vue")
-}
-
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里
 export const otherRouter = {
   path: "/",
@@ -220,4 +210,4 @@ export const page500 = {
 
 
 // 所有上面定义的路由都要写在下面的routers里
-export const routers = [loginRouter, registerRouter, signUpRouter, otherRouter, page500, page403];
+export const routers = [loginRouter, registerRouter, otherRouter, page500, page403];

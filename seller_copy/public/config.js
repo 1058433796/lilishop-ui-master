@@ -10,6 +10,14 @@ var BASE = {
     seller: "http://localhost:8889",
     manager: "http://localhost:8887"
   },
+  /**
+   * @description 各个网站的url
+   */
+  WEB_URL:{
+    buyer: 'http://localhost:10003',
+    seller: 'http://localhost:10002',
+    admin: '',
+  },
   // API_DEV: {
   //   common: "",
   //   buyer: "",
@@ -33,5 +41,6 @@ var BASE = {
   /**
    *  @description api请求基础路径前缀
    */
-  PREFIX: "/store"
+  PREFIX: "/store",
+
 };
