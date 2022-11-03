@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
   next();
   const name = to.name;
   // 前往注册页面
-  if(name === 'signUp' || name === 'register' || name === 'entry'){
+  if(name === 'signUp' || name === 'register'){
     next();
   }
   else if (!Cookies.get('userInfoSeller') && name !== 'login') {

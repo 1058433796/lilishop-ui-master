@@ -4,23 +4,6 @@ var BASE = {
   /**
    * @description api请求基础路径
    */
-<<<<<<< HEAD
-=======
-  API_DEV: {
-    common: "http://localhost:8890",
-    buyer: "https://localhost:8888",
-    seller: "http://localhost:8889",
-    manager: "http://localhost:8887"
-  },
-  /**
-   * @description 各个网站的url
-   */
-  WEB_URL:{
-    buyer: 'http://localhost:10003',
-    seller: 'http://localhost:10002',
-    admin: '',
-  },
->>>>>>> LYJ
   // API_DEV: {
   //   common: "http://localhost:8890",
   //   buyer: "https://localhost:8888",
@@ -50,6 +33,5 @@ var BASE = {
   /**
    *  @description api请求基础路径前缀
    */
-  PREFIX: "/store",
-
+  PREFIX: "/store"
 };

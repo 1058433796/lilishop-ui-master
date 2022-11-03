@@ -3,7 +3,7 @@
         <Row type="flex" @keydown.enter.native="submitRegister">
             <Col style="width: 368px">
             <Header />
-            <Col offset="20" style="color:red;"><div @click="goToLoginPage">前往登录</div></Col>
+            <!-- <Col offset="20" style="color:red;"><div @click="$router.push('signUp')">立即注册</div></Col> -->
             <Row style="flex-direction: column;">
                 <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
                     <FormItem prop="username" label="采购方账号">
@@ -42,7 +42,7 @@
 <script>
 import Header from "@/views/main-components/header";
 import Footer from "@/views/main-components/footer";
-import { userRegister } from "@/api/index";
+import { userRegister, userRegisterWithStore } from "@/api/index";
 import { Message } from "view-design";
 
 export default {
@@ -107,18 +107,15 @@ export default {
                     fd.append('username', this.form.username);
                     fd.append('password', this.md5(this.form.password));
                     fd.append("mobile", this.form.mobile);
-                    userRegister(fd).then(e => {
+                    userRegisterWithStore(fd).then(e => {
                         if(e && e.success){
                             Message.success("注册成功");
-                            this.goToLoginPage();
+                            this.$router.push('login');
                         }
                     })
                 }
             });
         },
-        goToLoginPage(){
-            window.location.href = BASE.WEB_URL.seller;
-        }
     },
 };
 </script>

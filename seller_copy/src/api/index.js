@@ -59,10 +59,6 @@ export const logout = () => {
   return postRequest("/passport/login/logout");
 };
 
-export const userRole = (params) => {
-  return postRequestWithNoTokenData("/passport/login/userRole", params);
-}
-
 // 获取用户登录信息
 export const userInfo = params => {
   return getRequest("/user/info", params);
