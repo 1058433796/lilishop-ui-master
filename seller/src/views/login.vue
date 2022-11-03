@@ -142,57 +142,7 @@ export default {
       this.$refs.usernameLoginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-<<<<<<< HEAD
-          let fd = new FormData();
-          fd.append('username', this.form.username);
-          fd.append('password', this.md5(this.form.password));
-        
-          login(fd)
-            .then((res) => {
-              this.loading = false;
-              if (!res) return;
-              if (res.success) {
-                this.afterLogin(res);
-              }
-              else this.handleErrCode(res.code);
-              //  else if (res.code === Code.USER_NOT_EXIST) {
-              //   this.$router.push('register');
-              // } else if (res.code === Code.STORE_NOT_OPEN) {
-              //   // 跳转到店铺开通页面 signup
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   this.$router.push("signUp");
-
-              // } else if (res.code === Code.STORE_CLOSE_ERROR) {
-              //   // 店铺被关闭
-              // } else if (res.code === Code.STORE_ON_APPLYING) {
-              //   // 店铺正在审核
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   // 跳转到signUp第三页
-              //   this.$router.push({
-              //     path: 'signUp',
-              //     query: {
-              //       current: 2
-              //     }
-              //   });
-              // } else if (res.code === STORE_REFUSED) {
-              //   // 店铺审核不通过
-              //   this.setStore("username", this.form.username);
-              //   this.setStore("password", this.form.password);
-              //   // 跳转到店铺开通页面 signup
-              //   this.$router.push("signUp");
-              // }
-
-            })
-            .catch(() => {
-              this.loading = false;
-            });
-            console.log("fd",fd)
-            
-=======
           this.handleLogin(this.form.username, this.form.password);
->>>>>>> LYJ
         }
       });
     },

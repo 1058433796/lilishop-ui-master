@@ -4,8 +4,6 @@ var BASE = {
   /**
    * @description api请求基础路径
    */
-<<<<<<< HEAD
-=======
   API_DEV: {
     common: "http://localhost:8890",
     buyer: "https://localhost:8888",
@@ -20,7 +18,6 @@ var BASE = {
     seller: 'http://localhost:10002',
     admin: '',
   },
->>>>>>> LYJ
   // API_DEV: {
   //   common: "http://localhost:8890",
   //   buyer: "https://localhost:8888",
