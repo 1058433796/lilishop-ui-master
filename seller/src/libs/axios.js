@@ -39,7 +39,7 @@ service.interceptors.request.use(
       };
     }
     // if(!config.url.startsWith("/common")){
-    //   config.url = '/manager' + config.url
+    //   config.url = '/store' + config.url
     // }
     
     

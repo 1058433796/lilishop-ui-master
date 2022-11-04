@@ -166,6 +166,7 @@ import {
   deleteGoods,
   batchShipTemplate,
 } from "@/api/goods";
+import { testlogin} from "@/api/index";
 import * as API_Shop from "@/api/shops";
 import Cookies from "js-cookie";
 import moment from "moment";
@@ -188,6 +189,10 @@ export default {
         sort: "create_time", // 默认排序字段
         order: "desc", // 默认排序方式
         store_id:''//当前店铺id
+      },
+      userinfo:{
+        username:"23456",
+        password:"23456"
       },
       stockList: [], // 库存列表
       form: {
@@ -478,10 +483,14 @@ export default {
     },
     // 获取商品列表数据
     getDataList() {
+      // testlogin(this.userinfo).then((res)=>{
+      //   console.log("testlogin",res)
+
+      // })
       this.loading = true;
       let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
       console.log('userinfo',userInfo)
-      this.searchForm.buyerId=userInfo.id
+      this.searchForm.buyerId=userInfo.memberId
       // this.searchForm.createTime=this.$options.filters.unixToDate(
       //       this.searchForm.createTime / 1000
       //     );

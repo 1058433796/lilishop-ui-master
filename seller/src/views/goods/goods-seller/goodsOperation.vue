@@ -172,6 +172,7 @@ export default {
         if (valid) {
           this.submitLoading = true;
           let params = JSON.parse(JSON.stringify(this.form));
+          params.designerPass=this.md5(this.form.designerPass)
           // params.itemStatus
           //   ? (params.itemStatus = "已开工")
           //   : (params.itemStatus = "未开工");
@@ -189,7 +190,7 @@ export default {
           }
           console.log('?form')
           console.log(this.form)
-       
+          
           params.replyTime = moment(params.replyTime).format('YYYY-MM-DD HH:mm:ss')
           delete params.rangeTime;
           if (!this.id) {

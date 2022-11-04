@@ -29,6 +29,8 @@
     </Row>
 
 
+
+
   </div>
 </template>
 
@@ -43,6 +45,7 @@ export default {
   components: {
     Header,
     Footer,
+
 
   },
   data() {
@@ -84,6 +87,7 @@ export default {
       let accessToken = res.result.accessToken;
       this.setStore("accessToken", accessToken);
       this.setStore("refreshToken", res.result.refreshToken);
+      console.log("access",accessToken)
 
       // 获取用户信息
       userMsg().then((res) => {
@@ -174,10 +178,10 @@ export default {
           let fd = new FormData();
           fd.append('username', this.form.username);
           fd.append('password', this.md5(this.form.password));
-        
           login(fd)
             .then((res) => {
               this.loading = false;
+              console.log(res);
               if (!res) return;
               if (res.success) {
                 this.afterLogin(res);
@@ -216,8 +220,6 @@ export default {
             .catch(() => {
               this.loading = false;
             });
-            console.log("fd",fd)
-            
         }
       });
     },
@@ -234,6 +236,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+
 
 
   .verify-con {
