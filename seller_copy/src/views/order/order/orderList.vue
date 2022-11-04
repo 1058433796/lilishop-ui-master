@@ -445,7 +445,7 @@ export default {
       let orderId = v.orderId;
       this.$router.push({
         name: "order-detail",
-        query: { orderId: orderId },
+        query: { v },
       });
     },
   },

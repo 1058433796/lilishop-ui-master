@@ -9,3 +9,7 @@ export const getContractList = (params) => {
 export const signContract = (contractId)=> {
   return putRequest(`/contract/contract/${contractId}/sign`)
 }
+// 导出待发货订单
+export const queryExportContract = params => {
+  return getRequest(`/contract/contract/queryExportContract`, params);
+};

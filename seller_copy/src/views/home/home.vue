@@ -60,65 +60,40 @@
           <div class="detail-list">
             <div class="detail-item" @click="navigateTo('orderList')">
               <div>
-                <span>{{homeData.unPaidOrder || 0}}</span>
-                <div>待付款</div>
+                <span>{{homeData.unRepliedOrder || 0}}</span>
+                <div>待响应</div>
               </div>
               <div class="detail-title">
-                交易前
+                待响应订单
               </div>
             </div>
-
+            <div class="detail-item" @click="navigateTo('contractList')">
+              <div>
+                <span>{{homeData.unRepliedContract|| 0}}</span>
+                <div>待响应</div>
+              </div>
+              <div class="detail-title">
+                待响应合同
+              </div>
+            </div>
             <div class="detail-item" @click="navigateTo('orderList')">
               <div>
                 <span>{{homeData.unDeliveredOrder || 0}}</span>
                 <div>待发货</div>
               </div>
+              <div class="detail-title">
+                待发货订单
+              </div>
+            </div>
+
+            <div class="detail-item" @click="navigateTo('orderList')">
               <div>
                 <span>{{homeData.deliveredOrder || 0}}</span>
                 <div>待收货</div>
               </div>
-              <div class="detail-title">
-                交易中
-              </div>
-            </div>
-            <div class="detail-item">
-              <div @click="navigateTo('returnMoneyOrder')">
-                <span>{{homeData.returnMoney || 0}}</span>
-                <div>退款</div>
-              </div>
-              <div @click="navigateTo('returnGoodsOrder')">
-                <span>{{homeData.returnGoods || 0}}</span>
-                <div>退货</div>
-              </div>
-              <div @click="navigateTo('memberComment')">
-                <span>{{homeData.memberEvaluation || 0}}</span>
-                <div>待评价</div>
-              </div>
-              <div class="detail-title">
-                交易后
-              </div>
-            </div>
-            <div class="detail-item" @click="navigateTo('orderComplaint')">
-              <div>
-                <span>{{homeData.complaint || 0}}</span>
-                <div>待处理</div>
-              </div>
 
               <div class="detail-title">
-                投诉
-              </div>
-            </div>
-            <div class="detail-item" @click="navigateTo('goods')">
-              <div>
-                <span>{{homeData.waitUpper || 0}}</span>
-                <div>待上架</div>
-              </div>
-              <div>
-                <span>{{homeData.waitAuth || 0}}</span>
-                <div>审核中</div>
-              </div>
-              <div class="detail-title">
-                商品
+                待签收订单
               </div>
             </div>
 
@@ -145,11 +120,11 @@
           </div>
           <div>
             <div class="counts">{{homeData.goodsNum ||0}}</div>
-            <div>商品数量</div>
+            <div>产品数量</div>
           </div>
 
         </div>
-        <div class="count-item" @click="navigateTo('orderStatistics')">
+        <div class="count-item" @click="navigateTo('orderList')">
           <div>
             <Icon class="icon" size="31" type="ios-card" />
           </div>
@@ -167,16 +142,6 @@
           <div>
             <div class="counts">{{homeData.orderNum ||0}}</div>
             <div>订单数量</div>
-          </div>
-
-        </div>
-        <div class="count-item" @click="navigateTo('trafficStatistics')">
-          <div>
-            <Icon class="icon" size="31" type="md-person" />
-          </div>
-          <div>
-            <div class="counts">{{homeData.storeUV ||0}}</div>
-            <div>访客数量</div>
           </div>
 
         </div>

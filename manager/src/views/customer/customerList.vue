@@ -11,7 +11,7 @@
         <Form-item label="会员名称" prop="buyerName">
           <Input
             type="text"
-            v-model="searchForm.buyerName"
+            v-model="searchForm.storeName"
             clearable
             placeholder="请输入客户名"
             style="width: 160px"

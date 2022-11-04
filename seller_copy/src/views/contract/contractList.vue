@@ -68,7 +68,15 @@
         </Form>
       </Row>
       <Row class="operation padding-row">
-        <Button @click="newAct" type="primary">导出合同</Button>
+        <download-excel
+          style="display: inline-block"
+          :data="data"
+          :fields="excelColumns"
+          :fetch="exportContract"
+          name="订单.xls"
+        >
+          <Button>导出合同</Button>
+        </download-excel>
       </Row>
       <Table :loading="loading" border :columns="columns" :data="data" ref="table">
         <template slot-scope="{ row }" slot="action">
@@ -103,7 +111,8 @@
 
 <script>
 // 合同列表页面
-import { getContractList } from "@/api/contract";
+import { getContractList,queryExportContract } from "@/api/contract";
+import Cookies from "js-cookie";
 export default {
   name: "contractList",
   data() {
@@ -193,6 +202,19 @@ export default {
       time: "",
       data: [], // 表单数据
       total: 0, // 表单数据总数
+      excelColumns: {
+        // 导出excel的参数
+        编号: "index",
+        合同号: "id",
+        采购方ID :"buyerId",
+        采购方名称: "buyerName",
+        供应商ID :"buyerId",
+        供应商名称: "buyerName",
+        采购方签署状态: "buyerState",
+        供应商签署状态: "providerState",
+        合同金额: "amount",
+        合同时间: "createTime",
+      },
     };
   },
   methods: {
@@ -202,6 +224,40 @@ export default {
     },
     check(row) {
       this.$router.push({name: "contractDetail", query: {data: row}})
+    },
+    async exportContract() {
+      let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
+      const params = {
+        // 搜索框初始化对象
+        pageNumber: 1, // 当前页数
+        pageSize: 10000, // 页面大小
+        sort: "startDate", // 默认排序字段
+        order: "desc", // 默认排序方式
+        startDate: "", // 起始时间
+        endDate: "", // 终止时间
+        orderId: "",
+        buyerName: "",
+        tag: "WAIT_SHIP",
+        orderType: "NORMAL",
+        storeId: userInfo.id,
+      };
+      const res = await queryExportContract(params);
+      if (res.success) {
+        if (res.result.length === 0) {
+          this.$Message.warning("暂无合同");
+          return [];
+        }
+        for (let i = 0; i < res.result.length; i++) {
+          res.result[i].index = i + 1;
+          res.result[i].amount = this.$options.filters.unitPrice(
+            res.result[i].amount,
+            "￥"
+          );
+        }
+        return res.result;
+      } else {
+        this.$Message.warning("导出合同失败，请重试");
+      }
     },
     // 改变页码
     changePage(v) {
