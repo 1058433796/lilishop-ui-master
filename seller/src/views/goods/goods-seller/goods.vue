@@ -490,7 +490,7 @@ export default {
       this.loading = true;
       let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
       console.log('userinfo',userInfo)
-      this.searchForm.buyerId=userInfo.memberId
+      this.searchForm.buyerId=userInfo.id
       // this.searchForm.createTime=this.$options.filters.unixToDate(
       //       this.searchForm.createTime / 1000
       //     );
