@@ -1,6 +1,6 @@
 var BASE = {
   // 开发模式 dev/pro
-  MODE:'pro',
+  MODE:'dev',
   /**
    * @description api请求基础路径
    */
