@@ -2,25 +2,58 @@
   <div class="login">
     <Row type="flex" @keydown.enter.native="submitLogin">
       <Col style="width: 368px">
-      <Header />
-      <Col offset="20" style="color:red;">
-      <div @click="$router.push('register')">立即注册</div>
-      </Col>
-      <Row style="flex-direction: column;">
-        <Form ref="usernameLoginForm" :model="form" :rules="rules" class="form">
-          <FormItem prop="username" label="供应商账号">
-            <Input v-model="form.username" prefix="ios-contact" size="large" clearable placeholder="请输入用户名"
-              autocomplete="off" />
-          </FormItem>
-          <FormItem prop="password" label="供应商密码">
-            <Input type="password" v-model="form.password" prefix="ios-lock" size="large" password placeholder="请输入密码"
-              autocomplete="off" />
-          </FormItem>
-        </Form>
-        <Row>
-          <div class="login-btn" type="primary" size="large" :loading="loading" @click="submitLogin" long>
-            <span v-if="!loading">登录</span>
-            <span v-else>登录中</span>
+        <Header />
+        <Col offset="20" style="color: red">
+          <div @click="visible = true">立即注册</div>
+        </Col>
+        <Row style="flex-direction: column">
+          <Form
+            ref="usernameLoginForm"
+            :model="form"
+            :rules="rules"
+            class="form"
+          >
+            <FormItem prop="username" label="账号">
+              <Input
+                v-model="form.username"
+                prefix="ios-contact"
+                size="large"
+                clearable
+                placeholder="请输入用户名"
+                autocomplete="off"
+              />
+            </FormItem>
+            <FormItem prop="password" label="密码">
+              <Input
+                type="password"
+                v-model="form.password"
+                prefix="ios-lock"
+                size="large"
+                password
+                placeholder="请输入密码"
+                autocomplete="off"
+              />
+            </FormItem>
+          </Form>
+          <Row>
+            <div
+              class="login-btn"
+              type="primary"
+              size="large"
+              :loading="loading"
+              @click="submitLogin"
+              long
+            >
+              <span v-if="!loading">登录</span>
+              <span v-else>登录中</span>
+            </div>
+          </Row>
+        </Row>
+        <Modal v-model="visible" title="请选择注册账号类型">
+          <div style="display: flex; justify-content: space-around">
+            <Button @click="handleRegister('buyer')">采购方</Button>
+            <Button @click="handleRegister('seller')">供应商</Button>
+            <!-- <Button @click="handleRegister('admin')">管理员</Button> -->
           </div>
         </Row>
 
@@ -217,6 +250,48 @@ export default {
         }
       });
     },
+    // 登录
+    handleLogin(username, password) {
+      let fd = new FormData();
+      fd.append("username", username);
+      fd.append("password", this.md5(password));
+      login(fd)
+        .then((res) => {
+          this.loading = false;
+          console.log(res);
+          if (!res) return;
+          if (res.success) {
+            this.afterLogin(res);
+          } else {
+            this.handleErrCode(res.code);
+          }
+        })
+        .catch(() => {
+          this.loading = false;
+        });
+    },
+    // 跳转到相应网站注册
+    handleRegister(role) {
+      let url = null;
+      switch (role) {
+        case "buyer":
+          url = BASE.WEB_URL.buyer;
+          break;
+        case "seller":
+          url = BASE.WEB_URL.seller;
+          break;
+        case "admin":
+          url = BASE.WEB_URL.admin;
+          break;
+      }
+      window.location.href = `${url}/register`;
+    },
+  },
+  mounted() {
+    const query = this.$route.query;
+    if (query && query.message) {
+      this.$Message.error(query.message);
+    }
   },
 };
 </script>

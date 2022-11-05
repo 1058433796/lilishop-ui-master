@@ -18,10 +18,6 @@
                         <Input type="password" prefix="ios-lock" v-model="form.repassword" size="large" password
                             placeholder="请再次输入密码" autocomplete="off" />
                     </FormItem>
-                    <!-- <FormItem prop="mobile" label="手机号">
-                        <Input type="number" v-model="form.mobile" prefix="ios-lock" size="large" password
-                            placeholder="请输入手机号" autocomplete="off" />
-                    </FormItem> -->
                 </Form>
                 <Row>
                     <div class="login-btn" type="primary" size="large" :loading="loading" @click="submitRegister" long>

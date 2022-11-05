@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
   ViewUI.LoadingBar.start();
   Util.title(to.meta.title);
   
-  next();
+  // next();
   const name = to.name;
   // 前往注册页面
   if(name === 'signUp' || name === 'register'){

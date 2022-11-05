@@ -223,6 +223,35 @@ export default {
         }
       });
     },
+
+    // 登录
+    handleLogin(username, password) {
+      let fd = new FormData();
+      fd.append("username", username);
+      fd.append("password", this.md5(password));
+      login(fd)
+        .then((res) => {
+          this.loading = false;
+          console.log(res);
+          if (!res) {
+            this.goToLoginPage("服务器繁忙");
+            return;
+          }
+          if (res.success) {
+            this.afterLogin(res);
+          } else {
+            // this.handleErrCode(res.code);
+            this.goToLoginPage(res.message);
+          }
+        })
+        .catch(() => {
+          // this.goToLoginPage("服务器繁忙");
+          this.loading = false;
+        });
+    },
+    goToLoginPage(message) {
+      window.location.href = BASE.WEB_URL.seller + `/login?message=${message}`;
+    },
   },
 };
 </script>
