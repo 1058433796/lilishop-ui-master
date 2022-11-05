@@ -151,18 +151,24 @@ export default {
         .then((res) => {
           this.loading = false;
           console.log(res);
-          if (!res) return;
+          if (!res) {
+            this.goToLoginPage("服务器繁忙");
+            return;
+          }
           if (res.success) {
             this.afterLogin(res);
-          } else this.handleErrCode(res.code);
+          } else {
+            // this.handleErrCode(res.code);
+            this.goToLoginPage(res.message);
+          }
         })
         .catch(() => {
-          this.goToLoginPage();
+          // this.goToLoginPage("服务器繁忙");
           this.loading = false;
         });
     },
-    goToLoginPage() {
-      window.location.href = BASE.WEB_URL.seller;
+    goToLoginPage(message) {
+      window.location.href = BASE.WEB_URL.seller + `/login?message=${message}`;
     },
   },
   created() {

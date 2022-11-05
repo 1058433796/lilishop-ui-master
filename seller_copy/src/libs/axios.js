@@ -7,14 +7,20 @@ import { handleRefreshToken } from "@/api/index";
 import {v4 as uuidv4} from 'uuid';
 
 
+// // 统一请求路径前缀
+// export const baseUrl =
+//   (process.env.NODE_ENV === "development"
+//     ?  BASE.API_DEV.seller
+//     : BASE.API_PROD.seller) + BASE.PREFIX;
+
 // 统一请求路径前缀
 export const baseUrl =
-  (process.env.NODE_ENV === "development"
-    ?  BASE.API_DEV.seller
-    : BASE.API_PROD.seller) + BASE.PREFIX;
+  (BASE.MODE === "dev"
+    ?  BASE.API_DEV.seller + BASE.PREFIX
+    : BASE.API_PROD.seller);
 
 export const commonUrl =
-  process.env.NODE_ENV === "development"
+  BASE.MODE === "dev"
     ? BASE.API_DEV.common
     : BASE.API_PROD.common;
 
@@ -28,7 +34,7 @@ const refreshToken = getTokenDebounce();
 
 const service = axios.create({
   timeout: 10000,
-  baseURL:null //baseUrl null
+  baseURL:baseUrl
 });
 service.interceptors.request.use(
   config => {
@@ -39,8 +45,7 @@ service.interceptors.request.use(
       };
     }
 
-    
-    if(!config.url.startsWith("/common")){
+    if(BASE.MODE === 'pro' && !config.url.startsWith("/common")){
       config.url = '/store' + config.url
     }
     

@@ -95,6 +95,26 @@
                   style="width: 260px"
                 />
               </FormItem>
+
+              <FormItem label="库存数量" prop="quantity">
+                <Input
+                  type="number"
+                  v-model="baseInfoForm.quantity"
+                  placeholder="请输入"
+                  clearable
+                  style="width: 260px"
+                />
+              </FormItem>
+
+              <FormItem label="计量单位" prop="goodsCountUnit">
+                <Input
+                  type="text"
+                  v-model="baseInfoForm.goodsCountUnit"
+                  placeholder="请输入"
+                  clearable
+                  style="width: 260px"
+                />
+              </FormItem>
             </div>
           </div>
           <h4>商品资料及图片</h4>
@@ -121,9 +141,7 @@
                           <Icon
                             type="md-search"
                             size="30"
-                            @click.native="
-                              handleViewGoodsPicture(item.url)
-                            "
+                            @click.native="handleViewGoodsPicture(item.url)"
                           ></Icon>
                           <Icon
                             type="md-trash"
@@ -208,7 +226,9 @@
                           :src="item.file.url"
                           style="w  idth: 100%; height: 100%"
                         /> -->
-                        <div class="badge">{{getItemLabelByValue(item.type)}}</div>
+                        <div class="badge">
+                          {{ getItemLabelByValue(item.type) }}
+                        </div>
                       </div>
 
                       <div class="demo-upload-list-cover">
@@ -427,11 +447,18 @@
             </formItem>
 
             <formItem label="尺寸规格" prop="size">
-              <Select v-model="baseInfoForm.size" style="width: 100px">
+              <!-- <Select v-model="baseInfoForm.size" style="width: 100px">
                 <Option v-for="item in sizeList" :value="item" :key="item">{{
                   item
                 }}</Option>
-              </Select>
+              </Select> -->
+              <Input
+                type="text"
+                v-model="baseInfoForm.size"
+                placeholder="请输入"
+                clearable
+                style="width: 260px"
+              />
             </formItem>
 
             <formItem label="承重" prop="loadBearing">
@@ -455,14 +482,21 @@
               </Select>
             </formItem>
             <formItem label="可调节参数" prop="adjustParam">
-              <Select v-model="baseInfoForm.adjustParam" style="width: 100px">
-                <Option
+              <!-- <Select v-model="baseInfoForm.adjustParam" style="width: 100px"> -->
+              <!-- <Option
                   v-for="item in adjustParamList"
                   :value="item"
                   :key="item"
                   >{{ item }}</Option
                 >
-              </Select>
+              </Select> -->
+              <Input
+                type="text"
+                v-model="baseInfoForm.adjustParam"
+                placeholder="请输入"
+                clearable
+                style="width: 260px"
+              />
             </formItem>
           </div>
 
@@ -601,7 +635,12 @@ export default {
       forceLevelList: MetaData.forceLevelList,
       adjustParamList: MetaData.adjustParamList,
       // 文件类型列表
-      fileTypeList: [ {label: '说明书', value:' INSTRUCTION'}, {label: '检测报告', value:'REPORT'}, {label:'模型', value:'MODEL'}, {label:'其他', value:'OTHER'}],
+      fileTypeList: [
+        { label: "说明书", value: " INSTRUCTION" },
+        { label: "检测报告", value: "REPORT" },
+        { label: "模型", value: "MODEL" },
+        { label: "其他", value: "OTHER" },
+      ],
       // 允许上传文件类型
       allowFileFormatList: [],
     };
@@ -682,7 +721,7 @@ export default {
       window.open(url);
     },
     // modal打开时事件
-    handleUploadModalOpen(fileListName, formName, uploadForm=null) {
+    handleUploadModalOpen(fileListName, formName, uploadForm = null) {
       this.uploadFileVisible = true;
       //  重置参数
       this.uploadForm = uploadForm || {
@@ -806,18 +845,18 @@ export default {
       // 报告处理&说明书处理
     },
     // 点击图片后显示modal
-    handleEditFile(file, type, fileListName, formName){
+    handleEditFile(file, type, fileListName, formName) {
       let uploadForm = {
         uploadFiles: [file],
         fileType: type,
         fileListName,
         formName,
       };
-      this.handleUploadModalOpen(fileListName, formName, uploadForm)
+      this.handleUploadModalOpen(fileListName, formName, uploadForm);
     },
-    getItemLabelByValue(value){
-      return this.fileTypeList.filter(item => item.value === value)[0].label
-    }
+    getItemLabelByValue(value) {
+      return this.fileTypeList.filter((item) => item.value === value)[0].label;
+    },
   },
 
   mounted() {
@@ -864,9 +903,9 @@ export default {
   border-radius: 10px;
   border: 1px solid transparent;
   line-height: 18px;
-  background-color:#5DADE2;
+  background-color: #5dade2;
   height: 20px;
   width: 60px;
-  color:white;
+  color: white;
 }
 </style>

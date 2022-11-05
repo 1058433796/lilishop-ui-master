@@ -13,7 +13,7 @@
             :rules="rules"
             class="form"
           >
-            <FormItem prop="username" label="供应商账号">
+            <FormItem prop="username" label="账号">
               <Input
                 v-model="form.username"
                 prefix="ios-contact"
@@ -23,7 +23,7 @@
                 autocomplete="off"
               />
             </FormItem>
-            <FormItem prop="password" label="供应商密码">
+            <FormItem prop="password" label="密码">
               <Input
                 type="password"
                 v-model="form.password"
@@ -53,7 +53,7 @@
           <div style="display: flex; justify-content: space-around">
             <Button @click="handleRegister('buyer')">采购方</Button>
             <Button @click="handleRegister('seller')">供应商</Button>
-            <Button @click="handleRegister('admin')">管理员</Button>
+            <!-- <Button @click="handleRegister('admin')">管理员</Button> -->
           </div>
         </Modal>
         <Footer />
@@ -236,7 +236,9 @@ export default {
           if (!res) return;
           if (res.success) {
             this.afterLogin(res);
-          } else this.handleErrCode(res.code);
+          } else {
+            this.handleErrCode(res.code);
+          }
         })
         .catch(() => {
           this.loading = false;
@@ -261,8 +263,8 @@ export default {
   },
   mounted() {
     const query = this.$route.query;
-    if (query && query.username && query.password) {
-      this.handleLogin(query.username, query.password);
+    if (query && query.message) {
+      this.$Message.error(query.message);
     }
   },
 };

@@ -9,32 +9,34 @@ var BASE = {
   //   manager: "https://admin-api.pickmall.cn"
   // },
   API_DEV: {
-    // common:"",
-    // buyer:"",
-    // seller:"",
-    // manager:""
-    common: "http://localhost:8890",
-    buyer: "http://localhost:8888",
-    seller: "http://localhost:8888",
-    manager: "http://localhost:8887"
+    common:"",
+    buyer:"",
+    seller:"",
+    manager:""
+    // common: "http://localhost:8890",
+    // buyer: "http://localhost:8888",
+    // seller: "http://localhost:8888",
+    // manager: "http://localhost:8887"
   },
   API_PROD: {
-    // common:"",
-    // buyer:"",
-    // seller:"",
-    // manager:""
-    common: "http://localhost:8890",
-    buyer: "http://localhost:8888",
-    seller: "http://localhost:8888",
-    manager: "http://localhost:8887"
+    common:"",
+    buyer:"",
+    seller:"",
+    manager:""
+    // common: "http://localhost:8890",
+    // buyer: "http://localhost:8888",
+    // seller: "http://localhost:8888",
+    // manager: "http://localhost:8887"
   },
     /**
    * @description 各个网站的url
    */
      WEB_URL:{
-      buyer: 'http://localhost:10003',
-      seller: 'http://localhost:10002',
-      admin: '',
+      // buyer: 'http://localhost:10003',
+      // seller: 'http://localhost:10002',
+      // admin: '',
+      buyer: "http://112.230.202.198:9090/",
+      seller: "http://112.230.202.198:9091/"
     },
   /**
    * @description // 跳转买家端地址 pc端
