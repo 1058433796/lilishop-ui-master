@@ -39,4 +39,3 @@ var BASE = {
    */
   PREFIX: "/manager",
 };
->>>>>>> LYJ
