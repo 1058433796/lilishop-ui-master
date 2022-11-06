@@ -1,6 +1,17 @@
 <template>
   <div>
     <div class="content-goods-publish">
+     <div>
+       <Input
+                  type="text"
+                  v-model="message"
+                  placeholder="快捷导入"
+                  clearable
+                  style="width: 260px"
+                  @keydown.enter="fillForm(message)"
+                />
+              <Button @click="fillForm(message)">deal</Button>
+     </div>
       <Form
         ref="baseInfoForm"
         :model="baseInfoForm"
@@ -578,6 +589,7 @@ export default {
       accessToken: "", //令牌token
       goodsParams: "",
       categoryId: "", // 商品分类第三级id
+      message: "",
       // 类别名称
       categoryName: [],
       //提交状态
@@ -856,6 +868,39 @@ export default {
     },
     getItemLabelByValue(value) {
       return this.fileTypeList.filter((item) => item.value === value)[0].label;
+    },
+    fillForm(message) {
+      console.log('fillForm');
+      const items = message.trim().split("\t");
+      const columns = [
+        "goodsCode",
+        "goodsName",
+        "quantity",
+        "goodsCountUnit",
+        "goodsBrand",
+        "goodsDisplayPrice",
+        "intro",
+        "ansiCert",
+        "enCert",
+        "gbCert",
+        "fireProofCert",
+        "material",
+        "size",
+        "loadBearing",
+        "forceLevel",
+        "adjustParam",
+        "auxCert",
+        "decoration",
+      ];
+      while (items.length > columns.length) {
+        items.shift();
+      }
+      columns.forEach((value, index) => {
+        this.baseInfoForm[value] = items[index];
+      });
+      
+      let file = {url: 'https://img.tukuppt.com/png_preview/00/10/82/K8fmk9G3BI.jpg!/fw/780'}
+      this["baseInfoForm"]["goodsGalleryFiles"].push(file);
     },
   },
 
