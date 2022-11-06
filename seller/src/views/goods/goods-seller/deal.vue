@@ -56,6 +56,7 @@ export default {
             ],
             current_process :0,
             form :  this.$route.query.Form,
+            itemid:this.$route.query.id,
             process : "zhifu",
             orderInfo : [],
             fullData: [],
@@ -84,7 +85,8 @@ export default {
             console.log("testform",this.$route.query.Form);
             // this.current_process = index
             if (index === 1) {
-                establishOrder(this.form.primaryId).then(res => {
+                //primaryid是schemeid=1，传入itemid进行新建
+                establishOrder(this.form.primaryId,this.itemid).then(res => {
                     console.log("建立订单");
                     console.log(res);
                     this.childData = res.result;
@@ -99,6 +101,7 @@ export default {
         // },
 
         contractSign(row) {
+            console.log("contract",row)
             createContract(row.orderId).then(res=> {
                 if (res.success) {
                     console.log(res)
@@ -146,7 +149,7 @@ export default {
         backOrderResponse(orderId) {
             console.log("backOrderResponse");
             console.log(orderId);
-            getAssociatedOrders(orderId).then(res=> {
+            getAssociatedOrders(this.itemid).then(res=> {
                 if (res.success) {
                     this.childData = res.result;
                     this.process = orderResponse;

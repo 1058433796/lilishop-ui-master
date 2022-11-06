@@ -147,8 +147,8 @@ export default {
         endTime: "",
         designerName:"",
         designerPass:"",
-        buyerId: JSON.parse(Cookies.get("userInfoSeller")).memberId,
-        buyerName:JSON.parse(Cookies.get("userInfoSeller")).memberName
+        buyerId: JSON.parse(Cookies.get("userInfoSeller")).id,
+        buyerName:JSON.parse(Cookies.get("userInfoSeller")).nickName
       },
       submitLoading: false, // 添加或编辑提交状态
       // options: {

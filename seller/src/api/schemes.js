@@ -38,8 +38,8 @@ import {
     return postRequest(`/payMent/payMent/pay/${zongji}/${ordersn}`)
   }
   // 生成订单
-  export const establishOrder=(id) => {
-    return postRequest(`/schemeComponent/schemeComponent/${id}/supplier`)
+  export const establishOrder=(id,itemid) => {
+    return postRequest(`/schemeComponent/schemeComponent/${id}/${itemid}/supplier`)
   }
 
   export const searchGuaranty = (params) => {

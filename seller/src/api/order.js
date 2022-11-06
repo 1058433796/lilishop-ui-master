@@ -143,8 +143,8 @@ export const getOrderComponent = (oid, storeId) =>{
   return getRequest(`/itemOrder/itemOrder/provide/${oid}/${storeId}`)
 }
 
-export const getAssociatedOrders = (oid) =>{
-  return getRequest(`/itemOrder/itemOrder/associated/${oid}`)
+export const getAssociatedOrders = (itemid) =>{
+  return getRequest(`/itemOrder/itemOrder/associated/${itemid}`)
 }
 
 export const getAssociatedContractOrders = (oid) =>{

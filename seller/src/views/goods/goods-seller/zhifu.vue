@@ -113,9 +113,10 @@
         computed: {},
         methods: {
             shaxiang() {
-                console.log(typeof(this.form.zongji))
-                console.log(typeof(this.form.ordersn))
-                testPayBack(this.form.zongji,this.form.ordersn).then(res=>{
+                console.log("sx")
+                console.log(this.form.zongji)
+                console.log(this.$route.query.id)
+                testPayBack(this.form.zongji,this.$route.query.id).then(res=>{
                     console.log(res)
                     window.localStorage.setItem('callbackHTML', res)
                     var newWin = window.open('', '_blank')

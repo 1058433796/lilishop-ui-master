@@ -318,7 +318,7 @@ export default {
       console.log("?")
       console.log(this.guarantyForm)
       let params = JSON.parse(JSON.stringify(this.guarantyForm));
-      this.$router.push({ name: "deal", query: { Form: this.guarantyForm } });
+      this.$router.push({ name: "deal", query: { Form: this.guarantyForm ,id :this.id} });
       // saveGuaranty(params).then((res)=>{
       //   this.$router.push({ name: "deal", query: { Form: this.guarantyForm } });
       // })
