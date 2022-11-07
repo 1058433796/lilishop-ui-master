@@ -15,9 +15,13 @@ var BASE = {
    * @description 各个网站的url
    */
   WEB_URL: {
+    //调试
     buyer: "http://localhost:10003",
     seller: "http://localhost:10002",
     admin: "http://localhost:10004",
+    //部署
+    // buyer: "http://112.230.202.198:9090",
+    // seller: "http://112.230.202.198:9091"
   },
   API_PROD: {
     common: "",
