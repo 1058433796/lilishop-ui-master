@@ -7,28 +7,34 @@ import { handleRefreshToken } from "@/api/index";
 import {v4 as uuidv4} from 'uuid';
 
 
+// // 统一请求路径前缀
+// export const baseUrl =
+//   (process.env.NODE_ENV === "development"
+//     ?  BASE.API_DEV.seller
+//     : BASE.API_PROD.seller) + BASE.PREFIX;
+
 // 统一请求路径前缀
 export const baseUrl =
-  (process.env.NODE_ENV === "development"
-    ?  BASE.API_DEV.seller
-    : BASE.API_PROD.seller) + BASE.PREFIX;
-// 
-export const commonUrlWithNoPrefix = 
-process.env.NODE_ENV === "development"
-    ?  BASE.API_DEV.common
-    : BASE.API_PROD.common
+  (BASE.MODE === "dev"
+    ?  BASE.API_DEV.seller + BASE.PREFIX
+    : BASE.API_PROD.seller);
 
 export const commonUrl =
-  process.env.NODE_ENV === "development"
+  BASE.MODE === "dev"
     ? BASE.API_DEV.common
     : BASE.API_PROD.common;
+
 // 文件上传接口
 export const uploadFile = commonUrl + "/common/common/upload/file";
+
+export const uploadFileWithoutValid = commonUrl + "/common/common/upload/fileUpload"
+
 var isRefreshToken = 0;
 const refreshToken = getTokenDebounce();
+
 const service = axios.create({
   timeout: 10000,
-  baseURL:baseUrl//baseUrl null部署
+  baseURL:baseUrl
 });
 service.interceptors.request.use(
   config => {
@@ -38,10 +44,10 @@ service.interceptors.request.use(
         ...config.params
       };
     }
-    // if(!config.url.startsWith("/common")){
-    //   config.url = '/store' + config.url
-    // }
-    
+
+    if(BASE.MODE === 'pro' && !config.url.startsWith("/common")){
+      config.url = BASE.PREFIX + config.url
+    }
     
     let uuid = getStore("uuid");
     if (!uuid) {
@@ -84,6 +90,7 @@ service.interceptors.response.use(
           } else {
             Message.error("未知错误，请重新登录");
           }
+          console.log('401错误，router.push /login');
           router.push("/login");
         }
         break;
@@ -118,11 +125,13 @@ service.interceptors.response.use(
               );
               return service(error.response.config);
             } else {
+              console.log('async err function router.go 0');
               router.go(0);
             }
           } else {
             Cookies.set("userInfoSeller", "");
             router.push("/login");
+            console.log('if (getTokenRes === "success")不成立 router.push /login');
           }
           isRefreshToken = 0;
         }

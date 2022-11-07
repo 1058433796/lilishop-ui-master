@@ -46,7 +46,7 @@ service.interceptors.request.use(
     }
 
     if(BASE.MODE === 'pro' && !config.url.startsWith("/common")){
-      config.url = '/store' + config.url
+      config.url = BASE.PREFIX + config.url
     }
     
     let uuid = getStore("uuid");
