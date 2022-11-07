@@ -1,30 +1,41 @@
 import axios from "axios";
-import { getStore, setStore } from "./storage.js";
+import { getStore, setStore } from "./storage";
 import { router } from "../router/index";
 import { Message } from "view-design";
 import Cookies from "js-cookie";
-import { handleRefreshToken } from "../api/index";
+import { handleRefreshToken } from "@/api/index";
 import {v4 as uuidv4} from 'uuid';
 
+
+// // 统一请求路径前缀
+// export const baseUrl =
+//   (process.env.NODE_ENV === "development"
+//     ?  BASE.API_DEV.seller
+//     : BASE.API_PROD.seller) + BASE.PREFIX;
+
 // 统一请求路径前缀
+export const managerUrl =
+  (BASE.MODE === "dev"
+    ?  BASE.API_DEV.manager + BASE.PREFIX
+    : BASE.API_PROD.manager);
+
 export const commonUrl =
-  process.env.NODE_ENV === "development"
+  BASE.MODE === "dev"
     ? BASE.API_DEV.common
     : BASE.API_PROD.common;
-export const managerUrl =
-  (process.env.NODE_ENV === "development"
-    ? BASE.API_DEV.manager
-    : BASE.API_PROD.manager) + BASE.PREFIX;
+
 // 文件上传接口
 export const uploadFile = commonUrl + "/common/common/upload/file";
 
+export const uploadFileWithoutValid = commonUrl + "/common/common/upload/fileUpload"
 
-const service = axios.create({
-  timeout: 8000,
-  baseURL: managerUrl
-});
 var isRefreshToken = 0;
 const refreshToken = getTokenDebounce();
+
+const service = axios.create({
+  timeout: 10000,
+  baseURL:managerUrl
+});
 service.interceptors.request.use(
   config => {
     if (config.method == "get") {
@@ -33,17 +44,23 @@ service.interceptors.request.use(
         ...config.params
       };
     }
+
+    if(BASE.MODE === 'pro' && !config.url.startsWith("/common")){
+      config.url = BASE.PREFIX + config.url
+    }
+    
     let uuid = getStore("uuid");
     if (!uuid) {
       uuid = uuidv4();
       setStore('uuid', uuid);
     }
+
     config.headers["uuid"] = uuid;
     return config;
   },
   err => {
     Message.error("请求超时");
-    return Promise.reject(err);
+    return Promise.resolve(err);
   }
 );
 
@@ -63,10 +80,9 @@ service.interceptors.response.use(
           Message.error("系统异常");
         }
         break;
-      case 20004:
       case 401:
         // 未登录 清除已登录状态
-        Cookies.set("userInfoManager", "");
+        Cookies.set("userInfoSeller", "");
         setStore("accessToken", "");
         if (router.history.current.name != "login") {
           if (data.message !== null) {
@@ -74,9 +90,9 @@ service.interceptors.response.use(
           } else {
             Message.error("未知错误，请重新登录");
           }
+          console.log('401错误，router.push /login');
           router.push("/login");
         }
-        return data;
         break;
       case 500:
         // 系统异常
@@ -97,7 +113,7 @@ service.interceptors.response.use(
         // 这种情况一般调到登录页
       } else if (error.response.status === 404) {
         // 避免刷新token报错
-      } else if (error.response.status === 403 || error.response.data.code === 20004) {
+      } else if (error.response.status === 403) {
         isRefreshToken++;
         if (isRefreshToken === 1) {
           const getTokenRes = await refreshToken();
@@ -109,20 +125,22 @@ service.interceptors.response.use(
               );
               return service(error.response.config);
             } else {
+              console.log('async err function router.go 0');
               router.go(0);
             }
           } else {
-            Cookies.set("userInfoManager", "");
+            Cookies.set("userInfoSeller", "");
             router.push("/login");
+            console.log('if (getTokenRes === "success")不成立 router.push /login');
           }
           isRefreshToken = 0;
         }
       } else {
         // 其他错误处理
-        console.log(error.response.data);
         Message.error(error.response.data.message);
       }
     }
+
     /* router.push("/login") */
     return Promise.resolve(error);
   }
@@ -148,7 +166,7 @@ function getTokenDebounce() {
           } else {
             success = false;
             lock = false;
-            router.push("/login");
+            // router.push('/login')
           }
         })
         .catch(err => {
@@ -172,16 +190,23 @@ function getTokenDebounce() {
   };
 }
 
-export const getRequest = (url, params) => {
+export const getRequest = (url, params, resBlob) => {
   let accessToken = getStore("accessToken");
-  return service({
+  let data = {
     method: "get",
     url: `${url}`,
     params: params,
     headers: {
       accessToken: accessToken
-    }
-  });
+    },
+    responseType: "blob"
+  };
+  if (resBlob != "blob") {
+    delete data.responseType;
+  }
+
+
+  return service(data);
 };
 
 export const postRequest = (url, params, headers) => {
@@ -228,19 +253,19 @@ export const postRequestWithNoForm = (url, params) => {
   });
 };
 
-// export const postRequestWithHeaders = (url, params) => {
-//   let accessToken = getStore("accessToken");
-//   return axios({
-//     method: "post",
-//     url: `${url}`,
-//     data: params,
+export const postRequestWithHeaders = (url, params) => {
+  let accessToken = getStore("accessToken");
+  return axios({
+    method: "post",
+    url: `${url}`,
+    data: params,
 
-//     headers: {
-//       accessToken: accessToken,
-//       "Content-Type": "application/x-www-form-urlencoded"
-//     }
-//   });
-// };
+    headers: {
+      accessToken: accessToken,
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  });
+};
 
 export const putRequest = (url, params, headers) => {
   let accessToken = getStore("accessToken");
@@ -322,6 +347,8 @@ export const uploadFileRequest = (url, params) => {
   });
 };
 
+
+
 /**
  * 无需token验证的请求 避免旧token过期导致请求失败
  * @param {*} url
@@ -344,7 +371,10 @@ export const postRequestWithNoToken = (url, params) => {
   return service({
     method: "post",
     url: `${url}`,
-    params: params
+    params: params,
+    // headers: {
+    //   'Content-Type': 'application/json'
+    // }
   });
 };
 
@@ -353,7 +383,7 @@ export const postRequestWithNoToken = (url, params) => {
  * @param {*} url
  * @param {*} params
  */
-export const postRequestWithNoTokenData = (url, params) => {
+ export const postRequestWithNoTokenData = (url, params) => {
   return service({
     method: "post",
     url: `${url}`,
@@ -363,3 +393,4 @@ export const postRequestWithNoTokenData = (url, params) => {
     data: params
   });
 };
+
