@@ -18,14 +18,21 @@
               <h3>订单</h3>
               <div class="transaction-card" >
                 <div class="card-item">
-                  <div class="card-item-label">订单数</div>
+                  <div class="card-item-label">已付款订单数</div>
                   <div class="card-item-value">{{overViewList.paymentOrderNum  || 0}}</div>
                 </div>
                 <div class="card-item">
-                  <div class="card-item-label">订单金额</div>
+                  <div class="card-item-label">已付款订单金额</div>
                   <div class="card-item-value">{{ overViewList.paymentAmount || 0 | unitPrice('￥')}}</div>
                 </div>
-
+                <div class="card-item">
+                  <div class="card-item-label">未付款订单数</div>
+                  <div class="card-item-value">{{overViewList.unpaymentOrderNum  || 0}}</div>
+                </div>
+                <div class="card-item">
+                  <div class="card-item-label">未付款订单金额</div>
+                  <div class="card-item-value">{{ overViewList.unpaymentAmount || 0 | unitPrice('￥')}}</div>
+                </div>
               </div>
             </div>
           </div>
