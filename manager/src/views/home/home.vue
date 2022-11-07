@@ -109,19 +109,19 @@
               <span>{{ homeData.todayOrderNum }}</span>
             </div>
             <div class="today-item">
-              <div>今日交易额</div>
-              <span v-if="homeData.todayOrderPrice"
-                >￥{{ homeData.todayOrderPrice | unitPrice }}</span
-              >
-              <span v-else>￥0.00</span>
-            </div>
-            <div class="today-item">
               <div>今日新增供应商</div>
               <span>{{ homeData.todayStoreNum || 0 }}</span>
             </div>
             <div class="today-item">
               <div>今日新增采购方</div>
               <span>{{ homeData.todayMemberNum || 0 }}</span>
+            </div>
+            <div class="today-item" style="width: 60%">
+              <div>今日交易额</div>
+              <span v-if="homeData.todayOrderPrice"
+              >￥{{ homeData.todayOrderPrice | unitPrice }}</span
+              >
+              <span v-else>￥0.00</span>
             </div>
 <!--            <div class="today-item">-->
 <!--              <div>今日上架商品数量</div>-->

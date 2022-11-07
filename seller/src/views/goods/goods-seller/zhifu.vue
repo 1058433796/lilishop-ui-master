@@ -71,9 +71,9 @@
                                         </div> -->
 
                                         <div class="ep-pay-operate">
-                                            <a data-action="delay" href="javascript:void(0);" @click="payment()"
+                                            <a :disabled="!getNext" data-action="delay" href="javascript:void(0);" @click="payment()"
                                                title="支付保证金" class="ep-btn ep-btn-blue">支付保证金</a>
-                                            <a title="下一步" @click="toOrder()" class="ep-btn ep-btn-blue">下一步
+                                            <a title="下一步" :disabled="getNext" @click="toOrder()" class="ep-btn ep-btn-blue">下一步
                                             </a>
                                         </div>
                                     <!-- </dd> -->
@@ -85,12 +85,22 @@
             </div>
         </div>
     </div>
+    <Modal v-model="pay" width="30">
+          <!-- <p slot="header">
+            <span>方案确认</span>
+          </p> -->
+          <span>支付完成</span>
+      <!-- <div slot="footer" style="text-align: right">
+        <Button v-if="display" @click="setGuaranty">执行交易</Button>
+      </div> -->
+    </Modal>
 </div>
 </template>
 
 <script>
     import api from '@/api'
     import{testPayBack}from '@/api/schemes'
+import { get } from 'js-cookie'
     // import {formatImageSrc} from "@/utils/utils";
     // import setting from "@/setting";
     import Qs from 'qs'
@@ -99,6 +109,8 @@
         data() {
             return {
                 loading:false,
+                getNext:true,
+                pay:false,
                 form:{
                     payType:'wechat',
                     zongji:this.$route.query.Form.schemeSum,//总价
@@ -113,7 +125,6 @@
         computed: {},
         methods: {
             shaxiang() {
-                console.log("sx")
                 console.log(this.form.zongji)
                 console.log(this.$route.query.id)
                 testPayBack(this.form.zongji,this.$route.query.id).then(res=>{
@@ -127,24 +138,31 @@
                 // newWin.postMessage("aa" , "*");
             },
             payment(){
-                if(this.isShaxiang) {
-                    this.shaxiang();
-                    return;
-                }
-                this.loading = true;
-                this.$post(api.payment , this.form).then(res=>{
-                    this.loading = false;
-                    if(res.code == api.code.OK)
-                    {
-                        this.$alert('支付成功').then(res=>{
-                            this.$router.go(-1);
-                        });
-                    }else{
-                        this.$message.error(res.msg);
-                    }
-                }).catch(err=>{
-                    this.$message.error(err.message);
-                });
+                //注释掉沙箱
+                // if(this.isShaxiang) {
+                //     this.shaxiang();
+                //     return;
+                // }
+                // this.loading = true;
+                this.getNext=false
+                this.pay=true
+                // this.$alert('支付成功').then(res=>{
+                //             this.$router.go(-1);
+                            
+                //         });
+                // this.$post(api.payment , this.form).then(res=>{
+                //     this.loading = false;
+                //     if(res.code == api.code.OK)
+                //     {
+                //         this.$alert('支付成功').then(res=>{
+                //             this.$router.go(-1);
+                //         });
+                //     }else{
+                //         this.$message.error(res.msg);
+                //     }
+                // }).catch(err=>{
+                //     this.$message.error(err.message);
+                // });
             },
 
             selectPayType(type){
