@@ -163,7 +163,7 @@ export default {
           }
         })
         .catch(() => {
-          // this.goToLoginPage("服务器繁忙");
+          this.goToLoginPage("服务器繁忙");
           this.loading = false;
         });
     },

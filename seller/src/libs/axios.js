@@ -16,8 +16,8 @@ import {v4 as uuidv4} from 'uuid';
 // 统一请求路径前缀
 export const baseUrl =
   (BASE.MODE === "dev"
-    ?  BASE.API_DEV.seller + BASE.PREFIX
-    : BASE.API_PROD.seller);
+    ?  BASE.API_DEV.buyer + BASE.PREFIX
+    : BASE.API_PROD.buyer);
 
 export const commonUrl =
   BASE.MODE === "dev"
