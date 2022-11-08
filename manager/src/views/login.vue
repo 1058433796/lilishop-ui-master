@@ -137,12 +137,12 @@ export default {
             this.afterLogin(res);
           } else {
             this.loading = false;
-            // this.goToLoginPage(res.message);
+            this.goToLoginPage(res.message);
           }
         })
         .catch(() => {
           this.loading = false;
-          // this.goToLoginPage("服务器繁忙");
+          this.goToLoginPage("服务器繁忙");
         });
     },
     goToLoginPage(message) {
@@ -159,11 +159,9 @@ export default {
     const query = this.$route.query;
     if(query && query.username && query.password){
       this.handleLogin(query.username, query.password);
+    }else{
+      this.goToLoginPage();
     }
-    
-    // else{
-    //   this.goToLoginPage();
-    // }
   },
   
 };
