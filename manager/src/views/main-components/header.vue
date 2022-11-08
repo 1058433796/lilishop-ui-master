@@ -2,7 +2,7 @@
   <div>
     <Row class="header">
       <img :src="domainLogo" class="logo" width="220px" />
-      
+      <p style="font-size:60px; margin-left:20px;">般若平台</p>
     </Row>
   </div>
 </template>
@@ -78,7 +78,7 @@ export default {
   justify-content: center !important;
 }
 .logo {
-  width: 440px;
-  height: 158px;
+  width: 100px;
+  // height: 158px;
 }
 </style>

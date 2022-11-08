@@ -129,7 +129,7 @@ export default {
       if (currWidth <= 1200) {
         this.sliceNum = 2;
       }
-      this.domainLogo = localStorage.getItem("icon");
+      // this.domainLogo = localStorage.getItem("icon");
       let link =
         document.querySelector("link[rel*='icon']") ||
         document.createElement("link");
