@@ -28,7 +28,7 @@
         </Form>
       </Row>
       <Row class="operation padding-row">
-        <Button @click="addGoods" type="primary">添加项目</Button>
+        <Button @click="addGoods" type="primary">增加产品</Button>
       </Row>
 
       <Table class="mt_10" :loading="loading" border :columns="columns" :data="data" ref="table">

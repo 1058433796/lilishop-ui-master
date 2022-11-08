@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="content-goods-publish">
-     <div>
+     <!-- <div>
        <Input
                   type="text"
                   v-model="message"
@@ -11,7 +11,7 @@
                   @keydown.enter="fillForm(message)"
                 />
               <Button @click="fillForm(message)">deal</Button>
-     </div>
+     </div> -->
       <Form
         ref="baseInfoForm"
         :model="baseInfoForm"
@@ -869,6 +869,7 @@ export default {
     getItemLabelByValue(value) {
       return this.fileTypeList.filter((item) => item.value === value)[0].label;
     },
+    // 快速添加
     fillForm(message) {
       console.log('fillForm');
       const items = message.trim().split("\t");
