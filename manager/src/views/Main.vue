@@ -6,8 +6,8 @@
     <!-- 左侧菜单 -->
     <div class="sidebar-menu-con menu-bar">
       <div class="logo-con">
-        <!-- <img src="../assets/logo.png" key="max-logo" /> -->
-        <img :src="domainLogo" key="max-logo" />
+        <img src="../assets/logo.png" key="max-logo" />
+        <!-- <img :src="domainLogo" key="max-logo" /> -->
       </div>
       <shrinkable-menu></shrinkable-menu>
     </div>

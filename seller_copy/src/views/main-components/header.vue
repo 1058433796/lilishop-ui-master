@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Row class="header">
-      <img class="logo" :src="storeSideLogo" />
+    <Row class="header" style="display:flex;">
+      <img class="logo" src="../assets/logo.png" />
     </Row>
   </div>
 </template>
@@ -83,7 +83,7 @@ export default {
   justify-content: center !important;
 }
 .logo {
-  width: 440px;
-  height: 158px;
+  width: 100px;
+  // height: 158px;
 }
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div>
     <Row class="header">
-      <img class="logo" :src="storeSideLogo" />
+      <img src="../assets/logo.png" class="logo"/>
+      <!-- <img class="logo" :src="storeSideLogo" /> -->
     </Row>
   </div>
 </template>

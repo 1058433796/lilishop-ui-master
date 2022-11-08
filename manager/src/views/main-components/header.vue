@@ -1,7 +1,8 @@
 <template>
   <div>
     <Row class="header">
-      <img :src="domainLogo" class="logo" width="220px" />
+      <img src="../assets/logo.png" class="logo" width="220px" />
+      
     </Row>
   </div>
 </template>

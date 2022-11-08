@@ -6,8 +6,8 @@
   <div class="main">
     <div class="sidebar-menu-con menu-bar">
       <div class="logo-con">
-        <!-- <img src="../assets/logo.png" key="max-logo" /> -->
-        <img :src="storeSideLogo" key="max-logo" />
+        <img src="../assets/logo.png" key="max-logo" />
+        <!-- <img :src="storeSideLogo" key="max-logo" /> -->
       </div>
       <shrinkable-menu></shrinkable-menu>
     </div>
