@@ -158,17 +158,23 @@ export default {
           if (res.success) {
             this.afterLogin(res);
           } else {
-            // this.handleErrCode(res.code);
+            this.handleErrCode(res.code);
             this.goToLoginPage(res.message);
           }
         })
         .catch(() => {
-          // this.goToLoginPage("服务器繁忙");
+          this.goToLoginPage("服务器繁忙");
           this.loading = false;
         });
     },
-    goToLoginPage(message) {
-      window.location.href = BASE.WEB_URL.seller + `/login?message=${message}`;
+        goToLoginPage(message) {
+      let url = null;
+      if(message){
+        url = BASE.WEB_URL.seller + `/login?message=${message}`;
+      }else{
+        url = BASE.WEB_URL.seller + `/login`;
+      }
+      window.location.href = url;
     },
   },
   created() {
