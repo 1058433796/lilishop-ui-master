@@ -2,6 +2,7 @@
   <div>
     <Row class="header" style="display:flex;">
       <img class="logo" :src="storeSideLogo" />
+      <p style="font-size:60px; margin-left:20px;">般若平台</p>
     </Row>
   </div>
 </template>

@@ -3,6 +3,7 @@
     <Row class="header">
       <!-- <img src="../assets/logo.png" class="logo"/> -->
       <img class="logo" :src="storeSideLogo" />
+      <p style="font-size:60px; margin-left:20px;">般若平台</p>
     </Row>
   </div>
 </template>
