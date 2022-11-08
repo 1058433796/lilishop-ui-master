@@ -1,8 +1,8 @@
 <template>
   <div>
     <Row class="header">
-      <img src="../assets/logo.png" class="logo"/>
-      <!-- <img class="logo" :src="storeSideLogo" /> -->
+      <!-- <img src="../assets/logo.png" class="logo"/> -->
+      <img class="logo" :src="storeSideLogo" />
     </Row>
   </div>
 </template>
@@ -30,8 +30,8 @@ export default {
           this.getSite();
           return;
         } else {
-          this.storeSideLogo = localStorage.getItem("sellerlogoImg");
-          window.document.title = localStorage.getItem("sellersiteName");
+          // this.storeSideLogo = localStorage.getItem("sellerlogoImg");
+          // window.document.title = localStorage.getItem("sellersiteName");
           //动态获取icon
           let link =
             document.querySelector("link[rel*='icon']") ||

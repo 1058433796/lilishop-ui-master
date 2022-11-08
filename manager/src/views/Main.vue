@@ -6,8 +6,8 @@
     <!-- 左侧菜单 -->
     <div class="sidebar-menu-con menu-bar">
       <div class="logo-con">
-        <img src="../assets/logo.png" key="max-logo" />
-        <!-- <img :src="domainLogo" key="max-logo" /> -->
+        <!-- <img src="@/assets/logo.png" key="max-logo" /> -->
+        <img :src="domainLogo" key="max-logo" />
       </div>
       <shrinkable-menu></shrinkable-menu>
     </div>
@@ -100,7 +100,7 @@ export default {
       userInfo: "", // 用户信息
       navType: 1, // nav类型
       tipsMessage: "", // 通知消息
-      domainLogo: "",
+      domainLogo: require("@/assets/logo.png"),
     };
   },
   computed: {

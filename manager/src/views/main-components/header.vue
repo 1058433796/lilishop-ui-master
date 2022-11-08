@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row class="header">
-      <img src="../assets/logo.png" class="logo" width="220px" />
+      <img :src="domainLogo" class="logo" width="220px" />
       
     </Row>
   </div>
@@ -29,7 +29,7 @@ export default {
           this.getSite();
           return;
         } else {
-          this.domainLogo = localStorage.getItem("icon");
+          // this.domainLogo = localStorage.getItem("icon");
           let link =
             document.querySelector("link[rel*='icon']") ||
             document.createElement("link");
@@ -45,7 +45,7 @@ export default {
       //获取domainLogo
       getBaseSite().then((res) => {
         const { domainLogo, siteName } = JSON.parse(res.result.settingValue);
-        this.domainLogo = domainLogo;
+        // this.domainLogo = domainLogo;
         // 过期时间
         var expirationTime = new Date().setHours(new Date().getHours() + 1);
         // 存放过期时间

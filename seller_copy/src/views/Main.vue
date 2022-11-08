@@ -6,8 +6,8 @@
   <div class="main">
     <div class="sidebar-menu-con menu-bar">
       <div class="logo-con">
-        <img src="../assets/logo.png" key="max-logo" />
-        <!-- <img :src="storeSideLogo" key="max-logo" /> -->
+        <!-- <img src="@/assets/logo.png" key="max-logo" /> -->
+        <img :src="storeSideLogo" key="max-logo" />
       </div>
       <shrinkable-menu></shrinkable-menu>
     </div>
@@ -90,7 +90,7 @@ export default {
       sliceNum: 5, // 展示nav数量
       userInfo: {}, // 用户信息
       navType: 1, // nav类型
-      storeSideLogo: "../assets/logo.png", //logo图片
+      storeSideLogo: require("@/assets/logo.png"), //logo图片
     };
   },
   computed: {

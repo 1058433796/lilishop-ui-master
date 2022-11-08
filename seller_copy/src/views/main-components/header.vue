@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row class="header" style="display:flex;">
-      <img class="logo" src="../assets/logo.png" />
+      <img class="logo" :src="storeSideLogo" />
     </Row>
   </div>
 </template>
@@ -29,8 +29,8 @@ export default {
           this.getSite();
           return;
         } else {
-          this.storeSideLogo = localStorage.getItem("sellerlogoImg");
-          window.document.title = localStorage.getItem("sellersiteName");
+          // this.storeSideLogo = localStorage.getItem("sellerlogoImg");
+          // window.document.title = localStorage.getItem("sellersiteName");
           //动态获取icon
           let link =
             document.querySelector("link[rel*='icon']") ||
