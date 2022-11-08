@@ -6,7 +6,7 @@
   <div class="main">
     <div class="sidebar-menu-con menu-bar">
       <div class="logo-con">
-        <!-- <img src="../assets/logo.png" key="max-logo" /> -->
+        <!-- <img src="@/assets/logo.png" key="max-logo" /> -->
         <img :src="storeSideLogo" key="max-logo" />
       </div>
       <shrinkable-menu></shrinkable-menu>
@@ -46,6 +46,7 @@
                   <DropdownItem name="loginOut" divided>退出</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
+              <Button style="margin-left:20px;">消息</Button>
             </Row>
           </div>
         </div>
@@ -89,7 +90,7 @@ export default {
       sliceNum: 5, // 展示nav数量
       userInfo: {}, // 用户信息
       navType: 1, // nav类型
-      storeSideLogo: "", //logo图片
+      storeSideLogo: require("@/assets/logo.png"), //logo图片
     };
   },
   computed: {
@@ -117,8 +118,8 @@ export default {
       if (pathArr.length >= 2) {
         this.$store.commit("addOpenSubmenu", pathArr[1].name);
       }
-      this.storeSideLogo = localStorage.getItem("sellerlogoImg");
-      window.document.title = localStorage.getItem("sellersiteName");
+      // this.storeSideLogo = localStorage.getItem("sellerlogoImg");
+      // window.document.title = localStorage.getItem("sellersiteName");
         //动态获取icon
           let link =
             document.querySelector("link[rel*='icon']") ||
@@ -213,7 +214,6 @@ export default {
   created() {
     // 显示打开的页面的列表
     this.$store.commit("setOpenedList");
-    this.$Message.success(this.getStore('accessToken'), 20);
   },
 };
 </script>

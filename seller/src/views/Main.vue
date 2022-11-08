@@ -46,6 +46,7 @@
                   <DropdownItem name="loginOut" divided>退出</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
+              <Button style="margin-left:20px;">消息</Button>
             </Row>
           </div>
         </div>
@@ -117,8 +118,8 @@ export default {
       if (pathArr.length >= 2) {
         this.$store.commit("addOpenSubmenu", pathArr[1].name);
       }
-      this.storeSideLogo = localStorage.getItem("sellerlogoImg");
-      window.document.title = localStorage.getItem("sellersiteName");
+      // this.storeSideLogo = localStorage.getItem("sellerlogoImg");
+      // window.document.title = localStorage.getItem("sellersiteName");
         //动态获取icon
           let link =
             document.querySelector("link[rel*='icon']") ||

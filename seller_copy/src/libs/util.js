@@ -9,7 +9,7 @@ let util = {
 };
 
 util.title = function (title) {
-    title = title || `${config.title} 供应商后台`;
+    title = title || `${config.title}后台`;
     window.document.title = title;
 };
 
@@ -447,7 +447,7 @@ util.initRouterNode = function (routers, data) {  // data为所有子菜单数�
         }
         let meta = {};
         // 给页面添加标题
-        meta.title = menu.title ? menu.title + " - "+config.title+"供应商后台" : null;
+        meta.title = menu.title ? menu.title + " - "+config.title+"后台" : null;
         meta.firstRouterName = menu.firstRouterName
         meta.keepAlive = menu.keepAlive ? true : false
         menu.meta = meta;

@@ -146,7 +146,13 @@ export default {
         });
     },
     goToLoginPage(message) {
-      window.location.href = BASE.WEB_URL.seller + `/login?message=${message}`;
+      let url = null;
+      if(message){
+        url = BASE.WEB_URL.seller + `/login?message=${message}`;
+      }else{
+        url = BASE.WEB_URL.seller + `/login`;
+      }
+      window.location.href = url;
     },
   },
   mounted() {

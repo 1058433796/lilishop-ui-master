@@ -23,7 +23,7 @@ export const result = [{
           type: 0,
           title: "增加产品",
           path: "goods-operation",
-          component: "goods/goods-seller/goods-operation",
+          component: "goods/goods-seller/goodsOperation",
           children: null,
         },
         {

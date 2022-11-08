@@ -1,7 +1,9 @@
 <template>
   <div>
     <Row class="header">
+      <!-- <img src="../assets/logo.png" class="logo"/> -->
       <img class="logo" :src="storeSideLogo" />
+      <p style="font-size:60px; margin-left:20px;">般若平台</p>
     </Row>
   </div>
 </template>
@@ -29,8 +31,8 @@ export default {
           this.getSite();
           return;
         } else {
-          this.storeSideLogo = localStorage.getItem("sellerlogoImg");
-          window.document.title = localStorage.getItem("sellersiteName");
+          // this.storeSideLogo = localStorage.getItem("sellerlogoImg");
+          // window.document.title = localStorage.getItem("sellersiteName");
           //动态获取icon
           let link =
             document.querySelector("link[rel*='icon']") ||
