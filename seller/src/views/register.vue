@@ -116,9 +116,15 @@ export default {
                 }
             });
         },
-        goToLoginPage(){
-            window.location.href = BASE.WEB_URL.seller;
-        }
+    goToLoginPage(message) {
+      let url = null;
+      if(message){
+        url = BASE.WEB_URL.seller + `/login?message=${message}`;
+      }else{
+        url = BASE.WEB_URL.seller + `/login`;
+      }
+      window.location.href = url;
+    },
     },
 };
 </script>
