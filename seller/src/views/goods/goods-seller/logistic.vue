@@ -121,7 +121,7 @@ export default {
                                 color: "green", 
                                 width: "50%",
                               },
-                              on
+                              
                             },
                             "已签收"
                           ),])

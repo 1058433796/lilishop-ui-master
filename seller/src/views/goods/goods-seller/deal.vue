@@ -31,8 +31,8 @@ import orderPay from  '@/views/goods/goods-seller/orderPay.vue'
 import logistic from  '@/views/goods/goods-seller/logistic.vue'
 import orderDetail from  '@/views/goods/goods-seller/orderDetail.vue'
 import  contractDetail from '@/views/goods/goods-seller/contractDetail.vue'
-import { establishOrder} from '@/api/schemes'
-import {getAssociatedOrders, getAssociatedContractOrders} from '@/api/order'
+import { establishOrder,} from '@/api/schemes'
+import {getAssociatedOrders, getAssociatedContractOrders,getSignedOrders} from '@/api/order'
 import { getContractList } from "@/api/promotion";
 import { createContract } from '@/api/contract'
 export default {
@@ -56,8 +56,9 @@ export default {
             ],
             current_process :0,
             form :  this.$route.query.Form,
-            itemid:this.$route.query.id,
+            itemid: this.$route.query.id,
             process : "zhifu",
+            schemeId:this.$route.query.data.schemeId,
             orderInfo : [],
             fullData: [],
             childData: []
@@ -74,47 +75,70 @@ export default {
                 this.current_process = 1;
                 this.fullData = [this.$route.query.data];
             }else if (this.$route.query.type==="contractSign") {
-                var order = this.$route.query.data;
-                this.contractSign(order);
+                // var order = this.$route.query.data;
+                this.contractSign();
             }else if (this.$route.query.type==="orderPay") {
-                var contract = this.$route.query.data;
-                this.orderPay(contract)
+                // var contract = this.$route.query.data;
+                this.orderPay()
             }
         },
         processChange(index) {
-            console.log("testform",this.$route.query.Form);
+            // console.log("testform",this.$route.query.Form);
             // this.current_process = index
             if (index === 1) {
-                //primaryid是schemeid=1，传入itemid进行新建
-                establishOrder(this.form.primaryId,this.itemid).then(res => {
-                    console.log("建立订单");
+                getAssociatedOrders(this.itemid,this.schemeId).then(res=> {
+                    //没有生成订单
+                if (res.result.length == 0) {
+                    console.log("没有订单")
+                    //建立订单需要项目ID和方案id
+                    establishOrder(this.schemeId,this.itemid).then(res => {
+                    console.log("建立订单",this.schemeId,this.itemid);
                     console.log(res);
                     this.childData = res.result;
                     this.fullData = res.result;
                     this.process = orderResponse;
                     this.current_process = index;
                 })
+                }else { 
+                    console.log("有订单了")
+                    this.childData = res.result;
+                    this.process = orderResponse;
+                    this.current_process = index;
+                }
+            })
+                //primaryid是schemeid=1，传入itemid进行新建
+               
             }
         },
         // test(index){
         //     console.log("?????",index)
         // },
 
-        contractSign(row) {
-            console.log("contract",row)
-            createContract(row.orderId).then(res=> {
-                if (res.success) {
-                    console.log(res)
+        contractSign() {
+            console.log("contract")
+            getAssociatedContractOrders(this.itemid,this.schemeId).then(res=>{
+                if(res.success) {
                     this.childData = res.result.records;
-                    this.process = contractSign;
                     this.current_process = 2;
+                    this.process = contractSign;
+                    // this.process = orderPay;
                 } else {
-                    
                 }
-            });
+            })
+            // createContract(row.orderId).then(res=> {
+            //     if (res.success) {
+            //         console.log(res)
+            //         this.childData = res.result.records;
+            //         this.process = contractSign;
+            //         this.current_process = 2;
+            //     } else {
+                    
+            //     }
+            // });
         },
-        orderPay(row) {
-            getAssociatedContractOrders(row.orderId).then(res=>{
+        orderPay() {
+            console.log("orderpay")
+            getSignedOrders(this.itemid).then(res=>{
                 if(res.success) {
                     this.childData = res.result.records;
                     this.current_process = 3;
@@ -127,8 +151,8 @@ export default {
             alert("orderPayDetail");
             this.process = "zhifu";
         },
-        deliver(row) {
-            getAssociatedContractOrders(row.orderId).then(res=>{
+        deliver() {
+            getSignedOrders(this.itemid).then(res=>{
                 if(res.success) {
                     this.childData = res.result.records;
                     this.current_process = 4;
@@ -149,7 +173,8 @@ export default {
         backOrderResponse(orderId) {
             console.log("backOrderResponse");
             console.log(orderId);
-            getAssociatedOrders(this.itemid).then(res=> {
+            console.log("itemid"+this.itemid)
+            getAssociatedOrders(this.itemid,this.schemeId).then(res=> {
                 if (res.success) {
                     this.childData = res.result;
                     this.process = orderResponse;
@@ -166,15 +191,26 @@ export default {
             // this.process = orderResponse;
         },
         backContractSign(contract) {
-            createContract(contract.orderId).then(res=> {
-                if (res.success) {
-                    this.childData = res.result.records;
-                    this.process = contractSign;
-                    this.current_process = 2;
-                }else {
+            console.log("backContractSign",this.itemid,this.schemeId)
+            this.contractSign()
+            // getAssociatedOrders(this.itemid,this.schemeId).then(res=> {
+            //     if (res.success) {
+            //         console.log(res)
+            //         this.childData = res.result;
+            //         this.process = contractSign;
+            //         this.current_process = 2;
+            //     }else {
+            //     }
+            // })
+            // createContract(contract.orderId).then(res=> {
+            //     if (res.success) {
+            //         this.childData = res.result.records;
+            //         this.process = contractSign;
+            //         this.current_process = 2;
+            //     }else {
 
-                }
-            })
+            //     }
+            // })
         }
     }
 }

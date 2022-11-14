@@ -152,14 +152,14 @@ export default {
           this.loading = false;
           console.log(res);
           if (!res) {
-            this.goToLoginPage("服务器繁忙");
+            // this.goToLoginPage("服务器繁忙");
             return;
           }
           if (res.success) {
             this.afterLogin(res);
           } else {
-            // this.handleErrCode(res.code);
-            this.goToLoginPage(res.message);
+            this.handleErrCode(res.code);
+            // this.goToLoginPage(res.message);
           }
         })
         .catch(() => {
@@ -175,9 +175,10 @@ export default {
     const query = this.$route.query;
     if (query && query.username && query.password) {
       this.handleLogin(query.username, query.password);
-    } else {
-      this.goToLoginPage();
-    }
+    } 
+    // else {
+    //   this.goToLoginPage();
+    // }
   },
 
   mounted() {},

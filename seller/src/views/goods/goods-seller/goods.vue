@@ -170,7 +170,6 @@ import { testlogin} from "@/api/index";
 import * as API_Shop from "@/api/shops";
 import Cookies from "js-cookie";
 import moment from "moment";
-
 export default {
   name: "goods",
   data() {
@@ -487,6 +486,7 @@ export default {
       //   console.log("testlogin",res)
 
       // })
+ 
       this.loading = true;
       let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
       console.log('userinfo',userInfo)

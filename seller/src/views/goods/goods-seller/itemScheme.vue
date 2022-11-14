@@ -318,7 +318,9 @@ export default {
       console.log("?")
       console.log(this.guarantyForm)
       let params = JSON.parse(JSON.stringify(this.guarantyForm));
-      this.$router.push({ name: "deal", query: { Form: this.guarantyForm ,id :this.id} });
+      this.$router.push({ name: "deal", query: { Form: this.guarantyForm ,id :this.id,data:{schemeId:this.guarantyForm.primaryId}} });
+      window.open("//sdaict.xrk.top", "_blank");
+      // window.open('sdaict.xrk.top', "_blank")
       // saveGuaranty(params).then((res)=>{
       //   this.$router.push({ name: "deal", query: { Form: this.guarantyForm } });
       // })

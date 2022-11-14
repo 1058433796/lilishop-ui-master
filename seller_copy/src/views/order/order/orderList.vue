@@ -441,11 +441,10 @@ export default {
     },
     // 查看订单详情
     detail(v) {
-
       let orderId = v.orderId;
       this.$router.push({
         name: "order-detail",
-        query: { v },
+        query: { orderId:v.orderId },
       });
     },
   },
