@@ -6,7 +6,7 @@
     <!-- 左侧菜单 -->
     <div class="sidebar-menu-con menu-bar">
       <div class="logo-con">
-        <!-- <img src="../assets/logo.png" key="max-logo" /> -->
+        <!-- <img src="@/assets/logo.png" key="max-logo" /> -->
         <img :src="domainLogo" key="max-logo" />
       </div>
       <shrinkable-menu></shrinkable-menu>
@@ -100,7 +100,7 @@ export default {
       userInfo: "", // 用户信息
       navType: 1, // nav类型
       tipsMessage: "", // 通知消息
-      domainLogo: "",
+      domainLogo: require("@/assets/logo.png"),
     };
   },
   computed: {
@@ -129,7 +129,7 @@ export default {
       if (currWidth <= 1200) {
         this.sliceNum = 2;
       }
-      this.domainLogo = localStorage.getItem("icon");
+      // this.domainLogo = localStorage.getItem("icon");
       let link =
         document.querySelector("link[rel*='icon']") ||
         document.createElement("link");

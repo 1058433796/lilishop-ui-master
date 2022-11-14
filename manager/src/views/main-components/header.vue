@@ -2,6 +2,7 @@
   <div>
     <Row class="header">
       <img :src="domainLogo" class="logo" width="220px" />
+      <p style="font-size:60px; margin-left:20px;">般若平台</p>
     </Row>
   </div>
 </template>
@@ -28,7 +29,7 @@ export default {
           this.getSite();
           return;
         } else {
-          this.domainLogo = localStorage.getItem("icon");
+          // this.domainLogo = localStorage.getItem("icon");
           let link =
             document.querySelector("link[rel*='icon']") ||
             document.createElement("link");
@@ -44,7 +45,7 @@ export default {
       //获取domainLogo
       getBaseSite().then((res) => {
         const { domainLogo, siteName } = JSON.parse(res.result.settingValue);
-        this.domainLogo = domainLogo;
+        // this.domainLogo = domainLogo;
         // 过期时间
         var expirationTime = new Date().setHours(new Date().getHours() + 1);
         // 存放过期时间
@@ -77,7 +78,7 @@ export default {
   justify-content: center !important;
 }
 .logo {
-  width: 440px;
-  height: 158px;
+  width: 100px;
+  // height: 158px;
 }
 </style>

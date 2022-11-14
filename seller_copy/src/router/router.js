@@ -6,7 +6,7 @@ export const loginRouter = {
   path: "/login",
   name: "login",
   meta: {
-    title: `登录 - ${config.title}供应商后台`
+    title: `登录 - ${config.title}后台`
   },
   component: () => import("@/views/login.vue")
 };
@@ -55,11 +55,29 @@ export const otherRouter = {
       name: "message_index",
       component: () => import("@/views/message/message.vue")
     },
+    // {
+    //   path: "goods-operation",
+    //   title: "添加产品",
+    //   name: "goods-operation",
+    //   component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
+    // },
     {
-      path: "goods-operation",
-      title: "添加商品",
-      name: "goods-operation",
-      component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
+      path: "goods-operation-first",
+      title: "添加产品",
+      name: "goods-operation-first",
+      component: () => import("@/views/goods/goods-seller/goodsOperationFirst.vue")
+    },
+    {
+      path: "goods-operation-second",
+      title: "添加产品",
+      name: "goods-operation-second",
+      component: () => import("@/views/goods/goods-seller/goodsOperationSec.vue")
+    },
+    {
+      path: "goods-operation-third",
+      title: "添加产品",
+      name: "goods-operation-third",
+      component: () => import("@/views/goods/goods-seller/goodsOperationThird.vue")
     },
     {
       path: "goods-detail",
@@ -69,13 +87,13 @@ export const otherRouter = {
     },
     {
       path: "goods-operation-edit",
-      title: "编辑商品",
+      title: "编辑产品",
       name: "goods-operation-edit",
       component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
     },
     {
       path: "item-scheme",
-      title: "编辑商品",
+      title: "编辑产品",
       name: "item-scheme",
       component: () => import("@/views/goods/goods-seller/itemScheme.vue")
     },

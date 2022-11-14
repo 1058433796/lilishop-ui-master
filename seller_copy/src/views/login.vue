@@ -208,6 +208,8 @@ export default {
               let url = null;
               if (role === "unknown") {
                 console.log("角色未知");
+                this.$Message.error("不存在该账号");
+                this.loading = false;
                 return;
               }
               if (role === "member") {
