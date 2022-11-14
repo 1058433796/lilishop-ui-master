@@ -159,7 +159,7 @@ export default {
             this.afterLogin(res);
           } else {
             this.handleErrCode(res.code);
-            // this.goToLoginPage(res.message);
+            this.goToLoginPage(res.message);
           }
         })
         .catch(() => {
