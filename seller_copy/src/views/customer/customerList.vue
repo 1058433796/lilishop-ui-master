@@ -186,7 +186,10 @@ export default {
     },
     // 获取表格数据
     getDataList() {
+      let userInfo = JSON.parse(Cookies.get("userInfoSeller"));
       this.loading = true;
+      this.searchForm.storeId=userInfo.id
+      console.log("keHU",this.searchForm)
       API_Order.getCustomerList(this.searchForm).then((res) => {
         this.loading = false;
         if (res.success) {

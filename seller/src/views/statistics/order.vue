@@ -380,8 +380,10 @@ export default {
     },
     // 统计相关订单统计
     async getOrderList() {
+      console.log(this.Params)
       const res = await API_Goods.statisticsOrderList(this.Params);
       if (res.success) {
+        console.log("res",res)
         this.data = res.result.records;
         this.columns = this.orderColumns;
         this.total = res.result.total;

@@ -146,6 +146,7 @@ import { get } from 'js-cookie'
                 // }
                 // this.loading = true;
                 this.getNext=false
+                this.pay=true
                 // this.$alert('支付成功').then(res=>{
                 //             this.$router.go(-1);
                             
