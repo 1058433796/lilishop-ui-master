@@ -17,7 +17,7 @@ import {v4 as uuidv4} from 'uuid';
 export const baseUrl =
   (BASE.MODE === "dev"
     ?  BASE.API_DEV.buyer + BASE.PREFIX
-    : BASE.API_PROD.buyer);
+    : BASE.API_PROD.seller);
 
 export const commonUrl =
   BASE.MODE === "dev"
@@ -36,6 +36,10 @@ const service = axios.create({
   timeout: 10000,
   baseURL:baseUrl
 });
+// const serviceForeign=axios.create({
+//   timeout: 10000,
+//   baseURL:null
+// })
 service.interceptors.request.use(
   config => {
     if (config.method == "get") {
@@ -208,6 +212,20 @@ export const getRequest = (url, params, resBlob) => {
 
   return service(data);
 };
+
+// export const getForeignRequest=(url,params)=>{
+//   let data = {
+//     method: "get",
+//     url: `${url}`,
+//     params: params,
+//     // headers: {
+//     //   accessToken: accessToken
+//     // },
+//     // responseType: "blob"
+//   };
+//   return serviceForeign(data);
+// }
+
 
 export const postRequest = (url, params, headers) => {
   let accessToken = getStore("accessToken");

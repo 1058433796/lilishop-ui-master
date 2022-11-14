@@ -152,7 +152,7 @@ export default {
           this.loading = false;
           console.log(res);
           if (!res) {
-            this.goToLoginPage("服务器繁忙");
+            // this.goToLoginPage("服务器繁忙");
             return;
           }
           if (res.success) {
@@ -163,27 +163,22 @@ export default {
           }
         })
         .catch(() => {
-          this.goToLoginPage("服务器繁忙");
+          // this.goToLoginPage("服务器繁忙");
           this.loading = false;
         });
     },
-        goToLoginPage(message) {
-      let url = null;
-      if(message){
-        url = BASE.WEB_URL.seller + `/login?message=${message}`;
-      }else{
-        url = BASE.WEB_URL.seller + `/login`;
-      }
-      window.location.href = url;
+    goToLoginPage(message) {
+      window.location.href = BASE.WEB_URL.seller + `/login?message=${message}`;
     },
   },
   created() {
     const query = this.$route.query;
     if (query && query.username && query.password) {
       this.handleLogin(query.username, query.password);
-    } else {
-      this.goToLoginPage();
-    }
+    } 
+    // else {
+    //   this.goToLoginPage();
+    // }
   },
 
   mounted() {},

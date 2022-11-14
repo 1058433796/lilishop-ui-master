@@ -289,7 +289,8 @@ export default {
     },
     check(row) {
       row.processing = "orderDetail";
-      this.$router.push({ name: "deal", query: { data: row} });
+      console.log("跳转",row)
+      this.$router.push({ name: "deal", query: { data: row,id:row.itemId} });
     },
     /**
      * 批量发货

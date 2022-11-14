@@ -1,5 +1,5 @@
 // 统一请求路径前缀在libs/axios.js中修改
-import { getRequest, postRequest, putRequest ,postRequestWithNoForm } from "@/libs/axios";
+import { getRequest, postRequest, putRequest ,postRequestWithNoForm,getForeignRequest } from "@/libs/axios";
 
 import { baseUrl } from "@/libs/axios.js";
 
@@ -143,12 +143,12 @@ export const getOrderComponent = (oid, storeId) =>{
   return getRequest(`/itemOrder/itemOrder/provide/${oid}/${storeId}`)
 }
 
-export const getAssociatedOrders = (itemid) =>{
-  return getRequest(`/itemOrder/itemOrder/associated/${itemid}`)
+export const getAssociatedOrders = (itemid,schemeId) =>{
+  return getRequest(`/itemOrder/itemOrder/associated/${itemid}/${schemeId}`)
 }
 
-export const getAssociatedContractOrders = (oid) =>{
-  return getRequest(`/itemOrder/itemOrder/contract/${oid}`)
+export const getAssociatedContractOrders = (oid,schemeId) =>{
+  return getRequest(`/itemOrder/itemOrder/contract/${oid}/${schemeId}`)
 }
 
 export const payOrder = (oid) =>{
@@ -159,4 +159,8 @@ export const orderLogisticSign = (oid) =>{
   return putRequest(`/itemOrder/itemOrder/logistic/${oid}`)
 }
 
+
+export const getSignedOrders = (oid) =>{
+  return getRequest(`/itemOrder/itemOrder/signed/${oid}`)
+}
 

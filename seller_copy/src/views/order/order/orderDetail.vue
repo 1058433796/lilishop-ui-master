@@ -477,11 +477,10 @@ export default {
       logisticsInfo: {
         shipper: "",
       }, //物流信息
-      orderId: "", //订单编号
+      orderId:this.$route.query.orderId, //订单编号
       orderInfo: {
         // 订单信息
         itemOrder: {
-
         },
         schemeComponentList:[],
         order: {
@@ -568,7 +567,7 @@ export default {
           },
           {
             title: "参数",
-            key: "cs",
+            key: "parameter",
             minWidth: 200,
           },
           {
@@ -729,7 +728,8 @@ export default {
     //获取订单详细信息
     getDataDetail() {
       this.loading = true;
-      API_Order.getOrderDetail(this.orderId).then((res) => {
+      console.log("orderid",this.$route.query.orderId)
+      API_Order.getOrderDetail(this.$route.query.orderId).then((res) => {
         this.loading = false;
         if (res.success) {
           //this.orderInfo = res.result;

@@ -48,12 +48,13 @@
                                         <dl>
                                             <dt>履约保证金：</dt>
                                             <dd>
-                                                {{Number($route.query.Form.schemeSum)*0.2}}
+                                                <!-- {{Number($route.query.Form.schemeSum)*0.2}} -->
+                                                3575元
                                             </dd>
                                         </dl>
                                     </div>
                                     <div class="ep-order-tit"  v-if="$route.query.zongji">
-                                        <span>支付金额：<em class="rmb"><i>¥</i>{{ $route.query.zongji }}</em></span>
+                                        <span>支付金额：<em class="rmb"><i>¥</i>3575</em></span>
                                     </div>
                                 </div>
                             </div>
@@ -66,14 +67,14 @@
                                                 <li :class="{selected:form.payType == 'alipay'}" title="支付宝支付" >
                                                     <span class="ep-icon ep-icon-alipay"></span> <span class="ep-pay-method-name">支付宝支付</span>
                                                 </li>
-                                               
+                                               8
                                             </ul>
                                         </div> -->
-
+                                        <a href="http://112.230.202.198:8008//doorandhardware/v1/performancebond?userName=冯平&projectCode=43">订单及方案预览</a>
                                         <div class="ep-pay-operate">
                                             <a :disabled="!getNext" data-action="delay" href="javascript:void(0);" @click="payment()"
-                                               title="支付保证金" class="ep-btn ep-btn-blue">支付保证金</a>
-                                            <a title="下一步" :disabled="getNext" @click="toOrder()" class="ep-btn ep-btn-blue">下一步
+                                               title="支付保证金" :class="getNext=== true ? 'ep-btn ep-btn-blue' : 'ep-btn ep-btn-white'">支付保证金</a>
+                                            <a title="下一步" :disabled="getNext" @click="toOrder()"  :class="getNext=== false ? 'ep-btn ep-btn-blue' : 'ep-btn ep-btn-white'">下一步
                                             </a>
                                         </div>
                                     <!-- </dd> -->
@@ -145,7 +146,6 @@ import { get } from 'js-cookie'
                 // }
                 // this.loading = true;
                 this.getNext=false
-                this.pay=true
                 // this.$alert('支付成功').then(res=>{
                 //             this.$router.go(-1);
                             
@@ -338,7 +338,15 @@ import { get } from 'js-cookie'
         font-size: 16px;
         line-height: 50px
     }
-
+    .ep-btn.ep-btn-white {
+        width: 130px;
+        height: 50px;
+        background-color: #e6ebf2;
+        border: 1px solid #3875c1;
+        color: rgb(135, 132, 132);
+        font-size: 16px;
+        line-height: 50px
+    }
     .ep-btn.ep-btn-blue.h42 {
         height: 42px;
         line-height: 42px
