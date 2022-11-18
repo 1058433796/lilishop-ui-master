@@ -596,12 +596,12 @@ export default {
         responseNext(row) {
             this.$router.push({name: "deal", query: {type:"contractSign", data: row}})
         },  
-        toGuaranty(row) {
-            let params = JSON.parse(JSON.stringify(row));
-            saveGuaranty(params).then((res)=>{
-                this.$router.push({ name: "deal", query: { Form: row } });
-            })
-        },
+        // toGuaranty(row) {
+        //     let params = JSON.parse(JSON.stringify(row));
+        //     saveGuaranty(params).then((res)=>{
+        //         this.$router.push({ name: "deal", query: { Form: row } });
+        //     })
+        // },
         checkOrder(row) {
             row.processing = "orderDetail";
             this.$router.push({ name: "deal", query: { data: row} });

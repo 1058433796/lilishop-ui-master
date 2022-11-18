@@ -57,6 +57,7 @@ export default {
             current_process :0,
             form :  this.$route.query.Form,
             itemid: this.$route.query.id,
+            guarantyFlag:'',
             process : "zhifu",
             schemeId:this.$route.query.data.schemeId,
             orderInfo : [],
@@ -149,6 +150,7 @@ export default {
         },
         orderPayDetail(row) {
             alert("orderPayDetail");
+            console.log("id",this.itemid)
             this.process = "zhifu";
         },
         deliver() {

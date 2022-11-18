@@ -14,12 +14,12 @@
             <img class="shop-logo" :src="userData.storeLogo || require('@/assets/logo1.png')" alt="">
           </div>
           <div class="shop-box">
-            <div class="box-item">
+            <!-- <div class="box-item">
               <div>店铺名称：{{userData.storeName || '暂无'}}</div>
-            </div>
-            <div class="box-item">
+            </div> -->
+            <!-- <div class="box-item">
               <div>店铺状态：{{userData.storeDisable=='OPEN' ? '开启中' : '关闭'}}</div>
-            </div>
+            </div> -->
             <div class="box-item" @click="im()">
               <Button type="info">联系客服</Button>
             </div>
@@ -30,7 +30,7 @@
               <i-circle :size="120" stroke-color="#fecb89" :trail-width="4" :stroke-width="5" :percent="(userData.serviceScore  *  20)" stroke-linecap="square">
                 <div class="demo-Circle-custom">
 
-                  <p class="bold">{{userData.serviceScore}}分</p>
+                  <p class="bold">100分</p>
                 </div>
               </i-circle>
               <h5>履约信用</h5>
@@ -47,7 +47,7 @@
             <div>
               <i-circle :size="120" stroke-color="#848ccf" :trail-width="4" :stroke-width="5" :percent="(userData.descriptionScore  *  20)" stroke-linecap="square">
                 <div>
-                  <p class="bold">{{userData.descriptionScore}}分</p>
+                  <p class="bold">100分</p>
                 </div>
               </i-circle>
               <h5>评价得分</h5>
@@ -60,7 +60,7 @@
           <div class="detail-list">
             <div class="detail-item" @click="navigateTo('goods')">
               <div>
-                <span>{{homeData.waitToSignGuaranty|| 0}}</span>
+                <span>0</span>
                 <div>待签履约保证</div>
               </div>
             </div>
@@ -159,9 +159,9 @@
       <div class="card box-right">
         <h4>平台公告</h4>
         <div>
-          <div class="notice-title" v-for="(item,index) in notices" :key="index">
+          <!-- <div class="notice-title" v-for="(item,index) in notices" :key="index">
             <a @click="clickLinkNotices(item)">{{item.title}}</a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

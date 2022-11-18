@@ -209,31 +209,31 @@
               },params.index+1)
             }
           },
-          {
+            {
             title: "商品名",
-            key: "componentName",
+            key: "pm",
             minWidth: 200,
             //slot: "goodsSlot",
           },
           {
             title: "参数",
-            key: "goodRequire",
+            key: "parameter",
             minWidth: 200,
           },
           {
-            title: "饰面颜色",
-            key: "goodColor",
+            title: "饰面",
+            key: "sm",
             minWidth: 100,
   
           },
           {
             title: "品牌",
-            key: "goodBrand",
+            key: "pp",
             minWidth: 100,
           },
           {
             title: "型号",
-            key: "goodType",
+            key: "xh",
             minWidth: 100,
           },
           {
@@ -244,7 +244,7 @@
           {
             title: "单位",
             value: "件",
-            key: "goodUnit",
+            key: "dw",
             minWidth: 100,
           },
           {

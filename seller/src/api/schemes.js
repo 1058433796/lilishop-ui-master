@@ -58,3 +58,11 @@ import {
     export const getSchemeSum = (id) => {
       return getRequest(`/schemeComponent/schemeComponent/sum/${id}`)
     }
+  
+    export const setPay=(id) => {
+      return postRequest(`/itemGuaranty/itemGuaranty/pay/${id}`)
+    }
+
+    export const searchGuarantyNew = (id) => {
+      return getRequest(`/itemGuaranty/itemGuaranty/itemId/${id}`)
+    }
