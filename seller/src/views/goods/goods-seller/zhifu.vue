@@ -42,7 +42,7 @@
                                         <dl>
                                             <dt>订单包总价：</dt>
                                             <dd>
-                                                {{$route.query.Form.schemeSum}}
+                                                3575元
                                             </dd>
                                         </dl> 
                                         <dl>
@@ -70,7 +70,7 @@
                                                8
                                             </ul>
                                         </div> -->
-                                        <a href="http://112.230.202.198:8008//doorandhardware/v1/performancebond?userName=冯平&projectCode=43">订单及方案预览</a>
+                                        <a :href="dataHref">订单及方案预览</a>
                                         <div class="ep-pay-operate">
                                             <a :disabled="!getNext" data-action="delay" href="javascript:void(0);" @click="payment()"
                                                title="支付保证金" :class="getNext=== true ? 'ep-btn ep-btn-blue' : 'ep-btn ep-btn-white'">支付保证金</a>
@@ -86,22 +86,23 @@
             </div>
         </div>
     </div>
-    <Modal v-model="pay" width="30">
+    <!-- <Modal v-model="pay" width="30"> -->
           <!-- <p slot="header">
             <span>方案确认</span>
           </p> -->
-          <span>支付完成</span>
+          <!-- <span>支付完成</span> -->
       <!-- <div slot="footer" style="text-align: right">
         <Button v-if="display" @click="setGuaranty">执行交易</Button>
       </div> -->
-    </Modal>
+    <!-- </Modal> -->
 </div>
 </template>
 
 <script>
     import api from '@/api'
+    import {searchGuaranty, saveGuaranty, setPay,searchGuarantyNew} from "@/api/schemes"
     import{testPayBack}from '@/api/schemes'
-import { get } from 'js-cookie'
+    import Cookies from "js-cookie"
     // import {formatImageSrc} from "@/utils/utils";
     // import setting from "@/setting";
     import Qs from 'qs'
@@ -109,9 +110,10 @@ import { get } from 'js-cookie'
         name: "v-zhifu",
         data() {
             return {
+                dataHref:"http://112.230.202.198:8008//doorandhardware/v1/performancebond?userName="+JSON.parse(Cookies.get("userInfoSeller")).username+"&projectCode="+this.$route.query.id,
                 loading:false,
                 getNext:true,
-                pay:false,
+                username:JSON.parse(Cookies.get("userInfoSeller")).username,
                 form:{
                     payType:'wechat',
                     zongji:this.$route.query.Form.schemeSum,//总价
@@ -125,6 +127,9 @@ import { get } from 'js-cookie'
         watch: {},
         computed: {},
         methods: {
+            init(){
+                this.check()
+            },
             shaxiang() {
                 console.log(this.form.zongji)
                 console.log(this.$route.query.id)
@@ -146,7 +151,12 @@ import { get } from 'js-cookie'
                 // }
                 // this.loading = true;
                 this.getNext=false
-                this.pay=true
+                // this.pay=true
+                console.log(">>",this.$route.query.id)
+                setPay(this.$route.query.id).then((res)=>{
+                    console.log("设为1")
+                })
+
                 // this.$alert('支付成功').then(res=>{
                 //             this.$router.go(-1);
                             
@@ -181,14 +191,52 @@ import { get } from 'js-cookie'
                 console.log("order")
                 this.$emit("toProcess", 1)
             },
-        },
+        
+            check(){
+                console.log("item",this.$route.query.id)
+                searchGuarantyNew(this.$route.query.id).then((resu)=>{
+                console.log("resu",resu)
+                if(resu.result.payFlag==1){
+                        console.log("是1")
+                        this.getNext=false
+                        console.log("现在",this.getNext)
+                    }
+
+        })},
+    },
+       
+        // check(){//检查有没有
+        //     let par={itemId:this.itemId}
+        //     searchGuaranty(par).then((res)=>{
+        //         if(res.result==null){
+        //             //没有
+        //             saveGuaranty(this.form).then((res)=>{
+        //                 console.log("添加了履约保证单")
+        //             })
+        //         }
+        //         else{
+        //             //有履约保证单
+        //             if(res.result[0].payFlag==1){
+        //                 console.log("是1")
+        //                 this.getNext=false
+        //                 this.pay=true
+        //             }
+        //         }
+        //     })
+
+        // },
+        
         created() {
             if(this.isShaxiang){
                 this.form.payType = 'alipay';
                 window.addEventListener('message' , this.message);
             }
+ 
+
         },
         mounted() {
+            // console.log(">>>>>>")
+            this.init();
         },
         beforeDestroy(){
             window.removeEventListener('message' , this.message);

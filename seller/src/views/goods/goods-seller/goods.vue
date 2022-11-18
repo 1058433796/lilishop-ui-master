@@ -166,6 +166,7 @@ import {
   deleteGoods,
   batchShipTemplate,
 } from "@/api/goods";
+import {searchGuarantyNew, saveGuaranty, setPay} from "@/api/schemes"
 import { testlogin} from "@/api/index";
 import * as API_Shop from "@/api/shops";
 import Cookies from "js-cookie";
@@ -247,6 +248,16 @@ export default {
       ],
       // 表单验证规则
       formValidate: {},
+      next:true,
+      guarantyForm:{
+      primaryId:1,
+      schemeSum:0,
+      // payFlag:0,
+      orderName:'',
+      orderContent:'',
+      buyerId:JSON.parse(Cookies.get("userInfoSeller")).id,
+      itemId:''
+    },
       submitLoading: false, // 添加或编辑提交状态
       selectList: [], // 多选数据
       selectCount: 0, // 多选计数
@@ -346,7 +357,28 @@ export default {
     },
     // 项目采购
     purchase(row) {
-        this.$router.push({name: "projectPurchase", query: { itemId: row.itemId }})
+      this.guarantyForm.orderName=row.itemName+'项目'
+      this.guarantyForm.orderContent=row.itemName+'内容'
+      this.guarantyForm.itemId=row.itemId
+      console.log("this",this.guarantyForm)
+            searchGuarantyNew(row.itemId).then((resu)=>{
+              console.log("采购",resu)
+                if(resu.result==null){
+                    //没有
+                    this.next=true
+                    saveGuaranty(this.guarantyForm).then((res)=>{
+                        console.log("采购添加了履约保证单")
+                    })
+                }
+                else{
+                    if(resu.result.payFlag==1){
+                        console.log("采购flag是1")
+                    }
+                }
+            })
+            
+      this.$router.push({ name: "deal", query: { Form: this.guarantyForm ,id :this.guarantyForm.itemId,data:{schemeId:1}} });
+        // this.$router.push({name: "projectPurchase", query: { itemId: row.itemId }})
     },
     // 添加商品
     addGoods() {
@@ -359,7 +391,8 @@ export default {
     itemScheme(v) {
       console.log('v')
       console.log(v.itemName)
-      this.$router.push({ name: "item-scheme", query: { itemid: v.itemId, buyerId:v.buyerId,itemName:v.itemName} });
+      window.open("//sdaict.xrk.top", "_blank");
+      // this.$router.push({ name: "item-scheme", query: { itemid: v.itemId, buyerId:v.buyerId,itemName:v.itemName} });
     },
 
     //批量操作
