@@ -34,7 +34,7 @@
                 @on-click="handleClickUserDropdown"
               >
                 <div class="dropList">
-                  <span class="main-user-name">{{ userInfo.storeName }}</span>
+                  <span class="main-user-name">{{ userInfo.nickName }}</span>
                   <Icon type="md-arrow-dropdown" />
                   <Avatar
                     :src="userInfo.storeLogo"

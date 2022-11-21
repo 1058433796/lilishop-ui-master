@@ -787,6 +787,7 @@ export default {
     orderDeliver() {
       API_Order.getLogisticsChecked().then((res) => {
         if (res.success) {
+          console.log('物流',res)
           this.checkedLogistics = res.result;
           this.orderDeliverModal = true;
         }

@@ -125,6 +125,7 @@ export default {
     name: "orderDetail",
     data() {
         return {
+            type:"contractSign",
             defaultImg: require('@/assets/word.png'),
             filename: "test.docx",
             contractData : this.$route.query.data,
@@ -140,7 +141,9 @@ export default {
             });
         },
         back(){
-            this.$router.go (-1);
+            // this.$router.go (-1);
+            console.log("跳转合同")
+            this.$router.push({ name: "deal", query: { type: this.type, id:this.contractData.itemId} });
         }
     },
 }

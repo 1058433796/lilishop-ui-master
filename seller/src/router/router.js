@@ -57,13 +57,13 @@ export const otherRouter = {
     },
     {
       path: "goods-operation",
-      title: "添加产品",
+      title: "添加项目",
       name: "goods-operation",
       component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
     },
     {
       path: "goods-operation-edit",
-      title: "编辑产品",
+      title: "项目详情",
       name: "goods-operation-edit",
       component: () => import("@/views/goods/goods-seller/goodsOperation.vue")
     },

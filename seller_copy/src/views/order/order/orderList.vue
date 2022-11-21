@@ -256,14 +256,14 @@ export default {
         },
         {
           title: "响应状态",
-          key: "replyStatus",
+          key: "storeReply",
           minWidth: 100,
           render: (h, params) => {
-            if (params.row.replyStatus == "已响应") {
+            if (params.row.storeReply == "已响应") {
               return h("div", [
                 h("tag", { props: { color: "magenta" } }, "已响应"),
               ]);
-            } else if (params.row.replyStatus == "未响应") {
+            } else if (params.row.storeReply == "未响应") {
               return h("div", [
                 h("tag", { props: { color: "blue" } }, "未响应"),
               ]);

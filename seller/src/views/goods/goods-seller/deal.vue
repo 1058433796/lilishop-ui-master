@@ -59,7 +59,7 @@ export default {
             itemid: this.$route.query.id,
             guarantyFlag:'',
             process : "zhifu",
-            schemeId:this.$route.query.data.schemeId,
+            schemeId:1,
             orderInfo : [],
             fullData: [],
             childData: []
@@ -71,15 +71,20 @@ export default {
     methods: {
         init(){
             if (this.$route.query.data.processing==="orderDetail") {
+                console.log("d")
                 this.process = orderDetail;
                 this.childData = this.$route.query.data;
                 this.current_process = 1;
                 this.fullData = [this.$route.query.data];
-            }else if (this.$route.query.type==="contractSign") {
+            }
+            if (this.$route.query.type==="contractSign") {
+                console.log('c')
                 // var order = this.$route.query.data;
                 this.contractSign();
-            }else if (this.$route.query.type==="orderPay") {
+            }
+            if (this.$route.query.type==="orderPay") {
                 // var contract = this.$route.query.data;
+                console.log('p')
                 this.orderPay()
             }
         },

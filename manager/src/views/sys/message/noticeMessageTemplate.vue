@@ -125,7 +125,7 @@
       </div>
     </Modal>
 
-    <!-- 站内信发送 -->
+    <!-- 站内信发送 改这里 -->
     <Modal
       :title="messageModalTitle"
       v-model="messageModalVisible"
@@ -859,6 +859,7 @@
         let userIds = [];
         let userNames = [];
         console.warn(this.selectedMember)
+        //对象是会员，并且是指定会员
         if (this.messageSendForm.messageClient == 'member' && this.messageSendForm.messageRange == 'MEMBER'){
           this.selectedMember.forEach(function(item, index) {
             userIds.push(item.id)
@@ -874,6 +875,7 @@
         }
         this.$refs["messageSendForm"].validate(valid => {
           if (valid) {
+            console.log("fasong",this.messageSendForm)
             API_Other.sendMessage(this.messageSendForm).then((res) => {
               this.loading = false;
               if (res.success) {
@@ -963,7 +965,7 @@
             }
           });
         } else {
-          console.warn(this.searchShopMessageForm)
+          console.warn("?",this.searchShopMessageForm)
           API_Other.getShopMessage(this.searchShopMessageForm).then((res) => {
             if (res.success) {
               this.shopMessageData = res.result.records;

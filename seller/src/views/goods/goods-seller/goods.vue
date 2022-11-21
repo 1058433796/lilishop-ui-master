@@ -386,7 +386,7 @@ export default {
     },
     // 编辑商品
     editGoods(v) {
-      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId } });
+      this.$router.push({ name: "goods-operation-edit", query: { id: v.itemId ,flag:true} });
     },
     itemScheme(v) {
       console.log('v')

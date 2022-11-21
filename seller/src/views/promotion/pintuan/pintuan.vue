@@ -120,6 +120,11 @@ export default {
           minWidth: 120,
         },
         {
+          title: "项目名称",
+          key: "itemName",
+
+        },
+        {
           title: "供应商",
           key: "storeName",
         },

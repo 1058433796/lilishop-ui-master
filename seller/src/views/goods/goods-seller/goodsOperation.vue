@@ -27,12 +27,6 @@
             </Radio>
           </RadioGroup>
         </FormItem>
-          <FormItem label="项目坐标" prop="createLocationDetail" :label-width="130">
-          <Input v-model="form.itemLongitude" style="width: 50px" maxlength="25" placeholder="经度" :disabled="flag">
-          </Input>
-          <Input v-model="form.itemLatitude" style="width: 50px" maxlength="25" placeholder="纬度" :disabled="flag">
-          </Input>
-        </FormItem>
         <FormItem label="项目开始和结束时间" prop="rangeTime">
           <DatePicker type="datetimerange" v-model="form.rangeTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择" style="width: 300px" :disabled="flag">
           </DatePicker>
@@ -56,38 +50,15 @@
           </Input>
         </FormItem>
         </Col>
-        <Col span="12" :offset="1">
-          <FormItem label="项目标识" prop="itemLogo" :label-width="100">
-          <Input v-model="form.itemLogo" type="textarea" :rows="1" style="width: 260px" :disabled="flag">
-          </Input>
-        </FormItem>
-        </Col>
-      </Row>
-
-
-        <Row type="flex" :gutter="30">
-          <Col span="4" :offset="3">
+        <Col span="4" :offset="1">
             <FormItem label="项目概算" prop="itemBudget" :label-width="100" >
           <Input v-model="form.itemBudget" style="width: 200px" :disabled="flag">
-          <span slot="append">元</span>
+          <span slot="append">万元</span>
           </Input>
         </FormItem>
           </Col>
-          <Col span="5">  
-             <FormItem label="批复概算" prop="replyBudget" :label-width="100">
-          <Input v-model="form.replyBudget" style="width: 200px" :disabled="flag">
-          <span slot="append">元</span>
-          </Input>
-        </FormItem>
-          </Col>
-          <Col span="6">
-        <FormItem label="批复时间" prop="replyTime" :label-width="100">
-          <date-picker 
-            v-model="form.replyTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择"  style="width: 260px" :disabled="flag" />
-        </FormItem>
-          </Col>
-        </Row>
-        <Row v-if="!flag">
+      </Row>
+        <Row >
           <Col span="4" :offset="3">
             <FormItem  label="设计师用户名" prop="designerName" :label-width="100" >
           <Input v-model="form.designerName" style="width: 200px" :disabled="flag">
@@ -96,7 +67,7 @@
           </Col>
           <Col span="4" :offset="3">
             <FormItem label="设计师密码" prop="designerName" :label-width="100" >
-          <Input v-model="form.designerPass" style="width: 200px" :disabled="flag">
+          <Input v-model="form.rawPass" style="width: 200px" :disabled="flag">
           </Input>
         </FormItem>
           </Col>
@@ -134,18 +105,14 @@ export default {
         createLocation: "",
         itemName: "",
         itemStatus: 0,
-        itemLongitude: "",
-        itemLatitude: "",
         itemScale: "",
         itemOverview:"",
         itemAddress:"",
-        itemLogo:"",
         itemBudget:"",
-        replyBudget:"",
-        replyTime:"",
         startTime: "",
         endTime: "",
         designerName:"",
+        rawPass:"",
         designerPass:"",
         buyerId: JSON.parse(Cookies.get("userInfoSeller")).id,
         buyerName:JSON.parse(Cookies.get("userInfoSeller")).username
@@ -172,7 +139,7 @@ export default {
         if (valid) {
           this.submitLoading = true;
           let params = JSON.parse(JSON.stringify(this.form));
-          params.designerPass=this.md5(this.form.designerPass)
+          params.designerPass=this.md5(this.form.rawPass)
           // params.itemStatus
           //   ? (params.itemStatus = "已开工")
           //   : (params.itemStatus = "未开工");
@@ -197,6 +164,7 @@ export default {
             // 添加 避免编辑后传入id等数据 记得删除
             delete params.id;
             saveItem(params).then((res) => {
+              console.log
               this.submitLoading = false;
               if (res.success) {
                 this.$Message.success("项目发布成功");

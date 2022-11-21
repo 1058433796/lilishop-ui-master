@@ -157,6 +157,11 @@ export default {
           tooltip: true,
         },
         {
+          title: "项目名称",
+          key: "itemName",
+          tooltip: true,
+        },
+        {
           title: "供应商",
           key: "storeName",
           tooltip: true,
