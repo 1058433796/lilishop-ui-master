@@ -128,6 +128,7 @@
         computed: {},
         methods: {
             init(){
+                console.log("zhifu")
                 this.check()
             },
             shaxiang() {
@@ -152,9 +153,7 @@
                 // this.loading = true;
                 this.getNext=false
                 // this.pay=true
-                console.log(">>",this.$route.query.id)
                 setPay(this.$route.query.id).then((res)=>{
-                    console.log("设为1")
                 })
 
                 // this.$alert('支付成功').then(res=>{
@@ -193,13 +192,9 @@
             },
         
             check(){
-                console.log("item",this.$route.query.id)
                 searchGuarantyNew(this.$route.query.id).then((resu)=>{
-                console.log("resu",resu)
                 if(resu.result.payFlag==1){
-                        console.log("是1")
                         this.getNext=false
-                        console.log("现在",this.getNext)
                     }
 
         })},

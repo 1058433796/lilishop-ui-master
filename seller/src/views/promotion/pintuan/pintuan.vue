@@ -204,7 +204,8 @@ export default {
       this.getDataList();
     },
     check(row) {
-      this.$router.push({name: "contractDetailSingle", query: {data: row}})
+      this.$router.push({ name: "deal", query: { data: row,type: "contractSign", id:row.itemId} });
+      // this.$router.push({name: "deal", query: {data: row, type: "contractSign"}})
     },
     // 改变页码
     changePage(v) {

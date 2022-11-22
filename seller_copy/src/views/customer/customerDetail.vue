@@ -7,9 +7,9 @@
             <table-head style="font-size: 20px">&nbsp;&nbsp;客户信息:</table-head>
             <tr>
               <td class="col-title" >客户编码</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;{{this.customerInfo.storeId}}</td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;{{this.id}}</td>
               <td class="col-title">客户名称</td>
-              <td colspan="3">&nbsp;&nbsp;{{this.customerInfo.storeName}}</td>
+              <td colspan="3">&nbsp;&nbsp;{{this.name}}</td>
             </tr>
             <tr>
               <td class="col-title">客户简称</td>
@@ -53,9 +53,9 @@
             </tr>
             <tr>
               <td class="col-title">客户类型:              </td>
-              <td></td>
+              <td>大型客户</td>
               <td class="col-title">客户状态:              </td>
-              <td></td>
+              <td>目标客户</td>
               <td class="col-title">客户性质:              </td>
               <td></td>
             </tr>
@@ -69,11 +69,11 @@
             </tr>
             <tr>
               <td class="col-title">信用等级:</td>
-              <td></td>
+              <td>一级信用</td>
               <td class="col-title">维护级别:</td>
-              <td></td>
+              <td>一级维护</td>
               <td class="col-title">规模级别:</td>
-              <td></td>
+              <td>大型</td>
             </tr>
             <tr>
               <td class="col-title">客户描述:</td>
@@ -155,33 +155,33 @@ export default {
       columns: [
         {
           title: '编号',
-          width: 120,
+          width: 220,
           key:'id',
 
         },
         {
           title: "名称",
           key: "",
-          minWidth: 150,
+          width: 150,
           tooltip: true,
         },
         {
           title: "时间",
-          key: "timeStart",
-          width: 150,
+          key: "createTime",
+          width: 250,
           tooltip: true,
         },
 
         {
           title: "发起人",
-          key: "buyerId",
-          width: 120,
+          key: "buyerName",
+          width: 220,
           tooltip: true,
         },
         {
           title: "金额",
           key: "amount",
-          minWidth: 150,
+          width: 300,
           tooltip: true,
           render: (h, params) => {
             return h(
@@ -193,12 +193,12 @@ export default {
         {
           title: "审核",
           key: "storeName",
-          width: 120,
+          width: 220,
         },
         {
           title: "类型",
           key: "",
-          width: 120,
+          width: 220,
         },
         {
           title: "状态",
@@ -209,7 +209,7 @@ export default {
           title: "操作",
           slot: "action",
           align: "center",
-          width: 100,
+          width: 140,
           // render: (h, params) => {
           //   return h("div", [
           //     h(
@@ -244,7 +244,8 @@ export default {
       },
       data: [], // 表格数据
       total: 0, // 表格数据总数
-      id:"",
+      id:this.$route.query.id,
+      name:this.$route.query.name
     };
   },
   methods: {
@@ -254,11 +255,13 @@ export default {
     //获取客户详细信息
     getDataDetail() {
       this.loading = true;
+      console.log("idd",this.id)
       API_Order.getCustomerDetail(this.id).then((res) => {
+        console.log("scuee",res)
         this.loading = false;
         if (res.success) {
-          this.customerInfo=res.result
-          this.searchForm.buyerId=this.customerInfo.storeId;
+          // this.customerInfo=res.result
+          this.searchForm.buyerId=this.id;
           getContractList(this.searchForm).then((res) => {
             if (res.success) {
               this.data = res.result.records;

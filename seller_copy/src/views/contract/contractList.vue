@@ -138,7 +138,7 @@ export default {
         },
         {
           title: "合同时间",
-          key: "timeStart",
+          key: "createTime",
         },
         {
           title: "采购方签署状态",

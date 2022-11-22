@@ -100,13 +100,13 @@ export default {
         {
           title: "联系方式",
           key: "buyerPhone",
-          width: 170,
+          width: 240,
           tooltip: true,
         },//buyerPhone
         {
           title: "交易金额",
           key: "tradeAmount",
-          minWidth: 100,
+          width: 300,
           tooltip: true,
           align:"right",
           render: (h, params) => {
@@ -119,7 +119,7 @@ export default {
         {
           title: "最近交易时间",
           key: "latestTime",
-          width: 270,
+          width: 370,
         },//latestTime
 
         {
@@ -205,7 +205,7 @@ export default {
       let id = v.id;
       this.$router.push({
         name: "customer-detail",
-        query: { id: id },
+        query: { id: id,name:v.buyerName },
       });
     },
   },

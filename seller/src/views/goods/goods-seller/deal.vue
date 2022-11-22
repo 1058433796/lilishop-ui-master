@@ -70,6 +70,7 @@ export default {
     },
     methods: {
         init(){
+            console.log('deal',this.$route.query.type)
             if (this.$route.query.data.processing==="orderDetail") {
                 console.log("d")
                 this.process = orderDetail;
@@ -79,8 +80,9 @@ export default {
             }
             if (this.$route.query.type==="contractSign") {
                 console.log('c')
+                this.contractDetail(this.$route.query.data)
                 // var order = this.$route.query.data;
-                this.contractSign();
+                // this.contractSign();
             }
             if (this.$route.query.type==="orderPay") {
                 // var contract = this.$route.query.data;

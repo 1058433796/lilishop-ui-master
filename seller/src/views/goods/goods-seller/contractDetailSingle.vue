@@ -143,7 +143,7 @@ export default {
         back(){
             // this.$router.go (-1);
             console.log("跳转合同")
-            this.$router.push({ name: "deal", query: { type: this.type, id:this.contractData.itemId} });
+            this.$router.push({ name: "deal", query: { type: "contractSign", id:this.contractData.itemId} });
         }
     },
 }
