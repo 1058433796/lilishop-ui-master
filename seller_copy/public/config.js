@@ -17,7 +17,7 @@ var BASE = {
   WEB_URL: {
     buyer: "http://localhost:10003",
     seller: "http://localhost:10002",
-    admin: "http://localhost:10003",
+    admin: "http://localhost:10004",
 
     // buyer: "http://112.230.202.198:9090",
     // seller: "http://112.230.202.198:9091",

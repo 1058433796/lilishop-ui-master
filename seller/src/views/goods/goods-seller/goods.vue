@@ -358,10 +358,12 @@ export default {
     // 项目采购
     purchase(row) {
       this.guarantyForm.orderName=row.itemName+'项目'
-      this.guarantyForm.orderContent=row.itemName+'内容'
+      this.guarantyForm.orderContent=row.itemName+'门控五金方案'
       this.guarantyForm.itemId=row.itemId
       console.log("this",this.guarantyForm)
+      let guaranty=[]
             searchGuarantyNew(row.itemId).then((resu)=>{
+              guaranty=resu
               console.log("采购",resu)
                 if(resu.result==null){
                     //没有
@@ -374,10 +376,11 @@ export default {
                     if(resu.result.payFlag==1){
                         console.log("采购flag是1")
                     }
-                }
+                } 
+                this.$router.push({ name: "deal", query: { Form:resu.result,id :this.guarantyForm.itemId,data:{schemeId:1}} });
             })
             
-      this.$router.push({ name: "deal", query: { Form: this.guarantyForm ,id :this.guarantyForm.itemId,data:{schemeId:1}} });
+     
         // this.$router.push({name: "projectPurchase", query: { itemId: row.itemId }})
     },
     // 添加商品

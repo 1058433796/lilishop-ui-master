@@ -24,37 +24,37 @@
                                         <dl>
                                             <dt>订单名称：</dt>
                                             <dd>
-                                                {{$route.query.Form.orderName}}
+                                                履约保证单项目
                                             </dd>
                                         </dl>
                                         <dl>
                                             <dt>创建时间：</dt>
                                             <dd>
-                                               谢飞龙
+                                                {{this.$route.query.Form.createTime}}
                                             </dd>
                                         </dl>
                                         <dl>
                                             <dt>内容：</dt>
                                             <dd>
-                                                {{$route.query.Form.orderContent}}
+                                                {{this.$route.query.Form.orderContent}}
                                             </dd>
                                         </dl>
                                         <dl>
                                             <dt>订单包总价：</dt>
                                             <dd>
-                                                3575元
+                                                {{this.$route.query.Form.schemeSum}}
                                             </dd>
                                         </dl> 
                                         <dl>
                                             <dt>履约保证金：</dt>
                                             <dd>
                                                 <!-- {{Number($route.query.Form.schemeSum)*0.2}} -->
-                                                3575元
+                                                {{Number(this.$route.query.Form.schemeSum)*0.95}}
                                             </dd>
                                         </dl>
                                     </div>
-                                    <div class="ep-order-tit"  v-if="$route.query.zongji">
-                                        <span>支付金额：<em class="rmb"><i>¥</i>3575</em></span>
+                                    <div class="ep-order-tit" >
+                                        <span>支付金额：<em class="rmb"><i>¥</i>{{Number(this.$route.query.Form.schemeSum)*0.95}}</em></span>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                                         <a :href="dataHref">订单及方案预览</a>
                                         <div class="ep-pay-operate">
                                             <a :disabled="!getNext" data-action="delay" href="javascript:void(0);" @click="payment()"
-                                               title="支付保证金" :class="getNext=== true ? 'ep-btn ep-btn-blue' : 'ep-btn ep-btn-white'">支付保证金</a>
+                                               title="支付保证金" :class="getNext=== true ? 'ep-btn ep-btn-blue' : 'ep-btn ep-btn-white'">支付保证金</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <a title="下一步" :disabled="getNext" @click="toOrder()"  :class="getNext=== false ? 'ep-btn ep-btn-blue' : 'ep-btn ep-btn-white'">下一步
                                             </a>
                                         </div>
@@ -121,6 +121,7 @@
                     // biao:this.$route.query.biao,//需要修改的表名
                     // id:this.$route.query.id
                 },
+                formData:'',
                 isShaxiang:true
             }
         },
@@ -129,6 +130,7 @@
         methods: {
             init(){
                 console.log("zhifu")
+                console.log(this.$route.query.Form)
                 this.check()
             },
             shaxiang() {
@@ -193,8 +195,10 @@
         
             check(){
                 searchGuarantyNew(this.$route.query.id).then((resu)=>{
+                    console.log('resy',resu.result)
                 if(resu.result.payFlag==1){
                         this.getNext=false
+                        this.formData=resu.result
                     }
 
         })},
